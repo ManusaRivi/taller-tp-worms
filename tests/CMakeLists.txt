@@ -10,7 +10,6 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-include(GoogleTest)
 
 
 add_executable(test_g test.cpp)
@@ -20,6 +19,6 @@ target_link_libraries(
   GTest::gtest_main
 )
 
-add_test(test_g test_g)
-
-#gtest_discover_tests(test_g DISCOVERY_MODE PRE_TEST)
+#add_test(test_g test_g)
+include(GoogleTest)
+gtest_discover_tests(test_g DISCOVERY_MODE PRE_TEST)

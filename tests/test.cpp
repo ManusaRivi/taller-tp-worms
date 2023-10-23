@@ -10,5 +10,5 @@ TEST(sample_test_case, smple_case){
 }
 
 TEST(sample_test_case, Simple){
-    EXPECT_EQ(2,2);
+    EXPECT_EQ(1,2);
 }

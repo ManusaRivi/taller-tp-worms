@@ -1,2 +1,3 @@
 cd build
-ctest
+cd tests
+./test_g

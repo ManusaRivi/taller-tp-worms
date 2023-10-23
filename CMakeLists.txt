@@ -19,3 +19,15 @@ add_executable(server "server/server_box2d_poc.cpp")
 target_link_libraries(server box2d)
 
 # Va a haber otro ejecutable para el editor.
+
+add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)
+
+
+# Se Buildena los tests
+project(TEST_RUNNER)
+
+add_subdirectory(tests)
+include(GoogleTest)
+enable_testing()
+gtest_discover_tests(test_g DISCOVERY_MODE PRE_TEST)
+#add_test(NAME TESTING COMMAND $<TARGET_FILE:test_g>)

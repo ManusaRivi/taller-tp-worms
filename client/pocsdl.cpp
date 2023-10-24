@@ -23,11 +23,11 @@ int poc::run() try {
     // Agrego el sprite del gusano caminando como una textura
     // Ademas, pongo como color transparente el color de fondo de la imagen
     // (Que tiene codigo RGB hexadecimal 0x8080c0)
-    Texture sprites(renderer, Surface("client/sprites/Worms/wwalk.png")
+    Texture sprites(renderer, Surface("sprites/Worms/wwalk.png")
 			.SetColorKey(true, 0x8080c0));
 
     // Cargo la fuente del texto de arriba a la derecha (Vera, con tamaño de 12pt)
-	Font font(DATA_PATH "/Vera.ttf", 12);
+	Font font("Vera.ttf", 12);
 
     // Estado del juego
 	bool is_running = false; // Si el gusano esta caminando
@@ -94,9 +94,8 @@ int poc::run() try {
         //Los sprites son de 60x60
 		int src_x = 0, src_y = 0; // Por defecto el sprite quieto
 		if (is_running) {
-			// uno de 15 sprites de caminar
 			src_x = 60;
-			src_y = 15 + 60 * run_phase;
+			src_y = 60 * run_phase;
 		}
 
         // Dibujo el sprite del gusano

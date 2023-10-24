@@ -99,11 +99,15 @@ int poc::run() try {
 		}
 
         // Dibujo el sprite del gusano
+	// Y lo volteo, porque en la animacion mira a la izquierda
 		sprites.SetAlphaMod(255); // El sprite es totalmente opaco
 		renderer.Copy(
 				sprites,
 				Rect(src_x, src_y, 60, 60),
-				Rect((int)position, vcenter - 60, 60, 60)
+				Rect((int)position, vcenter - 60, 60, 60),
+				0.0,
+				nullptr,
+				SDL_FLIP_HORIZONTAL
 			);
 
         // Creo la cadena de texto para renderizar

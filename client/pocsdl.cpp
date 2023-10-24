@@ -1,13 +1,8 @@
-#include <iostream>
-#include <exception>
-#include <algorithm>
-#include <string>
-
-#include <SDL2pp/SDL2pp.hh>
+#include "pocsdl.h"
 
 using namespace SDL2pp;
 
-int main() try {
+int poc::run() try {
 	// Inicializo SDL
 	SDL sdl(SDL_INIT_VIDEO);
 

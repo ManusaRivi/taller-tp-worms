@@ -1,11 +1,6 @@
-//#include "libs/box2d/include/box2d/box2d.h"
-#include "box2d.h"
+#include "poc.h"
 
-#include <iostream>
-#include <iomanip>
-
-int main() {
-
+void Box2dPoC::run() {
     b2Vec2 gravity(0.0f, -10.0f);
 
     b2World world(gravity);

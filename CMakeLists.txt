@@ -30,12 +30,10 @@ add_executable(server "server/main.cpp")
 add_executable(client "client/main.cpp")
 add_executable(editor "editor/main.cpp")
 
-target_link_libraries(client ${SDL2PP_LIBRARIES})
-
 # Va a haber otro ejecutable para el editor.
 target_link_libraries(server server_lib box2d)
-# Agregar: SDL y Qt
-target_link_libraries(client client_lib)
+# Agregar:  Qt
+target_link_libraries(client client_lib ${SDL2PP_LIBRARIES})
 target_link_libraries(editor editor_lib)
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)

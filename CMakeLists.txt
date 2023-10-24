@@ -8,15 +8,23 @@ include_directories(libs/box2d/include/box2d)
 
 add_subdirectory(libs/box2d)
 
+# Para SDL2pp
+add_subdirectory(libs/SDL2pp)
+include_directories(${SDL2PP_INCLUDE_DIRS})
+
 #file(GLOB_RECURSE SERVER ./server/*.cpp)
 
 #add_library(server_lib STATIC ${SERVER})
 
 add_executable(server "server/server_box2d_poc.cpp")
 
+add_executable(client "client/client_sdl2pp_poc.cpp")
+
 #target_link_libraries(server server_lib box2d)
 
 target_link_libraries(server box2d)
+
+target_link_libraries(client ${SDL2PP_LIBRARIES})
 
 # Va a haber otro ejecutable para el editor.
 

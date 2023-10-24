@@ -1,24 +1,31 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.8)
 
 project(worms)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# Box2d
 include_directories(libs/box2d/include/box2d)
-
 add_subdirectory(libs/box2d)
 
-#file(GLOB_RECURSE SERVER ./server/*.cpp)
+set(CMAKE_CXX_FLAGS "-Wall -Werror -pedantic -pedantic-errors -ggdb -DDEBUG -fno-inline -std=c++17")
 
-#add_library(server_lib STATIC ${SERVER})
+file(GLOB_RECURSE SERVER ./server/*.cpp)
+file(GLOB_RECURSE CLIENT ./client/*.cpp)
+file(GLOB_RECURSE EDITOR ./editor/*.cpp)
 
-add_executable(server "server/server_box2d_poc.cpp")
+add_library(server_lib STATIC ${SERVER})
+add_library(client_lib STATIC ${CLIENT})
+add_library(editor_lib STATIC ${EDITOR})
 
-#target_link_libraries(server server_lib box2d)
+add_executable(server "server/main.cpp")
+add_executable(client "client/main.cpp")
+add_executable(editor "editor/main.cpp")
 
-target_link_libraries(server box2d)
-
-# Va a haber otro ejecutable para el editor.
+target_link_libraries(server server_lib box2d)
+# Agregar: SDL y Qt
+target_link_libraries(client client_lib)
+target_link_libraries(editor editor_lib)
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)
 

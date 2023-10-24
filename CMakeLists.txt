@@ -9,6 +9,9 @@ include_directories(libs/box2d/include/box2d)
 add_subdirectory(libs/box2d)
 
 # Para SDL2pp
+SET(SDL2PP_WITH_IMAGE ON) # Para soporte de imagenes
+SET(SDL2PP_WITH_MIXER ON) # Para soporte de sonido
+SET(SDL2PP_WITH_TTF ON) # Para soporte de texto
 add_subdirectory(libs/SDL2pp)
 include_directories(${SDL2PP_INCLUDE_DIRS})
 

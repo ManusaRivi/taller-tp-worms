@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.8)
 
 project(worms)
 
+set(CMAKE_CXX_STANDARD 17)
+
 # Box2d
 include_directories(libs/box2d/include/box2d)
 add_subdirectory(libs/box2d)

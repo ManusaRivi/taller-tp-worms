@@ -2,7 +2,7 @@
 
 using namespace SDL2pp;
 
-int poc::run() try {
+int SDLPoc::run() try {
 	// Inicializo SDL
 	SDL sdl(SDL_INIT_VIDEO);
 
@@ -22,15 +22,19 @@ int poc::run() try {
 
     // Agrego el sprite del gusano caminando como una textura
     // Ademas, pongo como color transparente el color de fondo de la imagen
-    // (Que tiene codigo RGB hexadecimal 0x8080c0)
-    Texture sprites(renderer, Surface("sprites/Worms/wwalk.png")
-			.SetColorKey(true, 0x8080c0));
+    // (Que tiene codigo RGB (128, 128, 192, 255))
+	SDL_Color colorKey = {128, 128, 192, 255};
+	Surface surface(DATA_PATH "/wwalk.png");
+	Uint32 key = SDL_MapRGB(surface.Get()->format, colorKey.r, colorKey.g, colorKey.b);
+	surface.SetColorKey(true, key);
+    Texture sprites(renderer, surface);
 
     // Cargo la fuente del texto de arriba a la derecha (Vera, con tamaño de 12pt)
-	Font font("Vera.ttf", 12);
+	Font font(DATA_PATH "/Vera.ttf", 12);
 
     // Estado del juego
 	bool is_running = false; // Si el gusano esta caminando
+	bool mira_derecha = true;
 	int run_phase = -1;      // Fase de la animacion
 	float position = 0.0;    // Posicion del gusano
 
@@ -58,11 +62,13 @@ int poc::run() try {
 				switch (event.key.keysym.sym) {
 				case SDLK_ESCAPE:
 					return 0;
-				case SDLK_RIGHT: is_running = true; break;
+				case SDLK_RIGHT: is_running = true; mira_derecha = true; break;
+				case SDLK_LEFT: is_running = true; mira_derecha = false; break;
 				}
 			} else if (event.type == SDL_KEYUP) {
 				switch (event.key.keysym.sym) {
 				case SDLK_RIGHT: is_running = false; break;
+				case SDLK_LEFT: is_running = false; break;
 				}
 			}
 		}
@@ -70,8 +76,9 @@ int poc::run() try {
         // Actualizar el estado del juego en este frame:
 		// Si el gusano esta corriendo, moverlo a la derecha
         //La animacion tiene 15 frames
+		float velocidad = mira_derecha ? 0.1 : -0.1;
 		if (is_running) {
-			position += frame_delta * 0.2;
+			position += frame_delta * velocidad;
 			run_phase = (frame_ticks / 100) % 15;
 		} else {
 			run_phase = 0;
@@ -79,8 +86,8 @@ int poc::run() try {
 
         // Si el gusano se sale de la pantalla, lo teletransporto
 		// al lado izquierdo
-		if (position > renderer.GetOutputWidth())
-			position = -50;
+		if (position > renderer.GetOutputWidth() || position < 0)
+			position = 0;
 
         // La coordenada en Y del centro de la ventana
         int vcenter = renderer.GetOutputHeight() / 2;
@@ -94,20 +101,21 @@ int poc::run() try {
         //Los sprites son de 60x60
 		int src_x = 0, src_y = 0; // Por defecto el sprite quieto
 		if (is_running) {
-			src_x = 60;
+			src_x = 0;
 			src_y = 60 * run_phase;
 		}
 
         // Dibujo el sprite del gusano
-	// Y lo volteo, porque en la animacion mira a la izquierda
+		// Y lo volteo, dependiendo a donde mire
+		int flip = mira_derecha ?  SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 		sprites.SetAlphaMod(255); // El sprite es totalmente opaco
 		renderer.Copy(
 				sprites,
 				Rect(src_x, src_y, 60, 60),
 				Rect((int)position, vcenter - 60, 60, 60),
 				0.0,
-				nullptr,
-				SDL_FLIP_HORIZONTAL
+				NullOpt,
+				flip
 			);
 
         // Creo la cadena de texto para renderizar

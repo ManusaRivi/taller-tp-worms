@@ -2,13 +2,6 @@ cmake_minimum_required(VERSION 3.8)
 
 project(worms)
 
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 # Box2d
 include_directories(libs/box2d/include/box2d)
 add_subdirectory(libs/box2d)
@@ -21,7 +14,6 @@ add_definitions(-DDATA_PATH="${PROJECT_SOURCE_DIR}/client/data")
 add_subdirectory(libs/SDL2pp)
 include_directories(${SDL2PP_INCLUDE_DIRS})
 
-find_package(Qt5 REQUIRED COMPONENTS Widgets)
 #file(GLOB_RECURSE SERVER ./server/*.cpp)
 
 #add_library(server_lib STATIC ${SERVER})
@@ -42,9 +34,8 @@ add_executable(editor "editor/main.cpp")
 
 # Va a haber otro ejecutable para el editor.
 target_link_libraries(server server_lib box2d)
-target_link_libraries(editor PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(client client_lib ${SDL2PP_LIBRARIES})
-#target_link_libraries(editor editor_lib)
+target_link_libraries(editor editor_lib)
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)
 

@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.8)
 
 project(worms)
 
+set(CMAKE_CXX_STANDARD 17)
+
 # Box2d
 include_directories(libs/box2d/include/box2d)
 add_subdirectory(libs/box2d)
@@ -14,10 +16,25 @@ add_definitions(-DDATA_PATH="${PROJECT_SOURCE_DIR}/client/data")
 add_subdirectory(libs/SDL2pp)
 include_directories(${SDL2PP_INCLUDE_DIRS})
 
+# Para Qt
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
+include_directories(${Qt5Core_INCLUDE_DIRS})
+
 #file(GLOB_RECURSE SERVER ./server/*.cpp)
 
 #add_library(server_lib STATIC ${SERVER})
 set(CMAKE_CXX_FLAGS "-Wall -Werror -pedantic -pedantic-errors -ggdb -DDEBUG -fno-inline -std=c++17")
+
+# Configura las banderas de compilación con -fPIC
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 file(GLOB_RECURSE SERVER ./server/*.cpp)
 file(GLOB_RECURSE CLIENT ./client/*.cpp)
@@ -35,7 +52,7 @@ add_executable(editor "editor/main.cpp")
 # Va a haber otro ejecutable para el editor.
 target_link_libraries(server server_lib box2d)
 target_link_libraries(client client_lib ${SDL2PP_LIBRARIES})
-target_link_libraries(editor editor_lib)
+target_link_libraries(editor editor_lib ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES})
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)
 

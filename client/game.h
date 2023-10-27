@@ -1,6 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
-
+/*
 class Game {
     private:
     ProtocoloCliente ptcl;
@@ -9,5 +9,5 @@ class Game {
     Game(ProtocoloCliente protocolo);
 
 };
-
+*/
 #endif

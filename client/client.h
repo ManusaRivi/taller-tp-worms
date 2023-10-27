@@ -1,15 +1,21 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include "menu.h"
+#include <QApplication>
+
+
+#include "login.h"
 #include "game.h"
+//#include "protocol.h"
 
 class Client {
     private:
-    Menu menu;
+    Login login;
+    //Menu menu;
+    //Protocol protocol;
 
     public:
-    Client();
+    Client(int, char**);
 
     int iniciar();
 };

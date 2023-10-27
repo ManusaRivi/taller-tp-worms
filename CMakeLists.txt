@@ -30,8 +30,9 @@ include_directories(${Qt5Core_INCLUDE_DIRS})
 
 #file(GLOB_RECURSE SERVER ./server/*.cpp)
 
+
 #add_library(server_lib STATIC ${SERVER})
-set(CMAKE_CXX_FLAGS "-Wall -Werror -pedantic -pedantic-errors -ggdb -DDEBUG -fno-inline -std=c++17")
+set(CMAKE_CXX_FLAGS "-Wall -Werror -pedantic -pedantic-errors -ggdb -DDEBUG -fno-inline -std=c++17 -D _POSIX_C_SOURCE=200809L")
 
 # Configura las banderas de compilación con -fPIC
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
@@ -39,25 +40,27 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 file(GLOB_RECURSE SERVER ./server/*.cpp)
 file(GLOB_RECURSE CLIENT ./client/*.cpp)
 file(GLOB_RECURSE EDITOR ./editor/*.cpp)
+file(GLOB_RECURSE COMMON ./common/*.cpp)
 
 #target_link_libraries(server server_lib box2d)
 add_library(server_lib STATIC ${SERVER})
 add_library(client_lib STATIC ${CLIENT})
 add_library(editor_lib STATIC ${EDITOR})
+add_library(common_lib STATIC ${COMMON})
 
 add_executable(server "server/main.cpp")
 add_executable(client "client/main.cpp")
 add_executable(editor "editor/main.cpp")
 
 # Va a haber otro ejecutable para el editor.
-target_link_libraries(server server_lib box2d)
-target_link_libraries(client client_lib ${SDL2PP_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES})
+target_link_libraries(server server_lib box2d common_lib)
+target_link_libraries(client client_lib ${SDL2PP_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} common_lib)
 target_link_libraries(editor editor_lib ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES})
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)
 
 
-# Se Buildena los tests
+# Se Buildean los tests
 project(TEST_RUNNER)
 
 add_subdirectory(tests)

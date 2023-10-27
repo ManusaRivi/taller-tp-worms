@@ -2,7 +2,7 @@
 #include "pocsdl.h"
 #include "login.h"
 
-Client::Client(int argc, char** argv) : login(argc, argv) {}
+Client::Client(int argc, char** argv, const char* serv_name, const char* port) : login(argc, argv), skt(serv_name,port), protocol(skt) {}
 
 int Client::iniciar()
 {
@@ -15,6 +15,6 @@ int Client::iniciar()
     //Game game(ptcl);
     //game.begin();
 
-    SDLPoc poc;
+    SDLPoc poc(protocol);
     return poc.run();
 }

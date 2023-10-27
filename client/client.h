@@ -6,16 +6,19 @@
 
 #include "login.h"
 #include "game.h"
+#include "protocolo/protocoloCliente.h"
 //#include "protocol.h"
 
 class Client {
     private:
     Login login;
     //Menu menu;
-    //Protocol protocol;
+    Socket skt;
+    Protocolo protocol;
+    
 
     public:
-    Client(int, char**);
+    Client(int, char**,const char*,const char*);
 
     int iniciar();
 };

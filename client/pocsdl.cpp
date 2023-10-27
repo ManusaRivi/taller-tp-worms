@@ -2,6 +2,10 @@
 
 using namespace SDL2pp;
 
+SDLPoc::SDLPoc(Protocolo &protocol):protocolo(protocol){
+
+}
+
 int SDLPoc::run() try {
 	// Inicializo SDL
 	SDL sdl(SDL_INIT_VIDEO);
@@ -65,6 +69,15 @@ int SDLPoc::run() try {
 				case SDLK_RIGHT: is_running = true; mira_derecha = true; break;
 				case SDLK_LEFT: is_running = true; mira_derecha = false; break;
 				}
+				uint8_t dir;
+				if(mira_derecha){
+					dir = 0x01;
+				}
+				else{
+					dir = 0x02;
+				}
+				protocolo.enviar_movimiento(dir);
+
 			} else if (event.type == SDL_KEYUP) {
 				switch (event.key.keysym.sym) {
 				case SDLK_RIGHT: is_running = false; break;

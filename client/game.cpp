@@ -39,15 +39,15 @@ int Game::run() try {
 /*******************************************************************************/
     int run_phase = -1;      // Fase de la animacion para los worms (ver como arreglar)
 
-    unsigned int prev_ticks = SDL_GetTicks();
+    //unsigned int prev_ticks = SDL_GetTicks();
 
     // Loop principal
 	while (1) {
 		// Timing: calcula la diferencia entre este frame y el anterior
 		// en milisegundos
 		unsigned int frame_ticks = SDL_GetTicks();
-		unsigned int frame_delta = frame_ticks - prev_ticks;
-		prev_ticks = frame_ticks;
+		//unsigned int frame_delta = frame_ticks - prev_ticks;
+		//prev_ticks = frame_ticks;
 
         // Procesamiento de eventos:
 		// - Si la ventana se cierra o se presiona Esc

@@ -7,12 +7,10 @@
 #include "login.h"
 #include "game.h"
 #include "protocolo/protocoloCliente.h"
-//#include "protocol.h"
 
 class Client {
     private:
     Login login;
-    //Menu menu;
     Socket skt;
     Protocolo protocol;
     

@@ -1,8 +1,11 @@
 #ifndef SNAPSHOT_H
 #define SNAPSHOT_H
 
+#include <SDL2pp/SDL2pp.hh>
 #include <vector>
 #include "worm.h"
+
+using namespace SDL2pp;
 
 // Simula la "imagen" del estado del juego.
 class Snapshot {
@@ -21,6 +24,11 @@ class Snapshot {
 
     //Agrega un gusano a la lista de gusanos
     void add_worm(Worm worm);
+
+    void present(int run_phase,
+                Renderer& renderer,
+                Texture& wwalk,
+                int& vcenter);
 };
 
 #endif

@@ -5,7 +5,7 @@ using namespace SDL2pp;
 #define GAME_MOVE_RIGHT 0x01
 #define GAME_MOVE_LEFT 0x02
 
-Game::Game(Protocolo& protocol): ptcl(protocol), snapshots() {}
+Game::Game(Protocolo& protocol): ptcl(protocol), snapshots(Queue<Snapshot>()) {}
 
 int Game::run() try {
 

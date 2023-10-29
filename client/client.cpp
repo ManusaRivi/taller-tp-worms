@@ -15,7 +15,7 @@ int Client::iniciar() {
 
         Protocolo prot(server, port);
 
-        //Game game(protocol);
+        //Game game(prot);
         //return game.run();
         SDLPoc poc(prot);
         return poc.run();

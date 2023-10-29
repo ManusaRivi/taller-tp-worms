@@ -3,9 +3,12 @@
 
 #include <QApplication>
 
+#include "mainwindow.h"
+
 class Login {
     private:
     QApplication app;
+    MainWindow mainWindow;
     
     public:
     Login(int, char**);

@@ -3,12 +3,11 @@
 #include "mainwindow.h"
 #include "login.h"
 
-Login::Login(int argc, char** argv) : app(argc, argv) {}
+Login::Login(int argc, char** argv) : app(argc, argv), mainWindow() {}
 
 Login::~Login() {}
 
 int Login::start() {
-    MainWindow menu;
-    menu.show();
+    this->mainWindow.show();
     return this->app.exec();
 }

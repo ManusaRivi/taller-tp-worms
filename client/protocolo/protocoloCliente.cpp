@@ -1,9 +1,12 @@
 #include "protocoloCliente.h"
+#include "../../common/socket.h"
 
-Protocolo::Protocolo(Socket &socket_new):skt(socket_new){
-    std::cout << "Se creo un protocolo" << std::endl;
-}
+Protocolo::Protocolo(const std::string& hostname, const std::string& servname):
+        hostname(hostname), skt(hostname.c_str(), servname.c_str()) {
+            was_closed = false;
+        }
 
+Protocolo::~Protocolo() {}
 
 void Protocolo::enviar_movimiento(uint8_t dir){
 

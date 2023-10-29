@@ -2,9 +2,7 @@
 
 using namespace SDL2pp;
 
-SDLPoc::SDLPoc(Protocolo &protocol):protocolo(protocol){
-
-}
+SDLPoc::SDLPoc(Protocolo& protocol) : protocolo(protocol) {}
 
 int SDLPoc::run() try {
 	// Inicializo SDL

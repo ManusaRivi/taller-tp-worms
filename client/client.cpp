@@ -3,17 +3,25 @@
 #include "login.h"
 #include "pocsdl.h"
 
-Client::Client(int argc, char** argv, const char* serv_name, const char* port) : login(argc, argv), skt(serv_name,port), protocol(skt) {}
+Client::Client(int argc, char** argv) : login(argc, argv) {}
 
-int Client::iniciar()
-{
-    this->login.start();
+int Client::iniciar() {
 
-    //Deberia obtenerse el servname y el puerto del login
-    //y crear el protocolo con eso, no ser un atributo del cliente
+    try {
+        this->login.start();
 
-    //Game game(protocol);
-    //return game.run();
-    SDLPoc poc(protocol);
-    return poc.run();
+        const std::string server = this->login.getServer();
+        const std::string port = this->login.getPort();
+
+        Protocolo prot(server, port);
+
+        //Game game(protocol);
+        //return game.run();
+        SDLPoc poc(prot);
+        return poc.run();
+    } catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+	    return 1;
+    }
+
 }

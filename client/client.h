@@ -11,12 +11,10 @@
 class Client {
     private:
     Login login;
-    Socket skt;
-    Protocolo protocol;
-    
+    //Protocolo protocol;
 
     public:
-    Client(int, char**,const char*,const char*);
+    Client(int, char**);
 
     int iniciar();
 };

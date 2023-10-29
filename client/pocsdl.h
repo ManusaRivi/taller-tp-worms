@@ -10,9 +10,9 @@
 #include <SDL2pp/SDL2pp.hh>
 
 class SDLPoc {
-    Protocolo &protocolo;
+    Protocolo& protocolo;
     public:
-    SDLPoc(Protocolo &protocol);
+    SDLPoc(Protocolo&);
     int run();
 };
 

@@ -26,5 +26,16 @@ void MainWindow::onComenzarButtonClicked() {
         return;
     }
 
+    this->serverInput = serverText.toStdString();
+    this->portInput = portText.toStdString();
+
     MainWindow::close();
+}
+
+std::string MainWindow::getServer() const {
+    return this->serverInput;
+}
+
+std::string MainWindow::getPort() const {
+    return this->portInput;
 }

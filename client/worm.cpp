@@ -1,6 +1,6 @@
 #include "worm.h"
 
-Worm::Worm(std::vector<int> position, int dir, int status): 
+Worm::Worm(std::vector<float> position, int dir, int status): 
             position(position), dir(dir), status(status) {}
 
 void Worm::present(int& run_phase, Renderer& renderer, Texture& wwalk, int& vcenter) {
@@ -22,7 +22,7 @@ void Worm::present(int& run_phase, Renderer& renderer, Texture& wwalk, int& vcen
     renderer.Copy(
 				wwalk,
 				Rect(src_x, src_y, 60, 60), // El sprite
-				Rect((int)position[0], vcenter - 60, 60, 60), // Donde lo grafico
+				Rect(position[0], vcenter - 60, 60, 60), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,
 				flip        // Flip

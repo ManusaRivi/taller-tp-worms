@@ -6,13 +6,16 @@
 #include <algorithm>
 #include <string>
 #include "protocolo/protocoloCliente.h"
+#include "threads/containerThreads.h"
+#include "comando.h"
 
 #include <SDL2pp/SDL2pp.hh>
 
 class SDLPoc {
-    Protocolo& protocolo;
+        Queue<Snapshot> &snapshots;
+    Queue<Comando> &acciones;
     public:
-    SDLPoc(Protocolo&);
+    SDLPoc(Queue<Snapshot> &snapshots, Queue<Comando> &acciones);
     int run();
 };
 

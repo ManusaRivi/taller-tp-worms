@@ -7,8 +7,11 @@
 #include "login.h"
 #include "game.h"
 #include "protocolo/protocoloCliente.h"
+#include "threads/containerThreads.h"
 
 class Client {
+
+
     private:
     Login login;
     //Protocolo protocol;

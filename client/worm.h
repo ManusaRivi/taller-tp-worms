@@ -16,13 +16,13 @@ using namespace SDL2pp;
 
 class Worm {
     private:
-    std::vector<int> position;  // (x,y)
+    std::vector<float> position;  // (x,y)
     int dir;                    // Despues quizas cambie a un angulo
     int status;                 
     
     public:
     //Constructor
-    Worm(std::vector<int> position, int dir, int status);
+    Worm(std::vector<float> position, int dir, int status);
 
     //La idea es que despues deje de recibir una unica textura
     //Y reciba un gestor de textura para pedirle la textura a mostrar

@@ -1,6 +1,6 @@
 #include "threadRecibidor.h"
 
-Recibidor::Recibidor(Socket &peer):skt(peer){
+Recibidor::Recibidor(Socket &peer, Queue<Comando> &acciones_, uint8_t _id):skt(peer),acciones_a_realizar(acciones_), id(_id){
 
 }
 
@@ -8,19 +8,12 @@ Recibidor::Recibidor(Socket &peer):skt(peer){
 void Recibidor::run(){
     is_alive = true;
     bool was_closed = false;
+    Protocolo ptcl(skt);
     while(!was_closed){
-        uint8_t buf;
+        Comando cmd = ptcl.recibir_comando(was_closed);
+        cmd.agregar_id(id);
+        acciones_a_realizar.push(cmd);
 
-        skt.recvall(&buf,1, &was_closed);
-        if (was_closed){
-            break;
-        }
-        if (buf == 0x02){
-            std::cout << "El personaje se movio a la izquierda" << std::endl;
-        }
-        if (buf == 0x01){
-            std::cout << "El personaje se movio a la derecha" << std::endl;
-        }
     }
     std::cout << "Se desconecto el cliente" << std::endl;
     is_alive = false;

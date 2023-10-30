@@ -21,6 +21,8 @@ class Snapshot {
 
     //Agrega un gusano a la lista de gusanos
     void add_worm(Worm worm);
+
+    std::vector<Worm> get_worms();
 };
 
 #endif

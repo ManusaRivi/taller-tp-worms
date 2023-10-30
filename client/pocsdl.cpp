@@ -1,8 +1,10 @@
 #include "pocsdl.h"
 
 using namespace SDL2pp;
+#define GAME_MOVE_RIGHT 0x01
+#define GAME_MOVE_LEFT 0x02
 
-SDLPoc::SDLPoc(Protocolo& protocol) : protocolo(protocol) {}
+SDLPoc::SDLPoc(Queue<Snapshot> &queue, Queue<Comando> &acciones_) : snapshots(queue), acciones(acciones_) {}
 
 int SDLPoc::run() try {
 	// Inicializo SDL
@@ -58,23 +60,24 @@ int SDLPoc::run() try {
 		// - Si se deja de presionar (KEYUP) la flecha derecha el gusano deja de moverse.
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
+			Comando cmd;
 			if (event.type == SDL_QUIT) {
 				return 0;
 			} else if (event.type == SDL_KEYDOWN) {
 				switch (event.key.keysym.sym) {
 				case SDLK_ESCAPE:
 					return 0;
-				case SDLK_RIGHT: is_running = true; mira_derecha = true; break;
-				case SDLK_LEFT: is_running = true; mira_derecha = false; break;
+				case SDLK_RIGHT: 
+					cmd.agregar_tipo(0x01);
+					cmd.agregar_direccion(GAME_MOVE_RIGHT);
+					//ptcl.enviar_movimiento(GAME_MOVE_RIGHT); 
+					break;
+				case SDLK_LEFT: 
+					cmd.agregar_tipo(0x01);
+					cmd.agregar_direccion(GAME_MOVE_LEFT);
+					//ptcl.enviar_movimiento(GAME_MOVE_LEFT); 
+					break;
 				}
-				uint8_t dir;
-				if(mira_derecha){
-					dir = 0x01;
-				}
-				else{
-					dir = 0x02;
-				}
-				protocolo.enviar_movimiento(dir);
 
 			} else if (event.type == SDL_KEYUP) {
 				switch (event.key.keysym.sym) {
@@ -82,6 +85,7 @@ int SDLPoc::run() try {
 				case SDLK_LEFT: is_running = false; break;
 				}
 			}
+			acciones.push(cmd);
 		}
 
         // Actualizar el estado del juego en este frame:

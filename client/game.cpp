@@ -5,13 +5,12 @@ using namespace SDL2pp;
 #define GAME_MOVE_RIGHT 0x01
 #define GAME_MOVE_LEFT 0x02
 
-Game::Game(Protocolo& protocol): ptcl(protocol), snapshots(Queue<Snapshot>()) {}
+Game::Game(Queue<Snapshot> &queue, Queue<Comando> &acciones_):snapshots(queue), acciones(acciones_){}
 
 int Game::run() try {
 
     // Inicializo SDL
 	SDL sdl(SDL_INIT_VIDEO);
-
 	// Inicializo SDL_ttf
 	SDLTTF ttf;
 
@@ -55,18 +54,29 @@ int Game::run() try {
 		// - Si se presiona (KEYDOWN) la fecha derecha el gusano se mueve.
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
+			
+			Comando cmd;
 			if (event.type == SDL_QUIT) {
 				return 0;
 			} else if (event.type == SDL_KEYDOWN) {
 				switch (event.key.keysym.sym) {
 				case SDLK_ESCAPE:
 					return 0;
-				case SDLK_RIGHT: ptcl.enviar_movimiento(GAME_MOVE_RIGHT); break;
-				case SDLK_LEFT: ptcl.enviar_movimiento(GAME_MOVE_LEFT); break;
+				case SDLK_RIGHT: 
+					cmd.agregar_tipo(0x01);
+					cmd.agregar_direccion(GAME_MOVE_RIGHT);
+					//ptcl.enviar_movimiento(GAME_MOVE_RIGHT); 
+					break;
+				case SDLK_LEFT: 
+					cmd.agregar_tipo(0x01);
+					cmd.agregar_direccion(GAME_MOVE_LEFT);
+					//ptcl.enviar_movimiento(GAME_MOVE_LEFT); 
+					break;
 				}
             }
+			acciones.push(cmd);
         }
-
+		std::cout << "Se sale del while loop" << std::endl;
         //Ajusto la fase de la animacion de correr a la velocidad del procesador
         run_phase = (frame_ticks / 100) % 15;
 

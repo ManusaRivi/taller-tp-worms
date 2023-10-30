@@ -1,13 +1,15 @@
 #include "Cliente.h"
 
 
-Cliente::Cliente(Socket &peer):skt(peer){
+Cliente::Cliente(Socket &peer, uint8_t identificador, Queue<Snapshot>* caster, Queue<Comando> &acciones):skt(std::move(peer)),id(identificador),snapshots_a_enviar(caster){
 
-    this->recibidor = new Recibidor(skt);
+    this->recibidor = new Recibidor(skt, acciones,id);
+    this->enviador = new Enviador(skt,id, snapshots_a_enviar );
 
 }
 
 void Cliente::start(){
+    enviador->start();
     recibidor->start();
 }
 
@@ -18,4 +20,5 @@ bool Cliente::is_dead(){
 
 void Cliente::join(){
     this->recibidor->join();
+    this->enviador->join();
 }

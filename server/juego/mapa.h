@@ -3,6 +3,7 @@
 
 #include "../../libs/box2d/include/box2d/box2d.h"
 #include <vector>
+#include "../worm.h"
 
 // Copyright (c) 2019 Erin Catto
 
@@ -32,6 +33,9 @@ public:
    * Setea la velocidad del gusano cuyo indice es idx a 0.
    * */
   void StopWorm(int idx);
+
+
+  Worm devolver_gusano(int idx);
 };
 
 #endif

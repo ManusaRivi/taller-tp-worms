@@ -6,14 +6,15 @@
 #include <vector>
 #include "../../common/queue.h"
 #include "snapshot.h"
+#include "comando.h"
 
 class Game {
     private:
-    Protocolo& ptcl;
-    Queue<Snapshot> snapshots;
+    Queue<Snapshot> &snapshots;
+    Queue<Comando> &acciones;
 
     public:
-    Game(Protocolo& protocol);
+    Game(Queue<Snapshot> &snapshots, Queue<Comando> &acciones);
 
     int run();
 

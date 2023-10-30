@@ -12,6 +12,7 @@ void Snapshot::present(int run_phase,
                         Texture& wwalk,
                         int& vcenter){
     
+
     //Esto hay que encontrar la manera de cambiarlo (lo la run_phase)
     for (auto& worm : worms) {
         worm.present(run_phase, renderer, wwalk, vcenter);

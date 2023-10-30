@@ -2,20 +2,21 @@
 #include "../../common/thread.h"
 #include "../../common/queue.h"
 #include "../protocolo/protocoloServer.h"
+#include "../snapshot.h"
 
 
-struct Recibidor:public Thread{
-
+struct Enviador:public Thread{
 
     Socket &skt;
     std::atomic<bool> is_alive;
-    Queue<Comando> &acciones_a_realizar;
     uint8_t id;
+    Queue<Snapshot> *snapshots_a_enviar;
 
-    Recibidor(Socket &peer, Queue<Comando> &acciones, uint8_t id);
+    Enviador(Socket &peer, uint8_t id, Queue<Snapshot>* snapshots);
 
     void run() override;
 
     bool is_dead();
+
 
 };

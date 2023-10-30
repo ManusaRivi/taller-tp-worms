@@ -1,5 +1,6 @@
 #include "./mapa.h"
 
+
 #include <iomanip>
 #include <iostream>
 
@@ -18,7 +19,7 @@ Mapa::Mapa() : world(b2Vec2(0.0f, -10.0f)) {
   // Creo un primer gusano
   b2BodyDef gusano1Def;
   gusano1Def.type = b2_dynamicBody;
-  gusano1Def.position.Set(-1.5f,
+  gusano1Def.position.Set(0.0f,
                           3.0f); // Altura de 3.0 inicial para verificar caida
   b2Body *gusano1 = world.CreateBody(&gusano1Def);
 
@@ -71,4 +72,12 @@ void Mapa::MoveWorm(int idx, int dir) {
 
 void Mapa::StopWorm(int idx) {
   gusanos[idx]->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+}
+
+Worm Mapa::devolver_gusano(int idx){
+  b2Vec2 position = gusanos[idx]->GetPosition();
+  std::vector<float> posicion;
+  posicion.push_back(position.x);posicion.push_back(position.y);
+  Worm worm(posicion,0,0);
+  return worm;
 }

@@ -13,13 +13,15 @@
 
 class Worm {
     private:
-    std::vector<int> position;  // (x,y)
+    std::vector<float> position;  // (x,y)
     int dir;                    // Despues quizas cambie a un angulo
     int status;                 
     
     public:
     //Constructor
-    Worm(std::vector<int> position, int dir, int status);
+    Worm(std::vector<float> position, int dir, int status);
+
+    std::vector<float> get_position();
 };
 
 #endif

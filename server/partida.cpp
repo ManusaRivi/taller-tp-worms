@@ -21,7 +21,8 @@ void Partida::run(){
         snap.add_worm(gusano1);
         snap.add_worm(gusano2);
         broadcaster.broadcastSnap(snap);
-        sleep(1);
+        usleep(33333);  //Duerme 33.33ms (Para 30FPS)
+        //sleep(1);     //Duerme 1s
         continue;
         }
         if (comando.get_tipo() == 0x01){
@@ -53,6 +54,7 @@ void Partida::run(){
         snap.add_worm(gusano1);
         snap.add_worm(gusano2);
         broadcaster.broadcastSnap(snap);
-        sleep(1);
+        usleep(33333);  //Duerme 33.33ms (Para 30FPS)
+        //sleep(1);     //Duerme 1s
     }
 }

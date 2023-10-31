@@ -4,6 +4,9 @@ project(worms)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# Para Threads
+find_package(Threads REQUIRED)
+
 # Box2d
 include_directories(libs/box2d/include/box2d)
 add_subdirectory(libs/box2d)
@@ -53,8 +56,8 @@ add_executable(client "client/main.cpp")
 add_executable(editor "editor/main.cpp")
 
 # Va a haber otro ejecutable para el editor.
-target_link_libraries(server server_lib box2d common_lib)
-target_link_libraries(client client_lib ${SDL2PP_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} common_lib)
+target_link_libraries(server server_lib box2d common_lib Threads::Threads)
+target_link_libraries(client client_lib ${SDL2PP_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} common_lib Threads::Threads)
 target_link_libraries(editor editor_lib ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES})
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)

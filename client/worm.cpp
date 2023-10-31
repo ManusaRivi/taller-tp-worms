@@ -18,11 +18,15 @@ void Worm::present(int& run_phase, Renderer& renderer, Texture& wwalk, int& vcen
 
     //Grafico al gusano:
     
+	std::cout << "Gusano: ME VOY A GRAFICAR\n";
+	std::cout << "Mis posiciones (X, Y) son: X=" << position[0] << " Y=" << position[1] << "\n";
+	std::cout << "Las transformo a X=" << static_cast<int>(position[0] * 100) << " Y=" << 480 - static_cast<int>(position[1] * 100) << "\n";
+
     wwalk.SetAlphaMod(255); // El sprite es totalmente opaco
     renderer.Copy(
 				wwalk,
 				Rect(src_x, src_y, 60, 60), // El sprite
-				Rect(position[0], vcenter - 60, 60, 60), // Donde lo grafico
+				Rect(static_cast<int>(position[0] * 100), 480 - static_cast<int>(position[1] * 100) - 60, 60, 60), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,
 				flip        // Flip

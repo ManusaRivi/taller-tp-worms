@@ -76,7 +76,6 @@ int Game::run() try {
             }
 			acciones.push(cmd);
         }
-		std::cout << "Se sale del while loop" << std::endl;
         //Ajusto la fase de la animacion de correr a la velocidad del procesador
         run_phase = (frame_ticks / 100) % 15;
 
@@ -88,7 +87,6 @@ int Game::run() try {
 
         //Saco una Snapshot de la Queue
         Snapshot snap = snapshots.pop();
-
         //Grafico la snapshot
         snap.present(run_phase, renderer, wwalk, vcenter);
 

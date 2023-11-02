@@ -1,5 +1,5 @@
-#ifndef WORM_H
-#define WORM_H
+#ifndef WORM_WRAPPER_H
+#define WORM_WRAPPER_H
 
 #include <vector>
 
@@ -11,7 +11,7 @@
 #define STATUS_IDLE 0
 #define STATUS_MOVING 1
 
-class Worm {
+class WormWrapper {
     private:
     std::vector<float> position;  // (x,y)
     int dir;                    // Despues quizas cambie a un angulo
@@ -19,7 +19,7 @@ class Worm {
     
     public:
     //Constructor
-    Worm(std::vector<float> position, int dir, int status);
+    WormWrapper(std::vector<float> position, int dir, int status);
 
     std::vector<float> get_position();
 };

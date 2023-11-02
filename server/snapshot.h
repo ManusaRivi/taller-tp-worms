@@ -2,12 +2,12 @@
 #define SNAPSHOT_H
 
 #include <vector>
-#include "worm.h"
+#include "worm_wrapper.h"
 
 // Simula la "imagen" del estado del juego.
 class Snapshot {
     private:
-    std::vector<Worm> worms;
+    std::vector<WormWrapper> worms;
     std::vector<std::vector<int>> vigas;
 
 /*
@@ -20,9 +20,9 @@ class Snapshot {
     Snapshot(std::vector<std::vector<int>> vigas);
 
     //Agrega un gusano a la lista de gusanos
-    void add_worm(Worm worm);
+    void add_worm(WormWrapper worm);
 
-    std::vector<Worm> get_worms();
+    std::vector<WormWrapper> get_worms();
 };
 
 #endif

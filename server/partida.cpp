@@ -37,8 +37,8 @@ void Partida::run(){
 
 Snapshot Partida::generar_snapshot(){
     std::vector<std::vector<int>> vigas;
-    Worm gusano1 = mapa.devolver_gusano(0);
-    Worm gusano2 = mapa.devolver_gusano(1);
+    WormWrapper gusano1 = mapa.devolver_gusano(0);
+    WormWrapper gusano2 = mapa.devolver_gusano(1);
     Snapshot snap(vigas);
     snap.add_worm(gusano1);
     snap.add_worm(gusano2);

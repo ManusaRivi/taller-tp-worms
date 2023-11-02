@@ -1,6 +1,7 @@
 #ifndef _COMANDO
 #define _COMANDO
 #include <iostream>
+#include "../protocolo/protocoloCliente.h"
 
 struct Comando{
 
@@ -12,6 +13,10 @@ struct Comando{
     void agregar_tipo(uint8_t tipo);
 
     void agregar_direccion(uint8_t dir);
+
+    public:
+
+    virtual void enviar_accion(Protocolo &ptcl) = 0;
 
 };
 

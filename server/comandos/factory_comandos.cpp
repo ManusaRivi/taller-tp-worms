@@ -4,8 +4,6 @@ FactoryComandos::FactoryComandos(){
 
 }
 
-ComandoMovimiento FactoryComandos::comando_movimient(uint8_t dir){
-        ComandoMovimiento comando(dir);
-        comando.dir = dir;
-        return comando;
+std::shared_ptr<ComandoMovimiento> FactoryComandos::comando_movimiento(uint8_t dir, uint8_t id){
+        return std::make_shared<ComandoMovimiento>(dir,id);
 }

@@ -7,12 +7,14 @@
 
 struct Partida{
 
-    Queue<Comando> &acciones_a_realizar;
+    Queue<std::shared_ptr<Comando>> &acciones_a_realizar;
     Mapa mapa;
     BroadCaster &broadcaster;
 
-    Partida(Queue<Comando> &acciones, BroadCaster &caster);
+    Partida(Queue<std::shared_ptr<Comando>> &acciones, BroadCaster &caster);
 
     void run();
+
+    Snapshot generar_snapshot();
 
 };

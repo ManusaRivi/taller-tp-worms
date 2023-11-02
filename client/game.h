@@ -6,15 +6,17 @@
 #include <vector>
 #include "../../common/queue.h"
 #include "snapshot.h"
-#include "comando.h"
+#include "comandos/comando.h"
+#include "comandos/factory_comandos.h"
 
 class Game {
     private:
     Queue<Snapshot> &snapshots;
-    Queue<Comando> &acciones;
+    Queue<std::shared_ptr<Comando>> &acciones;
+    FactoryComandos factory;
 
     public:
-    Game(Queue<Snapshot> &snapshots, Queue<Comando> &acciones);
+    Game(Queue<Snapshot> &snapshots, Queue<std::shared_ptr<Comando>> &acciones);
 
     int run();
 

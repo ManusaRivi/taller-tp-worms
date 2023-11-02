@@ -2,6 +2,9 @@
 #include "../../common/socket.h"
 #include "../snapshot.h"
 
+#define MOVER_GUSANO 0x01
+#define DETENER_MOVIMIENTO 0x02
+
 Protocolo::Protocolo(Socket &peer):skt(peer) {
             was_closed = false;
         }
@@ -11,9 +14,16 @@ Protocolo::~Protocolo() {}
 void Protocolo::enviar_movimiento(uint8_t dir){
     bool was_closed = false;
     std::vector<uint8_t> buf;
-    buf.push_back(0x01);
+    buf.push_back(MOVER_GUSANO);
     buf.push_back(dir);
     skt.sendall(buf.data(),2,&was_closed);
+}
+
+void Protocolo::detener_movimiento(){
+    bool was_closed = false;
+    std::vector<uint8_t> buf;
+    buf.push_back(DETENER_MOVIMIENTO);
+    skt.sendall(buf.data(),1,&was_closed);
 }
 
 
@@ -48,9 +58,3 @@ Snapshot Protocolo::recibir_snapshot(){
     return sn;
 }
 
-
-void Protocolo::enviar_comando(Comando cmd){
-    if (cmd.tipo_comando == 0x01){
-        enviar_movimiento(cmd.dir);
-    }
-}

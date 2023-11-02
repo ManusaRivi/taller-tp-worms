@@ -5,7 +5,7 @@ using namespace SDL2pp;
 #define GAME_MOVE_RIGHT 0x01
 #define GAME_MOVE_LEFT 0x02
 
-Game::Game(Queue<Snapshot> &queue, Queue<Comando> &acciones_):snapshots(queue), acciones(acciones_){}
+Game::Game(Queue<Snapshot> &queue, Queue<std::shared_ptr<Comando>> &acciones_):snapshots(queue), acciones(acciones_){}
 
 int Game::run() try {
 
@@ -55,7 +55,7 @@ int Game::run() try {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			
-			Comando cmd;
+			std::shared_ptr<Comando> cmd;
 			if (event.type == SDL_QUIT) {
 				return 0;
 			} else if (event.type == SDL_KEYDOWN) {
@@ -63,13 +63,11 @@ int Game::run() try {
 				case SDLK_ESCAPE:
 					return 0;
 				case SDLK_RIGHT: 
-					cmd.agregar_tipo(0x01);
-					cmd.agregar_direccion(GAME_MOVE_RIGHT);
+					cmd = factory.accion_mover(GAME_MOVE_RIGHT);
 					//ptcl.enviar_movimiento(GAME_MOVE_RIGHT); 
 					break;
 				case SDLK_LEFT: 
-					cmd.agregar_tipo(0x01);
-					cmd.agregar_direccion(GAME_MOVE_LEFT);
+					cmd = factory.accion_mover(GAME_MOVE_LEFT);
 					//ptcl.enviar_movimiento(GAME_MOVE_LEFT); 
 					break;
 				}

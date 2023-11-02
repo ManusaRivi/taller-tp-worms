@@ -14,7 +14,7 @@ int Client::iniciar() {
         const std::string server = this->login.getServer();
         const std::string port = this->login.getPort();
 
-        Queue<Comando> queue_comandos;
+        Queue<std::shared_ptr<Comando>> queue_comandos; //TODO: Cambiar a Unique ptr
         Queue<Snapshot> queue_snapshots;
 
         Socket skt(server.data(),port.data());

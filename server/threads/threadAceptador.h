@@ -14,9 +14,9 @@ struct Aceptador:public Thread{
     std::list<Cliente*> clientes;
     bool is_open;
     BroadCaster &broadcaster;
-    Queue<Comando> &acciones_a_realizar;
+    Queue<std::shared_ptr<Comando>> &acciones_a_realizar;
 
-    Aceptador(const char *host_name, BroadCaster &caster, Queue<Comando> &acciones);
+    Aceptador(const char *host_name, BroadCaster &caster, Queue<std::shared_ptr<Comando>> &acciones);
 
     void run() override;
 

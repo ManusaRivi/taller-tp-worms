@@ -13,7 +13,7 @@ struct Cliente{
 
     Queue<Snapshot>* snapshots_a_enviar;
 
-    Cliente(Socket &peer, uint8_t identificador, Queue<Snapshot>* caster, Queue<Comando> &acciones_a_realizar);
+    Cliente(Socket &peer, uint8_t identificador, Queue<Snapshot>* caster, Queue<std::shared_ptr<Comando>> &acciones_a_realizar);
 
     void start();
 

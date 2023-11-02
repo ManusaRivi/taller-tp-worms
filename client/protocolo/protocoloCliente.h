@@ -3,7 +3,6 @@
 
 #include "../../common/socket.h"
 #include "../snapshot.h"
-#include "../comando.h"
 
 #include <iostream>
 #include <string>
@@ -21,7 +20,8 @@ struct Protocolo{
 
     Snapshot recibir_snapshot();
 
-    void enviar_comando(Comando cmd);
+    void detener_movimiento();
+
 
 };
 

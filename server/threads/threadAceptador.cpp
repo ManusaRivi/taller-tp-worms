@@ -1,7 +1,7 @@
 #include "threadAceptador.h"
 #include <unistd.h>
 
-Aceptador::Aceptador(const char* hostname, BroadCaster &caster, Queue<Comando> &accion):aceptador(hostname), broadcaster(caster),acciones_a_realizar(accion){
+Aceptador::Aceptador(const char* hostname, BroadCaster &caster, Queue<std::shared_ptr<Comando>> &accion):aceptador(hostname), broadcaster(caster),acciones_a_realizar(accion){
     std::cout << "Se crea el aceptador" << std::endl;
 }
 
@@ -10,7 +10,7 @@ void Aceptador::run(){
 
     uint8_t id = 0;
 
-   
+   // Sacar el id y poner dentro de la partida
 
     while(true){
         Socket client_skt = this->aceptador.accept();

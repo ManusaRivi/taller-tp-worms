@@ -7,15 +7,18 @@
 #include <string>
 #include "protocolo/protocoloCliente.h"
 #include "threads/containerThreads.h"
-#include "comando.h"
+#include "comandos/comando.h"
+#include "comandos/factory_comandos.h"
 
 #include <SDL2pp/SDL2pp.hh>
 
 class SDLPoc {
+
+    FactoryComandos factory;
         Queue<Snapshot> &snapshots;
-    Queue<Comando> &acciones;
+    Queue<std::shared_ptr<Comando>> &acciones;
     public:
-    SDLPoc(Queue<Snapshot> &snapshots, Queue<Comando> &acciones);
+    SDLPoc(Queue<Snapshot> &snapshots, Queue<std::shared_ptr<Comando>> &acciones);
     int run();
 };
 

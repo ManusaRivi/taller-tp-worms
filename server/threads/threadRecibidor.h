@@ -9,10 +9,10 @@ struct Recibidor:public Thread{
 
     Socket &skt;
     std::atomic<bool> is_alive;
-    Queue<Comando> &acciones_a_realizar;
+    Queue<std::shared_ptr<Comando>> &acciones_a_realizar;
     uint8_t id;
 
-    Recibidor(Socket &peer, Queue<Comando> &acciones, uint8_t id);
+    Recibidor(Socket &peer, Queue<std::shared_ptr<Comando>> &acciones, uint8_t id);
 
     void run() override;
 

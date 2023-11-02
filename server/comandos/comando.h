@@ -2,22 +2,20 @@
 #define _COMANDO
 
 #include <iostream>
-
+#include "../juego/mapa.h"
 struct Comando{
 
-    uint8_t tipo_comando;
     uint8_t responsable_id;
     uint8_t dir;
 
     public:
-    Comando(uint8_t dir,uint8_t tipo);
-    Comando(){};
+    Comando();
 
-    uint8_t get_tipo();
 
-    void agregar_id(uint8_t id);
+    virtual void agregar_id(uint8_t id) = 0;
 
-    uint8_t get_direccion();
+    virtual void realizar_accion(Mapa &mapa) = 0;
+
 
 };
 

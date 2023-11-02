@@ -2,7 +2,7 @@
 #include <unistd.h>
 
 
-Partida::Partida(Queue<Comando> &acciones, BroadCaster &caster):acciones_a_realizar(acciones),broadcaster(caster){
+Partida::Partida(Queue<std::shared_ptr<Comando>> &acciones, BroadCaster &caster):acciones_a_realizar(acciones),broadcaster(caster){
 
 }
 
@@ -10,51 +10,37 @@ Partida::Partida(Queue<Comando> &acciones, BroadCaster &caster):acciones_a_reali
 void Partida::run(){
     std::cout << "Se inicializa la partida\n" << std::endl;
     while (true){
-        Comando comando;
+        std::shared_ptr<Comando> comando;
         bool pop = acciones_a_realizar.try_pop(comando);
-        if (!pop){
-                    mapa.Step();
-        std::vector<std::vector<int>> vigas;
-        Worm gusano1 = mapa.devolver_gusano(0);
-        Worm gusano2 = mapa.devolver_gusano(1);
-        Snapshot snap(vigas);
-        snap.add_worm(gusano1);
-        snap.add_worm(gusano2);
-        broadcaster.broadcastSnap(snap);
-        usleep(33333);  //Duerme 33.33ms (Para 30FPS)
-        //sleep(1);     //Duerme 1s
-        continue;
+        //TODO:aglo = factory.create_command(comado);
+        // algo.ejecutate(mundo de box2d);
+        // o que el protocolo devuelva el comando directamente como uniqe_ptr 
+        // Un if para verificar si el jugador que hizo la accion es correcto
+        if (!pop || !comando){
+            mapa.Step();
+            Snapshot snap = generar_snapshot();
+            broadcaster.broadcastSnap(snap);
+            usleep(33333);  //Duerme 33.33ms (Para 30FPS)
+            //sleep(1);     //Duerme 1s
         }
-        if (comando.get_tipo() == 0x01){
-            std::cout << "Se obtuvo el tipo correctamente" << std::endl;
-            int id;
-            if (comando.responsable_id == 0x00){
-                id = 0;
-            }
-            else{
-                id = 1;
-            }
-            uint8_t dir = comando.get_direccion();
-            int direccion;
-            if (dir == 0x01){
-                std::cout << "Se debe mover a la derecha" << std::endl;
-                direccion = 0;
-            }
-            else{
-                std::cout << "Se debe mover a la izquierda" << std::endl;
-                direccion = 1;
-            }
-            mapa.MoveWorm(id,direccion);
+        else{
+            comando.get()->realizar_accion(mapa);
+            mapa.Step();
+            Snapshot snap = generar_snapshot();
+            broadcaster.broadcastSnap(snap); // TODO:que snapshot sea un shared-ptr
+            usleep(33333);  //Duerme 33.33ms (Para 30FPS)
+            //sleep(1);     //Duerme 1s
         }
-        mapa.Step();
-        std::vector<std::vector<int>> vigas;
-        Worm gusano1 = mapa.devolver_gusano(0);
-        Worm gusano2 = mapa.devolver_gusano(1);
-        Snapshot snap(vigas);
-        snap.add_worm(gusano1);
-        snap.add_worm(gusano2);
-        broadcaster.broadcastSnap(snap);
-        usleep(33333);  //Duerme 33.33ms (Para 30FPS)
-        //sleep(1);     //Duerme 1s
+
     }
+}
+
+Snapshot Partida::generar_snapshot(){
+    std::vector<std::vector<int>> vigas;
+    Worm gusano1 = mapa.devolver_gusano(0);
+    Worm gusano2 = mapa.devolver_gusano(1);
+    Snapshot snap(vigas);
+    snap.add_worm(gusano1);
+    snap.add_worm(gusano2);
+    return snap;
 }

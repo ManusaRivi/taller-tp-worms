@@ -14,7 +14,7 @@ struct Protocolo{
 
     Protocolo(Socket& skt);
 
-    Comando recibir_comando(bool &was_closed);
+    std::shared_ptr<Comando> recibir_comando(bool &was_closed, uint8_t id);
 
     void enviar_snapshot(Snapshot shot);
 

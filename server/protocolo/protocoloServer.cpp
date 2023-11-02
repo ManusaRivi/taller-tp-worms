@@ -5,15 +5,16 @@ Protocolo::Protocolo(Socket &socket): skt(socket){
 
 }
 
-Comando Protocolo::recibir_comando(bool &was_closed){
+std::shared_ptr<Comando> Protocolo::recibir_comando(bool &was_closed, uint8_t id){
+    std::shared_ptr<Comando> comando;
     uint8_t buf;
     skt.recvall(&buf,1,&was_closed);
     uint8_t cmd;
     if (buf == 0x01){
         skt.recvall(&cmd,1,&was_closed);
+        comando = factory.comando_movimiento(cmd,id);
     }
-    Comando comand = Comando(cmd,0x01);
-    return comand;
+    return comando;
     
 
 }

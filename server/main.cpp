@@ -1,4 +1,4 @@
-#include "poc.h"
+//#include "poc.h"
 #include "threads/threadAceptador.h"
 #include "monitorBroadcaster.h"
 #include "partida.h"
@@ -14,8 +14,8 @@ int main(int argc, char* argv[]) {
     //MapContainer mapContainer;
     Partida partida(acciones_a_realizar,broadcaster);
     partida.run();
-    Box2dPoC poc;
-    poc.run();
+    //Box2dPoC poc;
+    //poc.run();
     skt.join();
     return 0;
 }

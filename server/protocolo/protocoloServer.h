@@ -4,7 +4,7 @@
 #include "../../common/socket.h"
 #include "../../server/snapshot.h"
 #include "../comandos/factory_comandos.h"
-#include "../worm.h"
+#include "../juego/worm.h"
 
 struct Protocolo{
 

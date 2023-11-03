@@ -15,8 +15,8 @@ class Login {
     Login(int, char**);
     ~Login();
     int start();
-    std::string getServer() const;
-    std::string getPort() const;
+    //std::string getServer() const;
+    //std::string getPort() const;
 };
 
 #endif

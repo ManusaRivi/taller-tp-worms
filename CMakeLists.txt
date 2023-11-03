@@ -19,8 +19,11 @@ add_definitions(-DDATA_PATH="${PROJECT_SOURCE_DIR}/client/data")
 add_subdirectory(libs/SDL2pp)
 include_directories(${SDL2PP_INCLUDE_DIRS})
 
-# Para Qt
+# Para yaml-cpp
+include_directories(libs/yaml-cpp/include/yaml-cpp)
+add_subdirectory(libs/yaml-cpp)
 
+# Para Qt
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -56,9 +59,9 @@ add_executable(client "client/main.cpp")
 add_executable(editor "editor/main.cpp")
 
 # Va a haber otro ejecutable para el editor.
-target_link_libraries(server server_lib box2d common_lib Threads::Threads)
-target_link_libraries(client client_lib ${SDL2PP_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} common_lib Threads::Threads)
-target_link_libraries(editor editor_lib ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES})
+target_link_libraries(server server_lib box2d yaml-cpp common_lib Threads::Threads)
+target_link_libraries(client client_lib ${SDL2PP_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} yaml-cpp common_lib Threads::Threads)
+target_link_libraries(editor editor_lib ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} yaml-cpp)
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)
 

@@ -11,8 +11,11 @@ int Client::iniciar() {
     try {
         this->login.start();
 
-        const std::string server = this->login.getServer();
-        const std::string port = this->login.getPort();
+        //const std::string server = this->login.getServer();
+        //const std::string port = this->login.getPort();
+
+        const std::string server = "127.0.0.1";
+        const std::string port = "8080";
 
         Queue<std::shared_ptr<Comando>> queue_comandos; //TODO: Cambiar a Unique ptr
         Queue<Snapshot> queue_snapshots;

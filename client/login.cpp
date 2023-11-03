@@ -13,6 +13,7 @@ int Login::start() {
     return this->app.exec();
 }
 
+/*
 std::string Login::getServer() const {
     return this->mainWindow.getServer();
 }
@@ -20,3 +21,4 @@ std::string Login::getServer() const {
 std::string Login::getPort() const {
     return this->mainWindow.getPort();
 }
+*/

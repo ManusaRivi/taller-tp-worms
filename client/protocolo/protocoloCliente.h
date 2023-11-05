@@ -3,24 +3,37 @@
 
 #include "../../common/socket.h"
 #include "../snapshot.h"
+#include "../../common/protocolo.h"
+#include "../comandos/mensaje.h"
 
 #include <iostream>
 #include <string>
+#include <map>
 
-struct Protocolo{
+struct Mensaje;
+
+struct ClienteProtocolo:public Protocolo{
 
     const std::string hostname;
-    Socket &skt;
     bool was_closed;
 
-    explicit Protocolo(Socket &peer);
-    ~Protocolo();
+    ClienteProtocolo(Socket &peer);
 
     void enviar_movimiento(uint8_t dir);
 
-    Snapshot recibir_snapshot();
+    Mensaje recibir_snapshot();
 
     void detener_movimiento();
+
+    void crear_partida(std::string nombre);
+
+    void empezar_partida();
+
+    std::map<uint32_t,std::string> listar_partidas();
+
+    void pedir_lista_partidas();
+
+    void unirse_partida(std::string id_paritda);
 
 
 };

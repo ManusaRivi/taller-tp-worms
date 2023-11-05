@@ -7,6 +7,7 @@ struct Comando{
 
     uint8_t responsable_id;
     uint8_t dir;
+    uint8_t id_gusano;
 
     public:
     Comando();

@@ -1,18 +1,19 @@
 #ifndef _Broadcaster
 #define _Broadcaster
 #include "../../common/queue.h"
-#include "../../client/snapshot.h"
+#include "snapshot.h"
 #include <list>
+#include "comandos/mensaje.h"
 
 struct BroadCaster{
 
-    std::list<Queue<Snapshot>*> lista;
+    std::list<Queue<Mensaje>*> lista;
 
     BroadCaster();
 
-    void add_queue(Queue<Snapshot>* q);
+    void add_queue(Queue<Mensaje>* q);
 
-    void broadcastSnap(Snapshot snap);
+    void broadcastSnap(Mensaje snap);
 
 };
 

@@ -4,6 +4,7 @@
 #include "../Cliente.h"
 #include "../../client/snapshot.h"
 #include "../monitorBroadcaster.h"
+#include "../lobby.h"
 
 #include <list>
 
@@ -15,8 +16,9 @@ struct Aceptador:public Thread{
     bool is_open;
     BroadCaster &broadcaster;
     Queue<std::shared_ptr<Comando>> &acciones_a_realizar;
+    Lobby &lobby;
 
-    Aceptador(const char *host_name, BroadCaster &caster, Queue<std::shared_ptr<Comando>> &acciones);
+    Aceptador(const char *host_name, BroadCaster &caster, Queue<std::shared_ptr<Comando>> &acciones,Lobby &lobby);
 
     void run() override;
 

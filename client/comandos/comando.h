@@ -3,6 +3,8 @@
 #include <iostream>
 #include "../protocolo/protocoloCliente.h"
 
+struct ClienteProtocolo;
+
 struct Comando{
 
     uint8_t tipo_comando;
@@ -16,7 +18,7 @@ struct Comando{
 
     public:
 
-    virtual void enviar_accion(Protocolo &ptcl) = 0;
+    virtual void enviar_accion(ClienteProtocolo &ptcl) = 0;
 
 };
 

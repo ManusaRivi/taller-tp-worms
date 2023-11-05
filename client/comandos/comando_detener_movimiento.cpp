@@ -5,6 +5,6 @@ DetenerMovimiento::DetenerMovimiento(){
 
 }
 
-void DetenerMovimiento::enviar_accion(Protocolo &ptcl){
+void DetenerMovimiento::enviar_accion(ClienteProtocolo &ptcl){
     ptcl.detener_movimiento();
 }

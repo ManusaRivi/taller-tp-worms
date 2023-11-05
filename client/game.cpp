@@ -5,7 +5,7 @@ using namespace SDL2pp;
 #define GAME_MOVE_RIGHT 0x01
 #define GAME_MOVE_LEFT 0x02
 
-Game::Game(Queue<Snapshot> &queue, Queue<std::shared_ptr<Comando>> &acciones_):snapshots(queue), acciones(acciones_){}
+Game::Game(Queue<Mensaje> &queue, Queue<Mensaje> &acciones_):snapshots(queue), acciones(acciones_){}
 
 int Game::run() try {
 
@@ -72,7 +72,8 @@ int Game::run() try {
 					break;
 				}
             }
-			acciones.push(cmd);
+			Mensaje msg(cmd);
+			acciones.push(msg);
         }
         //Ajusto la fase de la animacion de correr a la velocidad del procesador
         run_phase = (frame_ticks / 100) % 15;
@@ -84,9 +85,13 @@ int Game::run() try {
 		renderer.Clear();
 
         //Saco una Snapshot de la Queue
-        Snapshot snap = snapshots.pop();
+        Mensaje snap = snapshots.pop();
+		if (snap.tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
+			Snapshot snapshot = snap.snap;
+			snapshot.present(run_phase, renderer, wwalk, vcenter);
+		}
         //Grafico la snapshot
-        snap.present(run_phase, renderer, wwalk, vcenter);
+        
 
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
         // El 100% del CPU.

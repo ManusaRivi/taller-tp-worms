@@ -1,19 +1,10 @@
 #include "./mapa.h"
 
-
 #include <iomanip>
 #include <iostream>
 
 Mapa::Mapa() : world(b2Vec2(0.0f, -10.0f)) {
-    // Creo la viga (Suelo)
-    b2BodyDef vigaBody;
-
-    b2Body *viga = world.CreateBody(&vigaBody);
-
-    b2PolygonShape vigaBox;
-    vigaBox.SetAsBox(LONG_BEAM_LENGTH, LONG_BEAM_HEIGHT);
-
-    viga->CreateFixture(&vigaBox, 0.0f);
+    vigas.push_back(new Viga (world, LARGE, 0.0f, 0.0f, 0.0f, BOUNDARY, WORM));
 
     worms.push_back(new Worm (world, RIGHT, -1.5f, 1.0f, WORM, BOUNDARY));
 
@@ -60,5 +51,8 @@ WormWrapper Mapa::devolver_gusano(int idx){
 Mapa::~Mapa() {
     for (auto worm : worms) {
         delete worm;
+    }
+    for (auto viga: vigas) {
+        delete viga;
     }
 }

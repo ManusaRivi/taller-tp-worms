@@ -5,6 +5,7 @@
 #include <vector>
 #include "../worm_wrapper.h"
 #include "./worm.h"
+#include "./viga.h"
 
 // Copyright (c) 2019 Erin Catto
 
@@ -23,6 +24,7 @@ private:
     const int32 velocityIterations = 6;
     const int32 positionIterations = 2;
 
+    std::vector<Viga*> vigas;
     std::vector<Worm*> worms;
 
 public:

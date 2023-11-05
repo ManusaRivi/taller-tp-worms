@@ -8,6 +8,11 @@
 
 // Copyright (c) 2019 Erin Catto
 
+enum collisionCategories{
+    BOUNDARY = 0x0001,
+    WORM = 0x0002,
+};
+
 #define LONG_BEAM_LENGTH 3.0f
 #define LONG_BEAM_HEIGHT 0.4f
 

@@ -31,7 +31,7 @@ private:
     int facingDirection;
 public:
     int jumpSteps;
-    Worm(b2World& world, int direction, float x_pos, float y_pos);
+    Worm(b2World& world, int direction, float x_pos, float y_pos, uint16 collisionCategory, uint16 collisionMask);
     void Move(int dir);
     void Stop();
     void JumpForward();

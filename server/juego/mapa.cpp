@@ -15,9 +15,9 @@ Mapa::Mapa() : world(b2Vec2(0.0f, -10.0f)) {
 
     viga->CreateFixture(&vigaBox, 0.0f);
 
-    worms.push_back(new Worm (world, RIGHT, -1.5f, 1.0f));
+    worms.push_back(new Worm (world, RIGHT, -1.5f, 1.0f, WORM, BOUNDARY));
 
-    worms.push_back(new Worm (world, LEFT, 1.5f, 0.8f));
+    worms.push_back(new Worm (world, LEFT, 1.5f, 0.8f, WORM, BOUNDARY));
 }
 
 void Mapa::Step() {

@@ -1,6 +1,6 @@
 #include "worm.h"
 
-Worm::Worm(b2World& world, int direction, float x_pos, float y_pos) : body(body), facingDirection(direction), jumpSteps(0)
+Worm::Worm(b2World& world, int direction, float x_pos, float y_pos, uint16 collisionCategory, uint16 collisionMask) : body(body), facingDirection(direction), jumpSteps(0)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -15,6 +15,8 @@ Worm::Worm(b2World& world, int direction, float x_pos, float y_pos) : body(body)
     fixtureGusano.shape = &gusanoBox;
     fixtureGusano.density = WORM_DENSITY;
     fixtureGusano.friction = WORM_FRICTION;
+    fixtureGusano.filter.categoryBits = collisionCategory;
+    fixtureGusano.filter.maskBits = collisionMask;
 
     this->body->CreateFixture(&fixtureGusano);
 }

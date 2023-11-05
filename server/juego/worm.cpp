@@ -1,6 +1,23 @@
 #include "worm.h"
 
-Worm::Worm(b2Body* body, int direction) : body(body), facingDirection(direction), jumpSteps(0) {}
+Worm::Worm(b2World& world, int direction, float x_pos, float y_pos) : body(body), facingDirection(direction), jumpSteps(0)
+{
+    b2BodyDef gusanoDef;
+    gusanoDef.type = b2_dynamicBody;
+    gusanoDef.position.Set(x_pos, y_pos);
+    b2Body *gusano = world.CreateBody(&gusanoDef);
+    this->body = gusano;
+
+    b2PolygonShape gusanoBox;
+    gusanoBox.SetAsBox(BOX_WIDTH, BOX_HEIGHT);
+
+    b2FixtureDef fixtureGusano;
+    fixtureGusano.shape = &gusanoBox;
+    fixtureGusano.density = WORM_DENSITY;
+    fixtureGusano.friction = WORM_FRICTION;
+
+    this->body->CreateFixture(&fixtureGusano);
+}
 
 void Worm::Move(int dir) {
     if (jumpSteps > 0) return;

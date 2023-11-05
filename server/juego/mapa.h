@@ -8,14 +8,8 @@
 
 // Copyright (c) 2019 Erin Catto
 
-#define MOVE_RIGHT 0
-#define MOVE_LEFT 1
-
 #define LONG_BEAM_LENGTH 3.0f
 #define LONG_BEAM_HEIGHT 0.4f
-
-#define WORM_WIDTH 0.15f
-#define WORM_HEIGHT 0.4f
 
 class Mapa {
 private:

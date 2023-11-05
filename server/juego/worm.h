@@ -3,8 +3,16 @@
 
 #include "../../libs/box2d/include/box2d/box2d.h"
 
-#define RIGHT 0
-#define LEFT 1
+enum directions {
+    RIGHT = 0,
+    LEFT = 1,
+};
+
+#define BOX_WIDTH 0.15f
+#define BOX_HEIGHT 0.4f
+
+#define WORM_DENSITY 1.0f
+#define WORM_FRICTION 0.0f
 
 #define MOVING_SPEED 0.2
 
@@ -23,7 +31,7 @@ private:
     int facingDirection;
 public:
     int jumpSteps;
-    Worm(b2Body* body, int direction);
+    Worm(b2World& world, int direction, float x_pos, float y_pos);
     void Move(int dir);
     void Stop();
     void JumpForward();

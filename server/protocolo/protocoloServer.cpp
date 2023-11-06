@@ -70,20 +70,21 @@ void ServerProtocolo::enviar_snapshot(Snapshot snap){
 
 }
 
-void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string> map){
+void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string> map/*std::string map*/){
     printf("Se estan por enviar las partidas\n");
-    uint8_t cmd = CODIGO_LISTAR_PARTIDA;
-    enviar_1_byte(cmd);
+    //uint8_t cmd = CODIGO_LISTAR_PARTIDA;
+    //enviar_1_byte(cmd);
     uint16_t cantidad_mapas = map.size();
     enviar_2_byte(cantidad_mapas);
     for (auto i = map.begin(); i != map.end(); i++){
-        uint32_t id = i->first;
-        
+        //uint32_t id = i->first;
+
         std::string nombre = i->second;
-        enviar_4_bytes(id);
+        //enviar_4_bytes(id);
         enviar_string(nombre);
         
     }
+    //enviar_string(map);
 }
 
 void ServerProtocolo::check_partida_empezada(){

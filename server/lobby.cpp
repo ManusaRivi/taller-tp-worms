@@ -1,5 +1,5 @@
 #include "lobby.h"
-
+#include "mapContainer.h"
 
 Lobby::Lobby():id_actual(1){
 
@@ -32,7 +32,20 @@ void Lobby::start_lobby(){
 }
 
 void Lobby::listar_partidas(Queue<Mensaje>* snapshots){
+    MapContainer mapContainer;
     std::map<uint32_t,std::string> lista;
+    int id = 1;
+
+    for (auto it = mapContainer.begin(); it != mapContainer.end(); ++it) {
+        // Accede a cada par clave-valor en el mapa aquí
+        const std::string& nombre = it->first;
+        // Realiza las operaciones que desees con el mapa
+        lista.insert({id, nombre});
+        id++;
+    }
+    Mensaje msg(lista);
+    snapshots->push(msg);
+    /*std::map<uint32_t,std::string> lista;
     for (auto i = lista_partidas.begin(); i != lista_partidas.end(); i++){
         std::string nombre = i->second->get_nombre();
         std::cout << "El nombre de la partida es : " << nombre << std::endl;
@@ -40,7 +53,7 @@ void Lobby::listar_partidas(Queue<Mensaje>* snapshots){
     }
     Snapshot snap(lista);
     Mensaje msg(lista);
-    snapshots->push(msg);
+    snapshots->push(msg);*/
 }
 
 Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t id_pedido){

@@ -26,5 +26,4 @@ void Aceptador::run(){
         clientes.push_back(clte);
         id++;
     }
-    
 }

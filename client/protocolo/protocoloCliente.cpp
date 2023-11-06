@@ -82,14 +82,20 @@ void ClienteProtocolo::empezar_partida(){
 
 std::map<uint32_t,std::string> ClienteProtocolo::listar_partidas(){
     std::map<uint32_t,std::string> map;
+    
     uint16_t size = recibir_2_bytes();
+    uint32_t id_mapa = 1;
     for(uint16_t i = 0; i < size; i++ ){
-        uint32_t id_mapa = recibir_4_bytes();
+        //uint32_t id_mapa = recibir_4_bytes();
         std::string nombre_mapa = recibir_string();
         map.insert({id_mapa,nombre_mapa});
+        id_mapa++;
     }
     return map;
-
+    
+    //std::string nombreMapa = recibir_string();
+    //map.insert({1,nombreMapa});
+    //return map;
 }
 
 void ClienteProtocolo::pedir_lista_partidas(){

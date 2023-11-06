@@ -1,6 +1,10 @@
+#include <QMessageBox>
+
 #include "lobby_window.h"
 #include "ui/ui_lobby_window.h"
 #include "mainwindow.h"
+#include "protocolo/protocoloCliente.h"
+#include "../common/socket.h"
 
 Lobby_Window::Lobby_Window(QWidget *parent, QStackedWidget* stackedWidget) :
     QWidget(parent),
@@ -17,11 +21,32 @@ Lobby_Window::~Lobby_Window() {
 }
 
 void Lobby_Window::onCrearButtonClicked() {
-    this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_CREAR));
+    if (!this->ui->listWidget->selectedItems().isEmpty()) {
+        this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_CREAR));
+    } else {
+        QMessageBox::warning(this, "Advertencia", "Ningún elemento está seleccionado.", QMessageBox::Ok);
+    }
 }
 
 void Lobby_Window::onListarButtonClicked() {
-    this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_PINCIPAL));
+    //this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_PINCIPAL));
+    const std::string server = "127.0.0.1";
+    const std::string port = "8084";
+
+    this->ui->listWidget->clear();
+
+    Socket skt(server.data(), port.data());
+    ClienteProtocolo protocol(skt);
+    protocol.pedir_lista_partidas();
+    std::map<uint32_t,std::string> maps = protocol.listar_partidas();
+    //std::vector<std::string> maps = protocol.receiveMapsList();
+    //std::vector<std::string> maps = {"mapa 1", "mapa 2", "mapa 3"};
+
+    for (const auto& pair : maps) {
+        QString mapQString = QString::fromStdString(pair.second); // Accede al valor (cadena)
+        QListWidgetItem* item = new QListWidgetItem(mapQString);
+        this->ui->listWidget->addItem(item);
+    }
 }
 
 void Lobby_Window::onUnirButtonClicked() {

@@ -15,7 +15,7 @@ int Client::iniciar() {
         //const std::string port = this->login.getPort();
 
         const std::string server = "127.0.0.1";
-        const std::string port = "8080";
+        const std::string port = "8084";
 
         Queue<Mensaje> queue_comandos; //TODO: Cambiar a Unique ptr
         Queue<Mensaje> queue_snapshots;

@@ -1,6 +1,8 @@
 #include "crear_partida.h"
 #include "ui/ui_crear_partida.h"
 #include "mainwindow.h"
+#include "protocolo/protocoloCliente.h"
+#include "../common/socket.h"
 
 Crear_Partida::Crear_Partida(QWidget *parent, QStackedWidget* stackedWidget) :
     QWidget(parent),
@@ -15,5 +17,14 @@ Crear_Partida::~Crear_Partida() {
 }
 
 void Crear_Partida::onCrearButtonClicked() {
+    
+    const std::string server = "127.0.0.1";
+    const std::string port = "8084";
+    
+    Socket skt(server.data(), port.data());
+    ClienteProtocolo protocol(skt);
+
+    protocol.crear_partida("mapa1.yml");
+
     this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_LOBBY));
 }

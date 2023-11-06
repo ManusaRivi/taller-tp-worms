@@ -23,6 +23,13 @@ class MapContainer {
     ~MapContainer();
     void getMaps();
     void addMap(const std::string&, Mapa*);
+    std::map<std::string, Mapa*>::iterator begin() {
+        return mapas.begin();
+    }
+
+    std::map<std::string, Mapa*>::iterator end() {
+        return mapas.end();
+    }
 };
 
 #endif

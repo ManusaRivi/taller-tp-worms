@@ -31,9 +31,6 @@ void Lobby_Window::onCrearButtonClicked() {
 }
 
 void Lobby_Window::onListarButtonClicked() {
-    //this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_PINCIPAL));
-    //const std::string server = this->mainWindow->getServer();
-    //const std::string port = this->mainWindow->getPort();
 
     this->ui->listWidget->clear();
 

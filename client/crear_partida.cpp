@@ -1,4 +1,5 @@
 #include <QMessageBox>
+#include <QString>
 #include <string>
 
 #include "crear_partida.h"
@@ -27,7 +28,9 @@ void Crear_Partida::onCrearButtonClicked() {
         Socket skt(this->ui1->server.data(), this->ui1->port.data());
         ClienteProtocolo protocol(skt);
 
-        protocol.crear_partida("mapa1.yml");
+        QString nombreMapa = this->ui->lineEdit->text();
+
+        protocol.crear_partida(nombreMapa.toStdString());
 
         this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_LOBBY));
     } else {

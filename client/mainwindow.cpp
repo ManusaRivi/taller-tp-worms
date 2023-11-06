@@ -43,3 +43,4 @@ void MainWindow::setServer(const std::string& server) {
 void MainWindow::setPort(const std::string& port) {
     this->portInput = port;
 }
+

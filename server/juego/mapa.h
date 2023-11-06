@@ -28,7 +28,7 @@ private:
     std::vector<Worm*> worms;
 
 public:
-    Mapa();
+    Mapa(b2ContactListener* contactListener);
     void Step();
     /*
     * Setea la velocidad del gusano dado por idx, que es el

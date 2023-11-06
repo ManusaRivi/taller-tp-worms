@@ -29,13 +29,21 @@ class Worm {
 private:
     b2Body* body;
     int facingDirection;
+    bool airborne;
+    int hitPoints;
+    float initialHeight;
+    float finalHeight;
 public:
     int jumpSteps;
-    Worm(b2World& world, int direction, float x_pos, float y_pos, uint16 collisionCategory, uint16 collisionMask);
+    Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint16 collisionCategory, uint16 collisionMask);
     void Move(int dir);
     void Stop();
     void JumpForward();
     void JumpBackward();
+    void startGroundContact();
+    void endGroundContact();
+    bool isAirborne();
+    void takeDamage(int damage);
 
     b2Vec2 GetPosition();
 };

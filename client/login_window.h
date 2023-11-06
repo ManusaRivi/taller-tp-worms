@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QStackedWidget>
+#include <QMainWindow>
 #include <string>
 
 QT_BEGIN_NAMESPACE
@@ -16,6 +17,8 @@ class Login_Window : public QWidget
 public:
     explicit Login_Window(QWidget *parent = nullptr, QStackedWidget* stackedWidget = nullptr);
     ~Login_Window();
+    std::string server;
+    std::string port;
 
 public slots:
     void onComenzarButtonClicked();

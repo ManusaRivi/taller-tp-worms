@@ -19,16 +19,16 @@ Login_Window::~Login_Window() {
 
 void Login_Window::onComenzarButtonClicked() {
 
-    //QString serverText = ui->serverInput->text();
-    //QString portText = ui->portInput->text();
+    QString serverText = ui->serverInput->text();
+    QString portText = ui->portInput->text();
 
-    //if (serverText.isEmpty() || portText.isEmpty()) {
-    //    QMessageBox::warning(this, "Error", "Por favor, complete ambos campos.");
-    //    return;
-    //}
+    if (serverText.isEmpty() || portText.isEmpty()) {
+        QMessageBox::warning(this, "Error", "Por favor, complete ambos campos.");
+        return;
+    }
 
-    //this->mainWindow->setServer(serverText.toStdString());
-    //this->mainWindow->setPort(portText.toStdString());
+    this->server = serverText.toStdString();
+    this->port = portText.toStdString();
 
     this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_LOBBY));
 }

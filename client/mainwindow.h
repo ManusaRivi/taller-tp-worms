@@ -27,6 +27,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void setServer(const std::string&);
+    void setPort(const std::string&);
+
+    const std::string getServer();
+    const std::string getPort();
+
 private:
     QStackedWidget* stackedWidget;
 

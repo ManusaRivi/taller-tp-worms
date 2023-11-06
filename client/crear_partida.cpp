@@ -1,16 +1,19 @@
 #include <QMessageBox>
+#include <string>
 
 #include "crear_partida.h"
 #include "ui/ui_crear_partida.h"
 #include "mainwindow.h"
 #include "protocolo/protocoloCliente.h"
 #include "../common/socket.h"
+#include "login_window.h"
 
-Crear_Partida::Crear_Partida(QWidget *parent, QStackedWidget* stackedWidget) :
+Crear_Partida::Crear_Partida(QWidget *parent, QStackedWidget* stackedWidget, Login_Window* ui1) :
     QWidget(parent),
     ui(new Ui::Crear_Partida) {
     ui->setupUi(this);
     this->stackedWidget = stackedWidget;
+    this->ui1 = ui1;
     connect(ui->crear, SIGNAL(clicked()), this, SLOT(onCrearButtonClicked()));
 }
 
@@ -20,11 +23,8 @@ Crear_Partida::~Crear_Partida() {
 
 void Crear_Partida::onCrearButtonClicked() {
 
-    const std::string server = "127.0.0.1";
-    const std::string port = "8080";
-
     if (!this->ui->lineEdit->text().trimmed().isEmpty()) {
-        Socket skt(server.data(), port.data());
+        Socket skt(this->ui1->server.data(), this->ui1->port.data());
         ClienteProtocolo protocol(skt);
 
         protocol.crear_partida("mapa1.yml");

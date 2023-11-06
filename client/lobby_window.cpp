@@ -1,4 +1,5 @@
 #include <QMessageBox>
+#include <string>
 
 #include "lobby_window.h"
 #include "ui/ui_lobby_window.h"
@@ -6,11 +7,12 @@
 #include "protocolo/protocoloCliente.h"
 #include "../common/socket.h"
 
-Lobby_Window::Lobby_Window(QWidget *parent, QStackedWidget* stackedWidget) :
+Lobby_Window::Lobby_Window(QWidget *parent, QStackedWidget* stackedWidget, Login_Window* ui1) :
     QWidget(parent),
     ui(new Ui::Lobby_Window) {
     this->ui->setupUi(this);
     this->stackedWidget = stackedWidget;
+    this->ui1 = ui1;
     connect(ui->crear, SIGNAL(clicked()), this, SLOT(onCrearButtonClicked()));
     connect(ui->listar, SIGNAL(clicked()), this, SLOT(onListarButtonClicked()));
     connect(ui->unir, SIGNAL(clicked()), this, SLOT(onUnirButtonClicked()));
@@ -30,12 +32,12 @@ void Lobby_Window::onCrearButtonClicked() {
 
 void Lobby_Window::onListarButtonClicked() {
     //this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_PINCIPAL));
-    const std::string server = "127.0.0.1";
-    const std::string port = "8080";
+    //const std::string server = this->mainWindow->getServer();
+    //const std::string port = this->mainWindow->getPort();
 
     this->ui->listWidget->clear();
 
-    Socket skt(server.data(), port.data());
+    Socket skt(this->ui1->server.data(), this->ui1->port.data());
     ClienteProtocolo protocol(skt);
     protocol.pedir_lista_partidas();
     std::map<uint32_t,std::string> maps = protocol.listar_partidas();

@@ -31,7 +31,7 @@ void Lobby_Window::onCrearButtonClicked() {
 void Lobby_Window::onListarButtonClicked() {
     //this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_PINCIPAL));
     const std::string server = "127.0.0.1";
-    const std::string port = "8086";
+    const std::string port = "8080";
 
     this->ui->listWidget->clear();
 

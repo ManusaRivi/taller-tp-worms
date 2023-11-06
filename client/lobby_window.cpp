@@ -31,7 +31,7 @@ void Lobby_Window::onCrearButtonClicked() {
 void Lobby_Window::onListarButtonClicked() {
     //this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_PINCIPAL));
     const std::string server = "127.0.0.1";
-    const std::string port = "8084";
+    const std::string port = "8085";
 
     this->ui->listWidget->clear();
 
@@ -50,5 +50,9 @@ void Lobby_Window::onListarButtonClicked() {
 }
 
 void Lobby_Window::onUnirButtonClicked() {
-    this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_ESPERA));
+    if (!this->ui->listWidget->selectedItems().isEmpty()) {
+        this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_ESPERA));
+    } else {
+        QMessageBox::warning(this, "Advertencia", "Ningún elemento está seleccionado.", QMessageBox::Ok);
+    }
 }

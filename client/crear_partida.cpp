@@ -19,8 +19,8 @@ Crear_Partida::~Crear_Partida() {
 void Crear_Partida::onCrearButtonClicked() {
     
     const std::string server = "127.0.0.1";
-    const std::string port = "8084";
-    
+    const std::string port = "8085";
+
     Socket skt(server.data(), port.data());
     ClienteProtocolo protocol(skt);
 

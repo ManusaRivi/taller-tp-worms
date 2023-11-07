@@ -6,6 +6,6 @@ struct ComandoMover: public Comando{
 
     ComandoMover(uint8_t dir);
 
-    void enviar_accion(Protocolo &ptcl) override;
+    void enviar_accion(ClienteProtocolo &ptcl) override;
 
 };

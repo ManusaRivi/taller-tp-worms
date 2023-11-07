@@ -5,6 +5,6 @@ struct DetenerMovimiento:public Comando{
 
     DetenerMovimiento();
 
-    void enviar_accion(Protocolo &ptcl) override;
+    void enviar_accion(ClienteProtocolo &ptcl) override;
 
 };

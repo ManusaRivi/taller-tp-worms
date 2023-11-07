@@ -1,18 +1,28 @@
 #include "threadEnviador.h"
 
 
-Enviador::Enviador(Socket &peer, Queue<std::shared_ptr<Comando>> &queue_comandos):skt(peer),comandos_a_enviar(queue_comandos){
+Enviador::Enviador(Socket &peer, Queue<Mensaje> &queue_comandos):skt(peer),comandos_a_enviar(queue_comandos){
 
 }
 
 void Enviador::run(){
     bool was_closed = false;
-    Protocolo ptcl(skt);
+    ClienteProtocolo ptcl(skt);
     while(!was_closed){
-        std::shared_ptr<Comando> cmd = comandos_a_enviar.pop();
-        if (!cmd){
-            continue;
+        Mensaje cmd = comandos_a_enviar.pop();
+        if (cmd.tipo_comando == COMANDO::CMD_ACCION_JUGADOR){
+            std::shared_ptr<Comando> accion = cmd.cmd;
+            if(!accion){
+                continue;
+            }
+            accion.get()->enviar_accion(ptcl);
         }
-        cmd.get()->enviar_accion(ptcl);
+        if(cmd.tipo_comando == COMANDO::CMD_CREAR_PARTIDA){
+            ptcl.crear_partida(cmd.nombre_mapa);
+        }
+        if(cmd.tipo_comando == COMANDO::CMD_EMPEZAR_PARTIDA){
+            ptcl.empezar_partida();
+        }
+        
     }
 }

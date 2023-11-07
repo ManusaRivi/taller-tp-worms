@@ -4,7 +4,7 @@
 #include <iomanip>
 #include <iostream>
 
-Mapa::Mapa() : world(b2Vec2(0.0f, -10.0f)) {
+Mapa::Mapa() : world(b2Vec2(0.0f, -10.0f)){
     // Creo la viga (Suelo)
     b2BodyDef vigaBody;
 

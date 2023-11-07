@@ -5,6 +5,7 @@
 #include "../../common/queue.h"
 #include "../snapshot.h"
 #include "../protocolo/protocoloCliente.h"
+#include "../comandos/mensaje.h"
 
 
 struct Recibidor:public Thread{
@@ -12,8 +13,8 @@ struct Recibidor:public Thread{
 
     Socket &skt;
     std::atomic<bool> is_alive;
-    Queue<Snapshot> &snapshots_a_render;
-    Recibidor(Socket &peer, Queue<Snapshot> &acciones);
+    Queue<Mensaje> &snapshots_a_render;
+    Recibidor(Socket &peer, Queue<Mensaje> &acciones);
 
     void run() override;
 

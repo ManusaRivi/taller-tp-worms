@@ -1,9 +1,12 @@
 #include "Cliente.h"
 
 
-Cliente::Cliente(Socket &peer, uint8_t identificador, Queue<Snapshot>* caster, Queue<std::shared_ptr<Comando>> &acciones):skt(std::move(peer)),id(identificador),snapshots_a_enviar(caster){
+Cliente::Cliente(Socket &peer, uint8_t identificador, Queue<Mensaje>* caster, Queue<std::shared_ptr<Comando>> &acciones,Lobby &lobby_):skt(std::move(peer)),
+                                                                                                                                        id(identificador),
+                                                                                                                                        snapshots_a_enviar(caster),
+                                                                                                                                        lobby(lobby_){
 
-    this->recibidor = new Recibidor(skt, acciones,id);
+    this->recibidor = new Recibidor(skt, acciones,id,caster,lobby);
     this->enviador = new Enviador(skt,id, snapshots_a_enviar );
 
 }
@@ -21,4 +24,8 @@ bool Cliente::is_dead(){
 void Cliente::join(){
     this->recibidor->join();
     this->enviador->join();
+}
+
+uint8_t Cliente::get_id(){
+    return this->id;
 }

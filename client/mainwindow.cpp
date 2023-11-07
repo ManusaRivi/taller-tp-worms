@@ -1,41 +1,46 @@
-#include <QMessageBox>
-
 #include "mainwindow.h"
-#include "ui/ui_mainwindow.h"
+#include "login_window.h"
+#include "lobby_window.h"
+#include "lista_espera.h"
+#include "crear_partida.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{
-    ui->setupUi(this);
-    connect(ui->start, SIGNAL(clicked()), this, SLOT(onComenzarButtonClicked()));
+MainWindow::MainWindow(QWidget *parent):
+    QMainWindow(parent),
+    stackedWidget(new QStackedWidget(this)) {
+
+    setCentralWidget(this->stackedWidget);
+
+    this->ui1 = new Login_Window(parent, this->stackedWidget);
+    this->ui2 = new Lobby_Window(parent, this->stackedWidget, this->ui1);
+    this->ui3 = new Lista_Espera(parent, this->stackedWidget, this);
+    this->ui4 = new Crear_Partida(parent, this->stackedWidget, this->ui1);
+
+    this->stackedWidget->addWidget(this->ui1);
+    this->stackedWidget->addWidget(this->ui2);
+    this->stackedWidget->addWidget(this->ui3);
+    this->stackedWidget->addWidget(this->ui4);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
+MainWindow::~MainWindow() {
+    delete this->ui1;
+    delete this->ui2;
+    delete this->ui3;
+    delete this->ui4;
 }
 
-void MainWindow::onComenzarButtonClicked() {
-    QString serverText = ui->serverInput->text();
-    QString portText = ui->portInput->text();
-
-    // Validar los datos como lo desees, por ejemplo, verificar que no estén vacíos.
-    if (serverText.isEmpty() || portText.isEmpty()) {
-        QMessageBox::warning(this, "Error", "Por favor, complete ambos campos.");
-        return;
-    }
-
-    this->serverInput = serverText.toStdString();
-    this->portInput = portText.toStdString();
-
-    MainWindow::close();
-}
-
-std::string MainWindow::getServer() const {
+const std::string MainWindow::getServer() {
     return this->serverInput;
 }
 
-std::string MainWindow::getPort() const {
+const std::string MainWindow::getPort() {
     return this->portInput;
 }
+
+void MainWindow::setServer(const std::string& server) {
+    this->serverInput = server;
+}
+
+void MainWindow::setPort(const std::string& port) {
+    this->portInput = port;
+}
+

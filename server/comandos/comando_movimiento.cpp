@@ -14,7 +14,7 @@ void ComandoMovimiento::agregar_id(uint8_t id){
 void ComandoMovimiento::realizar_accion(Mapa &mapa){
     int id;
     int direccion;
-    if(responsable_id == 0x00){
+    if(id_gusano == 0x00){
         id = 0;
     }
     else{

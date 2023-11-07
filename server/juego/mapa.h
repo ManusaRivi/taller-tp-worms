@@ -26,6 +26,8 @@ private:
 
     std::vector<Worm*> worms;
 
+    
+
 public:
     Mapa();
     void Step();

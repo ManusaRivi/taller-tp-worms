@@ -3,8 +3,8 @@
 #include <iomanip>
 #include <iostream>
 
-Mapa::Mapa(b2ContactListener* contactListener) : world(b2Vec2(0.0f, -10.0f)) {
-    world.SetContactListener(contactListener);
+Mapa::Mapa() : world(b2Vec2(0.0f, -10.0f)), contactListener(GroundContactListener()) {
+    world.SetContactListener(&contactListener);
 
     vigas.push_back(new Viga (world, LARGE, 0.0f, 0.0f, 0.0f, BOUNDARY, WORM));
 

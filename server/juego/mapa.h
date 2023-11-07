@@ -6,6 +6,7 @@
 #include "../worm_wrapper.h"
 #include "./worm.h"
 #include "./viga.h"
+#include "./ground_contact_listener.h"
 
 // Copyright (c) 2019 Erin Catto
 
@@ -14,12 +15,11 @@ enum collisionCategories{
     WORM = 0x0002,
 };
 
-#define LONG_BEAM_LENGTH 3.0f
-#define LONG_BEAM_HEIGHT 0.4f
-
 class Mapa {
 private:
     b2World world;
+    GroundContactListener contactListener;
+
     const float timeStep = 1.0f / 60.0f;
     const int32 velocityIterations = 6;
     const int32 positionIterations = 2;
@@ -28,7 +28,7 @@ private:
     std::vector<Worm*> worms;
 
 public:
-    Mapa(b2ContactListener* contactListener);
+    Mapa();
     void Step();
     /*
     * Setea la velocidad del gusano dado por idx, que es el

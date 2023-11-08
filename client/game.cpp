@@ -54,26 +54,37 @@ int Game::run() try {
 		// - Si se presiona (KEYDOWN) la fecha derecha el gusano se mueve.
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
-			
-			std::shared_ptr<Comando> cmd;
 			if (event.type == SDL_QUIT) {
 				return 0;
 			} else if (event.type == SDL_KEYDOWN) {
-				switch (event.key.keysym.sym) {
-				case SDLK_ESCAPE:
+				SDL_Keycode tecla = event.key.keysym.sym;
+				if (tecla == SDLK_ESCAPE){
 					return 0;
-				case SDLK_RIGHT: 
+				} else if (tecla == SDLK_RIGHT) {
+					std::shared_ptr<Comando> cmd;
 					cmd = factory.accion_mover(GAME_MOVE_RIGHT);
-					//ptcl.enviar_movimiento(GAME_MOVE_RIGHT); 
-					break;
-				case SDLK_LEFT: 
+					Mensaje msg(cmd);
+					acciones.push(msg);
+				} else if (tecla == SDLK_LEFT) {
+					std::shared_ptr<Comando> cmd;
 					cmd = factory.accion_mover(GAME_MOVE_LEFT);
-					//ptcl.enviar_movimiento(GAME_MOVE_LEFT); 
-					break;
+					Mensaje msg(cmd);
+					acciones.push(msg);
 				}
-            }
-			Mensaje msg(cmd);
-			acciones.push(msg);
+			} else if (event.type == SDL_KEYUP) {
+				SDL_Keycode tecla = event.key.keysym.sym;
+				if (tecla == SDLK_RIGHT) {
+					std::shared_ptr<Comando> cmd;
+					cmd = factory.accion_detener();
+					Mensaje msg(cmd);
+					acciones.push(msg);
+				} else if (tecla == SDLK_LEFT) {
+					std::shared_ptr<Comando> cmd;
+					cmd = factory.accion_detener();
+					Mensaje msg(cmd);
+					acciones.push(msg);
+				}
+			}
         }
         //Ajusto la fase de la animacion de correr a la velocidad del procesador
         run_phase = (frame_ticks / 100) % 15;

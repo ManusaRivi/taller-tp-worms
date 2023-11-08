@@ -4,7 +4,7 @@ using namespace SDL2pp;
 #define GAME_MOVE_RIGHT 0x01
 #define GAME_MOVE_LEFT 0x02
 
-SDLPoc::SDLPoc(Queue<Snapshot> &queue, Queue<std::shared_ptr<Comando>> &acciones_) : snapshots(queue), acciones(acciones_) {}
+SDLPoc::SDLPoc() {}
 
 int SDLPoc::run() try {
 	// Inicializo SDL
@@ -69,16 +69,13 @@ int SDLPoc::run() try {
 				case SDLK_ESCAPE:
 					return 0;
 				case SDLK_RIGHT: 
-					cmd = factory.accion_mover(GAME_MOVE_RIGHT);
-					//ptcl.enviar_movimiento(GAME_MOVE_RIGHT); 
-					break;
+					is_running = true;
+					mira_derecha = true;
 				case SDLK_LEFT: 
-					cmd = factory.accion_mover(GAME_MOVE_LEFT);
-					//ptcl.enviar_movimiento(GAME_MOVE_LEFT); 
-					break;
+					is_running = true;
+					mira_derecha = false;
 				}
             }
-			acciones.push(std::move(cmd));
         }
 
         // Actualizar el estado del juego en este frame:

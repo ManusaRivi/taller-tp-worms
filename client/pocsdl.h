@@ -13,12 +13,8 @@
 #include <SDL2pp/SDL2pp.hh>
 
 class SDLPoc {
-
-    FactoryComandos factory;
-        Queue<Snapshot> &snapshots;
-    Queue<std::shared_ptr<Comando>> &acciones;
     public:
-    SDLPoc(Queue<Snapshot> &snapshots, Queue<std::shared_ptr<Comando>> &acciones);
+    SDLPoc();
     int run();
 };
 

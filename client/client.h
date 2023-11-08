@@ -5,7 +5,7 @@
 
 
 #include "login.h"
-#include "game.h"
+#include "game/game.h"
 #include "protocolo/protocoloCliente.h"
 #include "threads/containerThreads.h"
 

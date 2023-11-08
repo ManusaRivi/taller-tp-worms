@@ -1,6 +1,6 @@
 #include "protocoloCliente.h"
 #include "../../common/socket.h"
-#include "../snapshot.h"
+#include "../game/comunicacion/snapshot.h"
 
 #define MOVER_GUSANO 0x01
 #define DETENER_MOVIMIENTO 0x02

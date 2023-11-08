@@ -3,7 +3,7 @@
 #include "../../common/socket.h"
 #include "../../common/thread.h"
 #include "../../common/queue.h"
-#include "../snapshot.h"
+#include "../game/comunicacion/snapshot.h"
 #include "../protocolo/protocoloCliente.h"
 #include "../comandos/mensaje.h"
 

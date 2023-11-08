@@ -1,7 +1,4 @@
 #include "client.h"
-#include "game.h"
-#include "login.h"
-#include "pocsdl.h"
 
 
 Client::Client(int argc, char** argv) : login(argc, argv) {}

@@ -2,7 +2,7 @@
 #define _PROTOCOLO
 
 #include "../../common/socket.h"
-#include "../snapshot.h"
+#include "../game/comunicacion/snapshot.h"
 #include "../../common/protocolo.h"
 #include "../comandos/mensaje.h"
 

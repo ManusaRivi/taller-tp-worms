@@ -2,7 +2,7 @@
 #include "../../common/socket.h"
 #include "../../common/queue.h"
 #include "../Cliente.h"
-#include "../../client/snapshot.h"
+#include "../snapshot.h"
 #include "../monitorBroadcaster.h"
 #include "../lobby.h"
 

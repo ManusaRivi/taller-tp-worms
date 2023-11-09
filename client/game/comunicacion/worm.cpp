@@ -5,10 +5,10 @@ Worm::Worm(std::vector<float> position, int dir, int status):
 
 std::string Worm::determine_texture(int status) {
 	switch (status) {
-	case 0:
+	case STATUS_IDLE:
 		return "wwalk";
 	
-	case 1:
+	case STATUS_MOVING:
 		return "wwalk";
 
 	default:

@@ -2,7 +2,9 @@
 #define WORM_H
 
 #include <vector>
+#include <string>
 #include <SDL2pp/SDL2pp.hh>
+#include "../Texturas/texture_manager.h"
 
 using namespace SDL2pp;
 
@@ -20,6 +22,8 @@ class Worm {
     int dir;                    // Despues quizas cambie a un angulo
     int status;                 
     
+    std::string determine_texture(int status);
+
     public:
     //Constructor
     Worm(std::vector<float> position, int dir, int status);
@@ -28,7 +32,7 @@ class Worm {
     //Y reciba un gestor de textura para pedirle la textura a mostrar
     void present(int& run_phase,
                 Renderer& renderer,
-                Texture& wwalk,
+                TextureManager& texture_manager,
                 int& vcenter);
 };
 

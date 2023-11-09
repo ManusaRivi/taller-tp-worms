@@ -25,17 +25,8 @@ int Game::run() try {
     // Creo un renderizador default
     Renderer renderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    /*Esto luego estara en un gestor de texturas*/
-/*******************************************************************************/
-    // Agrego el sprite del gusano caminando como una textura
-    // Ademas, pongo como color transparente el color de fondo de la imagen
-    // (Que tiene codigo RGB (128, 128, 192, 255))
-	SDL_Color colorKey = {128, 128, 192, 255};
-	Surface surface(DATA_PATH "/wwalk.png");
-	Uint32 key = SDL_MapRGB(surface.Get()->format, colorKey.r, colorKey.g, colorKey.b);
-	surface.SetColorKey(true, key);
-    Texture wwalk(renderer, surface);
-/*******************************************************************************/
+    TextureManager texture_manager(renderer);
+
     int run_phase = -1;      // Fase de la animacion para los worms (ver como arreglar)
 
     //unsigned int prev_ticks = SDL_GetTicks();
@@ -99,14 +90,14 @@ int Game::run() try {
         Mensaje snap = snapshots.pop();
 		if (snap.tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
 			Snapshot snapshot = snap.snap;
-			snapshot.present(run_phase, renderer, wwalk, vcenter);
+			//Grafico la snapshot
+			snapshot.present(run_phase, renderer, texture_manager, vcenter);
 		}
-        //Grafico la snapshot
         
 
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
         // El 100% del CPU.
-		SDL_Delay(1);
+		usleep(33333);
     }
 
 

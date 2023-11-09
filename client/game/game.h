@@ -2,8 +2,10 @@
 #define GAME_H
 
 #include <SDL2pp/SDL2pp.hh>
+#include "Texturas/texture_manager.h"
 #include "../protocolo/protocoloCliente.h"
 #include <vector>
+#include <unistd.h>
 #include "../../common/queue.h"
 #include "comunicacion/snapshot.h"
 #include "../comandos/comando.h"

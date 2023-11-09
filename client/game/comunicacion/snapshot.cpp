@@ -9,13 +9,13 @@ void Snapshot::add_worm(Worm worm) {
 
 void Snapshot::present(int run_phase,
                         Renderer& renderer,
-                        Texture& wwalk,
+                        TextureManager& texture_manager,
                         int& vcenter){
     
 
     //Esto hay que encontrar la manera de cambiarlo (lo la run_phase)
     for (auto& worm : worms) {
-        worm.present(run_phase, renderer, wwalk, vcenter);
+        worm.present(run_phase, renderer, texture_manager, vcenter);
     }
 
     renderer.Present();

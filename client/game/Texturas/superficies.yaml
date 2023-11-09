@@ -1,0 +1,7 @@
+#FORMATO:
+#-  nombre: <nombre>
+#   ruta: <ruta>
+
+#Gusano
+- nombre: wwalk
+  ruta: data/sprites/wwalk.png

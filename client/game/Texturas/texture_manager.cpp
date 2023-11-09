@@ -18,11 +18,11 @@ TextureManager::TextureManager(Renderer& renderer) {
 
         Surface surface(rute);
         Uint32 key = SDL_MapRGB(surface.Get()->format, colorKey.r, colorKey.g, colorKey.b);
-        
-        texturas[name] = Texture(renderer, surface);
+        surface.SetColorKey(true, key);
+        textures.emplace(name, Texture(renderer, surface));
     }
 }
 
 Texture& TextureManager::get_texture(std::string& texture_name) {
-    return texturas[texture_name];
+    return textures.at(texture_name);
 }

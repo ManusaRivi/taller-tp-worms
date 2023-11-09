@@ -8,7 +8,7 @@
 
 class TextureManager {
     private:
-    std::map<std::string, SDL2pp::Texture> texturas;
+    std::map<std::string, SDL2pp::Texture> textures;
 
     public:
     TextureManager(SDL2pp::Renderer& renderer);

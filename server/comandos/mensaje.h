@@ -4,6 +4,7 @@
 #include "../../common/queue.h"
 #include "comando.h"
 #include <map>
+#include "../mapContainer.h"
 
 #define CREAR_PARTIDA 0x01
 #define LISTAR_PARTIDAS 0x02
@@ -11,7 +12,7 @@
 #define ACCION_JUGADOR 0x04
 #define SNAPSHOT 0x05
 #define UNIRSE_PARTIDA 0x06
-
+#define LISTAR_MAPAS 0x07
 
 enum COMANDO{
     CMD_CREAR_PARTIDA = CREAR_PARTIDA,
@@ -19,7 +20,8 @@ enum COMANDO{
     CMD_EMPEZAR_PARTIDA = EMPEZAR_PARTIDA,
     CMD_ACCION_JUGADOR = ACCION_JUGADOR,
     CMD_ENVIAR_SNAPSHOT = SNAPSHOT,
-    CMD_UNIRSE_PARTIDA = UNIRSE_PARTIDA
+    CMD_UNIRSE_PARTIDA = UNIRSE_PARTIDA,
+    CMD_LISTAR_MAPAS = LISTAR_MAPAS
 };
 
 struct Mensaje{
@@ -32,11 +34,12 @@ struct Mensaje{
     std::string nombre_mapa;
     uint8_t tipo_comando;
     uint8_t id_partida_a_unirse;
-    
+    std::map<uint32_t,std::string> lista_mapas_;
 
     Mensaje(Snapshot snap);
 
     Mensaje(std::map<uint32_t,std::string> lista_mapas);
+    Mensaje(std::map<uint32_t,std::string> lista_mapas_, bool);
 
     Mensaje(std::shared_ptr<Comando> cmd);
 

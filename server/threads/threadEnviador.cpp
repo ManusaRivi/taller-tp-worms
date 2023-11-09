@@ -23,6 +23,10 @@ void Enviador::run(){
             printf("Se envia mensaje de que la partida empezo\n");
             ptcl.check_partida_empezada();
         }
+        if(msg.tipo_comando == COMANDO::CMD_LISTAR_MAPAS){
+            printf("En el enviador se estan por mandar mapas\n");
+            ptcl.enviar_mapas(msg.lista_mapas_);
+        }
         
     }
 }

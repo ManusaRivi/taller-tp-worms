@@ -26,6 +26,7 @@ struct Lobby{
     void start_lobby();
 
     void listar_partidas(Queue<Mensaje>* snapshots);
+    void listar_mapas(Queue<Mensaje>* snapshots);
 
     Queue<std::shared_ptr<Comando>> &get_queue(uint32_t id);
 

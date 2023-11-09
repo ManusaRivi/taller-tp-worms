@@ -1,13 +1,13 @@
 #include <QMessageBox>
 #include <QString>
+#include <map>
 #include <string>
+#include <QAbstractButton>
+#include <QAbstractItemView>
 
 #include "crear_partida.h"
 #include "ui/ui_crear_partida.h"
 #include "mainwindow.h"
-#include "protocolo/protocoloCliente.h"
-#include "../common/socket.h"
-#include "login_window.h"
 
 Crear_Partida::Crear_Partida(QWidget *parent, QStackedWidget* stackedWidget, Login_Window* ui1) :
     QWidget(parent),
@@ -22,18 +22,22 @@ Crear_Partida::~Crear_Partida() {
     delete ui;
 }
 
-void Crear_Partida::onCrearButtonClicked() {
+void Crear_Partida::listarMapas() {
+    ClienteProtocolo protocol(*this->ui1->skt);
+    protocol.pedir_lista_mapas();
+    std::map<uint32_t,std::string> maps = protocol.listar_mapas();
+    
+    ui->comboBox->clear();
 
-    if (!this->ui->lineEdit->text().trimmed().isEmpty()) {
-        Socket skt(this->ui1->server.data(), this->ui1->port.data());
-        ClienteProtocolo protocol(skt);
-
-        QString nombreMapa = this->ui->lineEdit->text();
-
-        protocol.crear_partida(nombreMapa.toStdString());
-
-        this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_LOBBY));
-    } else {
-        QMessageBox::warning(this, "Advertencia", "Debe colocar un nombre.", QMessageBox::Ok);
+    for (const auto& pair : maps) {
+        ui->comboBox->addItem(QString::fromStdString(pair.second));
     }
+    ui->comboBox->showPopup();
+}
+
+void Crear_Partida::onCrearButtonClicked() {
+    ClienteProtocolo protocol(*this->ui1->skt);
+    QString nombreMapa = ui->comboBox->currentText();
+    protocol.crear_partida(nombreMapa.toStdString());
+    this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_LOBBY));
 }

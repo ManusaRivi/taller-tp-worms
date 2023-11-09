@@ -21,7 +21,7 @@ struct ServerProtocolo:public Protocolo{
     void enviar_snapshot(Snapshot shot);
 
     void enviar_partidas(std::map<uint32_t,std::string> lista_mapas);
-    
+    void enviar_mapas(std::map<uint32_t,std::string> map);
     void partida_empezada();
 
     void check_partida_empezada();

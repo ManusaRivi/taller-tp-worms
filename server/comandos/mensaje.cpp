@@ -21,6 +21,11 @@ Mensaje::Mensaje():snap(std::vector<std::vector<int>>()),tipo_comando(COMANDO::C
 
 }
 
+Mensaje::Mensaje(std::map<uint32_t,std::string> mapas, bool b):snap(std::vector<std::vector<int>>()),tipo_comando(COMANDO::CMD_LISTAR_MAPAS),lista_mapas_(mapas){
+
+}
+
+
 Mensaje::Mensaje(uint8_t tipo):snap(std::vector<std::vector<int>>()),tipo_comando(tipo){}
 
 Mensaje::Mensaje(uint8_t tipo,uint8_t id):snap(std::vector<std::vector<int>>()),tipo_comando(tipo),id_partida_a_unirse(id){

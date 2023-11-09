@@ -5,7 +5,7 @@
 #define MOVER_GUSANO 0x01
 #define DETENER_MOVIMIENTO 0x02
 
-ClienteProtocolo::ClienteProtocolo(Socket &peer):Protocolo(peer) {
+ClienteProtocolo::ClienteProtocolo(Socket& peer):Protocolo(peer) {
             was_closed = false;
         }
 
@@ -42,6 +42,7 @@ Mensaje ClienteProtocolo::recibir_snapshot(){
         Mensaje msg(map);
         return msg;
     }
+
     if (was_closed){
         return sn;
     }
@@ -82,6 +83,17 @@ void ClienteProtocolo::empezar_partida(){
 
 std::map<uint32_t,std::string> ClienteProtocolo::listar_partidas(){
     std::map<uint32_t,std::string> map;
+    uint16_t size = recibir_2_bytes();
+    for(uint16_t i = 0; i < size; i++ ){
+        uint32_t id_mapa = recibir_4_bytes();
+        std::string nombre_mapa = recibir_string();
+        map.insert({id_mapa,nombre_mapa});
+    }
+    return map;
+}
+
+std::map<uint32_t,std::string> ClienteProtocolo::listar_mapas(){
+    std::map<uint32_t,std::string> map;
     
     uint16_t size = recibir_2_bytes();
     uint32_t id_mapa = 1;
@@ -100,6 +112,11 @@ std::map<uint32_t,std::string> ClienteProtocolo::listar_partidas(){
 
 void ClienteProtocolo::pedir_lista_partidas(){
     uint8_t cmd = CODIGO_LISTAR_PARTIDA;
+    enviar_1_byte(cmd);
+}
+
+void ClienteProtocolo::pedir_lista_mapas(){
+    uint8_t cmd = CODIGO_LISTAR_MAPAS;
     enviar_1_byte(cmd);
 }
 

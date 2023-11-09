@@ -1,6 +1,5 @@
 #include "mensaje.h"
 
-
 Mensaje::Mensaje(Snapshot snap_):snap(snap_),tipo_comando(COMANDO::CMD_ENVIAR_SNAPSHOT){
 
 }

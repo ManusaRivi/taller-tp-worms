@@ -12,7 +12,7 @@
 #define CODIGO_LISTAR_PARTIDA 0x04
 #define CODIGO_PARTIDA_POR_COMENZAR 0x05
 #define CODIGO_UNIRSE_PARTIDA 0x06
-
+#define CODIGO_LISTAR_MAPAS 0x07
 
 #define SIZE_DOS 2
 #define SIZE_UNO 1
@@ -22,9 +22,9 @@
 
 struct Protocolo{
 
-    Socket &skt;
+    Socket& skt;
 
-    Protocolo(Socket &skt);
+    Protocolo(Socket& skt);
 
     void enviar_4_bytes_float(float num);
 

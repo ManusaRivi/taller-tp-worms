@@ -32,6 +32,20 @@ void Lobby::start_lobby(){
 }
 
 void Lobby::listar_partidas(Queue<Mensaje>* snapshots){
+
+    std::map<uint32_t,std::string> lista;
+    for (auto i = lista_partidas.begin(); i != lista_partidas.end(); i++){
+        std::string nombre = i->second->get_nombre();
+        std::cout << "El nombre de la partida es : " << nombre << std::endl;
+        lista.insert({i->first,nombre});
+    }
+    Snapshot snap(lista);
+    Mensaje msg(lista);
+    snapshots->push(msg);
+    
+}
+
+void Lobby::listar_mapas(Queue<Mensaje>* snapshots){
     MapContainer mapContainer;
     std::map<uint32_t,std::string> lista;
     int id = 1;
@@ -43,17 +57,8 @@ void Lobby::listar_partidas(Queue<Mensaje>* snapshots){
         lista.insert({id, nombre});
         id++;
     }
-    Mensaje msg(lista);
+    Mensaje msg(lista, true);
     snapshots->push(msg);
-    /*std::map<uint32_t,std::string> lista;
-    for (auto i = lista_partidas.begin(); i != lista_partidas.end(); i++){
-        std::string nombre = i->second->get_nombre();
-        std::cout << "El nombre de la partida es : " << nombre << std::endl;
-        lista.insert({i->first,nombre});
-    }
-    Snapshot snap(lista);
-    Mensaje msg(lista);
-    snapshots->push(msg);*/
 }
 
 Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t id_pedido){

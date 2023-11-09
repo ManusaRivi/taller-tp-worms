@@ -30,8 +30,10 @@ struct ClienteProtocolo:public Protocolo{
     void empezar_partida();
 
     std::map<uint32_t,std::string> listar_partidas();
+    std::map<uint32_t,std::string> listar_mapas();
 
     void pedir_lista_partidas();
+    void pedir_lista_mapas();
 
     void unirse_partida(std::string id_paritda);
 

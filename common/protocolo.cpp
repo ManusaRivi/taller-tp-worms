@@ -1,7 +1,7 @@
 #include "protocolo.h"
 
 
-Protocolo::Protocolo(Socket &skt_):skt(skt_){
+Protocolo::Protocolo(Socket& skt_):skt(skt_){
 
 }
 

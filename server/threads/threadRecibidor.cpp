@@ -45,7 +45,10 @@ void Recibidor::run(){
             this->id_partida = msg.id_partida_a_unirse;
             std::cout << "El id del gusano al unirse es " << unsigned(id_gusano) << std::endl;
         }
-
+        if(msg.tipo_mensaje() == COMANDO::CMD_LISTAR_MAPAS) {
+            printf("Se recibe pedido de listar mapas en recibidor\n");
+            lobby.listar_mapas(snapshots);
+        }
 
     }
     std::cout << "Se desconecto el cliente" << std::endl;

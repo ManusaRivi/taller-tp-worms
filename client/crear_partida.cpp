@@ -36,8 +36,15 @@ void Crear_Partida::listarMapas() {
 }
 
 void Crear_Partida::onCrearButtonClicked() {
+
+    if (ui->comboBox->currentText().isEmpty() || ui->lineEdit->text().isEmpty()) {
+        QMessageBox::warning(this, "Advertencia", "Por favor, selecciona un mapa y proporciona un nombre para la partida.", QMessageBox::Ok);
+        return;
+    }
+
     ClienteProtocolo protocol(*this->ui1->skt);
     QString nombreMapa = ui->comboBox->currentText();
     protocol.crear_partida(nombreMapa.toStdString());
     this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_LOBBY));
 }
+

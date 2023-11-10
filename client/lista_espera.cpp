@@ -17,7 +17,6 @@ Lista_Espera::~Lista_Espera() {
 }
 
 void Lista_Espera::onComenzarButtonClicked() {
-    //this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_LOBBY));
     ClienteProtocolo protocol(*this->ui1->skt);
     protocol.empezar_partida();
     this->mainWindow->close();

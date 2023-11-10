@@ -12,3 +12,7 @@ std::shared_ptr<ComandoMovimiento> FactoryComandos::comando_movimiento(uint8_t d
 //         return std::make_shared<CrearPartida>(tipo,nombre);
 // }
 
+std::shared_ptr<DetenerMovimiento> FactoryComandos::comando_detener(){
+        return std::make_shared<DetenerMovimiento>();
+}
+

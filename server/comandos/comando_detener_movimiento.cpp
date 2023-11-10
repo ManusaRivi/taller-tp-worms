@@ -1,7 +1,7 @@
 #include "comando_detener_movimiento.h"
 
 
-DetenerMovimiento::DetenerMovimiento(uint8_t id): responsable_id(id){
+DetenerMovimiento::DetenerMovimiento(): responsable_id(0){
 
 }
 
@@ -10,8 +10,9 @@ DetenerMovimiento::DetenerMovimiento(uint8_t id): responsable_id(id){
     }
 
     void DetenerMovimiento::realizar_accion(Mapa &mapa){
+        printf("Se ejecuta la accion de detener el worm\n");
         int id;
-        if (responsable_id == 0x00){
+        if (id_gusano == 0x00){
             id = 0;
         }
         else{

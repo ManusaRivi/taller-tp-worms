@@ -10,13 +10,23 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint8_t id){
     uint8_t buf;
     skt.recvall(&buf,1,&was_closed);
     uint8_t cmd;
-    if (buf == CODIGO_MOVIMIENTO){
-        printf("Se recigbe un codigo de movimiento\n");
+
+    if (buf == CODIGO_MOVER){
+        printf("Se recibe un codigo de mover el gusano\n");
         skt.recvall(&cmd,1,&was_closed);
         comando = factory.comando_movimiento(cmd,id);
         Mensaje msg(comando);
         return msg;
     }
+
+    if (buf == CODIGO_DETENER_MOVIMIENTO){
+        printf("se recibe un codigo de detener el gusano\n");
+        comando = factory.comando_detener();
+        Mensaje msg(comando);
+        return msg;
+    }
+
+
     if (buf == CODIGO_CREAR_PARTIDA){
         std::string nombre = recibir_string();
         Mensaje msg(nombre);

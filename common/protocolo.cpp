@@ -55,11 +55,21 @@ uint32_t Protocolo::recibir_4_bytes(){
 }
 
 uint16_t Protocolo::recibir_2_bytes(){
-     bool was_closed = false;
+    bool was_closed = false;
     std::vector<uint8_t> buf(2,0);
     skt.recvall(buf.data(),2, &was_closed);
     uint16_t num;
     memcpy(&num,buf.data(),2);
+    //num = ntohs(num);
+    return num;
+}
+
+uint8_t Protocolo::recibir_1_byte(){
+    bool was_closed = false;
+    std::vector<uint8_t> buf(1,0);
+    skt.recvall(buf.data(),1, &was_closed);
+    uint16_t num;
+    memcpy(&num,buf.data(),1);
     //num = ntohs(num);
     return num;
 }

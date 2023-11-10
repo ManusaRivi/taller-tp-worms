@@ -62,7 +62,7 @@ Mensaje ClienteProtocolo::recibir_snapshot(){
         pos.push_back(xpos);
         pos.push_back(ypos);
         //std::cout << " Y Se transforma en la posicion (X, Y) =  (" << xpos << " , " << ypos <<") (en metros)" <<std::endl;
-        Worm worm(pos,1,0);
+        Worm worm(pos,1,1);
         sn.add_worm(worm);
     }
     Mensaje msg(sn);

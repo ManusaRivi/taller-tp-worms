@@ -30,7 +30,7 @@ class Worm {
 
     //La idea es que despues deje de recibir una unica textura
     //Y reciba un gestor de textura para pedirle la textura a mostrar
-    void present(int& run_phase,
+    void present(int& it,
                 Renderer& renderer,
                 TextureManager& texture_manager,
                 int& vcenter);

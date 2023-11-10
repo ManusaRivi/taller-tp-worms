@@ -27,18 +27,14 @@ int Game::run() try {
 
     TextureManager texture_manager(renderer);
 
-    int run_phase = -1;      // Fase de la animacion para los worms (ver como arreglar)
+	// Tomo el tiempo actual
+    unsigned int t1 = SDL_GetTicks();
 
-    //unsigned int prev_ticks = SDL_GetTicks();
+	// Numero de frame de la iteracion de las animaciones
+	int it = 0; 
 
     // Loop principal
 	while (1) {
-		// Timing: calcula la diferencia entre este frame y el anterior
-		// en milisegundos
-		unsigned int frame_ticks = SDL_GetTicks();
-		//unsigned int frame_delta = frame_ticks - prev_ticks;
-		//prev_ticks = frame_ticks;
-
         // Procesamiento de eventos:
 		// - Si la ventana se cierra o se presiona Esc
 		//   cerrar la aplicacion.
@@ -77,9 +73,6 @@ int Game::run() try {
 				}
 			}
         }
-        //Ajusto la fase de la animacion de correr a la velocidad del procesador
-        run_phase = (frame_ticks / 100) % 15;
-
         // La coordenada en Y del centro de la ventana
         int vcenter = renderer.GetOutputHeight() / 2;
 
@@ -91,13 +84,28 @@ int Game::run() try {
 		if (snap.tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
 			Snapshot snapshot = snap.snap;
 			//Grafico la snapshot
-			snapshot.present(run_phase, renderer, texture_manager, vcenter);
+			snapshot.present(it, renderer, texture_manager, vcenter);
 		}
         
+		// Timing: calcula la diferencia entre este frame y el anterior
+		// en milisegundos
+		// If behind, drop & rest.
+		unsigned int t2 = SDL_GetTicks();
+		int rest = FRAME_RATE - (t2 - t1);
+		
+		if (rest < 0) {
+			int behind = -rest;
+			rest = FRAME_RATE - behind % FRAME_RATE;
+			int lost = behind + rest;
+			t1 += lost;
+			it += int(lost / FRAME_RATE);
+		}
 
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
         // El 100% del CPU.
-		usleep(33333);
+		SDL_Delay(rest);
+		t1 += FRAME_RATE;
+		it += 1;
     }
 
 

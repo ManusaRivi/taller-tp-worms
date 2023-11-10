@@ -16,14 +16,16 @@ std::string Worm::determine_texture(int status) {
 	}
 }
 
-void Worm::present(int& run_phase, Renderer& renderer, TextureManager& texture_manager, int& vcenter) {
+void Worm::present(int& it, Renderer& renderer, TextureManager& texture_manager, int& vcenter) {
     //Seteo como graficar los sprites:
     //Si esta caminando, que frame ejecuto
+	// La animacion de caminar tiene 15 frames
+	int frames = 15;
     //Los sprites son de 60x60
 		int src_x = 0, src_y = 0; // Por defecto el sprite quieto
 		if (status == STATUS_MOVING) {
 			src_x = 0;
-			src_y = 60 * run_phase;
+			src_y = 60 * (it % frames);
 		}
 
     //Voltear el sprite dependiendo para que lado mire

@@ -1,6 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+#define FRAME_RATE 33
+
 #include <SDL2pp/SDL2pp.hh>
 #include "Texturas/texture_manager.h"
 #include "../protocolo/protocoloCliente.h"

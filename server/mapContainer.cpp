@@ -26,7 +26,7 @@ void MapContainer::getMaps() {
                     YAML::Node config = YAML::LoadFile(archivoYAML);
 
                     // Extraer los datos del archivo YAML
-                    //std::string nombreMapa = config["mapa"]["nombre"].as<std::string>();
+                    std::string nombreMapa = config["mapa"]["nombre"].as<std::string>();
                     //int ancho = config["mapa"]["tamaño"]["ancho"].as<int>();
                     //int alto = config["mapa"]["tamaño"]["alto"].as<int>();
 
@@ -34,7 +34,7 @@ void MapContainer::getMaps() {
                     Mapa* mapa = new Mapa(); // ACA HAY QUE INICIALIZAR EL MAPA CON TODOS LOS DATOS
 
                     // Agrega el mapa al MapContainer utilizando el nombre del archivo como ID
-                    this->addMap(entry.path().filename().string(), mapa);
+                    this->addMap(nombreMapa, mapa);
                 } catch (const std::exception& e) {
                     std::cerr << "Error al leer el archivo YAML: " << e.what() << std::endl;
                 }

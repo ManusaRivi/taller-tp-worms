@@ -31,8 +31,11 @@ int Game::run() try {
     unsigned int t1 = SDL_GetTicks();
 
 	// Numero de frame de la iteracion de las animaciones
-	int it = 0; 
+	int it = 0;
 
+	//Variables de teclas:
+	bool right_press = false;
+	bool left_press = false;
     // Loop principal
 	while (1) {
         // Procesamiento de eventos:
@@ -47,12 +50,14 @@ int Game::run() try {
 				SDL_Keycode tecla = event.key.keysym.sym;
 				if (tecla == SDLK_ESCAPE){
 					return 0;
-				} else if (tecla == SDLK_RIGHT) {
+				} else if (tecla == SDLK_RIGHT && !right_press) {
+					right_press = true;
 					std::shared_ptr<Comando> cmd;
 					cmd = factory.accion_mover(GAME_MOVE_RIGHT);
 					Mensaje msg(cmd);
 					acciones.push(msg);
-				} else if (tecla == SDLK_LEFT) {
+				} else if (tecla == SDLK_LEFT && !left_press) {
+					left_press = true;
 					std::shared_ptr<Comando> cmd;
 					cmd = factory.accion_mover(GAME_MOVE_LEFT);
 					Mensaje msg(cmd);
@@ -61,11 +66,13 @@ int Game::run() try {
 			} else if (event.type == SDL_KEYUP) {
 				SDL_Keycode tecla = event.key.keysym.sym;
 				if (tecla == SDLK_RIGHT) {
+					right_press = false;
 					std::shared_ptr<Comando> cmd;
 					cmd = factory.accion_detener();
 					Mensaje msg(cmd);
 					acciones.push(msg);
 				} else if (tecla == SDLK_LEFT) {
+					left_press = false;
 					std::shared_ptr<Comando> cmd;
 					cmd = factory.accion_detener();
 					Mensaje msg(cmd);

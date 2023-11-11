@@ -21,7 +21,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QLabel#label_3 {
-	border-image: url(&quot;:res/worms_background.png&quot;)
+	border-image: url(&quot;:imagenes/worms_background.png&quot;)
 }
 
 /* Estilo para QLineEdit */

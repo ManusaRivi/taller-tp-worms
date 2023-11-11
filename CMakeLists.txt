@@ -55,7 +55,7 @@ add_library(editor_lib STATIC ${EDITOR})
 add_library(common_lib STATIC ${COMMON})
 
 add_executable(server "server/main.cpp")
-add_executable(client "client/main.cpp")
+add_executable(client "client/main.cpp" "client/res/resources.qrc")
 add_executable(editor "editor/main.cpp")
 
 # Va a haber otro ejecutable para el editor.

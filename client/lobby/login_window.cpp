@@ -34,7 +34,13 @@ void Login_Window::onComenzarButtonClicked() {
     const char* serverChar = server.c_str();
     const char* portChar = port.c_str();
 
-    this->skt = new Socket(serverChar, portChar);
+    try {
+        this->skt = new Socket(serverChar, portChar);
+    } catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        QMessageBox::warning(this, "Advertencia", "Servidor o puerto incorrecto.", QMessageBox::Ok);
+	    return;
+    }
     
     this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_LOBBY));
 }

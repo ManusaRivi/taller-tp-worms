@@ -57,12 +57,14 @@ Mensaje ClienteProtocolo::recibir_snapshot(){
         float y_pos = worm_format[2];
         float xpos = x_pos/100;
         float ypos = y_pos/100;
-        //std::cout << " ID = [ " << unsigned(worm_format[0]) <<"] (X, Y) =  (" << x_pos << " , " << y_pos<< ") (en centimetros)"<<std::endl;
         std::vector<float> pos;
         pos.push_back(xpos);
         pos.push_back(ypos);
-        //std::cout << " Y Se transforma en la posicion (X, Y) =  (" << xpos << " , " << ypos <<") (en metros)" <<std::endl;
-        Worm worm(pos,1,1);
+
+        //Creo el estado del gusano
+        std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(1, 1 == 1, 0.0, 0.0);
+
+        Worm worm(pos, std::move(state));
         sn.add_worm(worm);
     }
     Mensaje msg(sn);

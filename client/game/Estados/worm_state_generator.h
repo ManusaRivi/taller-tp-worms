@@ -3,6 +3,8 @@
 
 #include <memory>
 #include "Gusano/worm_state.h"
+#include "Gusano/w_idle.h"
+#include "Gusano/w_walk.h"
 
 #define WORM_STATE_IDLE 0
 #define WORM_STATE_WALKING 1

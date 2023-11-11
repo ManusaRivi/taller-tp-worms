@@ -5,6 +5,7 @@
 #include "../game/comunicacion/snapshot.h"
 #include "../../common/protocolo.h"
 #include "../comandos/mensaje.h"
+#include "../game/Estados/worm_state_generator.h"
 
 #include <iostream>
 #include <string>

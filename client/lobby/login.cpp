@@ -10,6 +10,7 @@ Login::Login(int argc, char** argv, Socket* skt) : app(argc, argv), mainWindow(n
 Login::~Login() {}
 
 int Login::start() {
+    this->mainWindow.setWindowTitle("Worms");
     this->mainWindow.show();
     return this->app.exec();
 }

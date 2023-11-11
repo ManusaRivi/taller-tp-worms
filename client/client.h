@@ -4,7 +4,7 @@
 #include <QApplication>
 
 
-#include "login.h"
+#include "lobby/login.h"
 #include "game/game.h"
 #include "protocolo/protocoloCliente.h"
 #include "threads/containerThreads.h"

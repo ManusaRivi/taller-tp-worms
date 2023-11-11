@@ -34,6 +34,8 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 include_directories(${Qt5Widgets_INCLUDE_DIRS})
 include_directories(${Qt5Core_INCLUDE_DIRS})
 
+set(RESOURCES "client/lobby/res/resources.qrc")
+
 #file(GLOB_RECURSE SERVER ./server/*.cpp)
 
 
@@ -55,7 +57,7 @@ add_library(editor_lib STATIC ${EDITOR})
 add_library(common_lib STATIC ${COMMON})
 
 add_executable(server "server/main.cpp")
-add_executable(client "client/main.cpp" "client/res/resources.qrc")
+add_executable(client "client/main.cpp" ${RESOURCES})
 add_executable(editor "editor/main.cpp")
 
 # Va a haber otro ejecutable para el editor.

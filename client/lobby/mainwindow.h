@@ -10,7 +10,7 @@
 #include "lista_espera.h"
 #include "crear_partida.h"
 
-#include "../common/socket.h"
+#include "../../common/socket.h"
 
 #define PANTALLA_PINCIPAL   0
 #define PANTALLA_LOBBY      1

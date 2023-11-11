@@ -6,8 +6,8 @@
 #include <QMainWindow>
 #include <string>
 
-#include "../common/socket.h"
-#include "protocolo/protocoloCliente.h"
+#include "../../common/socket.h"
+#include "../protocolo/protocoloCliente.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Login_Window; }

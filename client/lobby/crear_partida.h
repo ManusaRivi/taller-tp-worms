@@ -6,7 +6,7 @@
 #include <string>
 
 #include "login_window.h"
-#include "protocolo/protocoloCliente.h"
+#include "../protocolo/protocoloCliente.h"
 
 namespace Ui {
 class Crear_Partida;

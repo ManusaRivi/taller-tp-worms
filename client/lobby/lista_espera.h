@@ -6,7 +6,7 @@
 #include <QMainWindow>
 
 #include "login_window.h"
-#include "protocolo/protocoloCliente.h"
+#include "../protocolo/protocoloCliente.h"
 
 namespace Ui {
 class Lista_Espera;

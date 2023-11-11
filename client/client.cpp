@@ -1,7 +1,4 @@
 #include "client.h"
-#include "game.h"
-#include "login.h"
-#include "pocsdl.h"
 
 
 Client::Client(int argc, char** argv) : skt(nullptr), login(argc, argv, this->skt) {}
@@ -15,15 +12,14 @@ int Client::iniciar() {
     try {
         this->login.start();
 
-        //const std::string server = "127.0.0.1";
-        //const std::string port = "8080";
-
         Queue<Mensaje> queue_comandos; //TODO: Cambiar a Unique ptr
         Queue<Mensaje> queue_snapshots;
 
         //Socket skt(server.data(),port.data());
 
-        crear_partida();
+        this->skt = this->login.getSocket();
+
+        //crear_partida();
         containerThreads container(*this->skt, queue_snapshots, queue_comandos);
 
         //Protocolo prot(server, port);

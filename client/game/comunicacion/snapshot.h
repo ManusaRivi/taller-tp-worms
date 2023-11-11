@@ -3,6 +3,7 @@
 
 #include <SDL2pp/SDL2pp.hh>
 #include <vector>
+#include "../Texturas/texture_manager.h"
 #include "worm.h"
 
 using namespace SDL2pp;
@@ -27,7 +28,7 @@ class Snapshot {
 
     void present(int run_phase,
                 Renderer& renderer,
-                Texture& wwalk,
+                TextureManager& texture_manager,
                 int& vcenter);
 };
 

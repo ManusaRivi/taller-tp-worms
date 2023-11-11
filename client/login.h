@@ -16,6 +16,7 @@ class Login {
     Login(int, char**, Socket*);
     ~Login();
     int start();
+    Socket* getSocket();
 };
 
 #endif

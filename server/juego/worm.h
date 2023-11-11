@@ -6,7 +6,7 @@
 #define RIGHT 0
 #define LEFT 1
 
-#define MOVING_SPEED 0.2
+#define MOVING_SPEED 1
 
 #define FORWARD_JUMP_STEPS 38
 #define BACKWARD_JUMP_STEPS 58

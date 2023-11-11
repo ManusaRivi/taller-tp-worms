@@ -13,3 +13,7 @@ int Login::start() {
     this->mainWindow.show();
     return this->app.exec();
 }
+
+Socket* Login::getSocket() {
+    return this->mainWindow.getSocket();
+}

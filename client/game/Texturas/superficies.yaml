@@ -1,0 +1,7 @@
+#FORMATO:
+#-  nombre: <nombre>
+#   ruta: <ruta>
+
+#Gusano
+- nombre: wwalk
+  ruta: /client/game/Texturas/data/sprites/wwalk.png

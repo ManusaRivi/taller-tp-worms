@@ -28,6 +28,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr, Socket* skt = nullptr);
     ~MainWindow();
+    Socket* getSocket();
 
 private:
     QStackedWidget* stackedWidget;

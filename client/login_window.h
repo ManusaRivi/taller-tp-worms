@@ -20,7 +20,7 @@ class Login_Window : public QWidget
 public:
     explicit Login_Window(QWidget *parent = nullptr, QStackedWidget* stackedWidget = nullptr, Socket* skt = nullptr);
     ~Login_Window();
-    
+    Socket* getSocket();
     Socket* skt;
 
 public slots:

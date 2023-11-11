@@ -2,7 +2,7 @@
 
 #define _MENSAJE
 
-#include "../snapshot.h"
+#include "../game/comunicacion/snapshot.h"
 #include "comando.h"
 #include <map>
 

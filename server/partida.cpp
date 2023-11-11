@@ -28,7 +28,7 @@ void Partida::run(){
             //sleep(1);     //Duerme 1s
         }
         else{
-            comando.get()->realizar_accion(mapa);
+            comando->realizar_accion(mapa);
             mapa.Step();
             Snapshot snap = generar_snapshot();
             Mensaje broadcast(snap);

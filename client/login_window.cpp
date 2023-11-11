@@ -38,3 +38,7 @@ void Login_Window::onComenzarButtonClicked() {
     
     this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_LOBBY));
 }
+
+Socket* Login_Window::getSocket() {
+    return this->skt;
+}

@@ -15,7 +15,7 @@ add_subdirectory(libs/box2d)
 SET(SDL2PP_WITH_IMAGE ON) # Para soporte de imagenes
 SET(SDL2PP_WITH_MIXER ON) # Para soporte de sonido
 SET(SDL2PP_WITH_TTF ON) # Para soporte de texto
-add_definitions(-DDATA_PATH="${PROJECT_SOURCE_DIR}/client/data")
+add_definitions(-DPROJECT_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
 add_subdirectory(libs/SDL2pp)
 include_directories(${SDL2PP_INCLUDE_DIRS})
 

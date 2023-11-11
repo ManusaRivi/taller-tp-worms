@@ -27,3 +27,7 @@ MainWindow::~MainWindow() {
     delete this->ui3;
     delete this->ui4;
 }
+
+Socket* MainWindow::getSocket() {
+    return this->ui1->getSocket();
+}

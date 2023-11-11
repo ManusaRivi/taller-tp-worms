@@ -17,8 +17,9 @@ void Recibidor::run(){
     //bool esta_en_partida = false;
     while(!was_closed){
         Mensaje msg = ptcl.recibir_comando(was_closed,id);
-        printf("Se recibe un mensaje\n");
+
         if(msg.tipo_mensaje() == COMANDO::CMD_ACCION_JUGADOR){
+            printf("Se popea en el recibidor una accion del jugador\n");
             //std::cout << "Se recibe una accion de mover del jugador  = " << unsigned(id) << "Para mover al gusano" << unsigned(id_gusano) << std::endl; 
             Queue<std::shared_ptr<Comando>> &queue_acciones = lobby.get_queue(id_partida);
             std::shared_ptr<Comando> cmd = msg.cmd;

@@ -1,9 +1,8 @@
 #include "protocoloCliente.h"
 #include "../../common/socket.h"
-#include "../snapshot.h"
+#include "../game/comunicacion/snapshot.h"
 
-#define MOVER_GUSANO 0x01
-#define DETENER_MOVIMIENTO 0x02
+
 
 ClienteProtocolo::ClienteProtocolo(Socket& peer):Protocolo(peer) {
             was_closed = false;
@@ -11,17 +10,19 @@ ClienteProtocolo::ClienteProtocolo(Socket& peer):Protocolo(peer) {
 
 
 void ClienteProtocolo::enviar_movimiento(uint8_t dir){
+    printf("Se envia un pedido de mover el gusano\n");
     bool was_closed = false;
     std::vector<uint8_t> buf;
-    buf.push_back(MOVER_GUSANO);
+    buf.push_back(CODIGO_MOVER);
     buf.push_back(dir);
     skt.sendall(buf.data(),2,&was_closed);
 }
 
 void ClienteProtocolo::detener_movimiento(){
+    printf("Se envia una pedido de detener movimiento\n");
     bool was_closed = false;
     std::vector<uint8_t> buf;
-    buf.push_back(DETENER_MOVIMIENTO);
+    buf.push_back(CODIGO_DETENER_MOVIMIENTO);
     skt.sendall(buf.data(),1,&was_closed);
 }
 
@@ -62,7 +63,7 @@ Mensaje ClienteProtocolo::recibir_snapshot(){
         pos.push_back(xpos);
         pos.push_back(ypos);
         //std::cout << " Y Se transforma en la posicion (X, Y) =  (" << xpos << " , " << ypos <<") (en metros)" <<std::endl;
-        Worm worm(pos,1,0);
+        Worm worm(pos,1,1);
         sn.add_worm(worm);
     }
     Mensaje msg(sn);

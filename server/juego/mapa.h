@@ -5,25 +5,26 @@
 #include <vector>
 #include "../worm_wrapper.h"
 #include "./worm.h"
+#include "./viga.h"
+#include "./ground_contact_listener.h"
 
 // Copyright (c) 2019 Erin Catto
 
-#define MOVE_RIGHT 0
-#define MOVE_LEFT 1
-
-#define LONG_BEAM_LENGTH 3.0f
-#define LONG_BEAM_HEIGHT 0.4f
-
-#define WORM_WIDTH 0.15f
-#define WORM_HEIGHT 0.4f
+enum collisionCategories{
+    BOUNDARY = 0x0001,
+    WORM = 0x0002,
+};
 
 class Mapa {
 private:
     b2World world;
+    GroundContactListener contactListener;
+
     const float timeStep = 1.0f / 60.0f;
     const int32 velocityIterations = 6;
     const int32 positionIterations = 2;
 
+    std::vector<Viga*> vigas;
     std::vector<Worm*> worms;
 
     

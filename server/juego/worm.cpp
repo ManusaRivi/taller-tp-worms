@@ -1,6 +1,26 @@
 #include "worm.h"
 
-Worm::Worm(b2Body* body, int direction,uint32_t id_) : body(body), facingDirection(direction),  id(id_),jumpSteps(0) {}
+Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint16 collisionCategory, uint16 collisionMask) : 
+            body(body), facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f), finalHeight(0.0f), jumpSteps(0)
+{
+    b2BodyDef gusanoDef;
+    gusanoDef.type = b2_dynamicBody;
+    gusanoDef.position.Set(x_pos, y_pos);
+    b2Body *gusano = world.CreateBody(&gusanoDef);
+    this->body = gusano;
+
+    b2PolygonShape gusanoBox;
+    gusanoBox.SetAsBox(BOX_WIDTH, BOX_HEIGHT);
+
+    b2FixtureDef fixtureGusano;
+    fixtureGusano.shape = &gusanoBox;
+    fixtureGusano.density = WORM_DENSITY;
+    fixtureGusano.friction = WORM_FRICTION;
+    fixtureGusano.filter.categoryBits = collisionCategory;
+    fixtureGusano.filter.maskBits = collisionMask;
+
+    this->body->CreateFixture(&fixtureGusano);
+}
 
 void Worm::Move(int dir) {
     if (jumpSteps > 0) return;
@@ -59,6 +79,32 @@ void Worm::JumpBackward() {
             break;
     }
     body->SetLinearVelocity(velocity);
+}
+
+void Worm::startGroundContact() {
+    airborne = false;
+    b2Vec2 position = body->GetPosition();
+    finalHeight = position.y;
+    float heightDiff = initialHeight - finalHeight;
+    if (2 < heightDiff && heightDiff < 25) {
+        takeDamage((int)heightDiff);
+    }
+    else if (heightDiff >= 25)
+        takeDamage(25);
+}
+
+void Worm::endGroundContact() {
+    airborne = true;
+    b2Vec2 position = body->GetPosition();
+    initialHeight = position.y;
+}
+
+bool Worm::isAirborne() {
+    return airborne;
+}
+
+void Worm::takeDamage(int damage) {
+    hitPoints -= damage;
 }
 
 b2Vec2 Worm::GetPosition() {

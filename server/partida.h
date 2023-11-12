@@ -25,7 +25,7 @@ struct Partida:public Thread{
 
     void run() override;
 
-    Snapshot generar_snapshot();
+    Snapshot generar_snapshot(float tiempo_turno, uint32_t id_gusano_current_turn);
 
     std::string get_nombre();
 

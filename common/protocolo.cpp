@@ -73,3 +73,9 @@ uint8_t Protocolo::recibir_1_byte(){
     //num = ntohs(num);
     return num;
 }
+
+void Protocolo::enviar_4_bytes_float(float num){
+    std::vector<uint8_t> buf(4,0);
+    uint32_t numero = num*100;
+    enviar_4_bytes(numero);
+}

@@ -12,11 +12,12 @@ using namespace SDL2pp;
 class Worm {
     private:
     std::vector<float> position;  // (x,y)
-    std::unique_ptr<WormState> state;              
+    std::unique_ptr<WormState> state;        
+    uint32_t id;      
     
     public:
     //Constructor
-    Worm(std::vector<float> position, std::unique_ptr<WormState> state);
+    Worm(uint32_t id ,std::vector<float> position, std::unique_ptr<WormState> state);
 
     //Constructor por copia:
     Worm(const Worm& other);

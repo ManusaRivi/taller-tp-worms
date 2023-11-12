@@ -18,7 +18,7 @@ Mapa::Mapa() : world(b2Vec2(0.0f, -10.0f)){
     // Creo un primer gusano
     b2BodyDef gusano1Def;
     gusano1Def.type = b2_dynamicBody;
-    gusano1Def.position.Set(-1.5f, 0.82f);
+    gusano1Def.position.Set(1.5f, 0.82f);
     b2Body *gusano1 = world.CreateBody(&gusano1Def);
 
     b2PolygonShape gusano1Box;
@@ -31,12 +31,12 @@ Mapa::Mapa() : world(b2Vec2(0.0f, -10.0f)){
 
     gusano1->CreateFixture(&fixtureGusano1);
 
-    worms.push_back(new Worm (gusano1, RIGHT));
+    worms.push_back(new Worm (gusano1, RIGHT,1));
 
     // Creo un segundo gusano
     b2BodyDef gusano2Def;
     gusano2Def.type = b2_dynamicBody;
-    gusano2Def.position.Set(1.5f, 0.82f);
+    gusano2Def.position.Set(0.5f, 0.82f);
     b2Body *gusano2 = world.CreateBody(&gusano2Def);
 
     b2PolygonShape gusano2Box;
@@ -49,7 +49,7 @@ Mapa::Mapa() : world(b2Vec2(0.0f, -10.0f)){
 
     gusano2->CreateFixture(&fixtureGusano2);
 
-    worms.push_back(new Worm (gusano2, LEFT));
+    worms.push_back(new Worm (gusano2, LEFT,2));
 }
 
 void Mapa::Step() {
@@ -86,7 +86,7 @@ WormWrapper Mapa::devolver_gusano(int idx){
     std::vector<float> posicion;
     posicion.push_back(position.x);
     posicion.push_back(position.y);
-    return WormWrapper (posicion, 0, 0);
+    return WormWrapper (posicion, worms[idx]->get_facing_direction(), 0, worms[idx]->get_id(),0);
 }
 
 Mapa::~Mapa() {

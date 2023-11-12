@@ -1,7 +1,6 @@
 #ifndef _PROTOCOLO
 #define _PROTOCOLO
 
-#include "../../common/socket.h"
 #include "../../server/snapshot.h"
 
 #include "../juego/worm.h"

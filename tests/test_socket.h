@@ -1,13 +1,27 @@
-// #ifndef TESTCLASS
-// #define TESTCLASS
+#ifndef TESTCLASS
+#define TESTCLASS
+#include <arpa/inet.h>
+#include <vector>
+#include <string.h>
+#include <sstream>
+#include <stdio.h>
 
-// class Socket{
+class Socket{
 
-//     public:
-//     Socket();
+    public:
+    std::vector<char> vector;
 
-//     int recvall();
+    public:
+    Socket();
 
-// };
+    int sendall(const void *data,
+        unsigned int sz,
+        bool *was_closed);
 
-// #endif
+    int recvall(void *data,
+        unsigned int sz,
+        bool *was_closed);
+
+};
+
+#endif

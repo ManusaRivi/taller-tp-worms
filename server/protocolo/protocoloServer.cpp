@@ -50,7 +50,6 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint8_t id){
     }
 
     if (buf == CODIGO_HANDSHAKE_EMPEZAR_PARTIDA){
-        printf("Se recibe un handshale\n");
         return recibir_id_gusanos();
     }
     Mensaje msg;
@@ -60,27 +59,27 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint8_t id){
 }
 
 void ServerProtocolo::enviar_snapshot(Snapshot snap){
+    uint8_t cmd = CODIGO_SNAPSHOT;
     std::vector<uint8_t> buf;
-    buf.push_back(0x01);
+    enviar_1_byte(cmd);
     uint8_t cant_players = 2;
-    buf.push_back(cant_players);
+    enviar_2_byte(cant_players);
     std::vector<WormWrapper> worms = snap.get_worms();
-    uint8_t id = 0;
-    uint8_t cant_items = 2;
-    bool was_closed = false;
     for (auto &c: worms){
-        buf.push_back(id);
+        uint32_t id = c.get_id();
         std::vector<float> posicion = c.get_position();
-        uint8_t pos_x = posicion[0]*100;
-        uint8_t pos_y = posicion[1]*100;
-        //std::cout << "Se envia por socket la posicion (x,y) = [ " << unsigned(pos_x) << "," << unsigned(pos_y) << "]" << std::endl;
-        buf.push_back(pos_x);
-        buf.push_back(pos_y);
-        id++;
-        cant_items = cant_items +3;
-        
+        uint32_t angulo = c.get_angulo();
+        uint8_t direccion = c.get_direccion();
+        uint8_t estado = c.get_estado();
+
+        enviar_4_bytes(id);
+        enviar_4_bytes_float(posicion[0]);
+        enviar_4_bytes_float(posicion[1]);
+        enviar_4_bytes(angulo);
+        enviar_1_byte(direccion);
+        enviar_1_byte(estado);
+
     }
-    skt.sendall(buf.data(),cant_items,&was_closed);
 
 }
 
@@ -127,7 +126,6 @@ void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>>
     enviar_4_bytes(gusanos_por_player.first);
     enviar_2_byte(cantidad_gusanos);
     for(uint16_t i = 0; i < cantidad_gusanos;i++){
-        printf("Se envian los id de gusanos : %u \n",gusanos_por_player.second[i]);
         enviar_4_bytes(gusanos_por_player.second[i]);
     }
 }

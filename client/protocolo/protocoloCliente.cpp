@@ -51,27 +51,32 @@ Mensaje ClienteProtocolo::recibir_snapshot(){
     if (was_closed){
         return sn;
     }
-    uint8_t cant_players;
-    skt.recvall(&cant_players,1,&was_closed);
-    for(uint8_t i = 0; i < cant_players; i++){
-        std::vector<int> posicion;
-        std::vector<uint8_t> worm_format(3,0);
-        skt.recvall(worm_format.data(),3,&was_closed);
 
-        float x_pos = worm_format[1];
-        float y_pos = worm_format[2];
-        float xpos = x_pos/100;
-        float ypos = y_pos/100;
-        std::vector<float> pos;
-        pos.push_back(xpos);
-        pos.push_back(ypos);
-
-        //Creo el estado del gusano
-        std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(1, 1 == 1, 0.0, 0.0);
-
-        Worm worm(pos, std::move(state));
-        sn.add_worm(worm);
+    if (cmd == CODIGO_SNAPSHOT){
+        printf("Se recibe un snapshot\n");
+        return recibir_snap();
     }
+    // uint8_t cant_players;
+    // skt.recvall(&cant_players,1,&was_closed);
+    // for(uint8_t i = 0; i < cant_players; i++){
+    //     std::vector<int> posicion;
+    //     std::vector<uint8_t> worm_format(3,0);
+    //     skt.recvall(worm_format.data(),3,&was_closed);
+
+    //     float x_pos = worm_format[1];
+    //     float y_pos = worm_format[2];
+    //     float xpos = x_pos/100;
+    //     float ypos = y_pos/100;
+    //     std::vector<float> pos;
+    //     pos.push_back(xpos);
+    //     pos.push_back(ypos);
+
+    //     //Creo el estado del gusano
+    //     std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(1, 1 == 1, 0.0, 0.0);
+
+    //     Worm worm(pos, std::move(state));
+    //     sn.add_worm(worm);
+    // }
     Mensaje msg(sn);
     return sn;
 }
@@ -142,4 +147,33 @@ void ClienteProtocolo::enviar_handshake(uint32_t id_player, std::vector<uint32_t
     for (uint16_t i = 0; i < cantidad_gusanos;i++){
         enviar_4_bytes(id_gusanos[i]);
     }
+}
+
+Mensaje ClienteProtocolo::recibir_snap(){
+    std::vector<std::vector<int>> vigas;
+    Snapshot snap(vigas);
+    uint16_t cantidad_gusanos = recibir_2_bytes();
+    for(uint16_t i = 0; i < cantidad_gusanos; i++){
+        uint32_t id_gusano = recibir_4_bytes();
+        uint32_t pos_x = recibir_4_bytes();
+        uint32_t pos_y = recibir_4_bytes();
+
+        float x_pos = pos_x;
+        float y_pos = pos_y;
+        float xpos = x_pos/100;
+        float ypos = y_pos/100;
+        std::vector<float> pos({xpos,ypos});
+
+        printf("Para el gusano de id: {%u} se recibe la posicion : [%f] y [%f]",id_gusano,x_pos,y_pos);
+
+        uint32_t angulo = recibir_4_bytes();
+        uint8_t direccion = recibir_1_byte();
+        uint8_t estado = recibir_1_byte();
+
+        std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(estado, direccion == 1, angulo, 0.0);
+        Worm worm(id_gusano,pos, std::move(state));
+        snap.add_worm(worm);
+    }
+    Mensaje msg(snap);
+    return msg;
 }

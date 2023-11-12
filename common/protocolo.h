@@ -1,4 +1,8 @@
+#ifdef TESTING
+#include "../tests/test_socket.h"
+#else
 #include "socket.h"
+#endif
 #include <iostream>
 #include <arpa/inet.h>
 #include <vector>
@@ -14,6 +18,7 @@
 #define CODIGO_PARTIDA_POR_COMENZAR 0x06
 #define CODIGO_UNIRSE_PARTIDA 0x07
 #define CODIGO_HANDSHAKE_EMPEZAR_PARTIDA 0x08
+#define CODIGO_SNAPSHOT 0x10
 
 
 #define SIZE_DOS 2

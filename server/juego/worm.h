@@ -21,15 +21,20 @@ class Worm {
 private:
     b2Body* body;
     int facingDirection;
+    uint32_t id;
 public:
     int jumpSteps;
-    Worm(b2Body* body, int direction);
+    Worm(b2Body* body, int direction,uint32_t id);
     void Move(int dir);
     void Stop();
     void JumpForward();
     void JumpBackward();
 
     b2Vec2 GetPosition();
+
+    int get_facing_direction();
+
+    uint32_t get_id();
 };
 
 #endif

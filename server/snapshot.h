@@ -15,6 +15,8 @@ class Snapshot {
     std::vector<std::vector<int>> vigas;
     std::map<uint32_t,std::string> lista;
     bool snapshot_de_la_partida;
+    float tiempo_partida;
+    uint32_t id_gusano_jugando;
 
 
 /*
@@ -36,6 +38,8 @@ class Snapshot {
     bool snap_partida();
 
     std::vector<std::vector<int>> get_vigas();
+
+    void add_condiciones_partida(float tiempo_turno, uint32_t id_gusano_current_turn);
 };
 
 #endif

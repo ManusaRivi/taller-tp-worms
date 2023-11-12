@@ -1,6 +1,6 @@
 #include "worm.h"
 
-Worm::Worm(b2Body* body, int direction) : body(body), facingDirection(direction), jumpSteps(0) {}
+Worm::Worm(b2Body* body, int direction,uint32_t id_) : body(body), facingDirection(direction),  id(id_),jumpSteps(0) {}
 
 void Worm::Move(int dir) {
     if (jumpSteps > 0) return;
@@ -63,4 +63,12 @@ void Worm::JumpBackward() {
 
 b2Vec2 Worm::GetPosition() {
     return body->GetPosition();
+}
+
+int Worm::get_facing_direction(){
+    return this->facingDirection;
+}
+
+uint32_t Worm::get_id(){
+    return this->id;
 }

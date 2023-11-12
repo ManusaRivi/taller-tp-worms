@@ -44,6 +44,7 @@ void Partida::run(){
 
     while (true){
         currentTime = now();
+        float elapsed = currentTime - startTime;
         std::vector<std::shared_ptr<Comando>> comandos_a_ejecutar;
         std::shared_ptr<Comando> comando;
         while(acciones_a_realizar.try_pop(comando)){
@@ -51,7 +52,7 @@ void Partida::run(){
                 continue;
             }
             if(comando.get()->responsable_id != player_actual){
-                printf("El turno no es de este player\n");
+                printf("{!!!!!!!} El turno no es de este player {!!!!!!}\n");
                 continue;
             }
             comandos_a_ejecutar.push_back(comando);
@@ -62,15 +63,15 @@ void Partida::run(){
         // Un if para verificar si el jugador que hizo la accion es correcto
         if(comandos_a_ejecutar.size() == 0){
             mapa.Step();
-            Snapshot snap = generar_snapshot();
+            Snapshot snap = generar_snapshot(elapsed,turno_gusano);
             Mensaje broadcast(snap);
             broadcaster.broadcastSnap(broadcast);
         }
         std::shared_ptr<Comando> comando_ejecutable;
         for( auto &c: comandos_a_ejecutar){
-            c->realizar_accion(mapa);
+            c->realizar_accion(mapa,turno_gusano);
             mapa.Step();
-            Snapshot snap = generar_snapshot();
+            Snapshot snap = generar_snapshot(elapsed,turno_gusano);
             Mensaje broadcast(snap);
             broadcaster.broadcastSnap(broadcast); // TODO:que snapshot sea un shared-ptr
             printf("Se leyo un comando\n");
@@ -95,7 +96,7 @@ void Partida::run(){
         // }
         double t2 = now();
         double rest = rate - (t2 - t1);
-        double elapsed = currentTime - startTime;
+        elapsed = currentTime - startTime;
         if (rest < 0) {
             double behind = -rest;  // this is always positive
             double lost = behind - fmod(behind, rate);
@@ -117,7 +118,7 @@ void Partida::run(){
     }
 }
 
-Snapshot Partida::generar_snapshot(){
+Snapshot Partida::generar_snapshot(float tiempo_turno, uint32_t id_gusano_current_turn){
     std::vector<std::vector<int>> vigas;
     WormWrapper gusano1 = mapa.devolver_gusano(0);
     WormWrapper gusano2 = mapa.devolver_gusano(1);

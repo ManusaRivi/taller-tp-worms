@@ -1,7 +1,6 @@
 #ifndef _PROTOCOLO
 #define _PROTOCOLO
 
-#include "../../common/socket.h"
 #include "../game/comunicacion/snapshot.h"
 #include "../../common/protocolo.h"
 #include "../comandos/mensaje.h"
@@ -39,6 +38,8 @@ struct ClienteProtocolo:public Protocolo{
     Mensaje recibir_id_gusanos();
 
     void enviar_handshake(uint32_t id_player, std::vector<uint32_t> id_gusanos);
+
+    Mensaje recibir_snap();
 
 
 };

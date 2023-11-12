@@ -55,6 +55,13 @@ int Game::run() try {
 	//Variables de teclas:
 	bool right_press = false;
 	bool left_press = false;
+	bool up_press = false;
+	bool down_press = false;
+	bool return_press = false;
+	bool backspace_press = false;
+	bool has_selected_weapon = false;
+	bool is_aiming = false;
+	bool is_charging_power = false;
     // Loop principal
 	while (1) {
         // Procesamiento de eventos:
@@ -69,18 +76,90 @@ int Game::run() try {
 				SDL_Keycode tecla = event.key.keysym.sym;
 				if (tecla == SDLK_ESCAPE){
 					return 0;
-				} else if (tecla == SDLK_RIGHT && !right_press) {
+				} else if (tecla == SDLK_RIGHT && !right_press && !is_aiming) {
 					right_press = true;
 					std::shared_ptr<Comando> cmd;
 					cmd = factory.accion_mover(GAME_MOVE_RIGHT);
 					Mensaje msg(cmd);
 					acciones.push(msg);
-				} else if (tecla == SDLK_LEFT && !left_press) {
+				} else if (tecla == SDLK_LEFT && !left_press && !is_aiming) {
 					left_press = true;
 					std::shared_ptr<Comando> cmd;
 					cmd = factory.accion_mover(GAME_MOVE_LEFT);
 					Mensaje msg(cmd);
 					acciones.push(msg);
+				} else if (tecla == SDLK_RETURN && !is_aiming && !return_press){
+					// Quiere saltar hacia adelante
+					return_press = true;
+					// Enviar por protocolo comando "saltar adelante"
+				} else if (tecla == SDLK_BACKSPACE && !is_aiming && !backspace_press){
+					// Quere saltar hacia atras
+					backspace_press = true;
+					// Enviar por protocolo comando "saltar atras"
+				} else if (tecla == SDLK_1 && !has_selected_weapon) {
+					// Selecciono la Bazooka
+					// ToDo: Desarrollar para cuenta regresiva
+					has_selected_weapon = true;
+					is_aiming = true;
+					// Enviar comando "saco bazooka" por protocolo
+				} else if (tecla == SDLK_2 && !has_selected_weapon) {
+					// Selecciono el Bate
+					// ToDo: Desarrollar para cuenta regresiva
+					has_selected_weapon = true;
+					// Enviar comando "saco bate" por protocolo
+				} else if (tecla == SDLK_3 && !has_selected_weapon) {
+					// Selecciono Teletransportacion
+					// ToDo: Desarrollar para cuenta regresiva
+					has_selected_weapon = true;
+					// Enviar comando "saco teletransportador" por protocolo
+				} else if (tecla == SDLK_4 && !has_selected_weapon) {
+					// Selecciono la Dinamita
+					// ToDo: Desarrollar para cuenta regresiva
+					has_selected_weapon = true;
+					// Enviar comando "saco dinamita" por protocolo
+				} else if (tecla == SDLK_5 && !has_selected_weapon) {
+					// Selecciono el Ataque Aereo
+					// ToDo: Desarrollar para cuenta regresiva
+					has_selected_weapon = true;
+					// Enviar comando "saco ataque aereo" por protocolo
+				} else if (tecla == SDLK_6 && !has_selected_weapon) {
+					// Selecciono la Granada santa
+					is_aiming = true;
+					has_selected_weapon = true;
+					// Enviar comando "saco granada santa" por protocolo
+				} else if (tecla == SDLK_7 && !has_selected_weapon) {
+					// Selecciono la Granada verde
+					is_aiming = true;
+					has_selected_weapon = true;
+					// Enviar comando "saco granada verde" por protocolo
+				} else if (tecla == SDLK_8 && !has_selected_weapon) {
+					// Selecciono la Banana
+					is_aiming = true;
+					has_selected_weapon = true;
+					// Enviar comando "saco banana" por protocolo
+				} else if (tecla == SDLK_9 && !has_selected_weapon) {
+					// Selecciono la Granada roja
+					has_selected_weapon = true;
+					is_aiming = true;
+					// Enviar comando "saco granada roja" por protocolo
+				} else if (tecla == SDLK_0 && !has_selected_weapon) {
+					// Selecciono el mortero
+					has_selected_weapon = true;
+					is_aiming = true;
+					// Enviar comando "saco mortero" por protocolo
+				} else if (tecla == SDLK_UP && !up_press && is_aiming) {
+					// Comienza a presionar arriba mientras esta apuntando
+					bool press_up = true;
+					// Enviar por protocolo que empezo a aumentar el angulo
+				} else if (tecla == SDLK_DOWN && !down_press && is_aiming) {
+					// Comienza a presionar abajo mientras esta apuntando
+					bool press_down = true;
+					// Enviar por protocolo que empezo a disminuir el rango
+				} else if (tecla == SDLK_SPACE && has_selected_weapon && !is_charging_power) {
+					// Esta cargando la potencia del arma, por lo que envio
+					// Cuando la empieza a presionar y despues cuando la suelta
+					is_charging_power = true;
+					// Enviar comando empezo a cargar el poder por protocolo
 				}
 			} else if (event.type == SDL_KEYUP) {
 				SDL_Keycode tecla = event.key.keysym.sym;
@@ -96,6 +175,19 @@ int Game::run() try {
 					cmd = factory.accion_detener();
 					Mensaje msg(cmd);
 					acciones.push(msg);
+				} else if (tecla == SDLK_UP) {
+					up_press = false;
+					// Enviar por protocolo que se dejo de aumentar el angulo
+				} else if (tecla == SDLK_DOWN) {
+					down_press = false;
+					// Enviar por protocolo que se dejo de disminuir el angulo
+				} else if (tecla == SDLK_SPACE) {
+					is_charging_power = false;
+					// Enviar por protocolo que disparó (que dejo de cargar el poder)
+				} else if (tecla == SDLK_RETURN) {
+					return_press = false;
+				} else if (tecla == SDLK_BACKSPACE) {
+					backspace_press = false;
 				}
 			}
         }

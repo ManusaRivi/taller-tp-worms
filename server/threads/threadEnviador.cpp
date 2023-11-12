@@ -1,7 +1,7 @@
 #include "threadEnviador.h"
 
 
-Enviador::Enviador(Socket &peer, uint8_t _id, Queue<Mensaje> *snapshots):skt(peer), id(_id),snapshots_a_enviar(snapshots){
+Enviador::Enviador(Socket &peer, Queue<Mensaje> *snapshots):skt(peer),snapshots_a_enviar(snapshots){
 
 }
 
@@ -22,6 +22,11 @@ void Enviador::run(){
         if(msg.tipo_mensaje() == COMANDO::CMD_EMPEZAR_PARTIDA){
             printf("Se envia mensaje de que la partida empezo\n");
             ptcl.check_partida_empezada();
+        }
+
+        if(msg.tipo_mensaje() == COMANDO::CMD_HANDSHAKE){
+            printf("Se envia un handshake\n");
+            ptcl.enviar_handshake(msg.gusanos_por_player);
         }
         
     }

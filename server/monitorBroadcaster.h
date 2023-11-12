@@ -15,6 +15,10 @@ struct BroadCaster{
 
     void broadcastSnap(Mensaje snap);
 
+    uint16_t cantidad_jugadores();
+
+    void informar_gusanos_propios(std::map<uint32_t,std::vector<uint32_t>> gusanos_por_player);
+
 };
 
 #endif

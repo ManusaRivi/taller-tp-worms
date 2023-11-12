@@ -5,17 +5,16 @@ Lobby::Lobby():id_actual(1){
 
 }
 
-
-std::pair<uint32_t,uint8_t> Lobby::crear_partida(std::string nombre, uint8_t id_creador,Queue<Mensaje>* snapshots){
-    printf("Se crea una partida nueva\n");
+uint32_t Lobby::crear_partida(std::string nombre, Queue<Mensaje>* snapshots){
+    
     Partida *partida = new Partida(id_actual,nombre);
     partida->add_queue(snapshots);
     uint32_t id_actuali = this->id_actual;
     this->id_actual++;
     lista_partidas.insert({id_actuali,partida});
-    uint8_t id_gusano = partida->add_player(id_creador);
-    std::pair<uint32_t,uint8_t> id_partida_gusano({id_actuali,id_gusano});
-    return id_partida_gusano;
+    partida->start();
+    printf("Se crea una partida nueva\n");
+    return id_actuali;
 }
 
 void Lobby::start_lobby(){

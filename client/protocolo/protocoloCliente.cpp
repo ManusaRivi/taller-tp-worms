@@ -43,6 +43,11 @@ Mensaje ClienteProtocolo::recibir_snapshot(){
         Mensaje msg(map);
         return msg;
     }
+    if (cmd == CODIGO_HANDSHAKE_EMPEZAR_PARTIDA){
+        printf("Se recibe un handshake del server\n");
+        return recibir_id_gusanos();
+    }
+
     if (was_closed){
         return sn;
     }
@@ -111,4 +116,30 @@ void ClienteProtocolo::unirse_partida(std::string id_partida){
     uint8_t cmd = CODIGO_UNIRSE_PARTIDA;
     enviar_1_byte(cmd);
     enviar_4_bytes(id);
+}
+
+
+Mensaje ClienteProtocolo::recibir_id_gusanos(){
+    std::vector<uint32_t> id_gusanos;
+    uint32_t id_propio = recibir_4_bytes();
+    uint16_t cantidad_gusanos = recibir_2_bytes();
+    std::cout << "El id de player que se recibe es " << id_propio << std::endl;
+    for(uint16_t i = 0; i < cantidad_gusanos; i++){
+        uint32_t id_gus = recibir_4_bytes();
+        id_gusanos.push_back(id_gus);
+        printf("Se recibe id de gusano = %u \n", id_gus);
+    }
+    Mensaje msg(id_propio,id_gusanos);
+    return msg;
+}
+
+void ClienteProtocolo::enviar_handshake(uint32_t id_player, std::vector<uint32_t> id_gusanos){
+    uint8_t cmd = CODIGO_HANDSHAKE_EMPEZAR_PARTIDA;
+    enviar_1_byte(cmd);
+    enviar_4_bytes(id_player);
+    uint16_t cantidad_gusanos = id_gusanos.size();
+    enviar_2_byte(cantidad_gusanos);
+    for (uint16_t i = 0; i < cantidad_gusanos;i++){
+        enviar_4_bytes(id_gusanos[i]);
+    }
 }

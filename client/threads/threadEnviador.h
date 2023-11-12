@@ -20,6 +20,8 @@ struct Enviador:public Thread{
 
     bool is_dead();
 
+    
+
 
 };
 

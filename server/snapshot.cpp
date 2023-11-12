@@ -19,4 +19,6 @@ bool Snapshot::snap_partida(){
     return snapshot_de_la_partida;
 }
 
-
+std::vector<std::vector<int>> Snapshot::get_vigas(){
+    return this->vigas;
+}

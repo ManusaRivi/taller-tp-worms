@@ -34,6 +34,8 @@ class Snapshot {
     std::vector<WormWrapper> get_worms();
 
     bool snap_partida();
+
+    std::vector<std::vector<int>> get_vigas();
 };
 
 #endif

@@ -29,3 +29,7 @@ void ComandoMovimiento::realizar_accion(Mapa &mapa){
     }
     mapa.MoveWorm(id,direccion);
 }
+
+uint8_t ComandoMovimiento::get_comando(){
+    return this->tipo_comando;
+}

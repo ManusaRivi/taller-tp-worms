@@ -36,6 +36,10 @@ struct ClienteProtocolo:public Protocolo{
 
     void unirse_partida(std::string id_paritda);
 
+    Mensaje recibir_id_gusanos();
+
+    void enviar_handshake(uint32_t id_player, std::vector<uint32_t> id_gusanos);
+
 
 };
 

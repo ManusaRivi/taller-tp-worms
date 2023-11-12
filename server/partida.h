@@ -10,13 +10,16 @@
 
 struct Partida:public Thread{
 
+
     Queue<std::shared_ptr<Comando>> acciones_a_realizar;
     Mapa mapa;
     BroadCaster broadcaster;
     uint32_t id_partida;
     std::string nombre_partida;
     std::vector<uint8_t> posibles_id_gusanos;
-    std::map<uint8_t,std::vector<uint8_t>> vector_gusanos_player;
+    std::map<uint32_t,std::vector<uint32_t>> id_gusanos_por_player;
+    std::map<uint32_t,uint32_t> id_player_por_gusano;
+
 
     Partida(uint32_t id_partida, std::string nombre);
 
@@ -31,6 +34,11 @@ struct Partida:public Thread{
     Queue<std::shared_ptr<Comando>>& get_queue();
 
     uint8_t add_player(uint8_t id_player);
+
+    private:
+    void enviar_id_gusanos();
+
+    uint32_t proximo_turno(uint32_t turno_actual);
 
 };
 

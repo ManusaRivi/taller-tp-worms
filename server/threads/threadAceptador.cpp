@@ -11,7 +11,6 @@ Aceptador::Aceptador(const char* hostname, BroadCaster &caster, Queue<std::share
 
 void Aceptador::run(){
 
-    uint8_t id = 0;
 
    // Sacar el id y poner dentro de la partida
 
@@ -20,10 +19,9 @@ void Aceptador::run(){
         std::cout << "Se acepto un socket" << std::endl;
         Queue<Mensaje> *queue_enviador = new Queue<Mensaje>;
         
-        Cliente *clte = new Cliente(client_skt,id,queue_enviador,acciones_a_realizar,lobby);
+        Cliente *clte = new Cliente(client_skt,queue_enviador,acciones_a_realizar,lobby);
         clte->start();
         //broadcaster.add_queue(queue_enviador);
         clientes.push_back(clte);
-        id++;
     }
 }

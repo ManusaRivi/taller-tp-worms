@@ -12,7 +12,7 @@ DetenerMovimiento::DetenerMovimiento(): responsable_id(0){
     void DetenerMovimiento::realizar_accion(Mapa &mapa){
         printf("Se ejecuta la accion de detener el worm\n");
         int id;
-        if (id_gusano == 0x00){
+        if (this->id_gusano == 0x00){
             id = 0;
         }
         else{
@@ -20,5 +20,10 @@ DetenerMovimiento::DetenerMovimiento(): responsable_id(0){
         }
         mapa.StopWorm(id);
     }
+
+    uint8_t DetenerMovimiento::get_comando(){
+        return this->tipo_comando;
+    }
+
 
 

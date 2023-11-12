@@ -3,11 +3,13 @@
 
 #include "../../common/socket.h"
 #include "../../server/snapshot.h"
-#include "../comandos/factory_comandos.h"
+
 #include "../juego/worm.h"
 #include "../comandos/mensaje.h"
 #include "../../common/protocolo.h"
+#include "../comandos/factory_comandos.h"
 
+class FactoryComandos;
 struct ServerProtocolo:public Protocolo{
 
     //Socket& skt;
@@ -26,6 +28,11 @@ struct ServerProtocolo:public Protocolo{
 
     void check_partida_empezada();
 
+    void enviar_vigas(Snapshot& snap);
+
+    void enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player);
+
+    Mensaje recibir_id_gusanos();
 };
 
 #endif

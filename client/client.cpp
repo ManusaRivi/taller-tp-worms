@@ -55,9 +55,11 @@ void Client::crear_partida(Socket &skt){
         }
 
         if(comando == "empezar"){
+
             ptcl.empezar_partida();
             Mensaje msg = ptcl.recibir_snapshot();
             if (msg.tipo_comando == PARTIDA_COMENZO){
+                printf("Se recibe comando de que la partida empezo\n");
                 return;
             }
         }

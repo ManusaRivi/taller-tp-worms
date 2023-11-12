@@ -23,6 +23,10 @@ void Enviador::run(){
         if(cmd.tipo_comando == COMANDO::CMD_EMPEZAR_PARTIDA){
             ptcl.empezar_partida();
         }
+        if(cmd.tipo_comando == COMANDO::CMD_HANDSHAKE){
+            printf("Se quiere enviar un handshake\n");
+            ptcl.enviar_handshake(cmd.id_player,cmd.id_gusanos);
+        }
         
     }
 }

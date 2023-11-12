@@ -1,5 +1,4 @@
 #include "protocoloServer.h"
-#include "../comandos/comando.h"
 
 ServerProtocolo::ServerProtocolo(Socket &socket): Protocolo(socket){
 
@@ -48,6 +47,11 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint8_t id){
         uint32_t id_partida = recibir_4_bytes();
         Mensaje msg(COMANDO::CMD_UNIRSE_PARTIDA,id_partida);
         return msg;
+    }
+
+    if (buf == CODIGO_HANDSHAKE_EMPEZAR_PARTIDA){
+        printf("Se recibe un handshale\n");
+        return recibir_id_gusanos();
     }
     Mensaje msg;
     return msg;
@@ -98,7 +102,44 @@ void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string> map/*std::s
 }
 
 void ServerProtocolo::check_partida_empezada(){
-    printf("Se envia un comando que la partida esta por comenzar\n");
     uint8_t cmd = CODIGO_PARTIDA_POR_COMENZAR;
     enviar_1_byte(cmd);
+}
+
+void ServerProtocolo::enviar_vigas(Snapshot& snap){
+    std::vector<std::vector<int>> vigas = snap.get_vigas();
+    uint16_t cantidad_vigas = vigas.size();
+    uint32_t tamanio_buffer = cantidad_vigas*(4+4+4+4); //Cada viga tiene 4 bytes para x, 4 para y, 4 para angulo, 4 para tamanio
+    std::vector<uint8_t> buffer(tamanio_buffer,0);
+    for(uint16_t i = 0; i < cantidad_vigas; i++ ){
+        std::vector<int> viga = vigas[i];   
+        enviar_4_bytes(viga[0]);
+        enviar_4_bytes(viga[1]);
+        enviar_4_bytes(viga[2]);
+        enviar_4_bytes(viga[3]);
+    }
+}
+
+void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player){
+    uint8_t cmd = CODIGO_HANDSHAKE_EMPEZAR_PARTIDA;
+    uint16_t cantidad_gusanos = gusanos_por_player.second.size();
+    enviar_1_byte(cmd);
+    enviar_4_bytes(gusanos_por_player.first);
+    enviar_2_byte(cantidad_gusanos);
+    for(uint16_t i = 0; i < cantidad_gusanos;i++){
+        printf("Se envian los id de gusanos : %u \n",gusanos_por_player.second[i]);
+        enviar_4_bytes(gusanos_por_player.second[i]);
+    }
+}
+
+Mensaje ServerProtocolo::recibir_id_gusanos(){
+    uint32_t id_player = recibir_4_bytes();
+    uint16_t cantidad_gusanos = recibir_2_bytes();
+    std::vector<uint32_t> ids_gusanos;
+    for (uint16_t i = 0; i < cantidad_gusanos;i++){
+        ids_gusanos.push_back(recibir_4_bytes());
+    }
+    std::pair<uint32_t,std::vector<uint32_t>> par(id_player,ids_gusanos);
+    Mensaje msg(par);
+    return msg;
 }

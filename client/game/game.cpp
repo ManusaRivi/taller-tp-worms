@@ -9,6 +9,25 @@ Game::Game(Queue<Mensaje> &queue, Queue<Mensaje> &acciones_):snapshots(queue), a
 
 int Game::run() try {
 
+	printf("Se esta esperando por el handshake\n");
+	std::vector<uint32_t> id_gusanos;
+	uint32_t id_player;
+	bool se_recibieron_ids = false;
+	while(!se_recibieron_ids){
+		Mensaje msg = snapshots.pop();
+		if (msg.tipo_comando == COMANDO::CMD_HANDSHAKE){
+			printf("Se popea un handshake\n");
+			id_gusanos = msg.id_gusanos;
+			id_player = msg.id_player;
+			acciones.push(msg);
+			se_recibieron_ids = true;
+		}
+	}
+
+	printf("El id del player es : %u", id_player);
+	
+
+
     // Inicializo SDL
 	SDL sdl(SDL_INIT_VIDEO);
 	// Inicializo SDL_ttf
@@ -93,7 +112,7 @@ int Game::run() try {
 			//Grafico la snapshot
 			snapshot.present(it, renderer, texture_manager, vcenter);
 		}
-        
+        printf("Se salta el snapshot\n");
 		// Timing: calcula la diferencia entre este frame y el anterior
 		// en milisegundos
 		// If behind, drop & rest.

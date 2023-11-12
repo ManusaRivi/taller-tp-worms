@@ -9,10 +9,10 @@ struct Enviador:public Thread{
 
     Socket &skt;
     std::atomic<bool> is_alive;
-    uint8_t id;
-    Queue<Snapshot> *snapshots_a_enviar;
+    uint32_t id;
+    Queue<Mensaje> *snapshots_a_enviar;
 
-    Enviador(Socket &peer, uint8_t id, Queue<Snapshot>* snapshots);
+    Enviador(Socket &peer, Queue<Mensaje>* snapshots);
 
     void run() override;
 

@@ -110,3 +110,11 @@ void Worm::takeDamage(int damage) {
 b2Vec2 Worm::GetPosition() {
     return body->GetPosition();
 }
+
+int Worm::get_facing_direction(){
+    return this->facingDirection;
+}
+
+uint32_t Worm::get_id(){
+    return this->id;
+}

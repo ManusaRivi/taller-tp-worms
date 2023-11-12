@@ -11,14 +11,14 @@ void ComandoMovimiento::agregar_id(uint8_t id){
 }
 
 
-void ComandoMovimiento::realizar_accion(Mapa &mapa){
-    int id;
+void ComandoMovimiento::realizar_accion(Mapa &mapa,uint32_t id){
+    int idx;
     int direccion;
-    if(responsable_id == 0x00){
-        id = 0;
+    if(id == 1){
+        idx = 0;
     }
     else{
-        id = 1;
+        idx = 1;
     }
 
     if(dir == 0x01){
@@ -27,5 +27,9 @@ void ComandoMovimiento::realizar_accion(Mapa &mapa){
     else{
         direccion = 1;
     }
-    mapa.MoveWorm(id,direccion);
+    mapa.MoveWorm(idx,direccion);
+}
+
+uint8_t ComandoMovimiento::get_comando(){
+    return this->tipo_comando;
 }

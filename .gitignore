@@ -44,5 +44,8 @@
 # VSCode
 .vscode/
 
-# carpeta build
+# Carpeta build
 /build/
+
+# Carpeta lib yaml
+/libs/yaml-cpp

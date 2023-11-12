@@ -2,7 +2,18 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStackedWidget>
 #include <string>
+
+#include "login_window.h"
+#include "lobby_window.h"
+#include "lista_espera.h"
+#include "crear_partida.h"
+
+#define PANTALLA_PINCIPAL   0
+#define PANTALLA_LOBBY      1
+#define PANTALLA_ESPERA     2
+#define PANTALLA_CREAR      3
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,14 +26,21 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    std::string getServer() const;
-    std::string getPort() const;
 
-public slots:
-    void onComenzarButtonClicked();
+    void setServer(const std::string&);
+    void setPort(const std::string&);
+
+    const std::string getServer();
+    const std::string getPort();
 
 private:
-    Ui::MainWindow *ui;
+    QStackedWidget* stackedWidget;
+
+    Login_Window* ui1;
+    Lobby_Window* ui2;
+    Lista_Espera* ui3;
+    Crear_Partida* ui4;
+
     std::string serverInput;
     std::string portInput;
 };

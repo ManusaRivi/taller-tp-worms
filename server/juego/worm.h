@@ -14,7 +14,7 @@ enum directions {
 #define WORM_DENSITY 1.0f
 #define WORM_FRICTION 0.0f
 
-#define MOVING_SPEED 0.2
+#define MOVING_SPEED 1
 
 #define FORWARD_JUMP_STEPS 38
 #define BACKWARD_JUMP_STEPS 58
@@ -33,6 +33,7 @@ private:
     int hitPoints;
     float initialHeight;
     float finalHeight;
+    uint32_t id;
 public:
     int jumpSteps;
     Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint16 collisionCategory, uint16 collisionMask);
@@ -46,6 +47,10 @@ public:
     void takeDamage(int damage);
 
     b2Vec2 GetPosition();
+
+    int get_facing_direction();
+
+    uint32_t get_id();
 };
 
 #endif

@@ -2,6 +2,7 @@
 #define WORM_WRAPPER_H
 
 #include <vector>
+#include <iostream>
 
 //Direcciones (despues quizas cambie a un angulo)
 #define DIR_RIGHT 1
@@ -14,14 +15,26 @@
 class WormWrapper {
     private:
     std::vector<float> position;  // (x,y)
-    int dir;                    // Despues quizas cambie a un angulo
-    int status;                 
+    uint8_t dir;                  // Despues quizas cambie a un angulo
+    
+    uint8_t status;    
+    uint32_t id; 
+    uint32_t angulo;            
     
     public:
     //Constructor
-    WormWrapper(std::vector<float> position, int dir, int status);
+    WormWrapper(std::vector<float> position, uint8_t dir, uint8_t status, uint32_t id, uint32_t angulo);
 
     std::vector<float> get_position();
+
+    uint8_t get_direccion();
+
+    uint8_t get_estado();
+
+    uint32_t get_angulo();
+
+    uint32_t get_id();
+
 };
 
 #endif

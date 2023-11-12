@@ -47,7 +47,7 @@ WormWrapper Mapa::devolver_gusano(int idx){
     std::vector<float> posicion;
     posicion.push_back(position.x);
     posicion.push_back(position.y);
-    return WormWrapper (posicion, 0, 0);
+    return WormWrapper (posicion, worms[idx]->get_facing_direction(), 0, worms[idx]->get_id(),0);
 }
 
 Mapa::~Mapa() {

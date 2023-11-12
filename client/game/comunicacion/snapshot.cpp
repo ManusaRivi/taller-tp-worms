@@ -7,15 +7,16 @@ void Snapshot::add_worm(Worm worm) {
     worms.push_back(worm);
 }
 
-void Snapshot::present(int run_phase,
+void Snapshot::present(int& it,
                         Renderer& renderer,
                         TextureManager& texture_manager,
-                        int& vcenter){
+                        float& x_scale,
+                        float& y_scale){
     
 
     //Esto hay que encontrar la manera de cambiarlo (lo la run_phase)
     for (auto& worm : worms) {
-        worm.present(run_phase, renderer, texture_manager, vcenter);
+        worm.present(it, renderer, texture_manager, x_scale, y_scale);
     }
 
     renderer.Present();

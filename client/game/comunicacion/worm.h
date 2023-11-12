@@ -30,7 +30,8 @@ class Worm {
     void present(int& it,
                 Renderer& renderer,
                 TextureManager& texture_manager,
-                int& vcenter);
+                float& x_scale,
+                float& y_scale);
 };
 
 #endif

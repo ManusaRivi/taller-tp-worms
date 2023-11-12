@@ -27,10 +27,11 @@ class Snapshot {
     //Agrega un gusano a la lista de gusanos
     void add_worm(Worm worm);
 
-    void present(int run_phase,
-                Renderer& renderer,
-                TextureManager& texture_manager,
-                int& vcenter);
+    void present(int& it,
+                        Renderer& renderer,
+                        TextureManager& texture_manager,
+                        float& x_scale,
+                        float& y_scale);
     
     void agregar_turno_actual(uint32_t id);
 };

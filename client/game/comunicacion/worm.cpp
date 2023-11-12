@@ -15,6 +15,8 @@ Worm::Worm(const Worm& other) : position(other.position) {
     return *this;
  }
 
-void Worm::present(int& it, Renderer& renderer, TextureManager& texture_manager, int& vcenter) {
-    state->present(it, renderer, texture_manager, position);
+void Worm::present(int& it, Renderer& renderer,
+                    TextureManager& texture_manager,
+                    float& x_scale, float& y_scale) {
+    state->present(it, renderer, texture_manager, position, x_scale, y_scale);
 }

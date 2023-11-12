@@ -36,7 +36,7 @@ int Game::run() try {
     // Titulo: Worms
 	Window window("Worms",
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-			640, 480,
+			854, 480,
 			SDL_WINDOW_RESIZABLE);
 
     // Creo un renderizador default
@@ -147,11 +147,11 @@ int Game::run() try {
 					// Enviar comando "saco mortero" por protocolo
 				} else if (tecla == SDLK_UP && !up_press && is_aiming) {
 					// Comienza a presionar arriba mientras esta apuntando
-					//bool press_up = true;
+					up_press = true;
 					// Enviar por protocolo que empezo a aumentar el angulo
 				} else if (tecla == SDLK_DOWN && !down_press && is_aiming) {
 					// Comienza a presionar abajo mientras esta apuntando
-					//bool press_down = true;
+					down_press = true;
 					// Enviar por protocolo que empezo a disminuir el rango
 				} else if (tecla == SDLK_SPACE && has_selected_weapon && !is_charging_power) {
 					// Esta cargando la potencia del arma, por lo que envio
@@ -189,8 +189,13 @@ int Game::run() try {
 				}
 			}
         }
-        // La coordenada en Y del centro de la ventana
-        int vcenter = renderer.GetOutputHeight() / 2;
+        
+		// Obtengo el tamaño actual de la ventana
+    	int window_width = renderer.GetOutputWidth();
+		int window_height = renderer.GetOutputHeight();
+
+		float x_scale = window_width / CAMERA_WIDTH;
+		float y_scale = window_height / CAMERA_HEIGHT;
 
         // Limpio la pantalla
 		renderer.Clear();
@@ -200,7 +205,7 @@ int Game::run() try {
 		if (snap.tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
 			Snapshot snapshot = snap.snap;
 			//Grafico la snapshot
-			snapshot.present(it, renderer, texture_manager, vcenter);
+			snapshot.present(it, renderer, texture_manager, x_scale, y_scale);
 		}
 		// Timing: calcula la diferencia entre este frame y el anterior
 		// en milisegundos

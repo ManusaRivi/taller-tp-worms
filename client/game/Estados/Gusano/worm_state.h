@@ -7,6 +7,9 @@
 #include <vector>
 #include "../../Texturas/texture_manager.h"
 
+#define WORM_WIDTH 0.4f
+#define WORM_HEIGHT 0.4f
+
 /*
  * Modela el estado del gusano para poder renderizarlo.
  */
@@ -26,7 +29,9 @@ class WormState {
     virtual void present(int& it,
                         SDL2pp::Renderer& renderer,
                         TextureManager& texture_manager,
-                        std::vector<float>& position);
+                        std::vector<float>& position,
+                        float& x_scale,
+                        float& y_scale);
 
     //Destructor virtual
     virtual ~WormState() {}

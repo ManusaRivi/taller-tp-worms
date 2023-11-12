@@ -4,9 +4,9 @@
 // Frame rate, 33 para 30FPS
 #define FRAME_RATE 33
 
-// Tamaño de la camara
-#define CAMERA_WIDTH 320
-#define CAMERA_HEIGHT 240
+// Tamaño de la camara (en metros)
+#define CAMERA_WIDTH 7.11
+#define CAMERA_HEIGHT 4
 
 #include <SDL2pp/SDL2pp.hh>
 #include "Texturas/texture_manager.h"

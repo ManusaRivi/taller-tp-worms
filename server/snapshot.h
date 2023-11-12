@@ -40,6 +40,8 @@ class Snapshot {
     std::vector<std::vector<int>> get_vigas();
 
     void add_condiciones_partida(float tiempo_turno, uint32_t id_gusano_current_turn);
+
+    uint32_t get_gusano_jugador();
 };
 
 #endif

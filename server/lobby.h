@@ -15,6 +15,7 @@ struct Lobby{
     std::map<uint32_t,Partida*> lista_partidas;
 
     uint32_t id_actual;
+    std::mutex lck;
     //MonitorClientes &clientes;
 
     Lobby();

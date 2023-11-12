@@ -12,7 +12,18 @@ int main(int argc, char* argv[]) {
     Lobby lobby;
     Aceptador skt(name,broadcaster,acciones_a_realizar,lobby);
     skt.start();
-    lobby.start_lobby();
+    //lobby.start_lobby();
+
+    bool comando_cerrar = false;
+    while (!comando_cerrar) {
+        std::string comando;
+        std::cin >> comando;
+
+        if (comando == "q") {
+            comando_cerrar = true;
+            break;
+        }
+}
 
     //MapContainer mapContainer;
     //Partida partida;

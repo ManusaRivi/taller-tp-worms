@@ -147,11 +147,11 @@ int Game::run() try {
 					// Enviar comando "saco mortero" por protocolo
 				} else if (tecla == SDLK_UP && !up_press && is_aiming) {
 					// Comienza a presionar arriba mientras esta apuntando
-					bool press_up = true;
+					//bool press_up = true;
 					// Enviar por protocolo que empezo a aumentar el angulo
 				} else if (tecla == SDLK_DOWN && !down_press && is_aiming) {
 					// Comienza a presionar abajo mientras esta apuntando
-					bool press_down = true;
+					//bool press_down = true;
 					// Enviar por protocolo que empezo a disminuir el rango
 				} else if (tecla == SDLK_SPACE && has_selected_weapon && !is_charging_power) {
 					// Esta cargando la potencia del arma, por lo que envio

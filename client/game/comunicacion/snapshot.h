@@ -13,6 +13,7 @@ class Snapshot {
     private:
     std::vector<Worm> worms;
     std::vector<std::vector<int>> vigas;
+    uint32_t id_turno_actual;
 
 /*
  * La idea es, mas adelante, que este Snapshot tenga:
@@ -30,6 +31,8 @@ class Snapshot {
                 Renderer& renderer,
                 TextureManager& texture_manager,
                 int& vcenter);
+    
+    void agregar_turno_actual(uint32_t id);
 };
 
 #endif

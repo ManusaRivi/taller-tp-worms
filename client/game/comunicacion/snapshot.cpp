@@ -20,3 +20,7 @@ void Snapshot::present(int run_phase,
 
     renderer.Present();
 }
+
+void Snapshot::agregar_turno_actual(uint32_t turno){
+    this->id_turno_actual = turno;
+}

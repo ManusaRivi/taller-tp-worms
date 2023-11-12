@@ -27,3 +27,8 @@ void Snapshot::add_condiciones_partida(float tiempo_turno, uint32_t id_gusano_cu
     this->tiempo_partida = tiempo_turno;
     this->id_gusano_jugando = id_gusano_current_turn;
 }
+
+
+uint32_t Snapshot::get_gusano_jugador(){
+    return this->id_gusano_jugando;
+}

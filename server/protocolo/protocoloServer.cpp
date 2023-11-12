@@ -60,8 +60,11 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint8_t id){
 
 void ServerProtocolo::enviar_snapshot(Snapshot snap){
     uint8_t cmd = CODIGO_SNAPSHOT;
-    std::vector<uint8_t> buf;
     enviar_1_byte(cmd);
+
+    uint32_t turno_current_gusano = snap.get_gusano_jugador();
+    enviar_4_bytes(turno_current_gusano);
+
     uint8_t cant_players = 2;
     enviar_2_byte(cant_players);
     std::vector<WormWrapper> worms = snap.get_worms();
@@ -107,6 +110,7 @@ void ServerProtocolo::check_partida_empezada(){
 
 void ServerProtocolo::enviar_vigas(Snapshot& snap){
     std::vector<std::vector<int>> vigas = snap.get_vigas();
+
     uint16_t cantidad_vigas = vigas.size();
     uint32_t tamanio_buffer = cantidad_vigas*(4+4+4+4); //Cada viga tiene 4 bytes para x, 4 para y, 4 para angulo, 4 para tamanio
     std::vector<uint8_t> buffer(tamanio_buffer,0);

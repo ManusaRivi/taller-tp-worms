@@ -112,6 +112,7 @@ void Partida::run(){
         if (elapsed>= 10) {
             turno_gusano = proximo_turno(turno_gusano);
             player_actual = id_player_por_gusano[turno_gusano];
+            std::cout << "El id del gusano jugando actualmente es : " << unsigned(turno_gusano) << std::endl;
             startTime = now();
             std::cout << "Message after 10 seconds" << std::endl;
         }
@@ -123,6 +124,7 @@ Snapshot Partida::generar_snapshot(float tiempo_turno, uint32_t id_gusano_curren
     WormWrapper gusano1 = mapa.devolver_gusano(0);
     WormWrapper gusano2 = mapa.devolver_gusano(1);
     Snapshot snap(vigas);
+    snap.add_condiciones_partida(tiempo_turno,id_gusano_current_turn);
     snap.add_worm(gusano1);
     snap.add_worm(gusano2);
     return snap;

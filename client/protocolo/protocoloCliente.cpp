@@ -53,7 +53,6 @@ Mensaje ClienteProtocolo::recibir_snapshot(){
     }
 
     if (cmd == CODIGO_SNAPSHOT){
-        printf("Se recibe un snapshot\n");
         return recibir_snap();
     }
     // uint8_t cant_players;
@@ -152,6 +151,8 @@ void ClienteProtocolo::enviar_handshake(uint32_t id_player, std::vector<uint32_t
 Mensaje ClienteProtocolo::recibir_snap(){
     std::vector<std::vector<int>> vigas;
     Snapshot snap(vigas);
+
+    uint32_t turno_player_actual = recibir_4_bytes();
     uint16_t cantidad_gusanos = recibir_2_bytes();
     for(uint16_t i = 0; i < cantidad_gusanos; i++){
         uint32_t id_gusano = recibir_4_bytes();
@@ -164,8 +165,6 @@ Mensaje ClienteProtocolo::recibir_snap(){
         float ypos = y_pos/100;
         std::vector<float> pos({xpos,ypos});
 
-        printf("Para el gusano de id: {%u} se recibe la posicion : [%f] y [%f]",id_gusano,x_pos,y_pos);
-
         uint32_t angulo = recibir_4_bytes();
         uint8_t direccion = recibir_1_byte();
         uint8_t estado = recibir_1_byte();
@@ -174,6 +173,9 @@ Mensaje ClienteProtocolo::recibir_snap(){
         Worm worm(id_gusano,pos, std::move(state));
         snap.add_worm(worm);
     }
+    
+    //std::cout << "Es el turno del gusano con ID = " << unsigned(turno_player_actual) << std::endl;
+    snap.agregar_turno_actual(turno_player_actual);
     Mensaje msg(snap);
     return msg;
 }

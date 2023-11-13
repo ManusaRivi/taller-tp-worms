@@ -3,7 +3,7 @@
 Snapshot::Snapshot(std::vector<std::vector<int>> vigas): vigas(vigas) {}
 
 
-void Snapshot::add_worm(Worm worm) {
+void Snapshot::add_worm(std::shared_ptr<Worm> worm) {
     worms.push_back(worm);
 }
 
@@ -16,7 +16,7 @@ void Snapshot::present(int& it,
 
     //Esto hay que encontrar la manera de cambiarlo (lo la run_phase)
     for (auto& worm : worms) {
-        worm.present(it, renderer, texture_manager, x_scale, y_scale);
+        worm->present(it, renderer, texture_manager, x_scale, y_scale);
     }
 
     renderer.Present();
@@ -24,4 +24,10 @@ void Snapshot::present(int& it,
 
 void Snapshot::agregar_turno_actual(uint32_t turno){
     this->id_turno_actual = turno;
+}
+
+void Snapshot::imprimir_posiciones(){
+    for (auto &worm : worms){
+        printf("La posicion x es = %f\n",worm->get_x());
+    }
 }

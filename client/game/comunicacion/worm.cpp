@@ -17,6 +17,10 @@ Worm::Worm(const Worm& other) : position(other.position) {
 
 void Worm::present(int& it, Renderer& renderer,
                     TextureManager& texture_manager,
-                    float& x_scale, float& y_scale) {
+                    float& x_scale, float& y_scale) {                
     state->present(it, renderer, texture_manager, position, x_scale, y_scale);
+}
+
+float Worm::get_x(){
+    return this->position[0];
 }

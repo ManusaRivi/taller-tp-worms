@@ -77,5 +77,6 @@ uint8_t Protocolo::recibir_1_byte(){
 void Protocolo::enviar_4_bytes_float(float num){
     std::vector<uint8_t> buf(4,0);
     uint32_t numero = num*100;
+    //std::cout << "Se manda por socket un float de " << numero << std::endl;
     enviar_4_bytes(numero);
 }

@@ -21,12 +21,12 @@
 
 class Game {
     private:
-    Queue<Mensaje> &snapshots;
-    Queue<Mensaje> &acciones;
+    Queue<std::shared_ptr<Mensaje>> &snapshots;
+    Queue<std::shared_ptr<Mensaje>> &acciones;
     FactoryComandos factory;
 
     public:
-    Game(Queue<Mensaje> &snapshots, Queue<Mensaje> &acciones);
+    Game(Queue<std::shared_ptr<Mensaje>> &snapshots, Queue<std::shared_ptr<Mensaje>> &acciones);
 
     int run();
 

@@ -7,6 +7,7 @@
 #include "juego/mapa.h"
 #include "monitorBroadcaster.h"
 #include "comandos/comando_movimiento.h"
+#include <SDL2pp/SDL2pp.hh>
 
 struct Partida:public Thread{
 

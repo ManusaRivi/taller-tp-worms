@@ -30,7 +30,7 @@ struct Comando;
 
 struct Mensaje{
 
-    Snapshot snap;
+    std::shared_ptr<Snapshot> snap;
     uint8_t tipo_comando;
 
     std::shared_ptr<Comando> cmd;
@@ -43,7 +43,7 @@ struct Mensaje{
 
     
 
-    Mensaje(Snapshot snap);
+    Mensaje(std::shared_ptr<Snapshot> snap);
 
     Mensaje(uint8_t tipo_comando);
 

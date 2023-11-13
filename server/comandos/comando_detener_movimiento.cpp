@@ -10,7 +10,7 @@ DetenerMovimiento::DetenerMovimiento(): responsable_id(0){
     }
 
     void DetenerMovimiento::realizar_accion(Mapa &mapa, uint32_t id){
-        printf("Se ejecuta la accion de detener el worm\n");
+        printf("Se ejecuta la accion de detener el worm para el id %u \n",id);
         int idx;
         if (id == 1){
             idx = 0;

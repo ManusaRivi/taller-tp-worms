@@ -13,8 +13,8 @@ struct Recibidor:public Thread{
 
     Socket &skt;
     std::atomic<bool> is_alive;
-    Queue<Mensaje> &snapshots_a_render;
-    Recibidor(Socket &peer, Queue<Mensaje> &acciones);
+    Queue<std::shared_ptr<Mensaje>> &snapshots_a_render;
+    Recibidor(Socket &peer, Queue<std::shared_ptr<Mensaje>> &acciones);
 
     void run() override;
 

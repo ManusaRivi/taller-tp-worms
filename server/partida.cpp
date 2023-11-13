@@ -2,6 +2,8 @@
 #include <unistd.h>
 #include <chrono>
 
+using namespace SDL2pp;
+#define FRAME_RATE 33
 
 Partida::Partida(uint32_t id, std::string nombre):id_partida(id),nombre_partida(nombre){
     posibles_id_gusanos.push_back(0);
@@ -34,9 +36,10 @@ void Partida::run(){
     std::cout << "Se inicializa la partida\n" << std::endl;
     //Mensaje msg;
     //broadcaster.broadcastSnap(msg);
-    double rate = 1/60;
-    double t1 = now();
+    //double rate = 1;
+    unsigned int t1 = SDL_GetTicks();
     int it = 0;
+
     uint32_t turno_gusano = rand() % posibles_id_gusanos.size() + 1;
     uint32_t player_actual = id_player_por_gusano[turno_gusano];
     double startTime = now();
@@ -94,21 +97,38 @@ void Partida::run(){
         //     //sleep(1);     //Duerme 1s
         //     //usleep(33333);
         // }
-        double t2 = now();
-        double rest = rate - (t2 - t1);
-        elapsed = currentTime - startTime;
-        if (rest < 0) {
-            double behind = -rest;  // this is always positive
-            double lost = behind - fmod(behind, rate);
-            t1 += lost;
-            it += static_cast<int>(lost / rate);  // floor division
-        } else {
-            usleep(std::chrono::duration<double>(rest).count());
-        }
+        // double t2 = now();
+        // double rest = rate - (t2 - t1);
+        // elapsed = currentTime - startTime;
+        // if (rest < 0) {
+        //     double behind = -rest;  // this is always positive
+        //     double lost = behind - fmod(behind, rate);
+        //     t1 += lost;
+        //     it += static_cast<int>(lost / rate);  // floor division
+        // } else {
+        //     usleep(std::chrono::duration<double>(rest).count());
+        // }
 
 
-        t1 += rate;
-        it++;
+        // t1 += rate;
+        // it++;
+
+        unsigned int t2 = SDL_GetTicks();
+		int rest = FRAME_RATE - (t2 - t1);
+		elapsed = currentTime - startTime;
+		if (rest < 0) {
+			int behind = -rest;
+			rest = FRAME_RATE - behind % FRAME_RATE;
+			int lost = behind + rest;
+			t1 += lost;
+			it += int(lost / FRAME_RATE);
+		}
+
+        // Limitador de frames: Duermo el programa durante un tiempo para no consumir
+        // El 100% del CPU.
+		SDL_Delay(rest);
+		t1 += FRAME_RATE;
+		it += 1;
         if (elapsed>= 10) {
             turno_gusano = proximo_turno(turno_gusano);
             player_actual = id_player_por_gusano[turno_gusano];

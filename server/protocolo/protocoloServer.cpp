@@ -78,6 +78,7 @@ void ServerProtocolo::enviar_snapshot(Snapshot snap){
         enviar_4_bytes(id);
         enviar_4_bytes_float(posicion[0]);
         enviar_4_bytes_float(posicion[1]);
+        
         enviar_4_bytes(angulo);
         enviar_1_byte(direccion);
         enviar_1_byte(estado);

@@ -8,7 +8,7 @@ Mapa::Mapa() : world(b2Vec2(0.0f, -10.0f)), contactListener(GroundContactListene
 
     vigas.push_back(new Viga (world, LARGE, 0.0f, 0.0f, 0.0f, BOUNDARY, WORM));
 
-    worms.push_back(new Worm (world, 100, RIGHT, -1.5f, 1.0f, WORM, BOUNDARY));
+    worms.push_back(new Worm (world, 100, RIGHT, 1.5f, 1.0f, WORM, BOUNDARY));
 
     worms.push_back(new Worm (world, 100, LEFT, 1.5f, 0.8f, WORM, BOUNDARY));
 }

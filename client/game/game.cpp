@@ -5,7 +5,7 @@ using namespace SDL2pp;
 #define GAME_MOVE_RIGHT 0x01
 #define GAME_MOVE_LEFT 0x02
 
-Game::Game(Queue<Mensaje> &queue, Queue<Mensaje> &acciones_):snapshots(queue), acciones(acciones_){}
+Game::Game(Queue<std::shared_ptr<Mensaje>> &queue, Queue<std::shared_ptr<Mensaje>> &acciones_):snapshots(queue), acciones(acciones_){}
 
 int Game::run() try {
 
@@ -13,10 +13,10 @@ int Game::run() try {
 	uint32_t id_player;
 	bool se_recibieron_ids = false;
 	while(!se_recibieron_ids){
-		Mensaje msg = snapshots.pop();
-		if (msg.tipo_comando == COMANDO::CMD_HANDSHAKE){
-			id_gusanos = msg.id_gusanos;
-			id_player = msg.id_player;
+		std::shared_ptr<Mensaje> msg = snapshots.pop();
+		if (msg->tipo_comando == COMANDO::CMD_HANDSHAKE){
+			id_gusanos = msg->id_gusanos;
+			id_player = msg->id_player;
 			acciones.push(msg);
 			se_recibieron_ids = true;
 		}
@@ -78,13 +78,13 @@ int Game::run() try {
 					right_press = true;
 					std::shared_ptr<Comando> cmd;
 					cmd = factory.accion_mover(GAME_MOVE_RIGHT);
-					Mensaje msg(cmd);
+					std::shared_ptr<Mensaje> msg = std::make_shared<Mensaje>(cmd);
 					acciones.push(msg);
 				} else if (tecla == SDLK_LEFT && !left_press && !is_aiming) {
 					left_press = true;
 					std::shared_ptr<Comando> cmd;
 					cmd = factory.accion_mover(GAME_MOVE_LEFT);
-					Mensaje msg(cmd);
+					std::shared_ptr<Mensaje> msg = std::make_shared<Mensaje>(cmd);
 					acciones.push(msg);
 				} else if (tecla == SDLK_RETURN && !is_aiming && !return_press){
 					// Quiere saltar hacia adelante
@@ -165,13 +165,13 @@ int Game::run() try {
 					right_press = false;
 					std::shared_ptr<Comando> cmd;
 					cmd = factory.accion_detener();
-					Mensaje msg(cmd);
+					std::shared_ptr<Mensaje> msg = std::make_shared<Mensaje>(cmd);
 					acciones.push(msg);
 				} else if (tecla == SDLK_LEFT) {
 					left_press = false;
 					std::shared_ptr<Comando> cmd;
 					cmd = factory.accion_detener();
-					Mensaje msg(cmd);
+					std::shared_ptr<Mensaje> msg = std::make_shared<Mensaje>(cmd);
 					acciones.push(msg);
 				} else if (tecla == SDLK_UP) {
 					up_press = false;
@@ -201,11 +201,11 @@ int Game::run() try {
 		renderer.Clear();
 
         //Saco una Snapshot de la Queue
-        Mensaje snap = snapshots.pop();
-		if (snap.tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
-			Snapshot snapshot = snap.snap;
+        std::shared_ptr<Mensaje> snap = snapshots.pop();
+		if (snap->tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
+			std::shared_ptr<Snapshot> snapshot = snap->snap;
 			//Grafico la snapshot
-			snapshot.present(it, renderer, texture_manager, x_scale, y_scale);
+			snapshot->present(it, renderer, texture_manager, x_scale, y_scale);
 		}
 		// Timing: calcula la diferencia entre este frame y el anterior
 		// en milisegundos

@@ -9,7 +9,7 @@ enum beamSize {
 };
 
 #define SMALL_LENGTH 1.5f
-#define LARGE_LENGTH 3.0f
+#define LARGE_LENGTH 100.0f
 
 #define HEIGHT 0.40f
 

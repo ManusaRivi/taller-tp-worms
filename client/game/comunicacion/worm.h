@@ -32,6 +32,7 @@ class Worm {
                 TextureManager& texture_manager,
                 float& x_scale,
                 float& y_scale);
+    float get_x();
 };
 
 #endif

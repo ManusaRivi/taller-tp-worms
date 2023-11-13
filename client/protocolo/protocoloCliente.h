@@ -21,7 +21,7 @@ struct ClienteProtocolo:public Protocolo{
 
     void enviar_movimiento(uint8_t dir);
 
-    Mensaje recibir_snapshot();
+    std::shared_ptr<Mensaje> recibir_snapshot();
 
     void detener_movimiento();
 
@@ -35,11 +35,11 @@ struct ClienteProtocolo:public Protocolo{
 
     void unirse_partida(std::string id_paritda);
 
-    Mensaje recibir_id_gusanos();
+    std::shared_ptr<Mensaje> recibir_id_gusanos();
 
     void enviar_handshake(uint32_t id_player, std::vector<uint32_t> id_gusanos);
 
-    Mensaje recibir_snap();
+    std::shared_ptr<Mensaje> recibir_snap();
 
 
 };

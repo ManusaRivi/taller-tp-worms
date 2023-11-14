@@ -5,7 +5,7 @@
 
 int main(int argc, char* argv[]) {
 
-    const char* name = "1576";
+    const char* name = "1577";
     BroadCaster broadcaster;
     Queue<std::shared_ptr<Comando>> acciones_a_realizar;
     Lobby lobby;

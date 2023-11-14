@@ -14,6 +14,7 @@ Viga::Viga(b2World& world, beamSize type, float x_pos, float y_pos, float angle,
     b2FixtureDef fixtureViga;
     fixtureViga.shape = &vigaBox;
     fixtureViga.density = BEAM_DENSITY;
+    fixtureViga.friction = BEAM_FRICTION;
     fixtureViga.filter.categoryBits = collisionCategory;
     fixtureViga.filter.maskBits = collisionMask;
 

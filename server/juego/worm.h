@@ -8,11 +8,11 @@ enum directions {
     LEFT = 1,
 };
 
-#define BOX_WIDTH 0.15f
-#define BOX_HEIGHT 0.4f
+#define BOX_WIDTH 0.2f
+#define BOX_HEIGHT 0.2f
 
-#define WORM_DENSITY 1.0f
-#define WORM_FRICTION 0.0f
+#define WORM_DENSITY 0.2f
+#define WORM_FRICTION 1.0f
 
 #define MOVING_SPEED 1
 

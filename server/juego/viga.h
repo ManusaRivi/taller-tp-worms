@@ -14,6 +14,7 @@ enum beamSize {
 #define HEIGHT 0.40f
 
 #define BEAM_DENSITY 0.0f
+#define BEAM_FRICTION 0.8f
 
 class Viga {
 private:

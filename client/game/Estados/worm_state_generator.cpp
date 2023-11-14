@@ -14,7 +14,7 @@ std::unique_ptr<WormState> WormStateGenerator::get_state_with_code(int status_co
         return std::make_unique<WWalk>(facing_right, worm_angle);
     
     case WORM_STATE_BAZOOKA_AIMING:
-        frames = 32;
+        frames = 31;
         return std::make_unique<WAiming>(std::string("wbaz"), frames, facing_right, worm_angle, shot_angle);
 
     default:

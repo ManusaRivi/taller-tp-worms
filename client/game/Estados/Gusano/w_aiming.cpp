@@ -19,9 +19,9 @@ void WAiming::present(int& it,
                     float& y_scale) {
     
     //Determino cual frame usar:
-    int shot_angle_from = shot_angle + 90;
+    float normalized_angle = shot_angle + 90.0;
     int src_x = 0;
-	int src_y = 60 * 180 * (shot_angle_from / frames);
+	int src_y = 60 * frames * (normalized_angle / 180);
 
 
     //Voltear el sprite dependiendo para que lado mire

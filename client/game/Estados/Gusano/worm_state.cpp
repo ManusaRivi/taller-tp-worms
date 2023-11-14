@@ -35,6 +35,7 @@ void WormState::present(int& it,
 	std::cout << "Posicion del gusano (metros): x=" << position[0]
 				<< " y=" << position[1] << "\n";
 */	//printf("La posicion que se va a hacer present es %f y %f\n",position[0],position[1]);
+
     texture.SetAlphaMod(255); // El sprite es totalmente opaco
     renderer.Copy(
 				texture,

@@ -11,8 +11,7 @@ class WAiming: public WormState {
             float& worm_angle,
             float& shot_angle);
 
-
-    virtual void present(int& it,
+    void present(int& it,
                         SDL2pp::Renderer& renderer,
                         TextureManager& texture_manager,
                         std::vector<float>& position,

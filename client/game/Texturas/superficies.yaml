@@ -3,6 +3,9 @@
 #   ruta: <ruta>
 
 #Gusano
+- nombre: WBlink
+  ruta: /client/game/Texturas/data/sprites/WBlink.png
+
 - nombre: wwalk
   ruta: /client/game/Texturas/data/sprites/WWalk.png
 

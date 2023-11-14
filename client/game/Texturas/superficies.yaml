@@ -4,7 +4,19 @@
 
 #Gusano
 - nombre: wwalk
-  ruta: /client/game/Texturas/data/sprites/wwalk.png
+  ruta: /client/game/Texturas/data/sprites/WWalk.png
 
-- nombre: wbaz
-  ruta: /client/game/Texturas/data/sprites/wbaz.png
+- nombre: WAimBaz
+  ruta: /client/game/Texturas/data/sprites/WAimBaz.png
+
+- nombre: WAimGr
+  ruta: /client/game/Texturas/data/sprites/WAimGr.png
+
+- nombre: WAimHGr
+  ruta: /client/game/Texturas/data/sprites/WAimHGr.png
+
+- nombre: WAimRGr
+  ruta: /client/game/Texturas/data/sprites/WAimRGr.png
+
+- nombre: WAimBan
+  ruta: /client/game/Texturas/data/sprites/WAimBan.png

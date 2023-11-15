@@ -48,3 +48,7 @@ void WormState::present(int& it,
 				flip        // Flip
 			);
 }
+
+bool WormState::is_finished() {
+	return is_finished;
+}

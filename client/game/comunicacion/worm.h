@@ -11,28 +11,32 @@ using namespace SDL2pp;
 
 class Worm {
     private:
-    std::vector<float> position;  // (x,y)
+    float _pos_x;
+    float _pos_y;
     std::unique_ptr<WormState> state;        
-    uint32_t id;      
     
     public:
     //Constructor
-    Worm(uint32_t id ,std::vector<float> position, std::unique_ptr<WormState> state);
+    Worm(float& pos_x, float& pos_y, std::unique_ptr<WormState> state);
 
     //Constructor por copia:
     Worm(const Worm& other);
 
     Worm& operator=(const Worm& other);
 
+    void update(std::shared_ptr<Worm> updated_worm);
 
-    //La idea es que despues deje de recibir una unica textura
-    //Y reciba un gestor de textura para pedirle la textura a mostrar
+    std::unique_ptr<WormState> get_state();
+
     void present(int& it,
                 Renderer& renderer,
                 TextureManager& texture_manager,
                 float& x_scale,
                 float& y_scale);
+
     float get_x();
+
+    float get_y();
 };
 
 #endif

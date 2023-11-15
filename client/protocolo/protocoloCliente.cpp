@@ -162,14 +162,13 @@ std::shared_ptr<Mensaje> ClienteProtocolo::recibir_snap(){
         float y_pos = pos_y;
         float xpos = x_pos/100;
         float ypos = y_pos/100;
-        std::vector<float> pos({xpos,ypos});
 
         uint32_t angulo = recibir_4_bytes();
         uint8_t direccion = recibir_1_byte();
         uint8_t estado = recibir_1_byte();
         std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(estado, direccion == 0, angulo, 0.0);
-        std::shared_ptr<Worm> worm = std::make_shared<Worm>(id_gusano,pos, std::move(state));
-        snap->add_worm(worm);
+        std::shared_ptr<Worm> worm = std::make_shared<Worm>(xpos, ypos, std::move(state));
+        snap->add_worm(worm, id_gusano);
     }
     
     //std::cout << "Es el turno del gusano con ID = " << unsigned(turno_player_actual) << std::endl;

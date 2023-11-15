@@ -4,7 +4,7 @@
 // Frame rate, 33 para 30FPS
 #define FRAME_RATE 33
 
-// Tamaño de la camara (en metros)
+// Tamaño de la camara
 #define CAMERA_WIDTH 7.11
 #define CAMERA_HEIGHT 4
 
@@ -18,6 +18,7 @@
 #include "../comandos/comando.h"
 #include "../comandos/factory_comandos.h"
 #include "../comandos/mensaje.h"
+#include "world.h"
 
 class Game {
     private:

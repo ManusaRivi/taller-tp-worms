@@ -9,6 +9,8 @@ Game::Game(Queue<std::shared_ptr<Mensaje>> &queue, Queue<std::shared_ptr<Mensaje
 
 int Game::run() try {
 
+	World world();
+
 	std::vector<uint32_t> id_gusanos;
 	uint32_t id_player;
 	bool se_recibieron_ids = false;
@@ -19,6 +21,26 @@ int Game::run() try {
 			id_player = msg->id_player;
 			acciones.push(msg);
 			se_recibieron_ids = true;
+
+			/*
+				En el Handshake deberia recibir las posiciones de las vigas 
+				Y las posiciones iniciales de todos los gusanos (como una snapshot)
+
+				* Idea: Crear world en el protocolo de esta manera:
+			
+					World world();
+					Por cada Worm:
+						world.add_worm(worm, id);
+
+					Por cada viga:
+						world.add_beam(beam);
+			
+
+					Y guardarlo en el msg de tipo handshake.
+					Luego, reemplazar este comentario con:
+				
+					world = msg->world;
+			*/
 		}
 	}
 
@@ -62,10 +84,6 @@ int Game::run() try {
 	bool is_charging_power = false;
     // Loop principal
 	while (1) {
-        // Procesamiento de eventos:
-		// - Si la ventana se cierra o se presiona Esc
-		//   cerrar la aplicacion.
-		// - Si se presiona (KEYDOWN) la fecha derecha el gusano se mueve.
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_QUIT) {
@@ -205,7 +223,9 @@ int Game::run() try {
 		if (snap->tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
 			std::shared_ptr<Snapshot> snapshot = snap->snap;
 			//Grafico la snapshot
-			snapshot->present(it, renderer, texture_manager, x_scale, y_scale);
+			snapshot->apply_to_world(world);
+			world.present(it, renderer, texture_manager, x_scale, y_scale);
+
 		}
 		// Timing: calcula la diferencia entre este frame y el anterior
 		// en milisegundos

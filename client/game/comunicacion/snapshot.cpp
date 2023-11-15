@@ -1,25 +1,16 @@
 #include "snapshot.h"
 
-Snapshot::Snapshot(std::vector<std::vector<int>> vigas): vigas(vigas) {}
+Snapshot::Snapshot() {}
 
 
-void Snapshot::add_worm(std::shared_ptr<Worm> worm) {
-    worms.push_back(worm);
+void Snapshot::add_worm(std::shared_ptr<Worm> worm, int& id) {
+    worms.emplace(id, worm);
 }
 
-void Snapshot::present(int& it,
-                        Renderer& renderer,
-                        TextureManager& texture_manager,
-                        float& x_scale,
-                        float& y_scale){
-    
-
-    //Esto hay que encontrar la manera de cambiarlo (lo la run_phase)
-    for (auto& worm : worms) {
-        worm->present(it, renderer, texture_manager, x_scale, y_scale);
+void Snapshot::apply_to_world(World& world) {
+    for (const auto& pair: worms) {
+        world.update_worm(pair.first, std::move(pair.second));
     }
-
-    renderer.Present();
 }
 
 void Snapshot::agregar_turno_actual(uint32_t turno){

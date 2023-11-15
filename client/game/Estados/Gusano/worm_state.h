@@ -20,6 +20,7 @@ class WormState {
     bool facing_right;
     float worm_angle;
     float shot_angle;
+    bool is_finished;
 
     //Constructor protegido para que solo las hijas puedan acceder a el
     WormState();
@@ -32,6 +33,8 @@ class WormState {
                         std::vector<float>& position,
                         float& x_scale,
                         float& y_scale);
+    
+    virtual bool is_finished();
 
     //Destructor virtual
     virtual ~WormState() {}

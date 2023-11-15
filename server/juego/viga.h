@@ -2,6 +2,7 @@
 #define VIGA_H
 
 #include "../../libs/box2d/include/box2d/box2d.h"
+#include "./collision_categories.h"
 
 enum beamSize {
     SMALL,
@@ -20,7 +21,7 @@ class Viga {
 private:
     b2Body* body;
 public:
-    Viga(b2World& world, beamSize type, float x_pos, float y_pos, float angle, uint16 collisionCategory, uint16 collisionMask);
+    Viga(b2World& world, beamSize type, float x_pos, float y_pos, float angle);
 };
 
 #endif

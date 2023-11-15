@@ -2,6 +2,7 @@
 #define WORM_H
 
 #include "../../libs/box2d/include/box2d/box2d.h"
+#include "./collision_categories.h"
 
 enum directions {
     RIGHT = 0,
@@ -36,7 +37,7 @@ private:
     uint32_t id;
 public:
     int jumpSteps;
-    Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint16 collisionCategory, uint16 collisionMask);
+    Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos);
     void Move(int dir);
     void Stop();
     void JumpForward();

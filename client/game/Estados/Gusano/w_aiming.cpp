@@ -9,13 +9,14 @@ WAiming::WAiming(const std::string& texture_name, unsigned int& frames,
     this->facing_right = facing_right;
     this->worm_angle = worm_angle;
     this->shot_angle = shot_angle;
-    this->is_finished = true;
+    this->finished = true;
 }
 
 void WAiming::present(int& it,
                     SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,
-                    std::vector<float>& position,
+                    float& pos_x,
+                    float& pos_y,
                     float& x_scale,
                     float& y_scale) {
     
@@ -36,8 +37,8 @@ void WAiming::present(int& it,
     renderer.Copy(
 				texture,
 				Rect(src_x, src_y, 60, 60), // El sprite
-				Rect(static_cast<int>(position[0] * x_scale),
-					renderer.GetOutputHeight() - static_cast<int>(position[1] * y_scale),
+				Rect(static_cast<int>(pos_x * x_scale),
+					renderer.GetOutputHeight() - static_cast<int>(pos_y * y_scale),
 					WORM_WIDTH * x_scale, WORM_HEIGHT * y_scale), // Donde lo grafico
 				worm_angle,        // Angulo
 				NullOpt,

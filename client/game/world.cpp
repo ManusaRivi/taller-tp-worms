@@ -2,12 +2,12 @@
 
 World::World() {}
 
-void World::add_worm(Worm worm, int& id) {
+void World::add_worm(std::shared_ptr<Worm> worm, int id) {
     worms.emplace(id, worm);
 }
 
-void World::update_worm(int& id, std::shared_ptr<Worm> worm) {
-    worms.at(id).update(std::move(worm));
+void World::update_worm(const int& id, std::shared_ptr<Worm> worm) {
+    worms.at(id)->update(std::move(worm));
 }
 
 void World::present(int& it,
@@ -17,7 +17,7 @@ void World::present(int& it,
                     float& y_scale) {
                     
     for (auto& worm : worms) {
-        worm->present(it, renderer, texture_manager, x_scale, y_scale);
+        worm.second->present(it, renderer, texture_manager, x_scale, y_scale);
     }
 
     /*

@@ -3,7 +3,7 @@
 Snapshot::Snapshot() {}
 
 
-void Snapshot::add_worm(std::shared_ptr<Worm> worm, int& id) {
+void Snapshot::add_worm(std::shared_ptr<Worm> worm, int id) {
     worms.emplace(id, worm);
 }
 
@@ -19,6 +19,6 @@ void Snapshot::agregar_turno_actual(uint32_t turno){
 
 void Snapshot::imprimir_posiciones(){
     for (auto &worm : worms){
-        printf("La posicion x es = %f\n",worm->get_x());
+        printf("La posicion x es = %f\n",worm.second->get_x());
     }
 }

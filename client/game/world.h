@@ -8,14 +8,16 @@
 //#include "comunicacion/beam.h"
 
 class World {
-    std::map<int, Worm> worms;
+    private:
+    std::map<int, std::shared_ptr<Worm>> worms;
     //std::vector<Beams> beams;
 
+    public:
     World();
 
-    void add_worm(std::shared_ptr<Worm> worm, int& id);
+    void add_worm(std::shared_ptr<Worm> worm, int id);
 
-    void update_worm(int& id, std::shared_ptr<Worm> worm);
+    void update_worm(const int& id, std::shared_ptr<Worm> worm);
 
     //void add_beam(Beam beam);
 

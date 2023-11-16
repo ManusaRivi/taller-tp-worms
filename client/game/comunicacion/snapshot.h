@@ -26,7 +26,7 @@ class Snapshot {
     Snapshot();
 
     //Agrega un gusano a la lista de gusanos
-    void add_worm(std::shared_ptr<Worm> worm, int& id);
+    void add_worm(std::shared_ptr<Worm> worm, int id);
 
     void apply_to_world(World& world);
 

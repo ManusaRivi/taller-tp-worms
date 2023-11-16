@@ -9,7 +9,7 @@ Game::Game(Queue<std::shared_ptr<Mensaje>> &queue, Queue<std::shared_ptr<Mensaje
 
 int Game::run() try {
 
-	World world();
+	World world;
 
 	std::vector<uint32_t> id_gusanos;
 	uint32_t id_player;

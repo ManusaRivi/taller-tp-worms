@@ -23,3 +23,9 @@
 
 - nombre: WAimBan
   ruta: /client/game/Texturas/data/sprites/WAimBan.png
+
+
+# Viga
+
+- nombre: Beam
+  ruta: /client/game/Texturas/data/sprites/Beam.png

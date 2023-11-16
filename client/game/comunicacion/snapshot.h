@@ -3,9 +3,11 @@
 
 #include <SDL2pp/SDL2pp.hh>
 #include <map>
+#include <vector>
 #include "../Texturas/texture_manager.h"
 #include "../world.h"
 #include "worm.h"
+#include "beam.h"
 #include <memory>
 
 using namespace SDL2pp;
@@ -14,6 +16,7 @@ using namespace SDL2pp;
 class Snapshot {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
+    std::vector<Beam> beams;
     int _id_camera;
     uint32_t id_turno_actual;
 
@@ -23,6 +26,8 @@ class Snapshot {
 
     //Agrega un gusano a la lista de gusanos
     void add_worm(std::shared_ptr<Worm> worm, int id);
+
+    void add_beam(Beam beam);
 
     void present(int& it_inc,
                         Renderer& renderer,

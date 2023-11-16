@@ -7,6 +7,10 @@ void Snapshot::add_worm(std::shared_ptr<Worm> worm, int id) {
     worms.emplace(id, worm);
 }
 
+void Snapshot::add_beam(Beam beam) {
+    beams.push_back(beam);
+}
+
 void Snapshot::apply_to_world(World& world) {
     world.update_camera(_id_camera);
     for (const auto& pair: worms) {

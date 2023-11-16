@@ -1,6 +1,6 @@
 #include "snapshot.h"
 
-Snapshot::Snapshot() {}
+Snapshot::Snapshot(id_camera): _id_camera(id_camera) {}
 
 
 void Snapshot::add_worm(std::shared_ptr<Worm> worm, int id) {
@@ -11,6 +11,33 @@ void Snapshot::apply_to_world(World& world) {
     for (const auto& pair: worms) {
         world.update_worm(pair.first, std::move(pair.second));
     }
+}
+
+void Snapshot::present(int& it_inc,
+                        Renderer& renderer,
+                        TextureManager& texture_manager,
+                        int& window_width,
+                        int& window_height){
+    
+    //Obtengo la escala:
+    float x_scale = window_width / CAMERA_WIDTH;
+	float y_scale = window_height / CAMERA_HEIGHT;
+    
+    // Obtengo la posicion de la camara:
+    float pos_foco_x = worms.at(id_camera)->get_x();    //Por ahora solo enfoca gusanos
+    float pos_foco_y = worms.at(id_camera)->get_y();
+
+    float camera_x = pos_foco_x - (window_width / 2);
+    float camera_y = pos_foco_y - (window_height / 2);
+
+    if (cameraX < 0) camera_x = 0;
+    if (cameraY < 0) camera_y = 0;
+
+    for (auto& worm : worms) {
+        worm->present(it_inc, renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
+    }
+
+    renderer.Present();
 }
 
 void Snapshot::agregar_turno_actual(uint32_t turno){

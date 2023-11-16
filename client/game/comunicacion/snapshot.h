@@ -14,19 +14,22 @@ using namespace SDL2pp;
 class Snapshot {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
+    int _id_camera;
     uint32_t id_turno_actual;
-
-/*
- * La idea es, mas adelante, que este Snapshot tenga:
- * - El vector de posiciones de las vigas encapsulado en una clase.
- */
 
     public:
     //Constructor
-    Snapshot();
+    Snapshot(int id_camera);
 
     //Agrega un gusano a la lista de gusanos
     void add_worm(std::shared_ptr<Worm> worm, int id);
+
+    void present(int& it_inc,
+                        Renderer& renderer,
+                        TextureManager& texture_manager,
+                        int& window_width,
+                        int& window_height);
+
 
     void apply_to_world(World& world);
 

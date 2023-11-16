@@ -32,7 +32,9 @@ class Worm {
                 Renderer& renderer,
                 TextureManager& texture_manager,
                 float& x_scale,
-                float& y_scale);
+                float& y_scale,
+                float& camera_x,
+                float& camera_y);
 
     float get_x();
 

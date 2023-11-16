@@ -9,7 +9,7 @@ Game::Game(Queue<std::shared_ptr<Mensaje>> &queue, Queue<std::shared_ptr<Mensaje
 
 int Game::run() try {
 
-	World world;
+	//World world;
 
 	std::vector<uint32_t> id_gusanos;
 	uint32_t id_player;
@@ -212,9 +212,6 @@ int Game::run() try {
     	int window_width = renderer.GetOutputWidth();
 		int window_height = renderer.GetOutputHeight();
 
-		float x_scale = window_width / CAMERA_WIDTH;
-		float y_scale = window_height / CAMERA_HEIGHT;
-
         // Limpio la pantalla
 		renderer.Clear();
 
@@ -222,9 +219,11 @@ int Game::run() try {
         std::shared_ptr<Mensaje> snap = snapshots.pop();
 		if (snap->tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
 			std::shared_ptr<Snapshot> snapshot = snap->snap;
-			//Grafico la snapshot
+			/*
 			snapshot->apply_to_world(world);
 			world.present(it_inc, renderer, texture_manager, x_scale, y_scale);
+			*/
+			snapshot->present(it_inc, renderer, texture_manager, window_width, window_height);
 
 		}
 		// Timing: calcula la diferencia entre este frame y el anterior

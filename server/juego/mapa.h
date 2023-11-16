@@ -2,7 +2,9 @@
 #define MAPA_H
 
 #include "../../libs/box2d/include/box2d/box2d.h"
+#include <yaml-cpp/yaml.h>
 #include <vector>
+#include <string>
 #include "../worm_wrapper.h"
 #include "./worm.h"
 #include "./viga.h"
@@ -27,10 +29,11 @@ private:
     std::vector<Viga*> vigas;
     std::vector<Worm*> worms;
 
-    
+    std::string nombre;
 
 public:
-    Mapa();
+    explicit Mapa(const char* map_filepath);
+    void Load_Map_File(const char* filepath);
     void Step();
     /*
     * Setea la velocidad del gusano dado por idx, que es el

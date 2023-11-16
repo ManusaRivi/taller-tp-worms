@@ -4,7 +4,7 @@ FactoryComandos::FactoryComandos(){
 
 }
 
-std::shared_ptr<ComandoMovimiento> FactoryComandos::comando_movimiento(uint8_t dir, uint8_t id){
+std::shared_ptr<ComandoMovimiento> FactoryComandos::comando_movimiento(uint8_t dir, uint32_t id){
         return std::make_shared<ComandoMovimiento>(dir,id);
 }
 
@@ -12,8 +12,8 @@ std::shared_ptr<ComandoMovimiento> FactoryComandos::comando_movimiento(uint8_t d
 //         return std::make_shared<CrearPartida>(tipo,nombre);
 // }
 
-std::shared_ptr<DetenerMovimiento> FactoryComandos::comando_detener(){
-        return std::make_shared<DetenerMovimiento>();
+std::shared_ptr<DetenerMovimientoCliente> FactoryComandos::comando_detener(uint32_t id){
+        return std::make_shared<DetenerMovimientoCliente>(id);
 }
 
 

@@ -51,7 +51,6 @@ void Recibidor::run(){
     while(partida_online && !was_closed){
         Mensaje msg = ptcl.recibir_comando(was_closed,id);
         std::shared_ptr<Comando> cmd = msg.cmd;
-        cmd.get()->responsable_id = id;
         queue_acciones.push(cmd);
     }
     std::cout << "Se desconecto el cliente" << std::endl;

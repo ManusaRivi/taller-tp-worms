@@ -18,7 +18,6 @@ uint32_t Lobby::crear_partida(std::string nombre, Queue<Mensaje>* snapshots){
 }
 
 
-
 void Lobby::listar_partidas(Queue<Mensaje>* snapshots){
     std::lock_guard<std::mutex> lock(lck);
     MapContainer mapContainer;
@@ -50,16 +49,16 @@ Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t id_pedido){
     return lista_partidas.at(id_pedido)->get_queue();
 }
 
-void Lobby::empezar_partida(uint32_t id){
-    std::lock_guard<std::mutex> lock(lck);
-    lista_partidas.at(id)->start();
-}
+// void Lobby::empezar_partida(uint32_t id){
+//     std::lock_guard<std::mutex> lock(lck);
+//     lista_partidas.at(id)->start();
+// }
 
 uint8_t Lobby::unirse_a_partida(uint32_t id_partida, Queue<Mensaje>* snapshots, uint8_t id_player){
     std::lock_guard<std::mutex> lock(lck);
     printf("Se pide unirse un player\n");
     std::cout << "a la partida = <" << unsigned(id_partida) << "> por el id : " << unsigned(id_player) << std::endl;
     lista_partidas.at(id_partida)->add_queue(snapshots);
-    return lista_partidas.at(id_partida)->add_player(id_player);
+    return 0;
 
 }

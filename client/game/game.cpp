@@ -5,18 +5,22 @@ using namespace SDL2pp;
 #define GAME_MOVE_RIGHT 0x01
 #define GAME_MOVE_LEFT 0x02
 
-Game::Game(Queue<std::shared_ptr<Mensaje>> &queue, Queue<std::shared_ptr<Mensaje>> &acciones_):snapshots(queue), acciones(acciones_){}
+Game::Game(Queue<std::shared_ptr<MensajeCliente>> &queue, Queue<std::shared_ptr<MensajeCliente>> &acciones_):snapshots(queue), acciones(acciones_){}
 
 int Game::run() try {
 
 	std::vector<uint32_t> id_gusanos;
 	uint32_t id_player;
+	std::vector<std::vector<float>> vigas;
+
+	
 	bool se_recibieron_ids = false;
 	while(!se_recibieron_ids){
-		std::shared_ptr<Mensaje> msg = snapshots.pop();
+		std::shared_ptr<MensajeCliente> msg = snapshots.pop();
 		if (msg->tipo_comando == COMANDO::CMD_HANDSHAKE){
 			id_gusanos = msg->id_gusanos;
 			id_player = msg->id_player;
+			vigas = msg->vigas;
 			acciones.push(msg);
 			se_recibieron_ids = true;
 		}
@@ -76,15 +80,11 @@ int Game::run() try {
 					return 0;
 				} else if (tecla == SDLK_RIGHT && !right_press && !is_aiming) {
 					right_press = true;
-					std::shared_ptr<Comando> cmd;
-					cmd = factory.accion_mover(GAME_MOVE_RIGHT);
-					std::shared_ptr<Mensaje> msg = std::make_shared<Mensaje>(cmd);
+					std::shared_ptr<MensajeCliente> msg = mensajes.moverse(GAME_MOVE_RIGHT);
 					acciones.push(msg);
 				} else if (tecla == SDLK_LEFT && !left_press && !is_aiming) {
 					left_press = true;
-					std::shared_ptr<Comando> cmd;
-					cmd = factory.accion_mover(GAME_MOVE_LEFT);
-					std::shared_ptr<Mensaje> msg = std::make_shared<Mensaje>(cmd);
+					std::shared_ptr<MensajeCliente> msg = mensajes.moverse(GAME_MOVE_LEFT);
 					acciones.push(msg);
 				} else if (tecla == SDLK_RETURN && !is_aiming && !return_press){
 					// Quiere saltar hacia adelante
@@ -163,15 +163,12 @@ int Game::run() try {
 				SDL_Keycode tecla = event.key.keysym.sym;
 				if (tecla == SDLK_RIGHT) {
 					right_press = false;
-					std::shared_ptr<Comando> cmd;
-					cmd = factory.accion_detener();
-					std::shared_ptr<Mensaje> msg = std::make_shared<Mensaje>(cmd);
+				
+					std::shared_ptr<MensajeCliente> msg = mensajes.detener_movimiento();
 					acciones.push(msg);
 				} else if (tecla == SDLK_LEFT) {
 					left_press = false;
-					std::shared_ptr<Comando> cmd;
-					cmd = factory.accion_detener();
-					std::shared_ptr<Mensaje> msg = std::make_shared<Mensaje>(cmd);
+					std::shared_ptr<MensajeCliente> msg = mensajes.detener_movimiento();
 					acciones.push(msg);
 				} else if (tecla == SDLK_UP) {
 					up_press = false;
@@ -200,10 +197,10 @@ int Game::run() try {
         // Limpio la pantalla
 		renderer.Clear();
 
-        //Saco una Snapshot de la Queue
-        std::shared_ptr<Mensaje> snap = snapshots.pop();
+        //Saco una SnapshotCliente de la Queue
+        std::shared_ptr<MensajeCliente> snap = snapshots.pop();
 		if (snap->tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
-			std::shared_ptr<Snapshot> snapshot = snap->snap;
+			std::shared_ptr<SnapshotCliente> snapshot = snap->snap;
 			//Grafico la snapshot
 			snapshot->present(it, renderer, texture_manager, x_scale, y_scale);
 		}

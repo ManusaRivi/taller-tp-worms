@@ -1,5 +1,5 @@
-#ifndef _COMANDO
-#define _COMANDO
+#ifndef _COMANDO_SERVER
+#define _COMANDO_SERVER
 
 #include <iostream>
 #include "../juego/mapa.h"

@@ -9,20 +9,20 @@
 using namespace SDL2pp;
 
 // Simula la "imagen" del estado del juego.
-class Snapshot {
+class SnapshotCliente {
     private:
     std::vector<std::shared_ptr<Worm>> worms;
-    std::vector<std::vector<int>> vigas;
+    std::vector<std::vector<float>> vigas;
     uint32_t id_turno_actual;
 
 /*
- * La idea es, mas adelante, que este Snapshot tenga:
+ * La idea es, mas adelante, que este SnapshotCliente tenga:
  * - El vector de posiciones de las vigas encapsulado en una clase.
  */
 
     public:
     //Constructor
-    Snapshot(std::vector<std::vector<int>> vigas);
+    SnapshotCliente(std::vector<std::vector<float>> vigas);
 
     //Agrega un gusano a la lista de gusanos
     void add_worm(std::shared_ptr<Worm> worm);
@@ -36,6 +36,8 @@ class Snapshot {
     void agregar_turno_actual(uint32_t id);
 
     void imprimir_posiciones();
+
+    void agregar_vigas(std::vector<std::vector<float>> vigas);
 };
 
 #endif

@@ -4,7 +4,7 @@ ServerProtocolo::ServerProtocolo(Socket &socket): Protocolo(socket){
 
 }
 
-Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint8_t id){
+Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id){
     std::shared_ptr<Comando> comando;
     uint8_t buf;
     skt.recvall(&buf,1,&was_closed);
@@ -20,7 +20,7 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint8_t id){
 
     if (buf == CODIGO_DETENER_MOVIMIENTO){
         printf("se recibe un codigo de detener el gusano\n");
-        comando = factory.comando_detener();
+        comando = factory.comando_detener(id);
         Mensaje msg(comando);
         return msg;
     }
@@ -109,22 +109,20 @@ void ServerProtocolo::check_partida_empezada(){
     enviar_1_byte(cmd);
 }
 
-void ServerProtocolo::enviar_vigas(Snapshot& snap){
-    std::vector<std::vector<int>> vigas = snap.get_vigas();
+void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>> vigas){
 
     uint16_t cantidad_vigas = vigas.size();
-    uint32_t tamanio_buffer = cantidad_vigas*(4+4+4+4); //Cada viga tiene 4 bytes para x, 4 para y, 4 para angulo, 4 para tamanio
-    std::vector<uint8_t> buffer(tamanio_buffer,0);
+    enviar_2_byte(cantidad_vigas);
     for(uint16_t i = 0; i < cantidad_vigas; i++ ){
-        std::vector<int> viga = vigas[i];   
-        enviar_4_bytes(viga[0]);
-        enviar_4_bytes(viga[1]);
-        enviar_4_bytes(viga[2]);
-        enviar_4_bytes(viga[3]);
+        std::vector<float> viga = vigas[i];   
+        enviar_4_bytes_float(viga[0]);
+        enviar_4_bytes_float(viga[1]);
+        enviar_4_bytes_float(viga[2]);
+        enviar_4_bytes_float(viga[3]);
     }
 }
 
-void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player){
+void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player,std::vector<std::vector<float>> vigas){
     uint8_t cmd = CODIGO_HANDSHAKE_EMPEZAR_PARTIDA;
     uint16_t cantidad_gusanos = gusanos_por_player.second.size();
     enviar_1_byte(cmd);
@@ -133,6 +131,7 @@ void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>>
     for(uint16_t i = 0; i < cantidad_gusanos;i++){
         enviar_4_bytes(gusanos_por_player.second[i]);
     }
+    enviar_vigas(vigas);
 }
 
 Mensaje ServerProtocolo::recibir_id_gusanos(){

@@ -9,29 +9,26 @@
 #include "../comandos/factory_comandos.h"
 
 class FactoryComandos;
-struct ServerProtocolo:public Protocolo{
+class ServerProtocolo:public Protocolo{
 
     //Socket& skt;
-
+    private:
     FactoryComandos factory;
 
+    public:
     ServerProtocolo(Socket& skt);
-
-    Mensaje recibir_comando(bool &was_closed, uint8_t id);
-
+    Mensaje recibir_comando(bool &was_closed, uint32_t id);
     void enviar_snapshot(Snapshot shot);
-
     void enviar_partidas(std::map<uint32_t,std::string> lista_mapas);
-    
     void partida_empezada();
-
     void check_partida_empezada();
-
-    void enviar_vigas(Snapshot& snap);
-
-    void enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player);
+    void enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player, std::vector<std::vector<float>> vigas);
 
     Mensaje recibir_id_gusanos();
+    private:
+    void enviar_vigas(std::vector<std::vector<float>> vigas);
+
+
 };
 
 #endif

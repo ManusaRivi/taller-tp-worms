@@ -14,11 +14,11 @@ class FactoryComandos{
 
     FactoryComandos();
 
-    std::shared_ptr<ComandoMovimiento> comando_movimiento(uint8_t dir, uint8_t id);
+    std::shared_ptr<ComandoMovimiento> comando_movimiento(uint8_t dir, uint32_t id);
 
     // std::shared_ptr<CrearPartida> comando_crear_partida(std::string nombre, uint8_t tipo);
 
-    std::shared_ptr<DetenerMovimiento> comando_detener(); 
+    std::shared_ptr<DetenerMovimientoCliente> comando_detener(uint32_t id); 
 
     std::shared_ptr<EmpezarPartida> comando_empezar();
 

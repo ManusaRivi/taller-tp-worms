@@ -26,7 +26,7 @@ void Enviador::run(){
 
         if(msg.tipo_mensaje() == COMANDO::CMD_HANDSHAKE){
             printf("Se envia un handshake\n");
-            ptcl.enviar_handshake(msg.gusanos_por_player);
+            ptcl.enviar_handshake(msg.gusanos_por_player,msg.vigas);
         }
         
     }

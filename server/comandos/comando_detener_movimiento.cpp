@@ -1,15 +1,15 @@
 #include "comando_detener_movimiento.h"
 
 
-DetenerMovimiento::DetenerMovimiento(): responsable_id(0){
+DetenerMovimientoCliente::DetenerMovimientoCliente(uint32_t id): responsable_id(id){
 
 }
 
-    void DetenerMovimiento::agregar_id(uint8_t id){
+    void DetenerMovimientoCliente::agregar_id(uint8_t id){
 
     }
 
-    void DetenerMovimiento::realizar_accion(Mapa &mapa, uint32_t id){
+    void DetenerMovimientoCliente::realizar_accion(Mapa &mapa, uint32_t id){
         printf("Se ejecuta la accion de detener el worm para el id %u \n",id);
         int idx;
         if (id == 1){
@@ -21,7 +21,7 @@ DetenerMovimiento::DetenerMovimiento(): responsable_id(0){
         mapa.StopWorm(idx);
     }
 
-    uint8_t DetenerMovimiento::get_comando(){
+    uint8_t DetenerMovimientoCliente::get_comando(){
         return this->tipo_comando;
     }
 

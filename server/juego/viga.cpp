@@ -9,7 +9,9 @@ Viga::Viga(b2World& world, beamSize type, float x_pos, float y_pos, float angle,
 
     b2PolygonShape vigaBox;
     float length = (type == SMALL) ? SMALL_LENGTH : LARGE_LENGTH;
+    this->len = length;
     vigaBox.SetAsBox(length, HEIGHT);
+    
 
     b2FixtureDef fixtureViga;
     fixtureViga.shape = &vigaBox;
@@ -18,4 +20,9 @@ Viga::Viga(b2World& world, beamSize type, float x_pos, float y_pos, float angle,
     fixtureViga.filter.maskBits = collisionMask;
 
     this->body->CreateFixture(&fixtureViga);
+}
+
+std::vector<float> Viga::get_pos(){
+     std::vector<float> viga({body->GetPosition().x,body->GetPosition().y,body->GetAngle(),this->len});
+     return viga;
 }

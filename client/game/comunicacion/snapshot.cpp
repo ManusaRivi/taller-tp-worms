@@ -1,13 +1,13 @@
 #include "snapshot.h"
 
-Snapshot::Snapshot(std::vector<std::vector<int>> vigas): vigas(vigas) {}
+SnapshotCliente::SnapshotCliente(std::vector<std::vector<float>> vigas): vigas(vigas) {}
 
 
-void Snapshot::add_worm(std::shared_ptr<Worm> worm) {
+void SnapshotCliente::add_worm(std::shared_ptr<Worm> worm) {
     worms.push_back(worm);
 }
 
-void Snapshot::present(int& it,
+void SnapshotCliente::present(int& it,
                         Renderer& renderer,
                         TextureManager& texture_manager,
                         float& x_scale,
@@ -22,12 +22,16 @@ void Snapshot::present(int& it,
     renderer.Present();
 }
 
-void Snapshot::agregar_turno_actual(uint32_t turno){
+void SnapshotCliente::agregar_turno_actual(uint32_t turno){
     this->id_turno_actual = turno;
 }
 
-void Snapshot::imprimir_posiciones(){
+void SnapshotCliente::imprimir_posiciones(){
     for (auto &worm : worms){
         printf("La posicion x es = %f\n",worm->get_x());
     }
+}
+
+void SnapshotCliente::agregar_vigas(std::vector<std::vector<float>> vigas){
+    this->vigas = vigas;
 }

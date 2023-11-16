@@ -49,7 +49,7 @@ public:
     void StopWorm(int idx);
     void JumpWormForward(int idx);
     void JumpWormBackward(int idx);
-
+    std::string GetName();
     std::vector<WormWrapper> devolver_gusanos();
 
     ~Mapa();

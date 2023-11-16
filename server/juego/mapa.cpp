@@ -68,6 +68,10 @@ void Mapa::JumpWormBackward(int idx) {
     worms[idx]->JumpBackward();
 }
 
+std::string Mapa::GetName() {
+    return nombre;
+}
+
 std::vector<WormWrapper> Mapa::devolver_gusanos(){
     std::vector<WormWrapper> wrappers;
     for (auto worm : worms) {

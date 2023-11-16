@@ -2,16 +2,17 @@
 #define BEAM_H
 
 #include <SDL2pp/SDL2pp.hh>
-#include "Texturas/texture_manager.h"
+#include "../Texturas/texture_manager.h"
 
 using namespace SDL2pp;
 
 class Beam {
     private:
     int _tamaño;
-    float _pos_X;
+    float _pos_x;
     float _pos_y;
 
+    public:
     Beam(int& tamaño, float& pos_x, float& pos_y);
 
     void present(Renderer& renderer,

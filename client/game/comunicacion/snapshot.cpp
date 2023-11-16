@@ -8,6 +8,7 @@ void Snapshot::add_worm(std::shared_ptr<Worm> worm, int id) {
 }
 
 void Snapshot::apply_to_world(World& world) {
+    world.update_camera(_id_camera);
     for (const auto& pair: worms) {
         world.update_worm(pair.first, std::move(pair.second));
     }

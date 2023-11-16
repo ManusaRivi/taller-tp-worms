@@ -7,7 +7,11 @@ void World::add_worm(std::shared_ptr<Worm> worm, int id) {
 }
 
 void World::add_beam(Beam beam) {
-    beams.push_back(beam)
+    beams.push_back(beam);
+}
+
+void World::update_camera(int id_camera) {
+    _id_camera = id_camera;
 }
 
 void World::update_worm(const int& id, std::shared_ptr<Worm> worm) {

@@ -9,10 +9,13 @@
 class World {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
-    std::vector<Beams> beams;
+    std::vector<Beam> beams;
+    int _id_camera;
 
     public:
     World();
+
+    void update_camera(int id_camera);
 
     void add_worm(std::shared_ptr<Worm> worm, int id);
 

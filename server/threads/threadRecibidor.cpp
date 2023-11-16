@@ -28,6 +28,11 @@ void Recibidor::run(){
             lobby.listar_partidas(snapshots);
         }
 
+        if(msg.tipo_mensaje() == COMANDO::CMD_LISTAR_MAPAS){
+            printf("Se recibe pedido de listar mapas\n");
+            lobby.listar_mapas(snapshots);
+        }
+
         if (msg.tipo_mensaje() == COMANDO::CMD_EMPEZAR_PARTIDA){
             printf("Se recibe comando de empezar partida\n");
             Queue<std::shared_ptr<Comando>> &queue_acciones = lobby.get_queue(id_partida);

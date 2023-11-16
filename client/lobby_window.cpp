@@ -37,7 +37,7 @@ void Lobby_Window::onListarButtonClicked() {
     Socket skt(this->ui1->server.data(), this->ui1->port.data());
     ClienteProtocolo protocol(skt);
     protocol.pedir_lista_partidas();
-    std::map<uint32_t,std::string> maps = protocol.listar_partidas();
+    std::map<uint32_t,std::string> maps = protocol.pedir_lista_partidas();
     //std::vector<std::string> maps = protocol.receiveMapsList();
     //std::vector<std::string> maps = {"mapa 1", "mapa 2", "mapa 3"};
 

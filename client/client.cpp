@@ -65,11 +65,7 @@ void Client::crear_partida(Socket &skt){
         }
         
         if(comando == "listar"){
-            ptcl.pedir_lista_partidas();
-            std::shared_ptr<MensajeCliente> partidas = ptcl.recibir_snapshot();
-            if(partidas->tipo_comando == COMANDO::CMD_LISTAR_PARTIDAS){
-                imprimir_partidas_disponibles(partidas->lista_partidas);
-            }
+            imprimir_partidas_disponibles(ptcl.pedir_lista_partidas());
         }
 
         if (comando == "unirse"){
@@ -79,6 +75,11 @@ void Client::crear_partida(Socket &skt){
             if(msg->tipo_comando == PARTIDA_COMENZO){
                 return;
             }
+        }
+
+        if(comando == "mapas"){
+            std::map<uint32_t,std::string> mapas = ptcl.pedir_mapas();
+            imprimir_partidas_disponibles(mapas);
         }
 
 

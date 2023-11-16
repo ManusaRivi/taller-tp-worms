@@ -12,6 +12,7 @@
 #define SNAPSHOT 0x05
 #define UNIRSE_PARTIDA 0x06
 #define HANDSHAKE 0x07
+#define LISTAR_MAPAS 0x08
 
 
 enum COMANDO{
@@ -21,7 +22,8 @@ enum COMANDO{
     CMD_ACCION_JUGADOR = ACCION_JUGADOR,
     CMD_ENVIAR_SNAPSHOT = SNAPSHOT,
     CMD_UNIRSE_PARTIDA = UNIRSE_PARTIDA,
-    CMD_HANDSHAKE = HANDSHAKE
+    CMD_HANDSHAKE = HANDSHAKE,
+    CMD_LISTAR_MAPAS = LISTAR_MAPAS
 };
 
 struct Mensaje{
@@ -41,7 +43,7 @@ struct Mensaje{
 
     Mensaje(Snapshot snap);
 
-    Mensaje(std::map<uint32_t,std::string> lista_mapas);
+    Mensaje(std::map<uint32_t,std::string> lista,uint8_t tipo);
 
     Mensaje(std::shared_ptr<Comando> cmd);
 

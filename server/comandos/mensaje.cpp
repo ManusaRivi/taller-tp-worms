@@ -1,7 +1,7 @@
 #include "mensaje.h"
 
 
-Mensaje::Mensaje(std::map<uint32_t,std::string> lista):is_snapshot(false),lista_mapas(lista),snap(std::vector<std::vector<int>>()),tipo_comando(COMANDO::CMD_LISTAR_PARTIDAS){
+Mensaje::Mensaje(std::map<uint32_t,std::string> lista, uint8_t tipo):is_snapshot(false),lista_mapas(lista),snap(std::vector<std::vector<int>>()),tipo_comando(tipo){
 
 }
 

@@ -42,6 +42,10 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id){
         Mensaje msg(COMANDO::CMD_LISTAR_PARTIDAS);
         return msg;
     }
+    if(buf == CODIGO_LISTAR_MAPAS){
+        Mensaje msg(COMANDO::CMD_LISTAR_MAPAS);
+        return msg;
+    }
     if (buf == CODIGO_UNIRSE_PARTIDA){
         printf("Se recibe un pedido de unirse a partida");
         uint32_t id_partida = recibir_4_bytes();
@@ -87,21 +91,30 @@ void ServerProtocolo::enviar_snapshot(Snapshot snap){
 
 }
 
-void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string> map/*std::string map*/){
+void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string> partidas/*std::string map*/){
     printf("Se estan por enviar las partidas\n");
     //uint8_t cmd = CODIGO_LISTAR_PARTIDA;
     //enviar_1_byte(cmd);
-    uint16_t cantidad_mapas = map.size();
+    enviar_lista(partidas);
+}
+
+void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string> lista){
+    uint16_t cantidad_mapas = lista.size();
     enviar_2_byte(cantidad_mapas);
-    for (auto i = map.begin(); i != map.end(); i++){
-        //uint32_t id = i->first;
+    for (auto i = lista.begin(); i != lista.end(); i++){
+        uint32_t id = i->first;
 
         std::string nombre = i->second;
-        //enviar_4_bytes(id);
+        std::cout << "Se envia un nombre " << nombre << std::endl;
+        enviar_4_bytes(id);
         enviar_string(nombre);
         
     }
-    //enviar_string(map);
+}
+
+void ServerProtocolo::enviar_mapas(std::map<uint32_t,std::string> mapas){
+    printf("Se estan por enviar los mapas\n");
+    enviar_lista(mapas);
 }
 
 void ServerProtocolo::check_partida_empezada(){

@@ -28,6 +28,11 @@ void Enviador::run(){
             printf("Se envia un handshake\n");
             ptcl.enviar_handshake(msg.gusanos_por_player,msg.vigas);
         }
+
+        if(msg.tipo_mensaje() == COMANDO::CMD_LISTAR_MAPAS){
+            printf("Se envia la lista de mapas");
+            ptcl.enviar_mapas(msg.lista_mapas);
+        }
         
     }
 }

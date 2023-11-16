@@ -25,8 +25,8 @@ class ClienteProtocolo:public Protocolo{
     std::shared_ptr<MensajeCliente> recibir_snapshot();
     void crear_partida(std::string nombre);
     void empezar_partida();
-    std::map<uint32_t,std::string> listar_partidas();
-    void pedir_lista_partidas();
+    
+   
     void unirse_partida(std::string id_paritda);
     void enviar_handshake(uint32_t id_player, std::vector<uint32_t> id_gusanos);
     bool recibir_comienzo_de_partida();
@@ -36,11 +36,13 @@ class ClienteProtocolo:public Protocolo{
     void cargar_arma();
     void disparar_arma();
     void enviar_salto(uint8_t direccion_salto);
-
+    std::map<uint32_t,std::string> pedir_mapas();
+    std::map<uint32_t,std::string> pedir_lista_partidas();
 
     private:
     std::shared_ptr<MensajeCliente> recibir_id_gusanos();
     std::shared_ptr<MensajeCliente> recibir_snap();
+    std::map<uint32_t,std::string> listar_partidas();
 
 
 };

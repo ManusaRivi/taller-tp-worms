@@ -4,13 +4,12 @@
 #include <vector>
 #include <map>
 #include "comunicacion/worm.h"
-
-//#include "comunicacion/beam.h"
+#include "comunicacion/beam.h"
 
 class World {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
-    //std::vector<Beams> beams;
+    std::vector<Beams> beams;
 
     public:
     World();
@@ -19,13 +18,15 @@ class World {
 
     void update_worm(const int& id, std::shared_ptr<Worm> worm);
 
-    //void add_beam(Beam beam);
+    void add_beam(Beam beam);
 
     void present(int& it_inc,
-                    Renderer& renderer,
-                    TextureManager& texture_manager,
-                    float& x_scale,
-                    float& y_scale);
+                        Renderer& renderer,
+                        TextureManager& texture_manager,
+                        int& window_width,
+                        int& window_height,
+                        float& x_scale,
+                        float& y_scale);
 };
 
 #endif

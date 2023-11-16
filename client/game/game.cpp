@@ -9,6 +9,7 @@ Game::Game(Queue<std::shared_ptr<Mensaje>> &queue, Queue<std::shared_ptr<Mensaje
 
 int Game::run() try {
 
+	//Por ahora seguimos presentando la snapshot
 	//World world;
 
 	std::vector<uint32_t> id_gusanos;

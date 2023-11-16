@@ -8,9 +8,9 @@ using namespace SDL2pp;
 
 class Beam {
     private:
-    int tamaño;
-    float pos_X;
-    float pos_y;
+    int _tamaño;
+    float _pos_X;
+    float _pos_y;
 
     Beam(int& tamaño, float& pos_x, float& pos_y);
 

@@ -121,12 +121,10 @@ void Partida::run(){
 
 Snapshot Partida::generar_snapshot(float tiempo_turno, uint32_t id_gusano_current_turn){
     std::vector<std::vector<int>> vigas;
-    WormWrapper gusano1 = mapa.devolver_gusano(0);
-    WormWrapper gusano2 = mapa.devolver_gusano(1);
+    std::vector<WormWrapper> worms = mapa.devolver_gusanos();
     Snapshot snap(vigas);
     snap.add_condiciones_partida(tiempo_turno,id_gusano_current_turn);
-    snap.add_worm(gusano1);
-    snap.add_worm(gusano2);
+    snap.set_worms(worms);
     return snap;
 }
 

@@ -11,7 +11,7 @@ class EmpezarPartida:public Comando{
     EmpezarPartida();
 
     void agregar_id(uint8_t id) override;
-    void realizar_accion(Mapa &mapa , uint32_t id);
+    void realizar_accion(Mapa* mapa , uint32_t id);
 
     uint8_t get_comando() override;
 };

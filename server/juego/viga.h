@@ -21,7 +21,7 @@ class Viga {
 private:
     b2Body* body;
 public:
-    Viga(b2World& world, beamSize type, float x_pos, float y_pos, float angle);
+    Viga(b2World& world, int type, float x_pos, float y_pos, float angle);
 };
 
 #endif

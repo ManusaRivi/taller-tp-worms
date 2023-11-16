@@ -1,6 +1,6 @@
 #include "viga.h"
 
-Viga::Viga(b2World& world, beamSize type, float x_pos, float y_pos, float angle) {
+Viga::Viga(b2World& world, int type, float x_pos, float y_pos, float angle) {
     b2BodyDef vigaDef;
     vigaDef.position.Set(x_pos, y_pos);
     vigaDef.angle = angle;

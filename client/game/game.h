@@ -19,15 +19,18 @@
 #include "../comandos/factory_comandos.h"
 #include "../comandos/mensaje.h"
 #include "world.h"
+#include "../comandos/factory_mensajes.h"
 
 class Game {
     private:
-    Queue<std::shared_ptr<Mensaje>> &snapshots;
-    Queue<std::shared_ptr<Mensaje>> &acciones;
+    Queue<std::shared_ptr<MensajeCliente>> &snapshots;
+    Queue<std::shared_ptr<MensajeCliente>> &acciones;
     FactoryComandos factory;
+    FactoryMensaje mensajes;
+    
 
     public:
-    Game(Queue<std::shared_ptr<Mensaje>> &snapshots, Queue<std::shared_ptr<Mensaje>> &acciones);
+    Game(Queue<std::shared_ptr<MensajeCliente>> &snapshots, Queue<std::shared_ptr<MensajeCliente>> &acciones);
 
     int run();
 

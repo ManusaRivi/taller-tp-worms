@@ -1,3 +1,5 @@
+#ifndef PROTOCOLO_MAIN
+#define PROTOCOLO_MAIN
 #ifdef TESTING
 #include "../tests/test_socket.h"
 #else
@@ -19,6 +21,14 @@
 #define CODIGO_UNIRSE_PARTIDA 0x07
 #define CODIGO_HANDSHAKE_EMPEZAR_PARTIDA 0x08
 #define CODIGO_SNAPSHOT 0x10
+#define CODIGO_CAMBIAR_ANGULO 0x11
+#define CODIGO_CARGAR_ARMA 0x12
+#define CODIGO_DISPARAR 0x13
+#define CODIGO_SALTAR 0x14
+#define CODIGO_DETENER_CAMBIO_ANGULO 0x15
+#define CODIGO_CAMBIAR_ARMA 0x16
+#define CODIGO_RECIBIR_VIGAS 0x17
+#define CODIGO_LISTAR_MAPAS 0x18
 
 
 #define SIZE_DOS 2
@@ -52,3 +62,5 @@ struct Protocolo{
     uint8_t recibir_1_byte();
 
 };
+
+#endif

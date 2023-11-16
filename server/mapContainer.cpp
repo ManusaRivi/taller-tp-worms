@@ -2,7 +2,7 @@
 #include "mapContainer.h"
 
 MapContainer::MapContainer() : mapas() {
-    this->root = "server/mapas/";
+    this->root = "../server/mapas";
     this->getMaps();
 }
 
@@ -15,7 +15,9 @@ MapContainer::~MapContainer() {
 
 void MapContainer::getMaps() {
 
-    fs::path directorioPath(this->root);
+    std::filesystem::path directorioPath = this->root;
+
+    
 
     if (fs::is_directory(directorioPath)) {
         for (const auto& entry : fs::directory_iterator(directorioPath)) {

@@ -1,24 +1,24 @@
 #include "snapshot.h"
 
-Snapshot::Snapshot(int id_camera): _id_camera(id_camera) {}
+SnapshotCliente::SnapshotCliente(int id_camera): _id_camera(id_camera) {}
 
 
-void Snapshot::add_worm(std::shared_ptr<Worm> worm, int id) {
+void SnapshotCliente::add_worm(std::shared_ptr<Worm> worm, int id) {
     worms.emplace(id, worm);
 }
 
-void Snapshot::add_beam(Beam beam) {
+void SnapshotCliente::add_beam(Beam beam) {
     beams.push_back(beam);
 }
 
-void Snapshot::apply_to_world(World& world) {
+void SnapshotCliente::apply_to_world(World& world) {
     world.update_camera(_id_camera);
     for (const auto& pair: worms) {
         world.update_worm(pair.first, std::move(pair.second));
     }
 }
 
-void Snapshot::present(int& it_inc,
+void SnapshotCliente::present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
                         int& window_width,
@@ -46,12 +46,16 @@ void Snapshot::present(int& it_inc,
     renderer.Present();
 }
 
-void Snapshot::agregar_turno_actual(uint32_t turno){
+void SnapshotCliente::agregar_turno_actual(uint32_t turno){
     this->id_turno_actual = turno;
 }
 
-void Snapshot::imprimir_posiciones(){
+void SnapshotCliente::imprimir_posiciones(){
     for (auto &worm : worms){
         printf("La posicion x es = %f\n",worm.second->get_x());
     }
+}
+
+void SnapshotCliente::agregar_vigas(std::vector<std::vector<float>> vigas){
+    this->vigas = vigas;
 }

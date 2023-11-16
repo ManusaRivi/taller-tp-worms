@@ -5,8 +5,13 @@
 
 Mapa::Mapa() : world(b2Vec2(0.0f, -10.0f)), contactListener(GroundContactListener()) {
     world.SetContactListener(&contactListener);
+    float counter = 0;
+    for(float i = 0; i < 10;i++){
 
-    vigas.push_back(new Viga (world, LARGE, 0.0f, 0.0f, 0.0f, BOUNDARY, WORM));
+        vigas.push_back(new Viga (world, LARGE, counter, 0.0f, 0.0f, BOUNDARY, WORM));
+        counter += 3;
+    }
+
 
     worms.push_back(new Worm (world, 100, RIGHT, 1.5f, 1.0f, WORM, BOUNDARY));
 
@@ -57,4 +62,13 @@ Mapa::~Mapa() {
     for (auto viga: vigas) {
         delete viga;
     }
+}
+
+std::vector<std::vector<float>> Mapa::get_vigas(){
+    std::vector<std::vector<float>> vec_vigas;
+    for (auto viga:vigas){
+        std::vector<float> viga_pos = viga->get_pos();
+        vec_vigas.push_back(viga_pos);
+    }
+    return vec_vigas;
 }

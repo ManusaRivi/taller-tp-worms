@@ -1,10 +1,10 @@
 #include "comando_detener_movimiento.h"
 
 
-DetenerMovimiento::DetenerMovimiento(){
+DetenerMovimientoCliente::DetenerMovimientoCliente(){
 
 }
 
-void DetenerMovimiento::enviar_accion(ClienteProtocolo &ptcl){
+void DetenerMovimientoCliente::enviar_accion(ClienteProtocolo &ptcl){
     ptcl.detener_movimiento();
 }

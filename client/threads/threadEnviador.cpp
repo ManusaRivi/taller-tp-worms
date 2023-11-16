@@ -1,7 +1,7 @@
 #include "threadEnviador.h"
 
 
-Enviador::Enviador(Socket &peer, Queue<std::shared_ptr<Mensaje>> &queue_comandos):skt(peer),comandos_a_enviar(queue_comandos){
+Enviador::Enviador(Socket &peer, Queue<std::shared_ptr<MensajeCliente>> &queue_comandos):skt(peer),comandos_a_enviar(queue_comandos){
 
 }
 
@@ -9,9 +9,9 @@ void Enviador::run(){
     bool was_closed = false;
     ClienteProtocolo ptcl(skt);
     while(!was_closed){
-        std::shared_ptr<Mensaje> cmd = comandos_a_enviar.pop();
+        std::shared_ptr<MensajeCliente> cmd = comandos_a_enviar.pop();
         if (cmd->tipo_comando == COMANDO::CMD_ACCION_JUGADOR){
-            std::shared_ptr<Comando> accion = cmd->cmd;
+            std::shared_ptr<ComandoCliente> accion = cmd->cmd;
             if(!accion){
                 continue;
             }

@@ -13,7 +13,7 @@
 using namespace SDL2pp;
 
 // Simula la "imagen" del estado del juego.
-class Snapshot {
+class SnapshotCliente {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
     std::vector<Beam> beams;
@@ -22,7 +22,7 @@ class Snapshot {
 
     public:
     //Constructor
-    Snapshot(int id_camera);
+    SnapshotCliente(int id_camera);
 
     //Agrega un gusano a la lista de gusanos
     void add_worm(std::shared_ptr<Worm> worm, int id);
@@ -43,6 +43,8 @@ class Snapshot {
     void agregar_turno_actual(uint32_t id);
 
     void imprimir_posiciones();
+
+    void agregar_vigas(std::vector<std::vector<float>> vigas);
 };
 
 #endif

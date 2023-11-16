@@ -1,10 +1,14 @@
+#ifndef DETENER_MOVIMIENTO_CLIENTE
+#define DETENER_MOVIMIENTO_CLIENTE
 #include "comando.h"
 
 
-struct DetenerMovimiento:public Comando{
+class DetenerMovimientoCliente:public ComandoCliente{
 
-    DetenerMovimiento();
-
+    public:
+    DetenerMovimientoCliente();
     void enviar_accion(ClienteProtocolo &ptcl) override;
 
 };
+
+#endif

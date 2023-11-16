@@ -6,10 +6,10 @@
 class ComandoMovimiento:public Comando{
 
     uint8_t dir;
-    uint8_t responsable_id;
+    uint32_t responsable_id;
 
     public:
-    ComandoMovimiento(uint8_t direccion, uint8_t id);
+    ComandoMovimiento(uint8_t direccion, uint32_t id);
 
 
 

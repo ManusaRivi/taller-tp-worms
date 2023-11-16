@@ -28,6 +28,11 @@ void Recibidor::run(){
             lobby.listar_partidas(snapshots);
         }
 
+        if(msg.tipo_mensaje() == COMANDO::CMD_LISTAR_MAPAS){
+            printf("Se recibe pedido de listar mapas\n");
+            lobby.listar_mapas(snapshots);
+        }
+
         if (msg.tipo_mensaje() == COMANDO::CMD_EMPEZAR_PARTIDA){
             printf("Se recibe comando de empezar partida\n");
             Queue<std::shared_ptr<Comando>> &queue_acciones = lobby.get_queue(id_partida);
@@ -51,7 +56,6 @@ void Recibidor::run(){
     while(partida_online && !was_closed){
         Mensaje msg = ptcl.recibir_comando(was_closed,id);
         std::shared_ptr<Comando> cmd = msg.cmd;
-        cmd.get()->responsable_id = id;
         queue_acciones.push(cmd);
     }
     std::cout << "Se desconecto el cliente" << std::endl;

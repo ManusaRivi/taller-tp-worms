@@ -2,7 +2,7 @@
 
 
 
-ComandoMovimiento::ComandoMovimiento(uint8_t direccion, uint8_t id):dir(direccion),responsable_id(id){
+ComandoMovimiento::ComandoMovimiento(uint8_t direccion, uint32_t id):dir(direccion),responsable_id(id){
 }
 
 

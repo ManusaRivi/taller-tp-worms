@@ -29,8 +29,7 @@ void ClienteProtocolo::detener_movimiento(){
 
 std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snapshot(){
     bool was_closed = false;
-    std::vector<std::vector<float>> vigas;
-    SnapshotCliente sn(vigas);
+    SnapshotCliente sn(0);
     uint8_t cmd;
     skt.recvall(&cmd,1,&was_closed);
 
@@ -153,8 +152,7 @@ void ClienteProtocolo::enviar_handshake(uint32_t id_player, std::vector<uint32_t
 }
 
 std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
-    std::vector<std::vector<float>> vigas;
-    std::shared_ptr<SnapshotCliente> snap= std::make_shared<SnapshotCliente>(vigas);
+    std::shared_ptr<SnapshotCliente> snap= std::make_shared<Snapshot>(0);
 
     uint32_t turno_player_actual = recibir_4_bytes();
     uint16_t cantidad_gusanos = recibir_2_bytes();
@@ -167,16 +165,21 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
         float y_pos = pos_y;
         float xpos = x_pos/100;
         float ypos = y_pos/100;
-        std::vector<float> pos({xpos,ypos});
 
         uint32_t angulo = recibir_4_bytes();
         uint8_t direccion = recibir_1_byte();
         uint8_t estado = recibir_1_byte();
         std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(estado, direccion == 0, angulo, 0.0);
-        std::shared_ptr<Worm> worm = std::make_shared<Worm>(id_gusano,pos, std::move(state));
-        snap->add_worm(worm);
+        std::shared_ptr<Worm> worm = std::make_shared<Worm>(xpos, ypos, std::move(state));
+        snap->add_worm(worm, id_gusano);
     }
-    
+    /*
+    int tamano = 6;
+    float posx = 1.5;
+    float posy = 0.8;
+    Beam beam(tamano, posx, posy);
+    snap->add_beam(beam);
+    */
     //std::cout << "Es el turno del gusano con ID = " << unsigned(turno_player_actual) << std::endl;
     snap->agregar_turno_actual(turno_player_actual);
     std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(snap);

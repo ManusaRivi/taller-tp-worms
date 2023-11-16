@@ -20,18 +20,23 @@ class WormState {
     bool facing_right;
     float worm_angle;
     float shot_angle;
+    bool finished;
+    int iteration;
 
     //Constructor protegido para que solo las hijas puedan acceder a el
     WormState();
 
     public:
     //Renderiza el gusano en este estado
-    virtual void present(int& it,
+    virtual void present(int& it_inc,
                         SDL2pp::Renderer& renderer,
                         TextureManager& texture_manager,
-                        std::vector<float>& position,
+                        float& pos_x,
+                        float& pos_y,
                         float& x_scale,
                         float& y_scale);
+    
+    virtual bool is_finished();
 
     //Destructor virtual
     virtual ~WormState() {}

@@ -9,6 +9,9 @@ Game::Game(Queue<std::shared_ptr<MensajeCliente>> &queue, Queue<std::shared_ptr<
 
 int Game::run() try {
 
+	//Por ahora seguimos presentando la snapshot
+	//World world;
+
 	std::vector<uint32_t> id_gusanos;
 	uint32_t id_player;
 	std::vector<std::vector<float>> vigas;
@@ -23,6 +26,26 @@ int Game::run() try {
 			vigas = msg->vigas;
 			acciones.push(msg);
 			se_recibieron_ids = true;
+
+			/*
+				En el Handshake deberia recibir las posiciones de las vigas 
+				Y las posiciones iniciales de todos los gusanos (como una snapshot)
+
+				* Idea: Crear world en el protocolo de esta manera:
+			
+					World world();
+					Por cada Worm:
+						world.add_worm(worm, id);
+
+					Por cada viga:
+						world.add_beam(beam);
+			
+
+					Y guardarlo en el msg de tipo handshake.
+					Luego, reemplazar este comentario con:
+				
+					world = msg->world;
+			*/
 		}
 	}
 
@@ -52,7 +75,7 @@ int Game::run() try {
     unsigned int t1 = SDL_GetTicks();
 
 	// Numero de frame de la iteracion de las animaciones
-	int it = 0;
+	int it_inc = 0;
 
 	//Variables de teclas:
 	bool right_press = false;
@@ -66,10 +89,6 @@ int Game::run() try {
 	bool is_charging_power = false;
     // Loop principal
 	while (1) {
-        // Procesamiento de eventos:
-		// - Si la ventana se cierra o se presiona Esc
-		//   cerrar la aplicacion.
-		// - Si se presiona (KEYDOWN) la fecha derecha el gusano se mueve.
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_QUIT) {
@@ -191,7 +210,8 @@ int Game::run() try {
     	int window_width = renderer.GetOutputWidth();
 		int window_height = renderer.GetOutputHeight();
 
-		float x_scale = window_width / CAMERA_WIDTH;
+		//Obtengo la escala:
+    	float x_scale = window_width / CAMERA_WIDTH;
 		float y_scale = window_height / CAMERA_HEIGHT;
 
         // Limpio la pantalla
@@ -201,8 +221,11 @@ int Game::run() try {
         std::shared_ptr<MensajeCliente> snap = snapshots.pop();
 		if (snap->tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
 			std::shared_ptr<SnapshotCliente> snapshot = snap->snap;
-			//Grafico la snapshot
-			snapshot->present(it, renderer, texture_manager, x_scale, y_scale);
+			/*
+			snapshot->apply_to_world(world);
+			world.present(it_inc, renderer, texture_manager, x_scale, y_scale);
+			*/
+			snapshot->present(it_inc, renderer, texture_manager, window_width, window_height, x_scale, y_scale);
 		}
 		// Timing: calcula la diferencia entre este frame y el anterior
 		// en milisegundos
@@ -215,14 +238,14 @@ int Game::run() try {
 			rest = FRAME_RATE - behind % FRAME_RATE;
 			int lost = behind + rest;
 			t1 += lost;
-			it += int(lost / FRAME_RATE);
+			it_inc = int(lost / FRAME_RATE);
 		}
 
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
         // El 100% del CPU.
 		SDL_Delay(rest);
 		t1 += FRAME_RATE;
-		it += 1;
+		it_inc = 1;
     }
 
 

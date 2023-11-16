@@ -238,14 +238,16 @@ int Game::run() try {
 			rest = FRAME_RATE - behind % FRAME_RATE;
 			int lost = behind + rest;
 			t1 += lost;
-			it_inc = int(lost / FRAME_RATE);
+			//it_inc = int(lost / FRAME_RATE);
+			it_inc += int(lost / FRAME_RATE);
 		}
 
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
         // El 100% del CPU.
 		SDL_Delay(rest);
 		t1 += FRAME_RATE;
-		it_inc = 1;
+		//it_inc = 1;
+		it_inc += 1;
     }
 
 

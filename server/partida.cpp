@@ -62,7 +62,7 @@ void Partida::run(){
         // o que el protocolo devuelva el comando directamente como uniqe_ptr 
         // Un if para verificar si el jugador que hizo la accion es correcto
         if(comandos_a_ejecutar.size() == 0){
-            mapa.Step();
+            mapa->Step();
             Snapshot snap = generar_snapshot(elapsed,turno_gusano);
             Mensaje broadcast(snap);
             broadcaster.broadcastSnap(broadcast);
@@ -70,7 +70,7 @@ void Partida::run(){
         std::shared_ptr<Comando> comando_ejecutable;
         for( auto &c: comandos_a_ejecutar){
             c->realizar_accion(mapa,turno_gusano);
-            mapa.Step();
+            mapa->Step();
             Snapshot snap = generar_snapshot(elapsed,turno_gusano);
             Mensaje broadcast(snap);
             broadcaster.broadcastSnap(broadcast); // TODO:que snapshot sea un shared-ptr
@@ -121,7 +121,7 @@ void Partida::run(){
 
 Snapshot Partida::generar_snapshot(float tiempo_turno, uint32_t id_gusano_current_turn){
     std::vector<std::vector<int>> vigas;
-    std::vector<WormWrapper> worms = mapa.devolver_gusanos();
+    std::vector<WormWrapper> worms = mapa->devolver_gusanos();
     Snapshot snap(worms, vigas);
     snap.add_condiciones_partida(tiempo_turno,id_gusano_current_turn);
     return snap;

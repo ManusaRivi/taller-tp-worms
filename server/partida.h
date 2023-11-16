@@ -12,7 +12,7 @@ struct Partida:public Thread{
 
 
     Queue<std::shared_ptr<Comando>> acciones_a_realizar;
-    Mapa mapa;
+    Mapa* mapa;
     BroadCaster broadcaster;
     uint32_t id_partida;
     std::string nombre_partida;

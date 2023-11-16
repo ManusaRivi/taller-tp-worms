@@ -1,7 +1,7 @@
 #include "threadEnviador.h"
 
 
-Enviador::Enviador(Socket &peer, uint8_t _id, Queue<Mensaje> *snapshots):skt(peer), id(_id),snapshots_a_enviar(snapshots){
+Enviador::Enviador(Socket &peer, Queue<Mensaje> *snapshots):skt(peer),snapshots_a_enviar(snapshots){
 
 }
 
@@ -26,6 +26,10 @@ void Enviador::run(){
         if(msg.tipo_comando == COMANDO::CMD_LISTAR_MAPAS){
             printf("En el enviador se estan por mandar mapas\n");
             ptcl.enviar_mapas(msg.lista_mapas_);
+        }
+        if(msg.tipo_mensaje() == COMANDO::CMD_HANDSHAKE){
+            printf("Se envia un handshake\n");
+            ptcl.enviar_handshake(msg.gusanos_por_player);
         }
         
     }

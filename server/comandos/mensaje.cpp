@@ -31,6 +31,9 @@ Mensaje::Mensaje(uint8_t tipo):snap(std::vector<std::vector<int>>()),tipo_comand
 Mensaje::Mensaje(uint8_t tipo,uint8_t id):snap(std::vector<std::vector<int>>()),tipo_comando(tipo),id_partida_a_unirse(id){
 
 }
+Mensaje::Mensaje(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player_):snap(std::vector<std::vector<int>>()),tipo_comando(COMANDO::CMD_HANDSHAKE),gusanos_por_player(gusanos_por_player_){
+
+}
 
 uint8_t Mensaje::tipo_mensaje(){
     return tipo_comando;

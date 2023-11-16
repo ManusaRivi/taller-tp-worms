@@ -3,10 +3,18 @@
 
 #include "../../libs/box2d/include/box2d/box2d.h"
 
-#define RIGHT 0
-#define LEFT 1
+enum directions {
+    RIGHT = 0,
+    LEFT = 1,
+};
 
-#define MOVING_SPEED 1
+#define BOX_WIDTH 0.15f
+#define BOX_HEIGHT 0.4f
+
+#define WORM_DENSITY 1.0f
+#define WORM_FRICTION 0.0f
+
+#define MOVING_SPEED 0.2
 
 #define FORWARD_JUMP_STEPS 38
 #define BACKWARD_JUMP_STEPS 58
@@ -21,15 +29,28 @@ class Worm {
 private:
     b2Body* body;
     int facingDirection;
+    bool airborne;
+    int hitPoints;
+    float initialHeight;
+    float finalHeight;
+    uint32_t id;
 public:
     int jumpSteps;
-    Worm(b2Body* body, int direction);
+    Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint16 collisionCategory, uint16 collisionMask);
     void Move(int dir);
     void Stop();
     void JumpForward();
     void JumpBackward();
+    void startGroundContact();
+    void endGroundContact();
+    bool isAirborne();
+    void takeDamage(int damage);
 
     b2Vec2 GetPosition();
+
+    int get_facing_direction();
+
+    uint32_t get_id();
 };
 
 #endif

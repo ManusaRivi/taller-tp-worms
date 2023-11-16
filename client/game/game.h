@@ -1,7 +1,12 @@
 #ifndef GAME_H
 #define GAME_H
 
+// Frame rate, 33 para 30FPS
 #define FRAME_RATE 33
+
+// Tamaño de la camara (en metros)
+#define CAMERA_WIDTH 7.11
+#define CAMERA_HEIGHT 4
 
 #include <SDL2pp/SDL2pp.hh>
 #include "Texturas/texture_manager.h"
@@ -16,12 +21,12 @@
 
 class Game {
     private:
-    Queue<Mensaje> &snapshots;
-    Queue<Mensaje> &acciones;
+    Queue<std::shared_ptr<Mensaje>> &snapshots;
+    Queue<std::shared_ptr<Mensaje>> &acciones;
     FactoryComandos factory;
 
     public:
-    Game(Queue<Mensaje> &snapshots, Queue<Mensaje> &acciones);
+    Game(Queue<std::shared_ptr<Mensaje>> &snapshots, Queue<std::shared_ptr<Mensaje>> &acciones);
 
     int run();
 

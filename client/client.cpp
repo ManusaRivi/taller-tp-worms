@@ -12,8 +12,8 @@ int Client::iniciar() {
     try {
         this->login.start();
 
-        Queue<Mensaje> queue_comandos; //TODO: Cambiar a Unique ptr
-        Queue<Mensaje> queue_snapshots;
+        Queue<std::shared_ptr<Mensaje>> queue_comandos; //TODO: Cambiar a Unique ptr
+        Queue<std::shared_ptr<Mensaje>> queue_snapshots;
 
         //Socket skt(server.data(),port.data());
 
@@ -55,26 +55,28 @@ void Client::crear_partida(){
         }
 
         if(comando == "empezar"){
+
             ptcl.empezar_partida();
-            Mensaje msg = ptcl.recibir_snapshot();
-            if (msg.tipo_comando == PARTIDA_COMENZO){
+            std::shared_ptr<Mensaje> msg = ptcl.recibir_snapshot();
+            if (msg->tipo_comando == PARTIDA_COMENZO){
+                printf("Se recibe comando de que la partida empezo\n");
                 return;
             }
         }
         
         if(comando == "listar"){
             ptcl.pedir_lista_partidas();
-            Mensaje partidas = ptcl.recibir_snapshot();
-            if(partidas.tipo_comando == COMANDO::CMD_LISTAR_PARTIDAS){
-                imprimir_partidas_disponibles(partidas.lista_partidas);
+            std::shared_ptr<Mensaje> partidas = ptcl.recibir_snapshot();
+            if(partidas->tipo_comando == COMANDO::CMD_LISTAR_PARTIDAS){
+                imprimir_partidas_disponibles(partidas->lista_partidas);
             }
         }
 
         if (comando == "unirse"){
             std::getline(std::cin, argumento);
             ptcl.unirse_partida(argumento);
-            Mensaje msg = ptcl.recibir_snapshot();
-            if(msg.tipo_comando == PARTIDA_COMENZO){
+            std::shared_ptr<Mensaje> msg = ptcl.recibir_snapshot();
+            if(msg->tipo_comando == PARTIDA_COMENZO){
                 return;
             }
         }

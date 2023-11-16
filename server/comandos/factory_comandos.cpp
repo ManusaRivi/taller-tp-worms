@@ -16,3 +16,11 @@ std::shared_ptr<DetenerMovimiento> FactoryComandos::comando_detener(){
         return std::make_shared<DetenerMovimiento>();
 }
 
+
+std::shared_ptr<EmpezarPartida> FactoryComandos::comando_empezar(){
+        return std::make_shared<EmpezarPartida>();
+}
+
+FactoryComandos::~FactoryComandos(){
+
+}

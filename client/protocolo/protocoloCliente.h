@@ -1,10 +1,10 @@
 #ifndef _PROTOCOLO
 #define _PROTOCOLO
 
-#include "../../common/socket.h"
 #include "../game/comunicacion/snapshot.h"
 #include "../../common/protocolo.h"
 #include "../comandos/mensaje.h"
+#include "../game/Estados/worm_state_generator.h"
 
 #include <iostream>
 #include <string>
@@ -21,7 +21,7 @@ struct ClienteProtocolo:public Protocolo{
 
     void enviar_movimiento(uint8_t dir);
 
-    Mensaje recibir_snapshot();
+    std::shared_ptr<Mensaje> recibir_snapshot();
 
     void detener_movimiento();
 
@@ -36,6 +36,12 @@ struct ClienteProtocolo:public Protocolo{
     void pedir_lista_mapas();
 
     void unirse_partida(std::string id_paritda);
+
+    std::shared_ptr<Mensaje> recibir_id_gusanos();
+
+    void enviar_handshake(uint32_t id_player, std::vector<uint32_t> id_gusanos);
+
+    std::shared_ptr<Mensaje> recibir_snap();
 
 
 };

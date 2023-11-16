@@ -15,13 +15,14 @@ struct Lobby{
     std::map<uint32_t,Partida*> lista_partidas;
 
     uint32_t id_actual;
+    std::mutex lck;
     //MonitorClientes &clientes;
 
     Lobby();
 
     uint8_t unirse_a_partida(uint32 id, Queue<Mensaje>* snapshots, uint8_t id_player);
 
-    std::pair<uint32_t,uint8_t> crear_partida(std::string nombre_partida, uint8_t creador_responsable,Queue<Mensaje>* snapshots);
+    uint32_t crear_partida(std::string nombre_partida, Queue<Mensaje>* snapshots);
 
     void start_lobby();
 

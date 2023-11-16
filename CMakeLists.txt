@@ -61,7 +61,7 @@ add_executable(client "client/main.cpp" ${RESOURCES})
 add_executable(editor "editor/main.cpp")
 
 # Va a haber otro ejecutable para el editor.
-target_link_libraries(server server_lib box2d yaml-cpp common_lib Threads::Threads)
+target_link_libraries(server server_lib box2d yaml-cpp common_lib Threads::Threads ${SDL2PP_LIBRARIES})
 target_link_libraries(client client_lib ${SDL2PP_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} yaml-cpp common_lib Threads::Threads)
 target_link_libraries(editor editor_lib ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} yaml-cpp)
 

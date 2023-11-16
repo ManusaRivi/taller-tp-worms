@@ -11,8 +11,9 @@ using namespace SDL2pp;
 // Simula la "imagen" del estado del juego.
 class Snapshot {
     private:
-    std::vector<Worm> worms;
+    std::vector<std::shared_ptr<Worm>> worms;
     std::vector<std::vector<int>> vigas;
+    uint32_t id_turno_actual;
 
 /*
  * La idea es, mas adelante, que este Snapshot tenga:
@@ -24,12 +25,17 @@ class Snapshot {
     Snapshot(std::vector<std::vector<int>> vigas);
 
     //Agrega un gusano a la lista de gusanos
-    void add_worm(Worm worm);
+    void add_worm(std::shared_ptr<Worm> worm);
 
-    void present(int run_phase,
-                Renderer& renderer,
-                TextureManager& texture_manager,
-                int& vcenter);
+    void present(int& it,
+                        Renderer& renderer,
+                        TextureManager& texture_manager,
+                        float& x_scale,
+                        float& y_scale);
+    
+    void agregar_turno_actual(uint32_t id);
+
+    void imprimir_posiciones();
 };
 
 #endif

@@ -12,7 +12,8 @@
 #define ACCION_JUGADOR 0x04
 #define SNAPSHOT 0x05
 #define UNIRSE_PARTIDA 0x06
-#define LISTAR_MAPAS 0x07
+#define HANDSHAKE 0x07
+#define LISTAR_MAPAS 0x08
 
 enum COMANDO{
     CMD_CREAR_PARTIDA = CREAR_PARTIDA,
@@ -21,6 +22,7 @@ enum COMANDO{
     CMD_ACCION_JUGADOR = ACCION_JUGADOR,
     CMD_ENVIAR_SNAPSHOT = SNAPSHOT,
     CMD_UNIRSE_PARTIDA = UNIRSE_PARTIDA,
+    CMD_HANDSHAKE = HANDSHAKE,
     CMD_LISTAR_MAPAS = LISTAR_MAPAS
 };
 
@@ -35,6 +37,8 @@ struct Mensaje{
     uint8_t tipo_comando;
     uint8_t id_partida_a_unirse;
     std::map<uint32_t,std::string> lista_mapas_;
+    std::vector<uint32_t> id_gusanos;
+    std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player;
 
     Mensaje(Snapshot snap);
 
@@ -52,6 +56,8 @@ struct Mensaje{
     Mensaje(uint8_t tipo);
 
     Mensaje(uint8_t tipo, uint8_t id);
+
+    Mensaje(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player);
 
 };
 

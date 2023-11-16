@@ -5,35 +5,34 @@
 #include <string>
 #include <SDL2pp/SDL2pp.hh>
 #include "../Texturas/texture_manager.h"
+#include "../Estados/Gusano/worm_state.h"
 
 using namespace SDL2pp;
-
-//Direcciones (despues quizas cambie a un angulo)
-#define DIR_RIGHT 1
-#define DIR_LEFT 0
-
-//Estados (Despues va a haber mas)
-#define STATUS_IDLE 0
-#define STATUS_MOVING 1
 
 class Worm {
     private:
     std::vector<float> position;  // (x,y)
-    int dir;                    // Despues quizas cambie a un angulo
-    int status;                 
+    std::unique_ptr<WormState> state;        
+    uint32_t id;      
     
-    std::string determine_texture(int status);
-
     public:
     //Constructor
-    Worm(std::vector<float> position, int dir, int status);
+    Worm(uint32_t id ,std::vector<float> position, std::unique_ptr<WormState> state);
+
+    //Constructor por copia:
+    Worm(const Worm& other);
+
+    Worm& operator=(const Worm& other);
+
 
     //La idea es que despues deje de recibir una unica textura
     //Y reciba un gestor de textura para pedirle la textura a mostrar
     void present(int& it,
                 Renderer& renderer,
                 TextureManager& texture_manager,
-                int& vcenter);
+                float& x_scale,
+                float& y_scale);
+    float get_x();
 };
 
 #endif

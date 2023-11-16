@@ -12,13 +12,15 @@ struct Enviador:public Thread{
     Socket &skt;
     std::atomic<bool> is_alive;
     uint8_t id;
-    Queue<Mensaje> &comandos_a_enviar;
+    Queue<std::shared_ptr<Mensaje>> &comandos_a_enviar;
 
-    Enviador(Socket &peer, Queue<Mensaje> &queue_comandos);
+    Enviador(Socket &peer, Queue<std::shared_ptr<Mensaje>> &queue_comandos);
 
     void run() override;
 
     bool is_dead();
+
+    
 
 
 };

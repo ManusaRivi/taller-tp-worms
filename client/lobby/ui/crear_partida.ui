@@ -199,7 +199,7 @@ QMessageBox {
        <item>
         <widget class="QPushButton" name="crear">
          <property name="text">
-          <string>Crear</string>
+          <string>Unirse</string>
          </property>
         </widget>
        </item>

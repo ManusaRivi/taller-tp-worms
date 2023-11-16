@@ -43,7 +43,7 @@ void Lobby_Window::onListarButtonClicked() {
 
 void Lobby_Window::onUnirButtonClicked() {
     if (!this->ui->listWidget->selectedItems().isEmpty()) {
-        this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_ESPERA));
+        this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_ESPERA_SIN_OPCION_A_COMENZAR));
     } else {
         QMessageBox::warning(this, "Advertencia", "Ningún elemento está seleccionado.", QMessageBox::Ok);
     }

@@ -28,7 +28,9 @@ class Snapshot {
                         Renderer& renderer,
                         TextureManager& texture_manager,
                         int& window_width,
-                        int& window_height);
+                        int& window_height,
+                        float& x_scale,
+                        float& y_scale);
 
 
     void apply_to_world(World& world);

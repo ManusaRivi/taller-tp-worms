@@ -29,7 +29,7 @@ void ClienteProtocolo::detener_movimiento(){
 
 std::shared_ptr<Mensaje> ClienteProtocolo::recibir_snapshot(){
     bool was_closed = false;
-    Snapshot sn;
+    Snapshot sn(0);
     uint8_t cmd;
     skt.recvall(&cmd,1,&was_closed);
 
@@ -147,7 +147,7 @@ void ClienteProtocolo::enviar_handshake(uint32_t id_player, std::vector<uint32_t
 }
 
 std::shared_ptr<Mensaje> ClienteProtocolo::recibir_snap(){
-    std::shared_ptr<Snapshot> snap= std::make_shared<Snapshot>();
+    std::shared_ptr<Snapshot> snap= std::make_shared<Snapshot>(0);
 
     uint32_t turno_player_actual = recibir_4_bytes();
     uint16_t cantidad_gusanos = recibir_2_bytes();

@@ -212,6 +212,10 @@ int Game::run() try {
     	int window_width = renderer.GetOutputWidth();
 		int window_height = renderer.GetOutputHeight();
 
+		//Obtengo la escala:
+    	float x_scale = window_width / CAMERA_WIDTH;
+		float y_scale = window_height / CAMERA_HEIGHT;
+
         // Limpio la pantalla
 		renderer.Clear();
 
@@ -223,7 +227,7 @@ int Game::run() try {
 			snapshot->apply_to_world(world);
 			world.present(it_inc, renderer, texture_manager, x_scale, y_scale);
 			*/
-			snapshot->present(it_inc, renderer, texture_manager, window_width, window_height);
+			snapshot->present(it_inc, renderer, texture_manager, window_width, window_height, x_scale, y_scale);
 
 		}
 		// Timing: calcula la diferencia entre este frame y el anterior

@@ -15,11 +15,11 @@ void World::present(int& it_inc,
                     TextureManager& texture_manager,
                     float& x_scale,
                     float& y_scale) {
-                    
+    /*
     for (auto& worm : worms) {
         worm.second->present(it_inc, renderer, texture_manager, x_scale, y_scale);
     }
-
+    */
     /*
     for (auto& beam : beams) {
         beam->present(renderer, texture_manager, x_scale, y_scale);

@@ -4,6 +4,8 @@
 #include "../../libs/box2d/include/box2d/box2d.h"
 #include "./collision_categories.h"
 
+#include <vector>
+
 enum directions {
     RIGHT = 0,
     LEFT = 1,
@@ -46,8 +48,8 @@ public:
     void endGroundContact();
     bool isAirborne();
     void takeDamage(int damage);
-
-    b2Vec2 GetPosition();
+    std::vector<float> GetPosition();
+    float GetAngle();
 
     int get_facing_direction();
 

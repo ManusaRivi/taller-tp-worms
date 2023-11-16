@@ -107,8 +107,13 @@ void Worm::takeDamage(int damage) {
     hitPoints -= damage;
 }
 
-b2Vec2 Worm::GetPosition() {
-    return body->GetPosition();
+std::vector<float> Worm::GetPosition() {
+    b2Vec2 position = body->GetPosition();
+    return std::vector<float> (position.x, position.y);
+}
+
+float Worm::GetAngle() {
+    return body->GetAngle();
 }
 
 int Worm::get_facing_direction(){

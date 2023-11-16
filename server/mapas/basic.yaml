@@ -1,0 +1,15 @@
+nombre: basic
+
+vigas:
+  - tipo: larga
+    pos_x: 0
+    pos_y: 0
+    angulo: 0
+
+gusanos:
+  - pos_x: -1.5
+    pos_y: 0.82
+    direccion: 0
+  - pos_x: 1.5
+    pos_y: 0.82
+    direccion: 1

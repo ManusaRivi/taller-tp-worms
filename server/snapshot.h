@@ -26,12 +26,9 @@ class Snapshot {
 
     public:
     //Constructor
-    Snapshot(std::vector<std::vector<int>> vigas);
+    Snapshot(std::vector<WormWrapper> worms, std::vector<std::vector<int>> vigas);
 
     Snapshot(std::map<uint32_t,std::string> lista);
-
-    //Agrega un gusano a la lista de gusanos
-    void add_worm(WormWrapper worm);
 
     std::vector<WormWrapper> get_worms();
 

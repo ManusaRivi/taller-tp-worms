@@ -23,18 +23,11 @@ void MapContainer::getMaps() {
                 std::string archivoYAML = entry.path().string();
 
                 try {
-                    YAML::Node config = YAML::LoadFile(archivoYAML);
-
-                    // Extraer los datos del archivo YAML
-                    //std::string nombreMapa = config["mapa"]["nombre"].as<std::string>();
-                    //int ancho = config["mapa"]["tamaño"]["ancho"].as<int>();
-                    //int alto = config["mapa"]["tamaño"]["alto"].as<int>();
-
                     // Crea una instancia de la clase Mapa
-                    Mapa* mapa = new Mapa(); // ACA HAY QUE INICIALIZAR EL MAPA CON TODOS LOS DATOS
+                    Mapa* mapa = new Mapa(archivoYAML); // ACA HAY QUE INICIALIZAR EL MAPA CON TODOS LOS DATOS
 
                     // Agrega el mapa al MapContainer utilizando el nombre del archivo como ID
-                    this->addMap(entry.path().filename().string(), mapa);
+                    this->addMap(mapa->GetName(), mapa);
                 } catch (const std::exception& e) {
                     std::cerr << "Error al leer el archivo YAML: " << e.what() << std::endl;
                 }
@@ -43,6 +36,10 @@ void MapContainer::getMaps() {
     } else {
         std::cerr << "El directorio no existe." << std::endl;
     }
+}
+
+Mapa* MapContainer::getMap(const std::string& nombre) {
+    return mapas[nombre];
 }
 
 void MapContainer::addMap(const std::string& id, Mapa* mapa) {

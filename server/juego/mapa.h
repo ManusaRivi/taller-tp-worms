@@ -50,7 +50,7 @@ public:
     void JumpWormForward(int idx);
     void JumpWormBackward(int idx);
 
-    WormWrapper devolver_gusano(int idx);
+    std::vector<WormWrapper> devolver_gusanos();
 
     ~Mapa();
 };

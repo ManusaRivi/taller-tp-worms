@@ -68,12 +68,17 @@ void Mapa::JumpWormBackward(int idx) {
     worms[idx]->JumpBackward();
 }
 
-WormWrapper Mapa::devolver_gusano(int idx){
-    b2Vec2 position = worms[idx]->GetPosition();
-    std::vector<float> posicion;
-    posicion.push_back(position.x);
-    posicion.push_back(position.y);
-    return WormWrapper (posicion, worms[idx]->get_facing_direction(), 0, worms[idx]->get_id(), 0);
+std::vector<WormWrapper> Mapa::devolver_gusanos(){
+    std::vector<WormWrapper> wrappers;
+    for (auto worm : worms) {
+        std::vector<float> position = worm->GetPosition();
+        uint8_t facingDirection = worm->get_facing_direction();
+        uint8_t status = 0;
+        uint32_t id = worm->get_id(); 
+        float angle = worm->GetAngle();
+        wrappers.push_back(WormWrapper(position, facingDirection, status, id, angle));
+    }
+    return wrappers;
 }
 
 Mapa::~Mapa() {

@@ -43,8 +43,6 @@ class SnapshotCliente {
     void agregar_turno_actual(uint32_t id);
 
     void imprimir_posiciones();
-
-    void agregar_vigas(std::vector<std::vector<float>> vigas);
 };
 
 #endif

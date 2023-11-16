@@ -55,7 +55,3 @@ void SnapshotCliente::imprimir_posiciones(){
         printf("La posicion x es = %f\n",worm.second->get_x());
     }
 }
-
-void SnapshotCliente::agregar_vigas(std::vector<std::vector<float>> vigas){
-    this->vigas = vigas;
-}

@@ -2,9 +2,9 @@
 
 using namespace SDL2pp;
 
-WormState::WormState() {}
+WormState::WormState(): iteration(0) {}
 
-void WormState::present(int& it,
+void WormState::present(int& it_inc,
                     SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,
 					float& pos_x,
@@ -14,8 +14,11 @@ void WormState::present(int& it,
     
     //Seteo como graficar los sprites:
     //Los sprites son de 60x60
+
+	iteration += it_inc;
+
 	int src_x = 0;
-	int src_y = 60 * (it % frames);
+	int src_y = 60 * (iteration % frames);
 
     //Voltear el sprite dependiendo para que lado mire
     int flip = facing_right ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
@@ -23,20 +26,7 @@ void WormState::present(int& it,
     //Obtengo la textura
 	Texture& texture = texture_manager.get_texture(texture_name);
 
-/*	
-	//Grafico al gusano:
-	std::cout << "dibujo al gusano de tamaño: "
-				<< WORM_WIDTH * x_scale << "x"
-				<< WORM_HEIGHT * y_scale << " En la posicion x="
-				<< static_cast<int>(position[0] * x_scale)
-				<< " y="
-				<< renderer.GetOutputHeight() - static_cast<int>(position[1] * y_scale)
-				<< "\n";
-
-	std::cout << "Posicion del gusano (metros): x=" << position[0]
-				<< " y=" << position[1] << "\n";
-*/	//printf("La posicion que se va a hacer present es %f y %f\n",position[0],position[1]);
-
+	//Grafico
     texture.SetAlphaMod(255); // El sprite es totalmente opaco
     renderer.Copy(
 				texture,

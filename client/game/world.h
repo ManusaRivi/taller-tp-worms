@@ -21,7 +21,7 @@ class World {
 
     //void add_beam(Beam beam);
 
-    void present(int& it,
+    void present(int& it_inc,
                     Renderer& renderer,
                     TextureManager& texture_manager,
                     float& x_scale,

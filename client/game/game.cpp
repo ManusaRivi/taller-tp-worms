@@ -70,7 +70,7 @@ int Game::run() try {
     unsigned int t1 = SDL_GetTicks();
 
 	// Numero de frame de la iteracion de las animaciones
-	int it = 0;
+	int it_inc = 0;
 
 	//Variables de teclas:
 	bool right_press = false;
@@ -224,7 +224,7 @@ int Game::run() try {
 			std::shared_ptr<Snapshot> snapshot = snap->snap;
 			//Grafico la snapshot
 			snapshot->apply_to_world(world);
-			world.present(it, renderer, texture_manager, x_scale, y_scale);
+			world.present(it_inc, renderer, texture_manager, x_scale, y_scale);
 
 		}
 		// Timing: calcula la diferencia entre este frame y el anterior
@@ -238,14 +238,14 @@ int Game::run() try {
 			rest = FRAME_RATE - behind % FRAME_RATE;
 			int lost = behind + rest;
 			t1 += lost;
-			it += int(lost / FRAME_RATE);
+			it_inc = int(lost / FRAME_RATE);
 		}
 
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
         // El 100% del CPU.
 		SDL_Delay(rest);
 		t1 += FRAME_RATE;
-		it += 1;
+		it_inc = 1;
     }
 
 

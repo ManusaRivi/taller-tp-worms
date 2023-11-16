@@ -10,14 +10,14 @@ void World::update_worm(const int& id, std::shared_ptr<Worm> worm) {
     worms.at(id)->update(std::move(worm));
 }
 
-void World::present(int& it,
+void World::present(int& it_inc,
                     Renderer& renderer,
                     TextureManager& texture_manager,
                     float& x_scale,
                     float& y_scale) {
                     
     for (auto& worm : worms) {
-        worm.second->present(it, renderer, texture_manager, x_scale, y_scale);
+        worm.second->present(it_inc, renderer, texture_manager, x_scale, y_scale);
     }
 
     /*

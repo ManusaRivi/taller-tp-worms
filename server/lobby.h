@@ -10,7 +10,7 @@
 
 struct Lobby{
 
-
+    MapContainer lista_mapas;
 
     std::map<uint32_t,Partida*> lista_partidas;
 

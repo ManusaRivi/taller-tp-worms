@@ -28,6 +28,8 @@ class Snapshot {
     //Constructor
     Snapshot(std::vector<WormWrapper> worms, std::vector<std::vector<int>> vigas);
 
+    Snapshot(std::vector<std::vector<int>> vigas);
+
     Snapshot(std::map<uint32_t,std::string> lista);
 
     std::vector<WormWrapper> get_worms();

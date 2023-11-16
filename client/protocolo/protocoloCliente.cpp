@@ -168,7 +168,13 @@ std::shared_ptr<Mensaje> ClienteProtocolo::recibir_snap(){
         std::shared_ptr<Worm> worm = std::make_shared<Worm>(xpos, ypos, std::move(state));
         snap->add_worm(worm, id_gusano);
     }
-    
+    /*
+    int tamano = 6;
+    float posx = 1.5;
+    float posy = 0.8;
+    Beam beam(tamano, posx, posy);
+    snap->add_beam(beam);
+    */
     //std::cout << "Es el turno del gusano con ID = " << unsigned(turno_player_actual) << std::endl;
     snap->agregar_turno_actual(turno_player_actual);
     std::shared_ptr<Mensaje> msg = std::make_shared<Mensaje>(snap);

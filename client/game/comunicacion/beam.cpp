@@ -2,7 +2,7 @@
 
 using namespace SDL2pp;
 
-Beam::Beam(int& tamaño, float& pos_x, float& pos_y): _tamaño(tamaño), _pos_x(pos_x), _pos_y(pos_y) {}
+Beam::Beam(int& tamano, float& pos_x, float& pos_y): _tamano(tamano), _pos_x(pos_x), _pos_y(pos_y) {}
 
 void Beam::present(Renderer& renderer,
                     TextureManager& texture_manager,
@@ -12,9 +12,10 @@ void Beam::present(Renderer& renderer,
                     float& camera_y) {
 
     // Obtengo la textura
-	Texture& texture = texture_manager.get_texture("Beam");
+    std::string texture_name("Beam");
+	Texture& texture = texture_manager.get_texture(texture_name);
 
-    int largo_sprite = _tamaño == 6 ? 138 : 69;
+    int largo_sprite = _tamano == 6 ? 138 : 69;
 
     float pos_rel_x = _pos_x - camera_x;
     float pos_rel_y = _pos_y - camera_y;
@@ -24,9 +25,9 @@ void Beam::present(Renderer& renderer,
     renderer.Copy(
 				texture,
 				Rect(0, 0, largo_sprite, 20), // El sprite
-				Rect(static_cast<int>(pos_rel_x * x_scale),
-					renderer.GetOutputHeight() - static_cast<int>(pos_rel_y * y_scale),
-					_tamaño * x_scale, 0.87 * y_scale), // Donde lo grafico
+				Rect(static_cast<int>(pos_rel_x * x_scale - largo_sprite / 2),
+					renderer.GetOutputHeight() - static_cast<int>(pos_rel_y * y_scale - BEAM_WIDTH / 2),
+					_tamano * x_scale, BEAM_WIDTH * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,
 				SDL_FLIP_NONE        // Flip

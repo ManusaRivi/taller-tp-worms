@@ -33,6 +33,11 @@ void Worm::present(int& it_inc, Renderer& renderer,
                     float& camera_x, float& camera_y) {
     float pos_rel_x = _pos_x - camera_x;
     float pos_rel_y = _pos_y - camera_y;
+
+    std::cout   << "Gusano en pos: "
+                << _pos_x << " "
+                << _pos_y << "\n";
+
     state->present(it_inc, renderer, texture_manager, pos_rel_x, pos_rel_y, x_scale, y_scale);
 }
 

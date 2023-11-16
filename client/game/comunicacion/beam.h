@@ -3,17 +3,20 @@
 
 #include <SDL2pp/SDL2pp.hh>
 #include "../Texturas/texture_manager.h"
+#include <string>
+
+#define BEAM_WIDTH 0.8
 
 using namespace SDL2pp;
 
 class Beam {
     private:
-    int _tamaño;
+    int _tamano;
     float _pos_x;
     float _pos_y;
 
     public:
-    Beam(int& tamaño, float& pos_x, float& pos_y);
+    Beam(int& tamano, float& pos_x, float& pos_y);
 
     void present(Renderer& renderer,
                     TextureManager& texture_manager,

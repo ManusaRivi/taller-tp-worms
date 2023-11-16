@@ -39,6 +39,10 @@ void Snapshot::present(int& it_inc,
         worm.second->present(it_inc, renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
     }
 
+    for (auto& beam : beams) {
+        beam.present(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
+    }
+
     renderer.Present();
 }
 

@@ -20,7 +20,7 @@ void World::update_worm(const int& id, std::shared_ptr<Worm> worm) {
     worms.at(id)->update(std::move(worm));
 }
 
-void World::present_background(Renderer& Renderer,
+void World::present_background(Renderer& renderer,
                         TextureManager& texture_manager,
                         float& x_scale,
                         float& y_scale,
@@ -36,7 +36,7 @@ void World::present_background(Renderer& Renderer,
     float pos_rel_y = 0 - camera_y;
 
     //Grafico
-    texture.SetAlphaMod(255); // El fondo es totalmente opaco
+    background_tex.SetAlphaMod(255); // El fondo es totalmente opaco
     renderer.Copy(
 				background_tex,
 				Rect(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT), // El sprite
@@ -49,7 +49,7 @@ void World::present_background(Renderer& Renderer,
 			);
 }
 
-void World::present_hud(Renderer& Renderer,
+void World::present_hud(Renderer& renderer,
                         TextureManager& texture_manager,
                         float& x_scale,
                         float& y_scale) {
@@ -59,7 +59,7 @@ void World::present_hud(Renderer& Renderer,
     Texture& hud_tex = texture_manager.get_texture(texture_name);
 
     //Grafico
-    texture.SetAlphaMod(255); // El HUD es totalmente opaco
+    hud_tex.SetAlphaMod(255); // El HUD es totalmente opaco
     renderer.Copy(
 				hud_tex,
 				Rect(0, 0, HUD_SPRITE_WIDTH, HUD_SPRITE_HEIGHT), // El sprite

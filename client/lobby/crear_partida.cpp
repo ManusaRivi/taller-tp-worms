@@ -45,6 +45,7 @@ void Crear_Partida::onCrearButtonClicked() {
     ClienteProtocolo protocol(*this->ui1->skt);
     QString nombreMapa = ui->comboBox->currentText();
     protocol.crear_partida(nombreMapa.toStdString());
+    //protocol.unirse_partida(nombreMapa.toStdString()); //??
     this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_ESPERA));
 }
 

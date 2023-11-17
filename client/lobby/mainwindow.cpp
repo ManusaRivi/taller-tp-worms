@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent, Socket* skt):
     this->ui4 = new Crear_Partida(parent, this->stackedWidget, this->ui1);
     this->ui2 = new Lobby_Window(parent, this->stackedWidget, this->ui1, this->ui4);
     this->ui3 = new Lista_Espera(parent, this->stackedWidget, this, this->ui1);
-    this->ui5 = new Sala_Espera(parent);
+    this->ui5 = new Sala_Espera(parent, this, this->ui1);
 
     this->stackedWidget->addWidget(this->ui1);
     this->stackedWidget->addWidget(this->ui2);

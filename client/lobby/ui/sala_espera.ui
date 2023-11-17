@@ -20,8 +20,8 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QLabel {
-	border-image: url(&quot;:res/worms_background.png&quot;)
+   <string notr="true">QLabel#label_2 {
+	border-image: url(&quot;:imagenes/worms_background.png&quot;)
 }
 
 /* Estilo para QPushButton (Botones) */
@@ -111,6 +111,13 @@ QLabel#label {
         </spacer>
        </item>
       </layout>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Comenzar</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

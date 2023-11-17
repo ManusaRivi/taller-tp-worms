@@ -1,7 +1,7 @@
 #include "containerThreads.h"
 
 
-containerThreads::containerThreads(Socket &peer,Queue<std::shared_ptr<Mensaje>> &acciones,Queue<std::shared_ptr<Mensaje>> &queue_comandos): skt(std::move(peer)),enviador(skt,queue_comandos),recibidor(skt,acciones){
+containerThreads::containerThreads(Socket &peer,Queue<std::shared_ptr<MensajeCliente>> &acciones,Queue<std::shared_ptr<MensajeCliente>> &queue_comandos): skt(std::move(peer)),enviador(skt,queue_comandos),recibidor(skt,acciones){
 
 }
 

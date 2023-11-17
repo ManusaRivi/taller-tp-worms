@@ -2,37 +2,44 @@
 #define SNAPSHOT_H
 
 #include <SDL2pp/SDL2pp.hh>
+#include <map>
 #include <vector>
 #include "../Texturas/texture_manager.h"
+#include "../world.h"
 #include "worm.h"
+#include "beam.h"
+#include <memory>
 
 using namespace SDL2pp;
 
 // Simula la "imagen" del estado del juego.
-class Snapshot {
+class SnapshotCliente {
     private:
-    std::vector<std::shared_ptr<Worm>> worms;
-    std::vector<std::vector<int>> vigas;
+    std::map<int, std::shared_ptr<Worm>> worms;
+    std::vector<Beam> beams;
+    int _id_camera;
     uint32_t id_turno_actual;
-
-/*
- * La idea es, mas adelante, que este Snapshot tenga:
- * - El vector de posiciones de las vigas encapsulado en una clase.
- */
 
     public:
     //Constructor
-    Snapshot(std::vector<std::vector<int>> vigas);
+    SnapshotCliente(int id_camera);
 
     //Agrega un gusano a la lista de gusanos
-    void add_worm(std::shared_ptr<Worm> worm);
+    void add_worm(std::shared_ptr<Worm> worm, int id);
 
-    void present(int& it,
+    void add_beam(Beam beam);
+
+    void present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
+                        int& window_width,
+                        int& window_height,
                         float& x_scale,
                         float& y_scale);
-    
+
+
+    void apply_to_world(World& world);
+
     void agregar_turno_actual(uint32_t id);
 
     void imprimir_posiciones();

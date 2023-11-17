@@ -1,11 +1,10 @@
 #include "comando.h"
 
-struct ComandoMover: public Comando{
+class ComandoMoverCliente: public ComandoCliente{
 
     uint8_t dir;
-
-    ComandoMover(uint8_t dir);
-
+    public:
+    ComandoMoverCliente(uint8_t dir);
     void enviar_accion(ClienteProtocolo &ptcl) override;
 
 };

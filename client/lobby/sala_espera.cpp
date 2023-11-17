@@ -15,7 +15,10 @@ Sala_Espera::~Sala_Espera() {
 }
 
 void Sala_Espera::onComenzarButtonClicked() {
+
     ClienteProtocolo protocol(*this->ui1->skt);
-    //protocol.empezar_partida();
+     if (protocol.recibir_comienzo_de_partida() == true) {
+        return;
+     }
     this->mainWindow->close();
 }

@@ -1,12 +1,12 @@
 #include "comando.h"
 
 
-class DetenerMovimiento:public Comando{
+class DetenerMovimientoCliente:public Comando{
 
     uint8_t responsable_id;
 
     public:
-    DetenerMovimiento();
+    DetenerMovimientoCliente(uint32_t id);
 
     void agregar_id(uint8_t id) override;
 

@@ -14,7 +14,8 @@ class WAiming: public WormState {
     void present(int& it,
                         SDL2pp::Renderer& renderer,
                         TextureManager& texture_manager,
-                        std::vector<float>& position,
+                        float& pos_x,
+                        float& pos_y,
                         float& x_scale,
                         float& y_scale) override;
 };

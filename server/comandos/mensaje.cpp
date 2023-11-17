@@ -1,7 +1,7 @@
 #include "mensaje.h"
 
 
-Mensaje::Mensaje(std::map<uint32_t,std::string> lista):is_snapshot(false),lista_mapas(lista),snap(std::vector<std::vector<int>>()),tipo_comando(COMANDO::CMD_LISTAR_PARTIDAS){
+Mensaje::Mensaje(std::map<uint32_t,std::string> lista, uint8_t tipo):is_snapshot(false),lista_mapas(lista),snap(std::vector<std::vector<int>>()),tipo_comando(tipo){
 
 }
 
@@ -21,17 +21,18 @@ Mensaje::Mensaje():snap(std::vector<std::vector<int>>()),tipo_comando(COMANDO::C
 
 }
 
-Mensaje::Mensaje(std::map<uint32_t,std::string> mapas, bool b):snap(std::vector<std::vector<int>>()),tipo_comando(COMANDO::CMD_LISTAR_MAPAS),lista_mapas_(mapas){
-
-}
-
-
 Mensaje::Mensaje(uint8_t tipo):snap(std::vector<std::vector<int>>()),tipo_comando(tipo){}
 
 Mensaje::Mensaje(uint8_t tipo,uint8_t id):snap(std::vector<std::vector<int>>()),tipo_comando(tipo),id_partida_a_unirse(id){
 
 }
-Mensaje::Mensaje(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player_):snap(std::vector<std::vector<int>>()),tipo_comando(COMANDO::CMD_HANDSHAKE),gusanos_por_player(gusanos_por_player_){
+Mensaje::Mensaje(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player_,
+                std::vector<std::vector<float>> vigas_):snap(std::vector<std::vector<int>>()),tipo_comando(COMANDO::CMD_HANDSHAKE),gusanos_por_player(gusanos_por_player_),vigas(vigas_){
+
+}
+
+Mensaje::Mensaje(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player_
+                ):snap(std::vector<std::vector<int>>()),tipo_comando(COMANDO::CMD_HANDSHAKE),gusanos_por_player(gusanos_por_player_){
 
 }
 

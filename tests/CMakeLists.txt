@@ -27,7 +27,7 @@ target_link_libraries(
   test_g
   GTest::gtest_main
   server_lib box2d yaml-cpp common_lib Threads::Threads
-  client_lib ${SDL2PP_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES}
+  client_lib ${SDL2PP_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} yaml-cpp
 )
 
 #add_test(test_g test_g)

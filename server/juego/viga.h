@@ -2,6 +2,7 @@
 #define VIGA_H
 
 #include "../../libs/box2d/include/box2d/box2d.h"
+#include <vector>
 
 enum beamSize {
     SMALL,
@@ -9,7 +10,7 @@ enum beamSize {
 };
 
 #define SMALL_LENGTH 1.5f
-#define LARGE_LENGTH 100.0f
+#define LARGE_LENGTH 3.0f
 
 #define HEIGHT 0.40f
 
@@ -18,8 +19,11 @@ enum beamSize {
 class Viga {
 private:
     b2Body* body;
+    float len;
 public:
     Viga(b2World& world, beamSize type, float x_pos, float y_pos, float angle, uint16 collisionCategory, uint16 collisionMask);
+    std::vector<float> get_pos();
 };
+    
 
 #endif

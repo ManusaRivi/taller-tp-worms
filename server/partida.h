@@ -9,9 +9,9 @@
 #include "comandos/comando_movimiento.h"
 #include <SDL2pp/SDL2pp.hh>
 
-struct Partida:public Thread{
+class Partida:public Thread{
 
-
+    private:
     Queue<std::shared_ptr<Comando>> acciones_a_realizar;
     Mapa mapa;
     BroadCaster broadcaster;
@@ -22,22 +22,20 @@ struct Partida:public Thread{
     std::map<uint32_t,uint32_t> id_player_por_gusano;
 
 
+    public:
     Partida(uint32_t id_partida, std::string nombre);
-
     void run() override;
+    std::string get_nombre();
+    void add_queue(Queue<Mensaje>* snapshots);
+    Queue<std::shared_ptr<Comando>>& get_queue();
 
     Snapshot generar_snapshot(float tiempo_turno, uint32_t id_gusano_current_turn);
 
-    std::string get_nombre();
+    
 
-    void add_queue(Queue<Mensaje>* snapshots);
-
-    Queue<std::shared_ptr<Comando>>& get_queue();
-
-    uint8_t add_player(uint8_t id_player);
-
+    
     private:
-    void enviar_id_gusanos();
+    void enviar_primer_snapshot();
 
     uint32_t proximo_turno(uint32_t turno_actual);
 

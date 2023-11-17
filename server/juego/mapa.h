@@ -48,6 +48,7 @@ public:
     void JumpWormBackward(int idx);
 
     WormWrapper devolver_gusano(int idx);
+    std::vector<std::vector<float>> get_vigas();
 
     ~Mapa();
 };

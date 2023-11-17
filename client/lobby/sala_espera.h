@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QMainWindow>
+#include <QPushButton>
 
 #include "login_window.h"
 #include "../protocolo/protocoloCliente.h"

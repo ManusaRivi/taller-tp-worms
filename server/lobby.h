@@ -8,29 +8,27 @@
 #include "threads/threadRecibidor.h"
 #include "comandos/mensaje.h"
 
-struct Lobby{
+class Lobby{
 
 
-
+    private:
     std::map<uint32_t,Partida*> lista_partidas;
 
     uint32_t id_actual;
     std::mutex lck;
     //MonitorClientes &clientes;
 
+    public:
     Lobby();
-
     uint8_t unirse_a_partida(uint32 id, Queue<Mensaje>* snapshots, uint8_t id_player);
-
     uint32_t crear_partida(std::string nombre_partida, Queue<Mensaje>* snapshots);
-
-    void start_lobby();
-
-    void listar_partidas(Queue<Mensaje>* snapshots);
-    void listar_mapas(Queue<Mensaje>* snapshots);
-
+    void listar_partidas(Queue<Mensaje>* cliente);
     Queue<std::shared_ptr<Comando>> &get_queue(uint32_t id);
+    void listar_mapas(Queue<Mensaje>* cliente);
 
+
+    private:
+    void start_lobby();
     void empezar_partida(uint32_t id);
     
 

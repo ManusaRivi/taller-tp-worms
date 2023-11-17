@@ -3,7 +3,7 @@
 #include <chrono>
 
 using namespace SDL2pp;
-#define FRAME_RATE 33
+#define FRAME_RATE 30
 
 Partida::Partida(uint32_t id, std::string nombre):id_partida(id),nombre_partida(nombre){
     posibles_id_gusanos.push_back(0);
@@ -19,17 +19,12 @@ void Partida::run(){
     bool partida_iniciada = false;
     while(!partida_iniciada){
         std::shared_ptr<Comando> comando = acciones_a_realizar.pop();
-        if(comando->get_comando() == COMANDO::CMD_HANDSHAKE){
-            enviar_id_gusanos();
-            partida_iniciada = true;
-        }
-
         if(comando->get_comando() == COMANDO::CMD_EMPEZAR_PARTIDA){
             Mensaje msg;
             printf("Se esta por broadcaster mensaje de que la partida esta por comenzar\n");
             broadcaster.broadcastSnap(msg);
             printf("Se esta por broadcastear el handshake\n");
-            enviar_id_gusanos();
+            enviar_primer_snapshot();
             partida_iniciada = true;
         }
     }
@@ -60,58 +55,19 @@ void Partida::run(){
             }
             comandos_a_ejecutar.push_back(comando);
         }
-        //TODO:aglo = factory.create_command(comado);
-        // algo.ejecutate(mundo de box2d);
-        // o que el protocolo devuelva el comando directamente como uniqe_ptr 
-        // Un if para verificar si el jugador que hizo la accion es correcto
-        if(comandos_a_ejecutar.size() == 0){
-            mapa.Step();
-            Snapshot snap = generar_snapshot(elapsed,turno_gusano);
-            Mensaje broadcast(snap);
-            broadcaster.broadcastSnap(broadcast);
-        }
+
+
         std::shared_ptr<Comando> comando_ejecutable;
         for( auto &c: comandos_a_ejecutar){
             c->realizar_accion(mapa,turno_gusano);
-            mapa.Step();
-            Snapshot snap = generar_snapshot(elapsed,turno_gusano);
-            Mensaje broadcast(snap);
-            broadcaster.broadcastSnap(broadcast); // TODO:que snapshot sea un shared-ptr
-            printf("Se leyo un comando\n");
         }
-        // if (!comando){
-        //     mapa.Step();
-        //     Snapshot snap = generar_snapshot();
-        //     Mensaje broadcast(snap);
-        //     broadcaster.broadcastSnap(broadcast);
-        //     //usleep(33333);
-        //     //sleep(1);     //Duerme 1s
-        // }
-        // else{
-        //     comando->realizar_accion(mapa);
-        //     mapa.Step();
-        //     Snapshot snap = generar_snapshot();
-        //     Mensaje broadcast(snap);
-        //     broadcaster.broadcastSnap(broadcast); // TODO:que snapshot sea un shared-ptr
-        //     printf("Se leyo un comando\n");
-        //     //sleep(1);     //Duerme 1s
-        //     //usleep(33333);
-        // }
-        // double t2 = now();
-        // double rest = rate - (t2 - t1);
-        // elapsed = currentTime - startTime;
-        // if (rest < 0) {
-        //     double behind = -rest;  // this is always positive
-        //     double lost = behind - fmod(behind, rate);
-        //     t1 += lost;
-        //     it += static_cast<int>(lost / rate);  // floor division
-        // } else {
-        //     usleep(std::chrono::duration<double>(rest).count());
-        // }
+
+        mapa.Step();
+        Snapshot snap = generar_snapshot(elapsed,turno_gusano);
+        Mensaje broadcast(snap);
+        broadcaster.broadcastSnap(broadcast);
 
 
-        // t1 += rate;
-        // it++;
 
         unsigned int t2 = SDL_GetTicks();
 		int rest = FRAME_RATE - (t2 - t1);
@@ -163,14 +119,8 @@ Queue<std::shared_ptr<Comando>>& Partida::get_queue(){
     return this->acciones_a_realizar;
 }
 
-uint8_t Partida::add_player(uint8_t id_player){
-    std::vector<uint8_t> gusanos;
-    uint8_t id_gusano = posibles_id_gusanos.back();
-    return id_gusano;
-}
 
-
-void Partida::enviar_id_gusanos(){
+void Partida::enviar_primer_snapshot(){
     uint16_t gusanos_disponibles = posibles_id_gusanos.size();
     uint16_t cantidad_players = broadcaster.cantidad_jugadores();
 
@@ -186,7 +136,8 @@ void Partida::enviar_id_gusanos(){
         }
         id_player_por_gusano.insert({i,i%cantidad_players});
     }
-    broadcaster.informar_gusanos_propios(id_gusanos_por_player);
+    std::vector<std::vector<float>> vigas = mapa.get_vigas();
+    broadcaster.informar_primer_snapshot(id_gusanos_por_player,vigas);
 }
 
 

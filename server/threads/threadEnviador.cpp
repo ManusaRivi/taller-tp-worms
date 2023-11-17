@@ -25,11 +25,16 @@ void Enviador::run(){
         }
         if(msg.tipo_comando == COMANDO::CMD_LISTAR_MAPAS){
             printf("En el enviador se estan por mandar mapas\n");
-            ptcl.enviar_mapas(msg.lista_mapas_);
+            ptcl.enviar_mapas(msg.lista_mapas);
         }
         if(msg.tipo_mensaje() == COMANDO::CMD_HANDSHAKE){
             printf("Se envia un handshake\n");
-            ptcl.enviar_handshake(msg.gusanos_por_player);
+            ptcl.enviar_handshake(msg.gusanos_por_player,msg.vigas);
+        }
+
+        if(msg.tipo_mensaje() == COMANDO::CMD_LISTAR_MAPAS){
+            printf("Se envia la lista de mapas");
+            ptcl.enviar_mapas(msg.lista_mapas);
         }
         
     }

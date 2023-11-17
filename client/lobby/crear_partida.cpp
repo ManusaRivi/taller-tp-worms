@@ -24,8 +24,8 @@ Crear_Partida::~Crear_Partida() {
 
 void Crear_Partida::listarMapas() {
     ClienteProtocolo protocol(*this->ui1->skt);
-    protocol.pedir_lista_mapas();
-    std::map<uint32_t,std::string> maps = protocol.listar_mapas();
+    //protocol.listar_partidas();
+    std::map<uint32_t, std::string> maps = protocol.pedir_mapas();
     
     ui->comboBox->clear();
 
@@ -45,7 +45,8 @@ void Crear_Partida::onCrearButtonClicked() {
     ClienteProtocolo protocol(*this->ui1->skt);
     QString nombreMapa = ui->comboBox->currentText();
     protocol.crear_partida(nombreMapa.toStdString());
-    //protocol.unirse_partida(nombreMapa.toStdString()); //??
+    //std::map<uint32_t,std::string> partidas = protocol.pedir_lista_partidas();
+    protocol.unirse_partida("1");
     this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_ESPERA));
 }
 

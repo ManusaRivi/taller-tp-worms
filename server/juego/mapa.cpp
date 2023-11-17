@@ -31,6 +31,8 @@ void Mapa::Load_Map_File(const char* filepath) {
         vigas.push_back(new Viga (world, size, x_pos, y_pos, angle));
     }
 
+    GameConfig& config = GameConfig::getInstance();
+
     const YAML::Node& worm_list = map["gusanos"];
     for (YAML::const_iterator it = worm_list.begin(); it != worm_list.end(); ++it) {
         const YAML::Node& worm = *it;
@@ -38,7 +40,7 @@ void Mapa::Load_Map_File(const char* filepath) {
         float y_pos = worm["pos_y"].as<float>();
         int dir = worm["direccion"].as<int>();
 
-        worms.push_back(new Worm (world, dir, x_pos, y_pos));
+        worms.push_back(new Worm (world, dir, x_pos, y_pos, config.puntos_de_vida));
     }
 }
 

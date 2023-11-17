@@ -2,9 +2,12 @@
 #define MAPA_H
 
 #include "../../libs/box2d/include/box2d/box2d.h"
+
 #include <yaml-cpp/yaml.h>
 #include <vector>
 #include <string>
+
+#include "../game_config.h"
 #include "../worm_wrapper.h"
 #include "./worm.h"
 #include "./viga.h"

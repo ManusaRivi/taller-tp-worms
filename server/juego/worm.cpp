@@ -1,7 +1,7 @@
 #include "worm.h"
 
-Worm::Worm(b2World& world, int direction, float x_pos, float y_pos) : 
-            body(body), facingDirection(direction), airborne(false), hitPoints(100), initialHeight(0.0f), finalHeight(0.0f), jumpSteps(0)
+Worm::Worm(b2World& world, int direction, float x_pos, float y_pos, int hitPoints) : 
+            body(body), facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f), finalHeight(0.0f), jumpSteps(0)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;

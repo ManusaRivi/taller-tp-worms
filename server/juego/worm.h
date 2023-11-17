@@ -11,8 +11,8 @@ enum directions {
     LEFT = 1,
 };
 
-#define BOX_WIDTH 0.2f
-#define BOX_HEIGHT 0.2f
+#define BOX_WIDTH 0.5f
+#define BOX_HEIGHT 0.5f
 
 #define WORM_DENSITY 0.2f
 #define WORM_FRICTION 1.0f
@@ -39,7 +39,7 @@ private:
     uint32_t id;
 public:
     int jumpSteps;
-    Worm(b2World& world, int direction, float x_pos, float y_pos);
+    Worm(b2World& world, int direction, float x_pos, float y_pos, int hitPoints);
     void Move(int dir);
     void Stop();
     void JumpForward();

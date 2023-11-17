@@ -3,7 +3,6 @@
 
 class DetenerMovimientoCliente:public Comando{
 
-    uint8_t responsable_id;
 
     public:
     DetenerMovimientoCliente(uint32_t id);

@@ -33,10 +33,11 @@ private:
     int hitPoints;
     float initialHeight;
     float finalHeight;
-    uint32_t id;
+
 public:
     int jumpSteps;
-    Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint16 collisionCategory, uint16 collisionMask);
+    uint32_t id;
+    Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint16 collisionCategory, uint16 collisionMask,uint32_t id);
     void Move(int dir);
     void Stop();
     void JumpForward();

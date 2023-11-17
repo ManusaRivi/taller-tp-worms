@@ -21,6 +21,23 @@ bool Cliente::is_dead(){
 }
 
 void Cliente::join(){
+    printf("Se le va a hacer join al recibidor\n");
     this->recibidor->join();
+    printf("Se le hizo join al recibidor\n");
     this->enviador->join();
+    printf("Se le hizo join al enviador\n");
+}
+
+void Cliente::kill(){
+    if(!recibidor->is_dead()){
+        skt.shutdown(2);
+        skt.close();
+    }
+
+    recibidor->kill_thread();
+}
+
+Cliente::~Cliente(){
+    delete this->enviador;
+    delete this->recibidor;
 }

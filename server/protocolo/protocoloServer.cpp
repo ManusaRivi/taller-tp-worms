@@ -4,11 +4,15 @@ ServerProtocolo::ServerProtocolo(Socket &socket): Protocolo(socket){
 
 }
 
-Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id){
+Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id)try{{
     std::shared_ptr<Comando> comando;
     uint8_t buf;
     skt.recvall(&buf,1,&was_closed);
     uint8_t cmd;
+
+    if (was_closed){
+        throw ClosedSocket();
+    }
 
     if (buf == CODIGO_MOVER){
         printf("Se recibe un codigo de mover el gusano\n");
@@ -60,18 +64,21 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id){
     return msg;
     
 
+}}catch(const ClosedSocket& e){
+    throw ClosedSocket();
 }
 
-void ServerProtocolo::enviar_snapshot(Snapshot snap){
+void ServerProtocolo::enviar_snapshot(Snapshot snap)try{{
     uint8_t cmd = CODIGO_SNAPSHOT;
     enviar_1_byte(cmd);
 
     uint32_t turno_current_gusano = snap.get_gusano_jugador();
     enviar_4_bytes(turno_current_gusano);
 
-    uint8_t cant_players = 2;
-    enviar_2_byte(cant_players);
+    
     std::vector<WormWrapper> worms = snap.get_worms();
+    uint8_t cant_players = worms.size();  
+    enviar_2_byte(cant_players);
     for (auto &c: worms){
         uint32_t id = c.get_id();
         std::vector<float> posicion = c.get_position();
@@ -89,6 +96,8 @@ void ServerProtocolo::enviar_snapshot(Snapshot snap){
 
     }
 
+}}catch(const ClosedSocket& e){
+    throw ClosedSocket();
 }
 
 void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string> partidas/*std::string map*/){

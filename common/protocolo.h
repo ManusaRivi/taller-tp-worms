@@ -11,6 +11,7 @@
 #include <string.h>
 #include <sstream>
 #include <stdio.h>
+#include "liberror.h"
 
 #define CODIGO_MOVER 0x01
 #define CODIGO_DETENER_MOVIMIENTO 0x02
@@ -35,10 +36,15 @@
 #define SIZE_UNO 1
 #define SIZE_CUATRO 4
 
+struct ClosedSocket:public std::exception{
+    public:
+    ClosedSocket(){
+    } 
+};
 
+class Protocolo{
 
-struct Protocolo{
-
+    public:
     Socket &skt;
 
     Protocolo(Socket &skt);

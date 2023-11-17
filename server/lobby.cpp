@@ -57,11 +57,30 @@ Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t id_pedido){
 //     lista_partidas.at(id)->start();
 // }
 
-uint8_t Lobby::unirse_a_partida(uint32_t id_partida, Queue<Mensaje>* snapshots, uint8_t id_player){
+void Lobby::unirse_a_partida(uint32_t id_partida, Queue<Mensaje>* snapshots){
     std::lock_guard<std::mutex> lock(lck);
     printf("Se pide unirse un player\n");
-    std::cout << "a la partida = <" << unsigned(id_partida) << "> por el id : " << unsigned(id_player) << std::endl;
     lista_partidas.at(id_partida)->add_queue(snapshots);
-    return 0;
 
+}
+
+void Lobby::desconectarse_partida(uint32_t id,Queue<Mensaje>* snapshots){
+    std::lock_guard<std::mutex> lock(lck);
+    if(this->lista_partidas.find(id) != this->lista_partidas.end()){
+        this->lista_partidas.at(id)->remover_player(snapshots);
+    }
+    
+}
+
+
+void Lobby::kill(){
+    std::lock_guard<std::mutex> lock(lck);
+    auto it = lista_partidas.begin();
+    while(it != lista_partidas.end()){
+        printf("se le hace kill al lobby\n");
+        it->second->kill();
+        it->second->join();
+        delete it->second;
+        it = lista_partidas.erase(it);
+    }
 }

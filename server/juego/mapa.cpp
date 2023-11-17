@@ -13,9 +13,10 @@ Mapa::Mapa() : world(b2Vec2(0.0f, -10.0f)), contactListener(GroundContactListene
     }
 
 
-    worms.push_back(new Worm (world, 100, RIGHT, 1.5f, 1.0f, WORM, BOUNDARY));
+    worms.push_back(new Worm (world, 100, RIGHT, 1.5f, 1.0f, WORM, BOUNDARY,0));
 
-    worms.push_back(new Worm (world, 100, LEFT, 1.5f, 0.8f, WORM, BOUNDARY));
+    worms.push_back(new Worm (world, 100, LEFT, 1.5f, 0.8f, WORM, BOUNDARY,1));
+    worms.push_back(new Worm (world, 100, LEFT, 1.5f, 0.8f, WORM, BOUNDARY,2));
 }
 
 void Mapa::Step() {
@@ -71,4 +72,8 @@ std::vector<std::vector<float>> Mapa::get_vigas(){
         vec_vigas.push_back(viga_pos);
     }
     return vec_vigas;
+}
+
+uint16_t Mapa::gusanos_totales(){
+    return this->worms.size();
 }

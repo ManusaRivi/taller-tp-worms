@@ -28,6 +28,8 @@ struct Recibidor:public Thread{
 
     bool is_dead();
 
+    void kill_thread();
+
 };
 
 #endif

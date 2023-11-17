@@ -20,13 +20,17 @@ int Client::iniciar() {
         Socket skt(server.data(),port.data());
 
         crear_partida(skt);
+        printf("asdadasd");
         containerThreads container(skt,queue_snapshots,queue_comandos);
 
         //Protocolo prot(server, port);
         container.start();
+        
         Game game(queue_snapshots,queue_comandos);
         game.run();
         container.join();
+
+        
         return 0;
         // SDLPoc poc(queue_snapshots,queue_comandos);
         // return poc.run();

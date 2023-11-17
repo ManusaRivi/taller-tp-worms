@@ -5,17 +5,19 @@
 using namespace SDL2pp;
 #define FRAME_RATE 30
 
+using Clock = std::chrono::steady_clock;
+
 Partida::Partida(uint32_t id, std::string nombre):id_partida(id),nombre_partida(nombre){
     posibles_id_gusanos.push_back(0);
     posibles_id_gusanos.push_back(1);
 }
 
 double now() {
-    using namespace std::chrono;
-    return duration_cast<duration< double>>(high_resolution_clock::now().time_since_epoch()).count();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now().time_since_epoch()).count();
 }
 
-void Partida::run(){
+void Partida::run()try{{
+    is_alive = true;
     bool partida_iniciada = false;
     while(!partida_iniciada){
         std::shared_ptr<Comando> comando = acciones_a_realizar.pop();
@@ -32,17 +34,16 @@ void Partida::run(){
     //Mensaje msg;
     //broadcaster.broadcastSnap(msg);
     //double rate = 1;
-    unsigned int t1 = SDL_GetTicks();
+    auto t1 = std::chrono::high_resolution_clock::now();
     int it = 0;
 
-    uint32_t turno_gusano = rand() % posibles_id_gusanos.size() + 1;
+    uint32_t turno_gusano = rand() % posibles_id_gusanos.size();
     uint32_t player_actual = id_player_por_gusano[turno_gusano];
-    double startTime = now();
-    double currentTime;
-
-    while (true){
-        currentTime = now();
-        float elapsed = currentTime - startTime;
+    auto startTime = std::chrono::high_resolution_clock::now();
+    int elapsed = 0;
+    while (is_alive){
+        
+        //float elapsed = currentTime - startTime;
         std::vector<std::shared_ptr<Comando>> comandos_a_ejecutar;
         std::shared_ptr<Comando> comando;
         while(acciones_a_realizar.try_pop(comando)){
@@ -69,30 +70,33 @@ void Partida::run(){
 
 
 
-        unsigned int t2 = SDL_GetTicks();
-		int rest = FRAME_RATE - (t2 - t1);
-		elapsed = currentTime - startTime;
+        auto t2 = std::chrono::high_resolution_clock::now();
+        auto difference = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+		int rest = FRAME_RATE - (difference);
+		elapsed = std::chrono::duration_cast<std::chrono::seconds>(t2 - startTime).count();
 		if (rest < 0) {
 			int behind = -rest;
 			rest = FRAME_RATE - behind % FRAME_RATE;
 			int lost = behind + rest;
-			t1 += lost;
+			t1 += std::chrono::milliseconds(lost);
 			it += int(lost / FRAME_RATE);
 		}
 
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
         // El 100% del CPU.
-		SDL_Delay(rest);
-		t1 += FRAME_RATE;
+		std::this_thread::sleep_for(std::chrono::milliseconds(rest));
+		t1 += std::chrono::milliseconds(FRAME_RATE);
 		it += 1;
         if (elapsed>= 10) {
             turno_gusano = proximo_turno(turno_gusano);
             player_actual = id_player_por_gusano[turno_gusano];
             std::cout << "El id del gusano jugando actualmente es : " << unsigned(turno_gusano) << std::endl;
-            startTime = now();
+            startTime = std::chrono::high_resolution_clock::now();
             std::cout << "Message after 10 seconds" << std::endl;
         }
     }
+}}catch(const ClosedQueue& e){
+        is_alive = false;
 }
 
 Snapshot Partida::generar_snapshot(float tiempo_turno, uint32_t id_gusano_current_turn){
@@ -103,8 +107,10 @@ Snapshot Partida::generar_snapshot(float tiempo_turno, uint32_t id_gusano_curren
     snap.add_condiciones_partida(tiempo_turno,id_gusano_current_turn);
     snap.add_worm(gusano1);
     snap.add_worm(gusano2);
+    snap.add_worm(mapa.devolver_gusano(2));
     return snap;
 }
+
 
 
 std::string Partida::get_nombre(){
@@ -121,10 +127,10 @@ Queue<std::shared_ptr<Comando>>& Partida::get_queue(){
 
 
 void Partida::enviar_primer_snapshot(){
-    uint16_t gusanos_disponibles = posibles_id_gusanos.size();
+    uint16_t gusanos_disponibles = mapa.gusanos_totales();
     uint16_t cantidad_players = broadcaster.cantidad_jugadores();
 
-    for(uint32_t i =1; i <= gusanos_disponibles;i++){
+    for(uint32_t i =0; i < gusanos_disponibles;i++){
         int idx = i%cantidad_players;
         if (id_gusanos_por_player.find(idx) != id_gusanos_por_player.end()){
             id_gusanos_por_player[idx].push_back(i);
@@ -142,10 +148,20 @@ void Partida::enviar_primer_snapshot(){
 
 
 uint32_t Partida::proximo_turno(uint32_t turno_actual){
-    if(turno_actual == posibles_id_gusanos.size()){
-        return 1;
+    turno_actual++;
+    if(turno_actual == mapa.gusanos_totales()){
+        return 0;
     }
     else{
-        return turno_actual+1;
+        return turno_actual;
     }
+}
+
+void Partida::remover_player(Queue<Mensaje>* snapshots){
+    broadcaster.remover_player(snapshots);
+}
+
+void Partida::kill(){
+    acciones_a_realizar.close();
+    is_alive = false;
 }

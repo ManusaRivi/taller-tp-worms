@@ -49,6 +49,7 @@ public:
 
     WormWrapper devolver_gusano(int idx);
     std::vector<std::vector<float>> get_vigas();
+    uint16_t gusanos_totales();
 
     ~Mapa();
 };

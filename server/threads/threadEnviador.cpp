@@ -6,10 +6,10 @@ Enviador::Enviador(Socket &peer, Queue<Mensaje> *snapshots):skt(peer),snapshots_
 }
 
 
-void Enviador::run(){
-    bool was_closed = false;
+void Enviador::run()try{{
+    is_alive = true;
     ServerProtocolo ptcl(skt);
-    while(!was_closed){
+    while(is_alive){
         Mensaje msg = snapshots_a_enviar->pop();
         if(msg.tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
             Snapshot snap = msg.snap;
@@ -35,4 +35,11 @@ void Enviador::run(){
         }
         
     }
+}}catch(const ClosedSocket& e){
+        printf("El cliente se desconecto\n");
+        is_alive = false;
+        snapshots_a_enviar->close();
+        delete snapshots_a_enviar;
+}catch(const ClosedQueue& e){
+    is_alive = false;
 }

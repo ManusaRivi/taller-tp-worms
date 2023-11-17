@@ -30,11 +30,11 @@ int Game::run() try {
 			/*
 				En el Handshake deberia recibir las posiciones de las vigas 
 				Y las posiciones iniciales de todos los gusanos (como una snapshot,
-				ahora la snapshot deberia dejar de recibir las vigas)
+				ahora la snapshot deberia dejar de contener las vigas)
 
 				* Idea: Crear world en el protocolo de esta manera:
 			
-					World world();
+					World world(ancho_mapa, alto_mapa);
 					Por cada Worm:
 						world.add_worm(worm, id);
 
@@ -60,7 +60,7 @@ int Game::run() try {
 	SDLTTF ttf;
 
     // Creo la ventana: 
-    // Dimensiones: 640x480, redimensionable
+    // Dimensiones: 854x480, redimensionable
     // Titulo: Worms
 	Window window("Worms",
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -98,14 +98,26 @@ int Game::run() try {
 				SDL_Keycode tecla = event.key.keysym.sym;
 				if (tecla == SDLK_ESCAPE){
 					return 0;
-				} else if (tecla == SDLK_RIGHT && !right_press && !is_aiming) {
-					right_press = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.moverse(GAME_MOVE_RIGHT);
-					acciones.push(msg);
-				} else if (tecla == SDLK_LEFT && !left_press && !is_aiming) {
-					left_press = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.moverse(GAME_MOVE_LEFT);
-					acciones.push(msg);
+				} else if (tecla == SDLK_RIGHT && !right_press) {
+					if (is_aiming) {
+						// Quiere mirar a la derecha mientras apunta
+						// Enviar por protocolo "mirar a la derecha apuntando" (es cambiar el 
+						// lado para el cual mira si antes miraba a la izquierda)
+					} else {
+						right_press = true;
+						std::shared_ptr<MensajeCliente> msg = mensajes.moverse(GAME_MOVE_RIGHT);
+						acciones.push(msg);
+					}
+				} else if (tecla == SDLK_LEFT && !left_press) {
+					if (is_aiming) {
+						// Quiere mirar a la izquierda mientras apunta
+						// Enviar por protocolo "mirar a la izquierda apuntando" (es cambiar el 
+						// lado para el cual mira si antes miraba a la derecha)
+					} else {
+						left_press = true;
+						std::shared_ptr<MensajeCliente> msg = mensajes.moverse(GAME_MOVE_LEFT);
+						acciones.push(msg);
+					}
 				} else if (tecla == SDLK_RETURN && !is_aiming && !return_press){
 					// Quiere saltar hacia adelante
 					return_press = true;
@@ -181,12 +193,11 @@ int Game::run() try {
 				}
 			} else if (event.type == SDL_KEYUP) {
 				SDL_Keycode tecla = event.key.keysym.sym;
-				if (tecla == SDLK_RIGHT) {
+				if (tecla == SDLK_RIGHT && !is_aiming) {
 					right_press = false;
-				
 					std::shared_ptr<MensajeCliente> msg = mensajes.detener_movimiento();
 					acciones.push(msg);
-				} else if (tecla == SDLK_LEFT) {
+				} else if (tecla == SDLK_LEFT && !is_aiming) {
 					left_press = false;
 					std::shared_ptr<MensajeCliente> msg = mensajes.detener_movimiento();
 					acciones.push(msg);
@@ -199,6 +210,7 @@ int Game::run() try {
 				} else if (tecla == SDLK_SPACE) {
 					is_charging_power = false;
 					// Enviar por protocolo que disparó (que dejo de cargar el poder)
+					is_aiming = false;
 				} else if (tecla == SDLK_RETURN) {
 					return_press = false;
 				} else if (tecla == SDLK_BACKSPACE) {

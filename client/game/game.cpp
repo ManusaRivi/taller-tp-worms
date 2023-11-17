@@ -29,7 +29,8 @@ int Game::run() try {
 
 			/*
 				En el Handshake deberia recibir las posiciones de las vigas 
-				Y las posiciones iniciales de todos los gusanos (como una snapshot)
+				Y las posiciones iniciales de todos los gusanos (como una snapshot,
+				ahora la snapshot deberia dejar de recibir las vigas)
 
 				* Idea: Crear world en el protocolo de esta manera:
 			

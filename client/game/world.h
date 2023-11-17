@@ -10,8 +10,11 @@
 #define BACKGROUND_WIDTH 576
 #define BACKGROUND_HEIGHT 324
 
-#define HUD_WIDTH 320
-#define HUD_HEIGHT 64
+#define HUD_SPRITE_WIDTH 320
+#define HUD_SPRITE_HEIGHT 64
+
+#define HUD_WIDTH 1
+#define HUD_HEIGHT 0.2
 
 class World {
     private:

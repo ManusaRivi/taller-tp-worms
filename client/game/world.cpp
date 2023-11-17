@@ -42,7 +42,7 @@ void World::present_background(Renderer& Renderer,
 				Rect(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT), // El sprite
 				Rect(static_cast<int>(pos_rel_x * x_scale),
 					static_cast<int>(pos_rel_y * y_scale),
-					BACKGROUND_WIDTH * x_scale, BACKGROUND_HEIGHT * y_scale), // Donde lo grafico
+					_map_width * x_scale, _map_height * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,
 				SDL_FLIP_NONE        // Flip
@@ -62,7 +62,7 @@ void World::present_hud(Renderer& Renderer,
     texture.SetAlphaMod(255); // El HUD es totalmente opaco
     renderer.Copy(
 				hud_tex,
-				Rect(0, 0, HUD_WIDTH, HUD_HEIGHT), // El sprite
+				Rect(0, 0, HUD_SPRITE_WIDTH, HUD_SPRITE_HEIGHT), // El sprite
 				Rect(0, 0, HUD_WIDTH * x_scale, HUD_HEIGHT * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,

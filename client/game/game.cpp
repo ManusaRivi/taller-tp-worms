@@ -11,16 +11,16 @@ using namespace SDL2pp;
 #define ANGULO_ARRIBA 0x00
 #define ANGULO_ABAJO 0x01
 
-#define BAZOOKA 0x05
-#define BASEBALL 0x06
-#define TELEPORTACION 0x08
-#define DINAMITA 0x09
-#define ATAQUE_AEREO 0x11
-#define GRANADA_SANTA 0x12
-#define GRANADA_VERDE 0x14
-#define BANANA 0x16
-#define GRANADA_ROHA 0x18
-#define MORTERO 0x20
+#define BAZOOKA 5
+#define BASEBALL 6
+#define TELEPORTACION 8
+#define DINAMITA 9
+#define ATAQUE_AEREO 11
+#define GRANADA_SANTA 12
+#define GRANADA_VERDE 14
+#define BANANA 16
+#define GRANADA_ROHA 18
+#define MORTERO 20
 
 Game::Game(Queue<std::shared_ptr<MensajeCliente>> &queue, Queue<std::shared_ptr<MensajeCliente>> &acciones_):snapshots(queue), acciones(acciones_){}
 
@@ -192,6 +192,7 @@ int Game::run() try {
 					// Selecciono la Granada santa
 					is_aiming = true;
 					has_selected_weapon = true;
+					printf("Se manda una granada santa\n");
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(GRANADA_SANTA);
 					acciones.push(msg);
 					// Enviar comando "saco granada santa" por protocolo

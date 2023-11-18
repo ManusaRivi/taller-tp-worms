@@ -12,9 +12,10 @@ int Game::run() try {
 	//Por ahora seguimos presentando la snapshot
 	//World world;
 
+	std::shared_ptr<World> world;
 	std::vector<uint32_t> id_gusanos;
 	uint32_t id_player;
-	std::vector<std::vector<float>> vigas;
+	std::shared_ptr<SnapshotCliente> snapshot;
 
 	
 	bool se_recibieron_ids = false;
@@ -23,9 +24,10 @@ int Game::run() try {
 		if (msg->tipo_comando == COMANDO::CMD_HANDSHAKE){
 			id_gusanos = msg->id_gusanos;
 			id_player = msg->id_player;
-			vigas = msg->vigas;
+			snapshot = msg->snap;
 			acciones.push(msg);
 			se_recibieron_ids = true;
+			world = msg->world;
 
 			/*
 				En el Handshake deberia recibir las posiciones de las vigas 

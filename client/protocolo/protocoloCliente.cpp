@@ -44,7 +44,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snapshot(){
     }
     if (cmd == CODIGO_HANDSHAKE_EMPEZAR_PARTIDA){
         printf("Se recibe un handshake del server\n");
-        return recibir_id_gusanos();
+        return recibir_handshake();
     }
 
     if (was_closed){
@@ -106,7 +106,8 @@ void ClienteProtocolo::unirse_partida(std::string id_partida){
 }
 
 
-std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_id_gusanos(){
+std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_handshake(){
+    std::shared_ptr<SnapshotCliente> snap= std::make_shared<SnapshotCliente>(0);
     std::vector<uint32_t> id_gusanos;
     uint32_t id_propio = recibir_4_bytes();
     uint16_t cantidad_gusanos = recibir_2_bytes();
@@ -116,6 +117,55 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_id_gusanos(){
         id_gusanos.push_back(id_gus);
         printf("Se recibe id de gusano = %u \n", id_gus);
     }
+    recibir_gusanos(snap);
+    std::map<int, std::shared_ptr<Worm>> worms = snap->get_worms();
+    std::shared_ptr<World> world = std::make_shared<World>(0,0);
+    std::vector<std::vector<float>> vigas = recibir_vigas();
+    for (auto &viga : vigas){
+        int tamanio = viga[3];
+        Beam beam(tamanio,viga[0],viga[1],viga[2]);
+        world->add_beam(beam);
+    }
+    for (auto &worm : worms){
+        world->add_worm(worm.second,worm.first);
+    }
+
+
+
+    std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(id_propio,id_gusanos,world);
+    return msg;
+}
+
+void ClienteProtocolo::enviar_handshake(uint32_t id_player, std::vector<uint32_t> id_gusanos){
+    uint8_t cmd = CODIGO_HANDSHAKE_EMPEZAR_PARTIDA;
+    enviar_1_byte(cmd);
+    enviar_4_bytes(id_player);
+    uint16_t cantidad_gusanos = id_gusanos.size();
+    enviar_2_byte(cantidad_gusanos);
+    for (uint16_t i = 0; i < cantidad_gusanos;i++){
+        enviar_4_bytes(id_gusanos[i]);
+    }
+
+}
+
+std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
+    std::shared_ptr<SnapshotCliente> snap= std::make_shared<SnapshotCliente>(0);
+    recibir_gusanos(snap);
+    /*
+    int tamano = 6;
+    float posx = 1.5;
+    float posy = 0.8;
+    Beam beam(tamano, posx, posy);
+    snap->add_beam(beam);
+    */
+    //std::cout << "Es el turno del gusano con ID = " << unsigned(turno_player_actual) << std::endl;
+    
+    std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(snap);
+    return msg;
+}
+
+
+std::vector<std::vector<float>> ClienteProtocolo::recibir_vigas(){
     uint16_t cantidad_vigas = recibir_2_bytes();
     std::vector<std::vector<float>> vigas;
     for(uint16_t i = 0; i < cantidad_vigas; i++){
@@ -134,26 +184,10 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_id_gusanos(){
         vigas.push_back(viga);
         printf("Se recibe una viga con datos = [%f, %f, %f, %f] \n",x_pos,y_pos,angulo_bis,largo_bis);
     }
-    
-    std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(id_propio,id_gusanos,vigas);
-    return msg;
+    return vigas;
 }
 
-void ClienteProtocolo::enviar_handshake(uint32_t id_player, std::vector<uint32_t> id_gusanos){
-    uint8_t cmd = CODIGO_HANDSHAKE_EMPEZAR_PARTIDA;
-    enviar_1_byte(cmd);
-    enviar_4_bytes(id_player);
-    uint16_t cantidad_gusanos = id_gusanos.size();
-    enviar_2_byte(cantidad_gusanos);
-    for (uint16_t i = 0; i < cantidad_gusanos;i++){
-        enviar_4_bytes(id_gusanos[i]);
-    }
-
-}
-
-std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
-    std::shared_ptr<SnapshotCliente> snap= std::make_shared<SnapshotCliente>(0);
-
+void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
     uint32_t turno_player_actual = recibir_4_bytes();
     uint16_t cantidad_gusanos = recibir_2_bytes();
     for(uint16_t i = 0; i < cantidad_gusanos; i++){
@@ -173,17 +207,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
         std::shared_ptr<Worm> worm = std::make_shared<Worm>(xpos, ypos, std::move(state));
         snap->add_worm(worm, id_gusano);
     }
-    /*
-    int tamano = 6;
-    float posx = 1.5;
-    float posy = 0.8;
-    Beam beam(tamano, posx, posy);
-    snap->add_beam(beam);
-    */
-    //std::cout << "Es el turno del gusano con ID = " << unsigned(turno_player_actual) << std::endl;
     snap->agregar_turno_actual(turno_player_actual);
-    std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(snap);
-    return msg;
 }
 
 bool ClienteProtocolo::recibir_comienzo_de_partida(){

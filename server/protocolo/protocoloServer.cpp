@@ -71,30 +71,7 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id)try{{
 void ServerProtocolo::enviar_snapshot(Snapshot snap)try{{
     uint8_t cmd = CODIGO_SNAPSHOT;
     enviar_1_byte(cmd);
-
-    uint32_t turno_current_gusano = snap.get_gusano_jugador();
-    enviar_4_bytes(turno_current_gusano);
-
-    
-    std::vector<WormWrapper> worms = snap.get_worms();
-    uint8_t cant_players = worms.size();  
-    enviar_2_byte(cant_players);
-    for (auto &c: worms){
-        uint32_t id = c.get_id();
-        std::vector<float> posicion = c.get_position();
-        uint32_t angulo = c.get_angulo();
-        uint8_t direccion = c.get_direccion();
-        uint8_t estado = c.get_estado();
-
-        enviar_4_bytes(id);
-        enviar_4_bytes_float(posicion[0]);
-        enviar_4_bytes_float(posicion[1]);
-        
-        enviar_4_bytes(angulo);
-        enviar_1_byte(direccion);
-        enviar_1_byte(estado);
-
-    }
+    enviar_gusanos(snap);
 
 }}catch(const ClosedSocket& e){
     throw ClosedSocket();
@@ -131,30 +108,22 @@ void ServerProtocolo::check_partida_empezada(){
     enviar_1_byte(cmd);
 }
 
-void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>> vigas){
 
-    uint16_t cantidad_vigas = vigas.size();
-    enviar_2_byte(cantidad_vigas);
-    for(uint16_t i = 0; i < cantidad_vigas; i++ ){
-        std::vector<float> viga = vigas[i];   
-        enviar_4_bytes_float(viga[0]);
-        enviar_4_bytes_float(viga[1]);
-        enviar_4_bytes_float(viga[2]);
-        enviar_4_bytes_float(viga[3]);
-    }
-}
 
-void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player,std::vector<std::vector<float>> vigas){
+void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player,Snapshot snap){
     uint8_t cmd = CODIGO_HANDSHAKE_EMPEZAR_PARTIDA;
     uint16_t cantidad_gusanos = gusanos_por_player.second.size();
     enviar_1_byte(cmd);
     enviar_4_bytes(gusanos_por_player.first);
     enviar_2_byte(cantidad_gusanos);
-    for(uint16_t i = 0; i < cantidad_gusanos;i++){
+    for(uint16_t i = 0; i < cantidad_gusanos;i++){ // Se envia el id de los gusanos que le pertenecen al player
         enviar_4_bytes(gusanos_por_player.second[i]);
     }
-    enviar_vigas(vigas);
+    enviar_gusanos(snap);
+    enviar_vigas(snap.get_vigas());
 }
+
+
 
 Mensaje ServerProtocolo::recibir_id_gusanos(){
     uint32_t id_player = recibir_4_bytes();
@@ -166,4 +135,44 @@ Mensaje ServerProtocolo::recibir_id_gusanos(){
     std::pair<uint32_t,std::vector<uint32_t>> par(id_player,ids_gusanos);
     Mensaje msg(par);
     return msg;
+}
+
+
+void ServerProtocolo::enviar_gusanos(Snapshot snap){
+    uint32_t turno_current_gusano = snap.get_gusano_jugador();
+    enviar_4_bytes(turno_current_gusano);
+
+    
+    std::vector<WormWrapper> worms = snap.get_worms();
+    uint8_t cant_players = worms.size();  
+    enviar_2_byte(cant_players);
+    for (auto &c: worms){
+        uint32_t id = c.get_id();
+        std::vector<float> posicion = c.get_position();
+        uint32_t angulo = c.get_angulo();
+        uint8_t direccion = c.get_direccion();
+        uint8_t estado = c.get_estado();
+
+        enviar_4_bytes(id);
+        enviar_4_bytes_float(posicion[0]);
+        enviar_4_bytes_float(posicion[1]);
+        
+        enviar_4_bytes(angulo);
+        enviar_1_byte(direccion);
+        enviar_1_byte(estado);
+
+    }
+}
+
+void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>> vigas){
+
+    uint16_t cantidad_vigas = vigas.size();
+    enviar_2_byte(cantidad_vigas);
+    for(uint16_t i = 0; i < cantidad_vigas; i++ ){
+        std::vector<float> viga = vigas[i];   
+        enviar_4_bytes_float(viga[0]);
+        enviar_4_bytes_float(viga[1]);
+        enviar_4_bytes_float(viga[2]);
+        enviar_4_bytes_float(viga[3]);
+    }
 }

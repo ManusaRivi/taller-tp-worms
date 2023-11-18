@@ -77,3 +77,20 @@ std::vector<std::vector<float>> Mapa::get_vigas(){
 uint16_t Mapa::gusanos_totales(){
     return this->worms.size();
 }
+
+std::vector<WormWrapper> Mapa::get_gusanos(){
+    std::vector<WormWrapper> vec_worms;
+    for(auto &worm: this->worms){
+        b2Vec2 position = worm->GetPosition();
+        std::vector<float> posicion;
+        posicion.push_back(position.x);
+        posicion.push_back(position.y);
+        vec_worms.push_back(WormWrapper(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo()));
+    }
+
+    return vec_worms;
+}
+
+// std::vector<float> Mapa::get_size(){
+//     this->world.
+// }

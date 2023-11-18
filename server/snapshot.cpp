@@ -1,6 +1,6 @@
 #include "snapshot.h"
 
-Snapshot::Snapshot(std::vector<std::vector<int>> vigas): vigas(vigas),snapshot_de_la_partida(true) {}
+Snapshot::Snapshot(std::vector<std::vector<float>> vigas): vigas(vigas),snapshot_de_la_partida(true) {}
 
 Snapshot::Snapshot(std::map<uint32_t,std::string> lista):snapshot_de_la_partida(false){
 
@@ -19,7 +19,7 @@ bool Snapshot::snap_partida(){
     return snapshot_de_la_partida;
 }
 
-std::vector<std::vector<int>> Snapshot::get_vigas(){
+std::vector<std::vector<float>> Snapshot::get_vigas(){
     return this->vigas;
 }
 
@@ -31,4 +31,8 @@ void Snapshot::add_condiciones_partida(float tiempo_turno, uint32_t id_gusano_cu
 
 uint32_t Snapshot::get_gusano_jugador(){
     return this->id_gusano_jugando;
+}
+
+void Snapshot::agregar_gusanos(std::vector<WormWrapper> gusanos){
+    this->worms = gusanos;
 }

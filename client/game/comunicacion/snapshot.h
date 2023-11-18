@@ -43,6 +43,8 @@ class SnapshotCliente {
     void agregar_turno_actual(uint32_t id);
 
     void imprimir_posiciones();
+
+    std::map<int, std::shared_ptr<Worm>> get_worms();
 };
 
 #endif

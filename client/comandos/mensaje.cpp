@@ -22,6 +22,6 @@ MensajeCliente::MensajeCliente(uint32_t id_player_, std::vector<uint32_t> id_gus
 
 }
 
-MensajeCliente::MensajeCliente(uint32_t id_player_, std::vector<uint32_t> id_gusanos_,std::vector<std::vector<float>> vigas_):tipo_comando(COMANDO::CMD_HANDSHAKE),id_player(id_player_),id_gusanos(id_gusanos_),vigas(vigas_){
+MensajeCliente::MensajeCliente(uint32_t id_player_, std::vector<uint32_t> id_gusanos_,std::shared_ptr<World> world_):tipo_comando(COMANDO::CMD_HANDSHAKE),id_player(id_player_),id_gusanos(id_gusanos_), world(world_){
 
 }

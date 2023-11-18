@@ -37,6 +37,9 @@ private:
 public:
     int jumpSteps;
     uint32_t id;
+    uint8_t status;
+    float angulo;
+
     Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint16 collisionCategory, uint16 collisionMask,uint32_t id);
     void Move(int dir);
     void Stop();
@@ -52,6 +55,10 @@ public:
     int get_facing_direction();
 
     uint32_t get_id();
+
+    uint8_t get_status();
+
+    float get_angulo();
 };
 
 #endif

@@ -51,6 +51,10 @@ public:
     std::vector<std::vector<float>> get_vigas();
     uint16_t gusanos_totales();
 
+    std::vector<WormWrapper> get_gusanos();
+
+    // std::vector<float> get_size();
+
     ~Mapa();
 };
 

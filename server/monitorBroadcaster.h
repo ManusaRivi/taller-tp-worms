@@ -18,7 +18,7 @@ struct BroadCaster{
 
     uint16_t cantidad_jugadores();
 
-    void informar_primer_snapshot(std::map<uint32_t,std::vector<uint32_t>> gusanos_por_player,std::vector<std::vector<float>> vigas);
+    void informar_primer_snapshot(std::map<uint32_t,std::vector<uint32_t>> gusanos_por_player,Snapshot snap);
 
     void remover_player(Queue<Mensaje>* q);
 

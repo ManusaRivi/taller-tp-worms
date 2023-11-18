@@ -30,6 +30,9 @@ void Partida::run()try{{
             partida_iniciada = true;
         }
     }
+    if(!is_alive){
+        return;
+    }
     std::cout << "Se inicializa la partida\n" << std::endl;
     //Mensaje msg;
     //broadcaster.broadcastSnap(msg);
@@ -100,7 +103,7 @@ void Partida::run()try{{
 }
 
 Snapshot Partida::generar_snapshot(float tiempo_turno, uint32_t id_gusano_current_turn){
-    std::vector<std::vector<int>> vigas;
+    std::vector<std::vector<float>> vigas;
     WormWrapper gusano1 = mapa.devolver_gusano(0);
     WormWrapper gusano2 = mapa.devolver_gusano(1);
     Snapshot snap(vigas);
@@ -143,7 +146,10 @@ void Partida::enviar_primer_snapshot(){
         id_player_por_gusano.insert({i,i%cantidad_players});
     }
     std::vector<std::vector<float>> vigas = mapa.get_vigas();
-    broadcaster.informar_primer_snapshot(id_gusanos_por_player,vigas);
+    Snapshot snap(vigas);
+    snap.agregar_gusanos(mapa.get_gusanos());
+    // std::vector<float> tamanio_mapa = mapa.get_size();
+    broadcaster.informar_primer_snapshot(id_gusanos_por_player, snap);
 }
 
 

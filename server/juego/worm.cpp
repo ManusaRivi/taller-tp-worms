@@ -118,3 +118,11 @@ int Worm::get_facing_direction(){
 uint32_t Worm::get_id(){
     return this->id;
 }
+
+float Worm::get_angulo(){
+    return this->body->GetAngle();
+}
+
+uint8_t Worm::get_status(){
+    return this->status;
+}

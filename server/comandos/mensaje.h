@@ -57,7 +57,7 @@ struct Mensaje{
 
     Mensaje(uint8_t tipo, uint8_t id);
 
-    Mensaje(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player, std::vector<std::vector<float>> vigas);
+    Mensaje(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player, Snapshot snap);
     Mensaje(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player);
 
 };

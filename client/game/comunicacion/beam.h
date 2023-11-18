@@ -14,9 +14,10 @@ class Beam {
     int _tamano;
     float _pos_x;
     float _pos_y;
+    float angulo;
 
     public:
-    Beam(int& tamano, float& pos_x, float& pos_y);
+    Beam(int& tamano, float& pos_x, float& pos_y, float& angulo);
 
     void present(Renderer& renderer,
                     TextureManager& texture_manager,

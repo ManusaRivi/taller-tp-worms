@@ -23,7 +23,7 @@ uint16_t BroadCaster::cantidad_jugadores(){
 }
 
 void BroadCaster::informar_primer_snapshot(std::map<uint32_t,std::vector<uint32_t>> gusanos_por_player,
-                                        std::vector<std::vector<float>> vigas){
+                                        Snapshot snap){
     std::lock_guard<std::mutex> lock(lck);
     uint16_t i =0;
     for (auto& c: lista) {
@@ -32,7 +32,7 @@ void BroadCaster::informar_primer_snapshot(std::map<uint32_t,std::vector<uint32_
         std::vector<uint32_t> id_gusanos = gusanos_por_player[i];
         std::pair<uint32_t,std::vector<uint32_t>> par({id_player,id_gusanos});
         printf("Se envia un vector de tamanio %lu \n", id_gusanos.size());
-        Mensaje msg(par,vigas);
+        Mensaje msg(par,snap);
         c->push(msg);
         i++;
     }

@@ -8,10 +8,12 @@
 #define CAMERA_WIDTH 4
 #define CAMERA_HEIGHT 2
 
+#define GAME_MIX_FORMAT 0x00008010
+
 #include <SDL2pp/SDL2pp.hh>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_audio.h>
 #include "Texturas/texture_manager.h"
-#include "Sonidos/sound_manager.h"
 #include "../protocolo/protocoloCliente.h"
 #include <vector>
 #include <unistd.h>

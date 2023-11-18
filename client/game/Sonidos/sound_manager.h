@@ -9,12 +9,12 @@
 
 class SoundManager {
     private:
-    std::map<std::string, SDL2pp::Mix_Chunk> sounds;
+    std::map<std::string, std::unique_ptr<SDL2pp::Chunk>> sounds;
 
     public:
     SoundManager();
 
-    SDL2pp::Mix_chunk* get_sound(std::string& sound_name);
+    std::unique_ptr<SDL2pp::Chunk> get_sound(std::string& sound_name);
 };
 
 #endif

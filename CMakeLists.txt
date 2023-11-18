@@ -35,6 +35,7 @@ include_directories(${Qt5Widgets_INCLUDE_DIRS})
 include_directories(${Qt5Core_INCLUDE_DIRS})
 
 set(RESOURCES "client/lobby/res/resources.qrc")
+set(RESOURCES_EDITOR "editor/res/imagenes.qrc")
 
 #file(GLOB_RECURSE SERVER ./server/*.cpp)
 
@@ -58,7 +59,7 @@ add_library(common_lib STATIC ${COMMON})
 
 add_executable(server "server/main.cpp")
 add_executable(client "client/main.cpp" ${RESOURCES})
-add_executable(editor "editor/main.cpp")
+add_executable(editor "editor/main.cpp" ${RESOURCES_EDITOR})
 
 # Va a haber otro ejecutable para el editor.
 target_link_libraries(server server_lib box2d yaml-cpp common_lib Threads::Threads ${SDL2PP_LIBRARIES})

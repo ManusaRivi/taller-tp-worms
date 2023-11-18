@@ -1,6 +1,6 @@
 #include "viga.h"
 
-Viga::Viga(b2World& world, beamSize type, float x_pos, float y_pos, float angle, uint16 collisionCategory, uint16 collisionMask) {
+Viga::Viga(b2World& world, int type, float x_pos, float y_pos, float angle) {
     b2BodyDef vigaDef;
     vigaDef.position.Set(x_pos, y_pos);
     vigaDef.angle = angle;
@@ -16,8 +16,9 @@ Viga::Viga(b2World& world, beamSize type, float x_pos, float y_pos, float angle,
     b2FixtureDef fixtureViga;
     fixtureViga.shape = &vigaBox;
     fixtureViga.density = BEAM_DENSITY;
-    fixtureViga.filter.categoryBits = collisionCategory;
-    fixtureViga.filter.maskBits = collisionMask;
+    fixtureViga.friction = BEAM_FRICTION;
+    fixtureViga.filter.categoryBits = CollisionCategories::BOUNDARY;
+    fixtureViga.filter.maskBits = (CollisionCategories::WORM | CollisionCategories::PROJECTILE);
 
     this->body->CreateFixture(&fixtureViga);
 }

@@ -10,7 +10,7 @@ class EmpezarPartida:public Comando{
     public:
     EmpezarPartida();
 
-    void realizar_accion(Mapa &mapa , uint32_t id);
+    void realizar_accion(Mapa* mapa , uint32_t id);
 
 };
 

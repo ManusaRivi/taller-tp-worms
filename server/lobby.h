@@ -8,10 +8,8 @@
 #include "threads/threadRecibidor.h"
 #include "comandos/mensaje.h"
 
-class Lobby{
-
-
-    private:
+class Lobby {
+    MapContainer lista_mapas;
     std::map<uint32_t,Partida*> lista_partidas;
 
     uint32_t id_actual;
@@ -26,15 +24,11 @@ class Lobby{
     Queue<std::shared_ptr<Comando>> &get_queue(uint32_t id);
     void listar_mapas(Queue<Mensaje>* cliente);
     void desconectarse_partida(uint32_t id, Queue<Mensaje>* snapshots);
+    void kill();
 
-void kill();
     private:
     void start_lobby();
     void empezar_partida(uint32_t id);
-    
-
-    
-
 };
 
 #endif

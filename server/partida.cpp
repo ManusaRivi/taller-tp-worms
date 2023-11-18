@@ -65,7 +65,7 @@ void Partida::run()try{{
             c->realizar_accion(mapa,turno_gusano);
         }
 
-        mapa.Step();
+        mapa->Step();
         Snapshot snap = generar_snapshot(elapsed,turno_gusano);
         Mensaje broadcast(snap);
         broadcaster.broadcastSnap(broadcast);
@@ -90,7 +90,7 @@ void Partida::run()try{{
 		t1 += std::chrono::milliseconds(FRAME_RATE);
 		it += 1;
         if (elapsed>= 60) {
-            mapa.detener_worm(turno_gusano);
+            mapa->detener_worm(turno_gusano);
             turno_gusano = proximo_turno(turno_gusano);
             player_actual = id_player_por_gusano[turno_gusano];
             std::cout << "El id del gusano jugando actualmente es : " << unsigned(turno_gusano) << std::endl;
@@ -103,16 +103,10 @@ void Partida::run()try{{
 }
 
 Snapshot Partida::generar_snapshot(float tiempo_turno, uint32_t id_gusano_current_turn){
-    std::vector<std::vector<float>> vigas;
-    WormWrapper gusano1 = mapa.devolver_gusano(0);
-    WormWrapper gusano2 = mapa.devolver_gusano(1);
-    Snapshot snap(vigas);
+    Snapshot snap(mapa->devolver_gusanos());
     snap.add_condiciones_partida(tiempo_turno,id_gusano_current_turn);
-    snap.agregar_gusanos(mapa.get_gusanos());
     return snap;
 }
-
-
 
 std::string Partida::get_nombre(){
     return this->nombre_partida;
@@ -128,7 +122,7 @@ Queue<std::shared_ptr<Comando>>& Partida::get_queue(){
 
 
 void Partida::enviar_primer_snapshot(){
-    uint16_t gusanos_disponibles = mapa.gusanos_totales();
+    uint16_t gusanos_disponibles = mapa->gusanos_totales();
     uint16_t cantidad_players = broadcaster.cantidad_jugadores();
 
     for(uint32_t i =0; i < gusanos_disponibles;i++){
@@ -143,17 +137,15 @@ void Partida::enviar_primer_snapshot(){
         }
         id_player_por_gusano.insert({i,i%cantidad_players});
     }
-    std::vector<std::vector<float>> vigas = mapa.get_vigas();
-    Snapshot snap(vigas);
-    snap.agregar_gusanos(mapa.get_gusanos());
-    // std::vector<float> tamanio_mapa = mapa.get_size();
+    Snapshot snap(mapa->get_gusanos(), mapa->get_vigas());
+    // std::vector<float> tamanio_mapa = mapa->get_size();
     broadcaster.informar_primer_snapshot(id_gusanos_por_player, snap);
 }
 
 
 uint32_t Partida::proximo_turno(uint32_t turno_actual){
     turno_actual++;
-    if(turno_actual == mapa.gusanos_totales()){
+    if(turno_actual == mapa->gusanos_totales()){
         return 0;
     }
     else{

@@ -2,7 +2,12 @@
 #define MAPA_H
 
 #include "../../libs/box2d/include/box2d/box2d.h"
+
+#include <yaml-cpp/yaml.h>
 #include <vector>
+#include <string>
+
+#include "../game_config.h"
 #include "../worm_wrapper.h"
 #include "./worm.h"
 #include "./viga.h"
@@ -27,10 +32,11 @@ private:
     std::vector<Viga*> vigas;
     std::vector<Worm*> worms;
 
-    
+    std::string nombre;
 
 public:
-    Mapa();
+    explicit Mapa(const char* map_filepath);
+    void Load_Map_File(const char* filepath);
     void Step();
     /*
     * Setea la velocidad del gusano dado por idx, que es el
@@ -46,6 +52,8 @@ public:
     void StopWorm(int idx);
     void JumpWormForward(int idx);
     void JumpWormBackward(int idx);
+
+    std::string GetName();
 
     WormWrapper devolver_gusano(int idx);
     std::vector<std::vector<float>> get_vigas();

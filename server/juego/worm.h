@@ -2,17 +2,20 @@
 #define WORM_H
 
 #include "../../libs/box2d/include/box2d/box2d.h"
+#include "./collision_categories.h"
+
+#include <vector>
 
 enum directions {
     RIGHT = 0,
     LEFT = 1,
 };
 
-#define BOX_WIDTH 0.15f
-#define BOX_HEIGHT 0.4f
+#define BOX_WIDTH 0.5f
+#define BOX_HEIGHT 0.5f
 
-#define WORM_DENSITY 1.0f
-#define WORM_FRICTION 0.0f
+#define WORM_DENSITY 0.2f
+#define WORM_FRICTION 1.0f
 
 #define MOVING_SPEED 0.2
 
@@ -43,7 +46,7 @@ public:
     bool esta_apuntando_para_arriba;
     bool apuntando;
 
-    Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint16 collisionCategory, uint16 collisionMask,uint32_t id);
+    Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id);
     void Move(int dir);
     void Stop();
     void JumpForward();
@@ -52,8 +55,8 @@ public:
     void endGroundContact();
     bool isAirborne();
     void takeDamage(int damage);
-
-    b2Vec2 GetPosition();
+    std::vector<float> GetPosition();
+    float GetAngle();
 
     int get_facing_direction();
 

@@ -26,12 +26,11 @@ class Snapshot {
 
     public:
     //Constructor
-    Snapshot(std::vector<std::vector<float>> vigas);
+    Snapshot(std::vector<WormWrapper> worms, std::vector<std::vector<float>> vigas);
+
+    Snapshot(std::vector<WormWrapper> worms);
 
     Snapshot(std::map<uint32_t,std::string> lista);
-
-    //Agrega un gusano a la lista de gusanos
-    void add_worm(WormWrapper worm);
 
     std::vector<WormWrapper> get_worms();
 
@@ -42,8 +41,6 @@ class Snapshot {
     void add_condiciones_partida(float tiempo_turno, uint32_t id_gusano_current_turn);
 
     uint32_t get_gusano_jugador();
-
-    void agregar_gusanos(std::vector<WormWrapper> gusanos);
 };
 
 #endif

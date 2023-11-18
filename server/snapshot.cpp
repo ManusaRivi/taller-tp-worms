@@ -1,15 +1,10 @@
 #include "snapshot.h"
 
-Snapshot::Snapshot(std::vector<std::vector<float>> vigas): vigas(vigas),snapshot_de_la_partida(true) {}
+Snapshot::Snapshot(std::vector<WormWrapper> worms, std::vector<std::vector<float>> vigas) : worms(worms), vigas(vigas), snapshot_de_la_partida(true) {}
 
-Snapshot::Snapshot(std::map<uint32_t,std::string> lista):snapshot_de_la_partida(false){
+Snapshot::Snapshot(std::vector<WormWrapper> worms) : worms(worms), snapshot_de_la_partida(true) {}
 
-}
-
-
-void Snapshot::add_worm(WormWrapper worm) {
-    worms.push_back(worm);
-}
+Snapshot::Snapshot(std::map<uint32_t,std::string> lista) : snapshot_de_la_partida(false) {}
 
 std::vector<WormWrapper> Snapshot::get_worms(){
     return worms;
@@ -31,8 +26,4 @@ void Snapshot::add_condiciones_partida(float tiempo_turno, uint32_t id_gusano_cu
 
 uint32_t Snapshot::get_gusano_jugador(){
     return this->id_gusano_jugando;
-}
-
-void Snapshot::agregar_gusanos(std::vector<WormWrapper> gusanos){
-    this->worms = gusanos;
 }

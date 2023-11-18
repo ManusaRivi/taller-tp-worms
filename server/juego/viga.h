@@ -2,6 +2,7 @@
 #define VIGA_H
 
 #include "../../libs/box2d/include/box2d/box2d.h"
+#include "./collision_categories.h"
 #include <vector>
 
 enum beamSize {
@@ -15,13 +16,14 @@ enum beamSize {
 #define HEIGHT 0.40f
 
 #define BEAM_DENSITY 0.0f
+#define BEAM_FRICTION 0.8f
 
 class Viga {
 private:
     b2Body* body;
     float len;
 public:
-    Viga(b2World& world, beamSize type, float x_pos, float y_pos, float angle, uint16 collisionCategory, uint16 collisionMask);
+    Viga(b2World& world, int type, float x_pos, float y_pos, float angle);
     std::vector<float> get_pos();
 };
     

@@ -67,6 +67,8 @@ class Protocolo{
 
     uint8_t recibir_1_byte();
 
+    float recibir_4_bytes_float();
+
 };
 
 #endif

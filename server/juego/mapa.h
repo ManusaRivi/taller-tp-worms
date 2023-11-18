@@ -53,7 +53,14 @@ public:
 
     std::vector<WormWrapper> get_gusanos();
 
+    void cambiar_arma(uint32_t id, uint8_t tipo);
+
+    void apuntar_para(uint32_t id,int);
     // std::vector<float> get_size();
+
+    void detener_worm(uint32_t id);
+
+    void detener_angulo(uint32_t id);
 
     ~Mapa();
 };

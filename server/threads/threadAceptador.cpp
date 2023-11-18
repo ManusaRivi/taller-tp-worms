@@ -48,9 +48,7 @@ void Aceptador::reap_dead() {
 
 void Aceptador::kill() {
     for (auto& c: clientes) {
-        if(!c->is_dead()){
-            c->kill();
-        }
+        c->kill();
         c->join();
         delete c;
     }

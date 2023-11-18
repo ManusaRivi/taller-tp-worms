@@ -170,19 +170,15 @@ std::vector<std::vector<float>> ClienteProtocolo::recibir_vigas(){
     std::vector<std::vector<float>> vigas;
     for(uint16_t i = 0; i < cantidad_vigas; i++){
           
-        uint32_t x = recibir_4_bytes();
-        uint32_t y = recibir_4_bytes();
-        uint32_t angulo = recibir_4_bytes();
-        uint32_t largo = recibir_4_bytes();
+        float x = recibir_4_bytes_float();
+        float y = recibir_4_bytes_float();
+        float angulo = recibir_4_bytes_float();
+        float largo = recibir_4_bytes_float();
 
-        float x_pos = x/100;
-        float y_pos = y/100;
-        float angulo_bis = angulo/100;
-        float largo_bis = largo/100;
 
-        std::vector<float> viga({x_pos,y_pos,angulo_bis,largo_bis});
+        std::vector<float> viga({x,y,angulo,largo});
         vigas.push_back(viga);
-        printf("Se recibe una viga con datos = [%f, %f, %f, %f] \n",x_pos,y_pos,angulo_bis,largo_bis);
+        printf("Se recibe una viga con datos = [%f, %f, %f, %f] \n",x,y,angulo,largo);
     }
     return vigas;
 }
@@ -192,19 +188,16 @@ void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
     uint16_t cantidad_gusanos = recibir_2_bytes();
     for(uint16_t i = 0; i < cantidad_gusanos; i++){
         uint32_t id_gusano = recibir_4_bytes();
-        uint32_t pos_x = recibir_4_bytes();
-        uint32_t pos_y = recibir_4_bytes();
+        float pos_x = recibir_4_bytes_float();
+        float pos_y = recibir_4_bytes_float();
 
-        float x_pos = pos_x;
-        float y_pos = pos_y;
-        float xpos = x_pos/100;
-        float ypos = y_pos/100;
-
-        uint32_t angulo = recibir_4_bytes();
+        float angulo = recibir_4_bytes_float();
         uint8_t direccion = recibir_1_byte();
         uint8_t estado = recibir_1_byte();
-        std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(estado, direccion == 0, angulo, 0.0);
-        std::shared_ptr<Worm> worm = std::make_shared<Worm>(xpos, ypos, std::move(state));
+        float angulo_disparo = recibir_4_bytes_float();
+        printf("x= %f, y= %f  angulo = %f  dir = %u estado = %u disparo = %f\n\n",pos_x,pos_y,angulo,direccion,estado,angulo_disparo);
+        std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(estado, direccion == 0, angulo, angulo_disparo);
+        std::shared_ptr<Worm> worm = std::make_shared<Worm>(pos_x, pos_y, std::move(state));
         snap->add_worm(worm, id_gusano);
     }
     snap->agregar_turno_actual(turno_player_actual);

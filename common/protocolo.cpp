@@ -88,3 +88,11 @@ void Protocolo::enviar_4_bytes_float(float num){
     //std::cout << "Se manda por socket un float de " << numero << std::endl;
     enviar_4_bytes(numero);
 }
+
+float Protocolo::recibir_4_bytes_float(){
+    uint32_t num = recibir_4_bytes();
+    float mero = num;
+    mero = mero/100;
+    return mero;
+
+}

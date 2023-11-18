@@ -2,8 +2,7 @@
 #include <unistd.h>
 #include <chrono>
 
-using namespace SDL2pp;
-#define FRAME_RATE 30
+#define FRAME_RATE 60
 
 using Clock = std::chrono::steady_clock;
 
@@ -53,7 +52,7 @@ void Partida::run()try{{
             if(!comando){
                 continue;
             }
-            if(comando.get()->responsable_id != player_actual){
+            if(comando->get_responsable() != player_actual){
                 printf("{!!!!!!!} El turno no es de este player {!!!!!!}\n");
                 continue;
             }
@@ -90,12 +89,13 @@ void Partida::run()try{{
 		std::this_thread::sleep_for(std::chrono::milliseconds(rest));
 		t1 += std::chrono::milliseconds(FRAME_RATE);
 		it += 1;
-        if (elapsed>= 10) {
+        if (elapsed>= 60) {
+            mapa.detener_worm(turno_gusano);
             turno_gusano = proximo_turno(turno_gusano);
             player_actual = id_player_por_gusano[turno_gusano];
             std::cout << "El id del gusano jugando actualmente es : " << unsigned(turno_gusano) << std::endl;
             startTime = std::chrono::high_resolution_clock::now();
-            std::cout << "Message after 10 seconds" << std::endl;
+            std::cout << "Message after 60 seconds" << std::endl;
         }
     }
 }}catch(const ClosedQueue& e){
@@ -108,9 +108,7 @@ Snapshot Partida::generar_snapshot(float tiempo_turno, uint32_t id_gusano_curren
     WormWrapper gusano2 = mapa.devolver_gusano(1);
     Snapshot snap(vigas);
     snap.add_condiciones_partida(tiempo_turno,id_gusano_current_turn);
-    snap.add_worm(gusano1);
-    snap.add_worm(gusano2);
-    snap.add_worm(mapa.devolver_gusano(2));
+    snap.agregar_gusanos(mapa.get_gusanos());
     return snap;
 }
 

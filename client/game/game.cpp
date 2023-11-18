@@ -5,6 +5,23 @@ using namespace SDL2pp;
 #define GAME_MOVE_RIGHT 0x01
 #define GAME_MOVE_LEFT 0x02
 
+#define GAME_JUMP_FORWARD 0x01
+#define GAME_JUMP_BACKWARDS	0x02
+
+#define ANGULO_ARRIBA 0x00
+#define ANGULO_ABAJO 0x01
+
+#define BAZOOKA 0x05
+#define BASEBALL 0x06
+#define TELEPORTACION 0x08
+#define DINAMITA 0x09
+#define ATAQUE_AEREO 0x11
+#define GRANADA_SANTA 0x12
+#define GRANADA_VERDE 0x14
+#define BANANA 0x16
+#define GRANADA_ROHA 0x18
+#define MORTERO 0x20
+
 Game::Game(Queue<std::shared_ptr<MensajeCliente>> &queue, Queue<std::shared_ptr<MensajeCliente>> &acciones_):snapshots(queue), acciones(acciones_){}
 
 int Game::run() try {
@@ -57,7 +74,7 @@ int Game::run() try {
 	// Inicializo SDL_ttf
 	SDLTTF ttf;
 	// Inicializo SDL_mixer
-    SDL2pp::Mixer mixer(MIX_DEFAULT_FREQUENCY, GAME_MIX_FORMAT, 2, 1024);
+    //SDL2pp::Mixer mixer(MIX_DEFAULT_FREQUENCY, GAME_MIX_FORMAT, 2, 1024);
 
     // Creo la ventana: 
     // Dimensiones: 854x480, redimensionable
@@ -74,8 +91,8 @@ int Game::run() try {
     TextureManager texture_manager(renderer);
 
 	// Reproduzco musica ambiente
-	Chunk musica_ambiente(PROJECT_SOURCE_DIR "/client/game/Sonidos/data/MusicaAmbiente.mp3");
-	mixer.PlayChannel(-1, musica_ambiente, 0);
+	//Chunk musica_ambiente(PROJECT_SOURCE_DIR "/client/game/Sonidos/data/MusicaAmbiente.mp3");
+	//mixer.PlayChannel(-1, musica_ambiente, 0);
 
 	// Tomo el tiempo actual
     unsigned int t1 = SDL_GetTicks();
@@ -126,74 +143,104 @@ int Game::run() try {
 				} else if (tecla == SDLK_RETURN && !is_aiming && !return_press){
 					// Quiere saltar hacia adelante
 					return_press = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.saltar(GAME_JUMP_FORWARD);
+					acciones.push(msg);
 					// Enviar por protocolo comando "saltar adelante"
 				} else if (tecla == SDLK_BACKSPACE && !is_aiming && !backspace_press){
 					// Quere saltar hacia atras
 					backspace_press = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.saltar(GAME_JUMP_BACKWARDS);
+					acciones.push(msg);
 					// Enviar por protocolo comando "saltar atras"
 				} else if (tecla == SDLK_1 && !has_selected_weapon) {
 					// Selecciono la Bazooka
 					// ToDo: Desarrollar para cuenta regresiva
 					has_selected_weapon = true;
 					is_aiming = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(BAZOOKA);
+					acciones.push(msg);
 					// Enviar comando "saco bazooka" por protocolo
 				} else if (tecla == SDLK_2 && !has_selected_weapon) {
 					// Selecciono el Bate
 					// ToDo: Desarrollar para cuenta regresiva
 					has_selected_weapon = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(BASEBALL);
+					acciones.push(msg);
 					// Enviar comando "saco bate" por protocolo
 				} else if (tecla == SDLK_3 && !has_selected_weapon) {
 					// Selecciono Teletransportacion
 					// ToDo: Desarrollar para cuenta regresiva
 					has_selected_weapon = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(TELEPORTACION);
+					acciones.push(msg);
 					// Enviar comando "saco teletransportador" por protocolo
 				} else if (tecla == SDLK_4 && !has_selected_weapon) {
 					// Selecciono la Dinamita
 					// ToDo: Desarrollar para cuenta regresiva
 					has_selected_weapon = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(DINAMITA);
+					acciones.push(msg);
 					// Enviar comando "saco dinamita" por protocolo
 				} else if (tecla == SDLK_5 && !has_selected_weapon) {
 					// Selecciono el Ataque Aereo
 					// ToDo: Desarrollar para cuenta regresiva
 					has_selected_weapon = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(ATAQUE_AEREO);
+					acciones.push(msg);
 					// Enviar comando "saco ataque aereo" por protocolo
 				} else if (tecla == SDLK_6 && !has_selected_weapon) {
 					// Selecciono la Granada santa
 					is_aiming = true;
 					has_selected_weapon = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(GRANADA_SANTA);
+					acciones.push(msg);
 					// Enviar comando "saco granada santa" por protocolo
 				} else if (tecla == SDLK_7 && !has_selected_weapon) {
 					// Selecciono la Granada verde
 					is_aiming = true;
 					has_selected_weapon = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(GRANADA_VERDE);
+					acciones.push(msg);
 					// Enviar comando "saco granada verde" por protocolo
 				} else if (tecla == SDLK_8 && !has_selected_weapon) {
 					// Selecciono la Banana
 					is_aiming = true;
 					has_selected_weapon = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(BANANA);
+					acciones.push(msg);
 					// Enviar comando "saco banana" por protocolo
 				} else if (tecla == SDLK_9 && !has_selected_weapon) {
 					// Selecciono la Granada roja
 					has_selected_weapon = true;
 					is_aiming = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(GRANADA_ROHA);
+					acciones.push(msg);
 					// Enviar comando "saco granada roja" por protocolo
 				} else if (tecla == SDLK_0 && !has_selected_weapon) {
 					// Selecciono el mortero
 					has_selected_weapon = true;
 					is_aiming = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(MORTERO);
+					acciones.push(msg);
 					// Enviar comando "saco mortero" por protocolo
 				} else if (tecla == SDLK_UP && !up_press && is_aiming) {
 					// Comienza a presionar arriba mientras esta apuntando
 					up_press = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_angulo(ANGULO_ARRIBA);
+					acciones.push(msg);
 					// Enviar por protocolo que empezo a aumentar el angulo
 				} else if (tecla == SDLK_DOWN && !down_press && is_aiming) {
 					// Comienza a presionar abajo mientras esta apuntando
 					down_press = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_angulo(ANGULO_ABAJO);
+					acciones.push(msg);
 					// Enviar por protocolo que empezo a disminuir el rango
 				} else if (tecla == SDLK_SPACE && has_selected_weapon && !is_charging_power) {
 					// Esta cargando la potencia del arma, por lo que envio
 					// Cuando la empieza a presionar y despues cuando la suelta
 					is_charging_power = true;
+					std::shared_ptr<MensajeCliente> msg = mensajes.cargar_arma();
+					acciones.push(msg);
 					// Enviar comando empezo a cargar el poder por protocolo
 				}
 			} else if (event.type == SDL_KEYUP) {
@@ -208,12 +255,18 @@ int Game::run() try {
 					acciones.push(msg);
 				} else if (tecla == SDLK_UP) {
 					up_press = false;
+					std::shared_ptr<MensajeCliente> msg = mensajes.detener_angulo();
+					acciones.push(msg);
 					// Enviar por protocolo que se dejo de aumentar el angulo
 				} else if (tecla == SDLK_DOWN) {
 					down_press = false;
+					std::shared_ptr<MensajeCliente> msg = mensajes.detener_angulo();
+					acciones.push(msg);
 					// Enviar por protocolo que se dejo de disminuir el angulo
 				} else if (tecla == SDLK_SPACE) {
 					is_charging_power = false;
+					std::shared_ptr<MensajeCliente> msg = mensajes.disparar();
+					acciones.push(msg);
 					// Enviar por protocolo que disparó (que dejo de cargar el poder)
 					is_aiming = false;
 				} else if (tecla == SDLK_RETURN) {

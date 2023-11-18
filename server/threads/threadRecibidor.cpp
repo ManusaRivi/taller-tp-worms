@@ -55,8 +55,7 @@ void Recibidor::run()try{{
         bool partida_online = true;
         Queue<std::shared_ptr<Comando>> &queue_acciones = lobby.get_queue(id_partida);
         while(partida_online && is_alive){
-            Mensaje msg = ptcl.recibir_comando(was_closed,id);
-            std::shared_ptr<Comando> cmd = msg.cmd;
+            std::shared_ptr<Comando> cmd = ptcl.recibir_accion(id);
             queue_acciones.push(cmd);
         }
     }
@@ -70,6 +69,7 @@ void Recibidor::run()try{{
         lobby.desconectarse_partida(id_partida,snapshots);
     }
     is_alive = false;
+    snapshots->close();
 
 }
 

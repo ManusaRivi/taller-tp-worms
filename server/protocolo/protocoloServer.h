@@ -18,6 +18,7 @@ class ServerProtocolo:public Protocolo{
     public:
     ServerProtocolo(Socket& skt);
     Mensaje recibir_comando(bool &was_closed, uint32_t id);
+    std::shared_ptr<Comando> recibir_accion(uint32_t id);
     void enviar_snapshot(Snapshot shot);
     void enviar_partidas(std::map<uint32_t,std::string> lista_mapas);
     void partida_empezada();

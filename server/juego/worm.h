@@ -39,6 +39,9 @@ public:
     uint32_t id;
     uint8_t status;
     float angulo;
+    float angulo_disparo;
+    bool esta_apuntando_para_arriba;
+    bool apuntando;
 
     Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint16 collisionCategory, uint16 collisionMask,uint32_t id);
     void Move(int dir);
@@ -59,6 +62,24 @@ public:
     uint8_t get_status();
 
     float get_angulo();
+
+    void cambiar_arma(uint8_t tipo_arma);
+
+    void esta_apuntando_para(bool dir);
+
+    bool apuntando_para_arriba(bool dir);
+
+    void incrementar_angulo_en(float inc);
+
+    bool esta_apuntando();
+
+    void cambiar_angulo();
+
+    void detener_acciones();
+
+    float aiming_angle();
+
+    void parar_angulo();
 };
 
 #endif

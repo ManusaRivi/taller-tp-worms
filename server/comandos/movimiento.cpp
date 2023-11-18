@@ -1,4 +1,4 @@
-#include "comando_movimiento.h"
+#include "movimiento.h"
 
 
 
@@ -6,9 +6,6 @@ ComandoMovimiento::ComandoMovimiento(uint8_t direccion, uint32_t id):Comando(id)
 }
 
 
-void ComandoMovimiento::agregar_id(uint8_t id){
-    responsable_id = id;
-}
 
 
 void ComandoMovimiento::realizar_accion(Mapa &mapa,uint32_t id){
@@ -23,6 +20,3 @@ void ComandoMovimiento::realizar_accion(Mapa &mapa,uint32_t id){
     mapa.MoveWorm(id,direccion);
 }
 
-uint8_t ComandoMovimiento::get_comando(){
-    return this->tipo_comando;
-}

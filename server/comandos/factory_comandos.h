@@ -2,9 +2,15 @@
 #define _FACTORY
 #include <iostream>
 #include <memory>
-#include "comando_movimiento.h"
-#include "comando_detener_movimiento.h"
-#include "comando_empezar_partida.h"
+#include "movimiento.h"
+#include "detener_movimiento.h"
+#include "empezar_partida.h"
+#include "cambiar_angulo.h"
+#include "cambiar_arma.h"
+#include "saltar.h"
+#include "disparar.h"
+#include "detener_angulo.h"
+#include "cargar_arma.h"
 
 
 class EmpezarPartida;
@@ -18,9 +24,17 @@ class FactoryComandos{
 
     // std::shared_ptr<CrearPartida> comando_crear_partida(std::string nombre, uint8_t tipo);
 
-    std::shared_ptr<DetenerMovimientoCliente> comando_detener(uint32_t id); 
+    std::shared_ptr<DetenerMovimiento> comando_detener(uint32_t id); 
 
     std::shared_ptr<EmpezarPartida> comando_empezar();
+
+    std::shared_ptr<Disparar> comando_disparar(uint32_t id);
+    std::shared_ptr<CargarArma> comando_cargar_arma(uint32_t id);
+    std::shared_ptr<Saltar> comando_saltar(uint32_t id, uint8_t dir);
+    std::shared_ptr<CambiarAngulo> comando_cambiar_angulo(uint32_t id, uint8_t direccion);
+    std::shared_ptr<DetenerAngulo> comando_detener_angulo(uint32_t id);
+    std::shared_ptr<CambiarArma> comando_cambiar_arma(uint32_t id, uint8_t tipo_arma);
+    
 
     ~FactoryComandos();
 

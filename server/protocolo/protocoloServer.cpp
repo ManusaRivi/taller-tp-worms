@@ -4,31 +4,68 @@ ServerProtocolo::ServerProtocolo(Socket &socket): Protocolo(socket){
 
 }
 
+std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id)try{{
+    std::shared_ptr<Comando> comando;
+    uint8_t buf = recibir_1_byte();
+    switch(buf){
+        case(CODIGO_MOVER):{
+            uint8_t dir = recibir_1_byte();
+            comando = factory.comando_movimiento(dir,id);
+            break;
+        }
+        case(CODIGO_DETENER_MOVIMIENTO):{
+            printf("se recibe un codigo de detener el gusano\n");
+            comando = factory.comando_detener(id);
+            break;
+        }
+        case(CODIGO_CAMBIAR_ARMA):{
+            uint8_t tipo = recibir_1_byte();
+            printf("Se recibe un cambio de arma con tipo = %u\n",tipo);
+            comando = factory.comando_cambiar_arma(id,tipo);
+            break;
+        }
+        case(CODIGO_CAMBIAR_ANGULO):{
+            uint8_t dir = recibir_1_byte();
+            printf("Cambiar Angul con direccion = %u\n",dir);
+            comando = factory.comando_cambiar_angulo(id,dir);
+            break;
+        }
+        case(CODIGO_SALTAR):{
+            uint8_t dir = recibir_1_byte();
+            printf("Saltar con dir = %u\n",dir);
+            comando = factory.comando_saltar(id,dir);
+            break;
+        }
+        case(CODIGO_DISPARAR):{
+            printf("Se recibe un comando para disparar\n");
+            comando = factory.comando_disparar(id);
+            break;
+        }
+        case(CODIGO_CARGAR_ARMA):{
+            printf("Se recibe codigo para cargar arma\n");
+            comando = factory.comando_cargar_arma(id);
+            break;
+        }
+        case(CODIGO_DETENER_CAMBIO_ANGULO):{
+            printf("Se recibe codigo para mover el angulo para arriba\n");
+            comando = factory.comando_detener_angulo(id);
+            break;
+        }
+    }
+    return comando;
+
+
+}}catch(const ClosedSocket& e){
+    throw ClosedSocket();
+}
+
 Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id)try{{
     std::shared_ptr<Comando> comando;
     uint8_t buf;
     skt.recvall(&buf,1,&was_closed);
-    uint8_t cmd;
-
     if (was_closed){
         throw ClosedSocket();
     }
-
-    if (buf == CODIGO_MOVER){
-        printf("Se recibe un codigo de mover el gusano\n");
-        skt.recvall(&cmd,1,&was_closed);
-        comando = factory.comando_movimiento(cmd,id);
-        Mensaje msg(comando);
-        return msg;
-    }
-
-    if (buf == CODIGO_DETENER_MOVIMIENTO){
-        printf("se recibe un codigo de detener el gusano\n");
-        comando = factory.comando_detener(id);
-        Mensaje msg(comando);
-        return msg;
-    }
-
 
     if (buf == CODIGO_CREAR_PARTIDA){
         std::string nombre = recibir_string();
@@ -149,17 +186,19 @@ void ServerProtocolo::enviar_gusanos(Snapshot snap){
     for (auto &c: worms){
         uint32_t id = c.get_id();
         std::vector<float> posicion = c.get_position();
-        uint32_t angulo = c.get_angulo();
+        float angulo = c.get_angulo();
         uint8_t direccion = c.get_direccion();
         uint8_t estado = c.get_estado();
+        float angulo_disparo = c.get_angulo_disparo();
 
         enviar_4_bytes(id);
         enviar_4_bytes_float(posicion[0]);
         enviar_4_bytes_float(posicion[1]);
         
-        enviar_4_bytes(angulo);
+        enviar_4_bytes_float(angulo);
         enviar_1_byte(direccion);
         enviar_1_byte(estado);
+        enviar_4_bytes_float(angulo_disparo);
 
     }
 }

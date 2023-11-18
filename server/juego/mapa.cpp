@@ -28,6 +28,9 @@ void Mapa::Step() {
         else if (worm->jumpSteps > 0) {
             worm->jumpSteps--;
         }
+        if(worm->esta_apuntando()){
+            worm->incrementar_angulo_en(0.1);
+        }
     }
     world.Step(timeStep, velocityIterations, positionIterations);
 }
@@ -53,7 +56,7 @@ WormWrapper Mapa::devolver_gusano(int idx){
     std::vector<float> posicion;
     posicion.push_back(position.x);
     posicion.push_back(position.y);
-    return WormWrapper (posicion, worms[idx]->get_facing_direction(), 0, worms[idx]->get_id(),0);
+    return WormWrapper (posicion, worms[idx]->get_facing_direction(), 0, worms[idx]->get_id(),0,0);
 }
 
 Mapa::~Mapa() {
@@ -85,12 +88,27 @@ std::vector<WormWrapper> Mapa::get_gusanos(){
         std::vector<float> posicion;
         posicion.push_back(position.x);
         posicion.push_back(position.y);
-        vec_worms.push_back(WormWrapper(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo()));
+        vec_worms.push_back(WormWrapper(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo(), worm->aiming_angle()));
     }
 
     return vec_worms;
 }
 
+void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){
+    worms[id]->cambiar_arma(tipo_arma);
+}
+
+void Mapa::apuntar_para(uint32_t id, int dir){
+    worms[id]->esta_apuntando_para(dir);
+}
 // std::vector<float> Mapa::get_size(){
 //     this->world.
 // }
+
+void Mapa::detener_worm(uint32_t id){
+    worms[id]->detener_acciones();
+}
+
+void Mapa::detener_angulo(uint32_t id){
+    worms[id]->parar_angulo();
+}

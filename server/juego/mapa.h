@@ -52,8 +52,23 @@ public:
     void StopWorm(int idx);
     void JumpWormForward(int idx);
     void JumpWormBackward(int idx);
+
     std::string GetName();
-    std::vector<WormWrapper> devolver_gusanos();
+
+    WormWrapper devolver_gusano(int idx);
+    std::vector<std::vector<float>> get_vigas();
+    uint16_t gusanos_totales();
+
+    std::vector<WormWrapper> get_gusanos();
+
+    void cambiar_arma(uint32_t id, uint8_t tipo);
+
+    void apuntar_para(uint32_t id,int);
+    // std::vector<float> get_size();
+
+    void detener_worm(uint32_t id);
+
+    void detener_angulo(uint32_t id);
 
     ~Mapa();
 };

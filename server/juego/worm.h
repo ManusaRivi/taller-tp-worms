@@ -17,7 +17,7 @@ enum directions {
 #define WORM_DENSITY 0.2f
 #define WORM_FRICTION 1.0f
 
-#define MOVING_SPEED 1
+#define MOVING_SPEED 0.2
 
 #define FORWARD_JUMP_STEPS 38
 #define BACKWARD_JUMP_STEPS 58
@@ -36,10 +36,17 @@ private:
     int hitPoints;
     float initialHeight;
     float finalHeight;
-    uint32_t id;
+
 public:
     int jumpSteps;
-    Worm(b2World& world, int direction, float x_pos, float y_pos, int hitPoints);
+    uint32_t id;
+    uint8_t status;
+    float angulo;
+    float angulo_disparo;
+    bool esta_apuntando_para_arriba;
+    bool apuntando;
+
+    Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id);
     void Move(int dir);
     void Stop();
     void JumpForward();
@@ -54,6 +61,28 @@ public:
     int get_facing_direction();
 
     uint32_t get_id();
+
+    uint8_t get_status();
+
+    float get_angulo();
+
+    void cambiar_arma(uint8_t tipo_arma);
+
+    void esta_apuntando_para(bool dir);
+
+    bool apuntando_para_arriba(bool dir);
+
+    void incrementar_angulo_en(float inc);
+
+    bool esta_apuntando();
+
+    void cambiar_angulo();
+
+    void detener_acciones();
+
+    float aiming_angle();
+
+    void parar_angulo();
 };
 
 #endif

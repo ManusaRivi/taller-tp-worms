@@ -18,8 +18,20 @@ uint32_t Lobby::crear_partida(std::string nombre, Queue<Mensaje>* snapshots){
 }
 
 
-
 void Lobby::listar_partidas(Queue<Mensaje>* snapshots){
+    std::lock_guard<std::mutex> lock(lck);
+    std::map<uint32_t,std::string> lista;
+    for (auto i = lista_partidas.begin(); i != lista_partidas.end(); i++){
+        std::string nombre = i->second->get_nombre();
+        std::cout << "El nombre de la partida es : " << nombre << std::endl;
+        lista.insert({i->first,nombre});
+    }
+    Snapshot snap(lista);
+    Mensaje msg(lista, COMANDO::CMD_LISTAR_PARTIDAS);
+    snapshots->push(msg);
+}
+
+void Lobby::listar_mapas(Queue<Mensaje>* cliente){
     std::lock_guard<std::mutex> lock(lck);
     // MapContainer mapContainer;
     std::map<uint32_t,std::string> lista;
@@ -27,22 +39,13 @@ void Lobby::listar_partidas(Queue<Mensaje>* snapshots){
 
     for (auto it = lista_mapas.begin(); it != lista_mapas.end(); ++it) {
         // Accede a cada par clave-valor en el mapa aquí
-        const std::string& nombre = it->first;
+        std::string nombre = it->first;
         // Realiza las operaciones que desees con el mapa
         lista.insert({id, nombre});
         id++;
     }
-    Mensaje msg(lista);
-    snapshots->push(msg);
-    /*std::map<uint32_t,std::string> lista;
-    for (auto i = lista_partidas.begin(); i != lista_partidas.end(); i++){
-        std::string nombre = i->second->get_nombre();
-        std::cout << "El nombre de la partida es : " << nombre << std::endl;
-        lista.insert({i->first,nombre});
-    }
-    Snapshot snap(lista);
-    Mensaje msg(lista);
-    snapshots->push(msg);*/
+    Mensaje msg(lista, COMANDO::CMD_LISTAR_MAPAS);
+    cliente->push(msg);
 }
 
 Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t id_pedido){
@@ -50,16 +53,35 @@ Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t id_pedido){
     return lista_partidas.at(id_pedido)->get_queue();
 }
 
-void Lobby::empezar_partida(uint32_t id){
-    std::lock_guard<std::mutex> lock(lck);
-    lista_partidas.at(id)->start();
-}
+// void Lobby::empezar_partida(uint32_t id){
+//     std::lock_guard<std::mutex> lock(lck);
+//     lista_partidas.at(id)->start();
+// }
 
-uint8_t Lobby::unirse_a_partida(uint32_t id_partida, Queue<Mensaje>* snapshots, uint8_t id_player){
+void Lobby::unirse_a_partida(uint32_t id_partida, Queue<Mensaje>* snapshots){
     std::lock_guard<std::mutex> lock(lck);
     printf("Se pide unirse un player\n");
-    std::cout << "a la partida = <" << unsigned(id_partida) << "> por el id : " << unsigned(id_player) << std::endl;
     lista_partidas.at(id_partida)->add_queue(snapshots);
-    return lista_partidas.at(id_partida)->add_player(id_player);
 
+}
+
+void Lobby::desconectarse_partida(uint32_t id,Queue<Mensaje>* snapshots){
+    std::lock_guard<std::mutex> lock(lck);
+    if(this->lista_partidas.find(id) != this->lista_partidas.end()){
+        this->lista_partidas.at(id)->remover_player(snapshots);
+    }
+    
+}
+
+
+void Lobby::kill(){
+    std::lock_guard<std::mutex> lock(lck);
+    auto it = lista_partidas.begin();
+    while(it != lista_partidas.end()){
+        printf("se le hace kill al lobby\n");
+        it->second->kill();
+        it->second->join();
+        delete it->second;
+        it = lista_partidas.erase(it);
+    }
 }

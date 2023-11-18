@@ -6,10 +6,10 @@ Enviador::Enviador(Socket &peer, Queue<Mensaje> *snapshots):skt(peer),snapshots_
 }
 
 
-void Enviador::run(){
-    bool was_closed = false;
+void Enviador::run()try{{
+    is_alive = true;
     ServerProtocolo ptcl(skt);
-    while(!was_closed){
+    while(is_alive){
         Mensaje msg = snapshots_a_enviar->pop();
         if(msg.tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
             Snapshot snap = msg.snap;
@@ -26,8 +26,19 @@ void Enviador::run(){
 
         if(msg.tipo_mensaje() == COMANDO::CMD_HANDSHAKE){
             printf("Se envia un handshake\n");
-            ptcl.enviar_handshake(msg.gusanos_por_player);
+            ptcl.enviar_handshake(msg.gusanos_por_player,msg.snap);
+        }
+
+        if(msg.tipo_mensaje() == COMANDO::CMD_LISTAR_MAPAS){
+            printf("Se envia la lista de mapas");
+            ptcl.enviar_mapas(msg.lista_mapas);
         }
         
     }
+}}catch(const ClosedSocket& e){
+        printf("El cliente se desconecto\n");
+        is_alive = false;
+        delete snapshots_a_enviar;
+}catch(const ClosedQueue& e){
+    is_alive = false;
 }

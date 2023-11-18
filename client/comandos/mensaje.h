@@ -1,11 +1,13 @@
-#ifndef _MENSAJE
+#ifndef _MensajeCliente_CLIENTE
 
-#define _MENSAJE
+#define _MensajeCliente_CLIENTE
 
 #include "../game/comunicacion/snapshot.h"
+#include "../game/world.h"
 #include "comando.h"
 #include <map>
 
+#ifndef TESTING
 #define CREAR_PARTIDA 0x01
 #define LISTAR_PARTIDAS 0x02
 #define EMPEZAR_PARTIDA 0x03
@@ -13,6 +15,7 @@
 #define SNAPSHOT 0x05
 #define PARTIDA_COMENZO 0x06
 #define HANDSHAKE 0x07
+
 
 
 
@@ -26,32 +29,38 @@ enum COMANDO{
     CMD_HANDSHAKE = HANDSHAKE
 };
 
-struct Comando;
+#endif
 
-struct Mensaje{
+struct ComandoCliente;
+class SnapshotCliente;
 
-    Snapshot snap;
+struct MensajeCliente{
+
+    std::shared_ptr<SnapshotCliente> snap;
     uint8_t tipo_comando;
 
-    std::shared_ptr<Comando> cmd;
+    std::shared_ptr<ComandoCliente> cmd;
 
     std::string nombre_mapa;
     std::map<uint32_t,std::string> lista_partidas;
 
     uint32_t id_player;
     std::vector<uint32_t> id_gusanos;
+    std::shared_ptr<World> world;
+
 
     
 
-    Mensaje(Snapshot snap);
+    MensajeCliente(std::shared_ptr<SnapshotCliente> snap);
 
-    Mensaje(uint8_t tipo_comando);
+    MensajeCliente(uint8_t tipo_comando);
 
-    Mensaje(std::shared_ptr<Comando> cmd);
+    MensajeCliente(std::shared_ptr<ComandoCliente> cmd);
 
-    Mensaje(std::map<uint32_t,std::string> mapa);
+    MensajeCliente(std::map<uint32_t,std::string> mapa);
 
-    Mensaje(uint32_t id_player, std::vector<uint32_t> id_gusanos);
+    MensajeCliente(uint32_t id_player, std::vector<uint32_t> id_gusanos);
+    MensajeCliente(uint32_t id_player, std::vector<uint32_t> id_gusanos, std::shared_ptr<World> world);
 
 };
 

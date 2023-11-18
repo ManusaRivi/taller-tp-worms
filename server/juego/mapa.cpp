@@ -34,13 +34,14 @@ void Mapa::Load_Map_File(const char* filepath) {
     GameConfig& config = GameConfig::getInstance();
 
     const YAML::Node& worm_list = map["gusanos"];
+    uint32_t id = 0;
     for (YAML::const_iterator it = worm_list.begin(); it != worm_list.end(); ++it) {
         const YAML::Node& worm = *it;
         float x_pos = worm["pos_x"].as<float>();
         float y_pos = worm["pos_y"].as<float>();
         int dir = worm["direccion"].as<int>();
 
-        worms.push_back(new Worm (world, dir, x_pos, y_pos, config.puntos_de_vida));
+        worms.push_back(new Worm (world, config.puntos_de_vida, dir, x_pos, y_pos, id++));
     }
 }
 
@@ -49,6 +50,9 @@ void Mapa::Step() {
         if (worm->jumpSteps > 0) {
             if (worm->jumpSteps == 1) worm->Stop();
             worm->jumpSteps--;
+        }
+        if(worm->esta_apuntando()){
+            worm->incrementar_angulo_en(0.1);
         }
     }
     world.Step(timeStep, velocityIterations, positionIterations);
@@ -74,19 +78,6 @@ std::string Mapa::GetName() {
     return nombre;
 }
 
-std::vector<WormWrapper> Mapa::devolver_gusanos(){
-    std::vector<WormWrapper> wrappers;
-    for (auto worm : worms) {
-        std::vector<float> position = worm->GetPosition();
-        uint8_t facingDirection = worm->get_facing_direction();
-        uint8_t status = 0;
-        uint32_t id = worm->get_id(); 
-        float angle = worm->GetAngle();
-        wrappers.push_back(WormWrapper(position, facingDirection, status, id, angle));
-    }
-    return wrappers;
-}
-
 Mapa::~Mapa() {
     for (auto worm : worms) {
         delete worm;
@@ -94,4 +85,45 @@ Mapa::~Mapa() {
     for (auto viga: vigas) {
         delete viga;
     }
+}
+
+std::vector<std::vector<float>> Mapa::get_vigas(){
+    std::vector<std::vector<float>> vec_vigas;
+    for (auto viga:vigas){
+        std::vector<float> viga_pos = viga->get_pos();
+        vec_vigas.push_back(viga_pos);
+    }
+    return vec_vigas;
+}
+
+uint16_t Mapa::gusanos_totales(){
+    return this->worms.size();
+}
+
+std::vector<WormWrapper> Mapa::get_gusanos(){
+    std::vector<WormWrapper> vec_worms;
+    for(auto worm: this->worms){
+        std::vector<float> posicion = worm->GetPosition();
+        vec_worms.push_back(WormWrapper(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo(), worm->aiming_angle()));
+    }
+    return vec_worms;
+}
+
+void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){
+    worms[id]->cambiar_arma(tipo_arma);
+}
+
+void Mapa::apuntar_para(uint32_t id, int dir){
+    worms[id]->esta_apuntando_para(dir);
+}
+// std::vector<float> Mapa::get_size(){
+//     this->world.
+// }
+
+void Mapa::detener_worm(uint32_t id){
+    worms[id]->detener_acciones();
+}
+
+void Mapa::detener_angulo(uint32_t id){
+    worms[id]->parar_angulo();
 }

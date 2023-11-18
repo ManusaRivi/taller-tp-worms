@@ -14,19 +14,23 @@ int Client::iniciar() {
         const std::string server = "127.0.0.1";
         const std::string port = "1560";
 
-        Queue<Mensaje> queue_comandos; //TODO: Cambiar a Unique ptr
-        Queue<Mensaje> queue_snapshots;
+        Queue<std::shared_ptr<MensajeCliente>> queue_comandos; //TODO: Cambiar a Unique ptr
+        Queue<std::shared_ptr<MensajeCliente>> queue_snapshots;
 
         Socket skt(server.data(),port.data());
 
         crear_partida(skt);
+        printf("asdadasd");
         containerThreads container(skt,queue_snapshots,queue_comandos);
 
         //Protocolo prot(server, port);
         container.start();
+        
         Game game(queue_snapshots,queue_comandos);
         game.run();
         container.join();
+
+        
         return 0;
         // SDLPoc poc(queue_snapshots,queue_comandos);
         // return poc.run();
@@ -57,28 +61,29 @@ void Client::crear_partida(Socket &skt){
         if(comando == "empezar"){
 
             ptcl.empezar_partida();
-            Mensaje msg = ptcl.recibir_snapshot();
-            if (msg.tipo_comando == PARTIDA_COMENZO){
+            std::shared_ptr<MensajeCliente> msg = ptcl.recibir_snapshot();
+            if (msg->tipo_comando == PARTIDA_COMENZO){
                 printf("Se recibe comando de que la partida empezo\n");
                 return;
             }
         }
         
         if(comando == "listar"){
-            ptcl.pedir_lista_partidas();
-            Mensaje partidas = ptcl.recibir_snapshot();
-            if(partidas.tipo_comando == COMANDO::CMD_LISTAR_PARTIDAS){
-                imprimir_partidas_disponibles(partidas.lista_partidas);
-            }
+            imprimir_partidas_disponibles(ptcl.pedir_lista_partidas());
         }
 
         if (comando == "unirse"){
             std::getline(std::cin, argumento);
             ptcl.unirse_partida(argumento);
-            Mensaje msg = ptcl.recibir_snapshot();
-            if(msg.tipo_comando == PARTIDA_COMENZO){
+            std::shared_ptr<MensajeCliente> msg = ptcl.recibir_snapshot();
+            if(msg->tipo_comando == PARTIDA_COMENZO){
                 return;
             }
+        }
+
+        if(comando == "mapas"){
+            std::map<uint32_t,std::string> mapas = ptcl.pedir_mapas();
+            imprimir_partidas_disponibles(mapas);
         }
 
 

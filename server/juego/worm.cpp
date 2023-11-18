@@ -1,7 +1,8 @@
 #include "worm.h"
 
-Worm::Worm(b2World& world, int direction, float x_pos, float y_pos, int hitPoints) : 
-            body(body), facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f), finalHeight(0.0f), jumpSteps(0)
+Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
+            facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
+            finalHeight(0.0f), jumpSteps(0), id(id_), angulo_disparo(0)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -35,6 +36,7 @@ void Worm::Move(int dir) {
             velocity.x = -1 * MOVING_SPEED;
             break;
     }
+    status = 1;
     body->SetLinearVelocity(velocity);
 }
 
@@ -122,4 +124,55 @@ int Worm::get_facing_direction(){
 
 uint32_t Worm::get_id(){
     return this->id;
+}
+
+float Worm::get_angulo(){
+    return this->body->GetAngle();
+}
+
+uint8_t Worm::get_status(){
+    return this->status;
+}
+
+void Worm::cambiar_arma(uint8_t id_arma){
+    if (isAirborne()){
+        return;
+    }
+    status = id_arma;
+}
+
+void Worm::esta_apuntando_para(bool id){
+    apuntando = true;
+    this->esta_apuntando_para_arriba= id;
+}
+
+bool Worm::esta_apuntando(){
+    return apuntando;
+}
+
+void Worm::incrementar_angulo_en(float inc){
+    if(!esta_apuntando_para_arriba){
+        inc = -inc;
+        if(angulo_disparo + inc < 0){
+            return;
+        }
+    }
+    angulo_disparo +=inc;
+}
+
+void Worm::detener_acciones(){
+    if(!airborne){
+        angulo_disparo = 0;
+        apuntando = false;
+        status = 0;
+        this->Stop();
+    }
+}
+
+float Worm::aiming_angle(){
+    return angulo_disparo;
+}
+
+void Worm::parar_angulo(){
+    apuntando = false;
 }

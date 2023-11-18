@@ -17,7 +17,7 @@ SET(SDL2PP_WITH_MIXER ON) # Para soporte de sonido
 SET(SDL2PP_WITH_TTF ON) # Para soporte de texto
 add_definitions(-DPROJECT_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
 add_subdirectory(libs/SDL2pp)
-include_directories(${SDL2PP_INCLUDE_DIRS})
+include_directories(${SDL2PP_INCLUDE_DIRS} ${SDL2_MIXER_INCLUDE_DIRS})
 
 # Para yaml-cpp
 include_directories(libs/yaml-cpp/include/yaml-cpp)
@@ -60,7 +60,7 @@ add_executable(editor "editor/main.cpp")
 
 # Va a haber otro ejecutable para el editor.
 target_link_libraries(server server_lib box2d yaml-cpp common_lib Threads::Threads ${SDL2PP_LIBRARIES})
-target_link_libraries(client client_lib ${SDL2PP_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} yaml-cpp common_lib Threads::Threads)
+target_link_libraries(client client_lib ${SDL2PP_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} yaml-cpp common_lib Threads::Threads)
 target_link_libraries(editor editor_lib ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} yaml-cpp)
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)

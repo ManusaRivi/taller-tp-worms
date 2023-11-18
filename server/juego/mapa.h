@@ -2,7 +2,12 @@
 #define MAPA_H
 
 #include "../../libs/box2d/include/box2d/box2d.h"
+
+#include <yaml-cpp/yaml.h>
 #include <vector>
+#include <string>
+
+#include "../game_config.h"
 #include "../worm_wrapper.h"
 #include "./worm.h"
 #include "./viga.h"
@@ -10,10 +15,7 @@
 
 // Copyright (c) 2019 Erin Catto
 
-enum collisionCategories{
-    BOUNDARY = 0x0001,
-    WORM = 0x0002,
-};
+
 
 class Mapa {
 private:
@@ -27,10 +29,11 @@ private:
     std::vector<Viga*> vigas;
     std::vector<Worm*> worms;
 
-    
+    std::string nombre;
 
 public:
-    Mapa();
+    explicit Mapa(std::string map_filepath);
+    void Load_Map_File(std::string filepath);
     void Step();
     /*
     * Setea la velocidad del gusano dado por idx, que es el
@@ -47,8 +50,22 @@ public:
     void JumpWormForward(int idx);
     void JumpWormBackward(int idx);
 
+    std::string GetName();
+
     WormWrapper devolver_gusano(int idx);
     std::vector<std::vector<float>> get_vigas();
+    uint16_t gusanos_totales();
+
+    std::vector<WormWrapper> get_gusanos();
+
+    void cambiar_arma(uint32_t id, uint8_t tipo);
+
+    void apuntar_para(uint32_t id,int);
+    // std::vector<float> get_size();
+
+    void detener_worm(uint32_t id);
+
+    void detener_angulo(uint32_t id);
 
     ~Mapa();
 };

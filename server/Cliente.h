@@ -21,6 +21,10 @@ struct Cliente{
     bool is_dead();
 
     void join();
+
+    void kill();
+
+    ~Cliente();
     
 
 };

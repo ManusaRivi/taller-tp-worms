@@ -3,6 +3,7 @@
 #define _MensajeCliente_CLIENTE
 
 #include "../game/comunicacion/snapshot.h"
+#include "../game/world.h"
 #include "comando.h"
 #include <map>
 
@@ -45,8 +46,8 @@ struct MensajeCliente{
 
     uint32_t id_player;
     std::vector<uint32_t> id_gusanos;
+    std::shared_ptr<World> world;
 
-    std::vector<std::vector<float>> vigas;
 
     
 
@@ -59,7 +60,7 @@ struct MensajeCliente{
     MensajeCliente(std::map<uint32_t,std::string> mapa);
 
     MensajeCliente(uint32_t id_player, std::vector<uint32_t> id_gusanos);
-    MensajeCliente(uint32_t id_player, std::vector<uint32_t> id_gusanos, std::vector<std::vector<float>> vigas);
+    MensajeCliente(uint32_t id_player, std::vector<uint32_t> id_gusanos, std::shared_ptr<World> world);
 
 };
 

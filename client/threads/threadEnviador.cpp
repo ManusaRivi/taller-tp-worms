@@ -5,7 +5,7 @@ Enviador::Enviador(Socket &peer, Queue<std::shared_ptr<MensajeCliente>> &queue_c
 
 }
 
-void Enviador::run(){
+void Enviador::run()try{{
     bool was_closed = false;
     ClienteProtocolo ptcl(skt);
     while(!was_closed){
@@ -29,4 +29,7 @@ void Enviador::run(){
         }
         
     }
+}}
+catch(const ClosedQueue& err){
+    is_alive = false;
 }

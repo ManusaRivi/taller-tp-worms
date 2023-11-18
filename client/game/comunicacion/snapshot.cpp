@@ -55,3 +55,7 @@ void SnapshotCliente::imprimir_posiciones(){
         printf("La posicion x es = %f\n",worm.second->get_x());
     }
 }
+
+std::map<int, std::shared_ptr<Worm>> SnapshotCliente::get_worms(){
+    return this->worms;
+}

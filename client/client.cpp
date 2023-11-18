@@ -24,9 +24,12 @@ int Client::iniciar() {
 
         //Protocolo prot(server, port);
         container.start();
+        
         Game game(queue_snapshots,queue_comandos);
         game.run();
         container.join();
+
+        
         return 0;
         // SDLPoc poc(queue_snapshots,queue_comandos);
         // return poc.run();

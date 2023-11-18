@@ -5,10 +5,11 @@
 
 int main(int argc, char* argv[]) {
 
-    const char* name = "1616";
+    const char* name = "1617";
     BroadCaster broadcaster;
     Queue<std::shared_ptr<Comando>> acciones_a_realizar;
-    Lobby lobby;
+    MapContainer mapas;
+    Lobby lobby(mapas);
     Aceptador skt(name,broadcaster,acciones_a_realizar,lobby);
     skt.start();
     //lobby.start_lobby();
@@ -22,12 +23,19 @@ int main(int argc, char* argv[]) {
             comando_cerrar = true;
             break;
         }
-}
 
+    }
+    printf("Se le hace kill al lobby\n");
+    lobby.kill();
+    printf("Se le hace shutdown al socket\n");
+    skt.shutdown();
+    //MapContainer mapContainer;
     //Partida partida;
     //partida.run();
     //Box2dPoC poc;
     //poc.run();
+    printf("Se le va a hacer join al socket\n");
     skt.join();
+    printf("Se le hace join al socket\n");
     return 0;
 }

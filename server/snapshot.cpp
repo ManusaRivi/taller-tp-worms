@@ -1,15 +1,14 @@
 #include "snapshot.h"
 
-Snapshot::Snapshot(std::vector<std::vector<int>> vigas): vigas(vigas),snapshot_de_la_partida(true) {}
 
-Snapshot::Snapshot(std::map<uint32_t,std::string> lista):snapshot_de_la_partida(false){
-
+Snapshot::Snapshot(){
+    
 }
+Snapshot::Snapshot(std::vector<WormWrapper> worms, std::vector<std::vector<float>> vigas) : worms(worms), vigas(vigas), snapshot_de_la_partida(true) {}
 
+Snapshot::Snapshot(std::vector<WormWrapper> worms) : worms(worms), snapshot_de_la_partida(true) {}
 
-void Snapshot::add_worm(WormWrapper worm) {
-    worms.push_back(worm);
-}
+Snapshot::Snapshot(std::map<uint32_t,std::string> lista) : snapshot_de_la_partida(false) {}
 
 std::vector<WormWrapper> Snapshot::get_worms(){
     return worms;
@@ -19,7 +18,7 @@ bool Snapshot::snap_partida(){
     return snapshot_de_la_partida;
 }
 
-std::vector<std::vector<int>> Snapshot::get_vigas(){
+std::vector<std::vector<float>> Snapshot::get_vigas(){
     return this->vigas;
 }
 

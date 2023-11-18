@@ -26,6 +26,13 @@
 
 
 # Viga
-
 - nombre: Beam
   ruta: /client/game/Texturas/data/sprites/Beam.png
+
+# HUD
+- nombre: HUDWeapons
+  ruta: /client/game/Texturas/data/sprites/HUDWeapons.png
+
+# Fondo
+- nombre: Background
+  ruta: /client/game/Texturas/data/sprites/Background.png

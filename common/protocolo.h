@@ -11,6 +11,7 @@
 #include <string.h>
 #include <sstream>
 #include <stdio.h>
+#include "liberror.h"
 
 #define CODIGO_MOVER 0x01
 #define CODIGO_DETENER_MOVIMIENTO 0x02
@@ -36,9 +37,16 @@
 #define SIZE_UNO 1
 #define SIZE_CUATRO 4
 
-struct Protocolo{
+struct ClosedSocket:public std::exception{
+    public:
+    ClosedSocket(){
+    } 
+};
 
-    Socket& skt;
+class Protocolo{
+
+    public:
+    Socket &skt;
 
     Protocolo(Socket& skt);
 
@@ -59,6 +67,8 @@ struct Protocolo{
     uint16_t recibir_2_bytes();
 
     uint8_t recibir_1_byte();
+
+    float recibir_4_bytes_float();
 
 };
 

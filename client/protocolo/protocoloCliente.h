@@ -40,9 +40,11 @@ class ClienteProtocolo:public Protocolo{
     std::map<uint32_t,std::string> pedir_lista_partidas();
     
     private:
-    std::shared_ptr<MensajeCliente> recibir_id_gusanos();
+    std::shared_ptr<MensajeCliente> recibir_handshake();
     std::shared_ptr<MensajeCliente> recibir_snap();
     std::map<uint32_t,std::string> listar_partidas();
+    std::vector<std::vector<float>> recibir_vigas();
+    void recibir_gusanos(std::shared_ptr<SnapshotCliente> snap);
 
 
 };

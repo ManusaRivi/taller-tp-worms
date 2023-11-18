@@ -19,11 +19,12 @@ class WormWrapper {
     
     uint8_t status;    
     uint32_t id; 
-    uint32_t angulo;            
+    float angulo;  
+    float angulo_disparo;          
     
     public:
     //Constructor
-    WormWrapper(std::vector<float> position, uint8_t dir, uint8_t status, uint32_t id, uint32_t angulo);
+    WormWrapper(std::vector<float> position, uint8_t dir, uint8_t status, uint32_t id, float angulo, float angulo_disparo);
 
     std::vector<float> get_position();
 
@@ -31,9 +32,11 @@ class WormWrapper {
 
     uint8_t get_estado();
 
-    uint32_t get_angulo();
+    float get_angulo();
 
     uint32_t get_id();
+
+    float get_angulo_disparo();
 
 };
 

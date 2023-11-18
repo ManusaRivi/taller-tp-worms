@@ -44,7 +44,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snapshot(){
     }
     if (cmd == CODIGO_HANDSHAKE_EMPEZAR_PARTIDA){
         printf("Se recibe un handshake del server\n");
-        return recibir_id_gusanos();
+        return recibir_handshake();
     }
 
     if (was_closed){
@@ -100,7 +100,9 @@ void ClienteProtocolo::unirse_partida(std::string id_partida){
     enviar_4_bytes(id);
 }
 
-std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_id_gusanos(){
+
+std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_handshake(){
+    std::shared_ptr<SnapshotCliente> snap= std::make_shared<SnapshotCliente>(0);
     std::vector<uint32_t> id_gusanos;
     uint32_t id_propio = recibir_4_bytes();
     uint16_t cantidad_gusanos = recibir_2_bytes();
@@ -110,26 +112,22 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_id_gusanos(){
         id_gusanos.push_back(id_gus);
         printf("Se recibe id de gusano = %u \n", id_gus);
     }
-    uint16_t cantidad_vigas = recibir_2_bytes();
-    std::vector<std::vector<float>> vigas;
-    for(uint16_t i = 0; i < cantidad_vigas; i++){
-          
-        uint32_t x = recibir_4_bytes();
-        uint32_t y = recibir_4_bytes();
-        uint32_t angulo = recibir_4_bytes();
-        uint32_t largo = recibir_4_bytes();
-
-        float x_pos = x/100;
-        float y_pos = y/100;
-        float angulo_bis = angulo/100;
-        float largo_bis = largo/100;
-
-        std::vector<float> viga({x_pos,y_pos,angulo_bis,largo_bis});
-        vigas.push_back(viga);
-        printf("Se recibe una viga con datos = [%f, %f, %f, %f] \n",x_pos,y_pos,angulo_bis,largo_bis);
+    recibir_gusanos(snap);
+    std::map<int, std::shared_ptr<Worm>> worms = snap->get_worms();
+    std::shared_ptr<World> world = std::make_shared<World>(30,30);
+    std::vector<std::vector<float>> vigas = recibir_vigas();
+    for (auto &viga : vigas){
+        int tamanio = viga[3];
+        Beam beam(tamanio,viga[0],viga[1],viga[2]);
+        world->add_beam(beam);
     }
-    
-    std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(id_propio,id_gusanos,vigas);
+    for (auto &worm : worms){
+        world->add_worm(worm.second,worm.first);
+    }
+
+
+
+    std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(id_propio,id_gusanos,world);
     return msg;
 }
 
@@ -147,26 +145,7 @@ void ClienteProtocolo::enviar_handshake(uint32_t id_player, std::vector<uint32_t
 
 std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     std::shared_ptr<SnapshotCliente> snap= std::make_shared<SnapshotCliente>(0);
-
-    uint32_t turno_player_actual = recibir_4_bytes();
-    uint16_t cantidad_gusanos = recibir_2_bytes();
-    for(uint16_t i = 0; i < cantidad_gusanos; i++){
-        uint32_t id_gusano = recibir_4_bytes();
-        uint32_t pos_x = recibir_4_bytes();
-        uint32_t pos_y = recibir_4_bytes();
-
-        float x_pos = pos_x;
-        float y_pos = pos_y;
-        float xpos = x_pos/100;
-        float ypos = y_pos/100;
-
-        uint32_t angulo = recibir_4_bytes();
-        uint8_t direccion = recibir_1_byte();
-        uint8_t estado = recibir_1_byte();
-        std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(estado, direccion == 0, angulo, 0.0);
-        std::shared_ptr<Worm> worm = std::make_shared<Worm>(xpos, ypos, std::move(state));
-        snap->add_worm(worm, id_gusano);
-    }
+    recibir_gusanos(snap);
     /*
     int tamano = 6;
     float posx = 1.5;
@@ -175,9 +154,48 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     snap->add_beam(beam);
     */
     //std::cout << "Es el turno del gusano con ID = " << unsigned(turno_player_actual) << std::endl;
-    snap->agregar_turno_actual(turno_player_actual);
+    
     std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(snap);
     return msg;
+}
+
+
+std::vector<std::vector<float>> ClienteProtocolo::recibir_vigas(){
+    uint16_t cantidad_vigas = recibir_2_bytes();
+    std::vector<std::vector<float>> vigas;
+    for(uint16_t i = 0; i < cantidad_vigas; i++){
+          
+        float x = recibir_4_bytes_float();
+        float y = recibir_4_bytes_float();
+        float angulo = recibir_4_bytes_float();
+        float largo = recibir_4_bytes_float();
+
+
+        std::vector<float> viga({x,y,angulo,largo});
+        vigas.push_back(viga);
+        printf("Se recibe una viga con datos = [%f, %f, %f, %f] \n",x,y,angulo,largo);
+    }
+    return vigas;
+}
+
+void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
+    uint32_t turno_player_actual = recibir_4_bytes();
+    uint16_t cantidad_gusanos = recibir_2_bytes();
+    for(uint16_t i = 0; i < cantidad_gusanos; i++){
+        uint32_t id_gusano = recibir_4_bytes();
+        float pos_x = recibir_4_bytes_float();
+        float pos_y = recibir_4_bytes_float();
+
+        float angulo = recibir_4_bytes_float();
+        uint8_t direccion = recibir_1_byte();
+        uint8_t estado = recibir_1_byte();
+        float angulo_disparo = recibir_4_bytes_float();
+        printf("x= %f, y= %f  angulo = %f  dir = %u estado = %u disparo = %f\n\n",pos_x,pos_y,angulo,direccion,estado,angulo_disparo);
+        std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(estado, direccion == 0, angulo, angulo_disparo);
+        std::shared_ptr<Worm> worm = std::make_shared<Worm>(pos_x, pos_y, std::move(state));
+        snap->add_worm(worm, id_gusano);
+    }
+    snap->agregar_turno_actual(turno_player_actual);
 }
 
 bool ClienteProtocolo::recibir_comienzo_de_partida(){

@@ -9,13 +9,13 @@ Recibidor::Recibidor(Socket &peer, Queue<std::shared_ptr<Comando>> &acciones_,Qu
 }
 
 
-void Recibidor::run(){
+void Recibidor::run()try{{
     is_alive = true;
     bool was_closed = false;
     ServerProtocolo ptcl(skt);
     Queue<std::shared_ptr<Comando>> cola;
     //bool esta_en_partida = false;
-    while(!was_closed){
+    while(is_alive){
         Mensaje msg = ptcl.recibir_comando(was_closed,id);
         if(msg.tipo_mensaje() == COMANDO::CMD_CREAR_PARTIDA){
             printf("Se recibe un mensaje para crear partdia\n");
@@ -40,7 +40,7 @@ void Recibidor::run(){
             queue_acciones.push(factory.comando_empezar());
         }
         if(msg.tipo_mensaje() == COMANDO::CMD_UNIRSE_PARTIDA){
-            this->id_gusano = lobby.unirse_a_partida(msg.id_partida_a_unirse,snapshots,id);
+            lobby.unirse_a_partida(msg.id_partida_a_unirse,snapshots);
             this->id_partida = msg.id_partida_a_unirse;
             id++;
         }
@@ -53,18 +53,35 @@ void Recibidor::run(){
             break;
         }
     }
-    bool partida_online = true;
-    Queue<std::shared_ptr<Comando>> &queue_acciones = lobby.get_queue(id_partida);
-    while(partida_online && !was_closed){
-        Mensaje msg = ptcl.recibir_comando(was_closed,id);
-        std::shared_ptr<Comando> cmd = msg.cmd;
-        queue_acciones.push(cmd);
+    if(is_alive && id_partida > 0){
+        bool partida_online = true;
+        Queue<std::shared_ptr<Comando>> &queue_acciones = lobby.get_queue(id_partida);
+        while(partida_online && is_alive){
+            std::shared_ptr<Comando> cmd = ptcl.recibir_accion(id);
+            if(!cmd){
+                continue;
+            }
+            queue_acciones.push(cmd);
+        }
     }
+
     std::cout << "Se desconecto el cliente" << std::endl;
     is_alive = false;
+
+}}catch(const ClosedSocket& e){
+    printf("El recibidor se desconecta i se saca al player de la partida\n");
+    if(id_partida > 0 && is_alive){
+        lobby.desconectarse_partida(id_partida,snapshots);
+    }
+    is_alive = false;
+    snapshots->close();
 
 }
 
 bool Recibidor::is_dead(){
     return !is_alive;
+}
+
+void Recibidor::kill_thread(){
+    is_alive = false;
 }

@@ -2,7 +2,7 @@
 
 using namespace SDL2pp;
 
-Beam::Beam(int& tamano, float& pos_x, float& pos_y): _tamano(tamano), _pos_x(pos_x), _pos_y(pos_y) {}
+Beam::Beam(int& tamano, float& pos_x, float& pos_y, float& angulo_): _tamano(tamano), _pos_x(pos_x), _pos_y(pos_y),angulo(angulo_) {}
 
 void Beam::present(Renderer& renderer,
                     TextureManager& texture_manager,

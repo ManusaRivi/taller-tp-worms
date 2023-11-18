@@ -9,7 +9,9 @@
 #define CAMERA_HEIGHT 2
 
 #include <SDL2pp/SDL2pp.hh>
+#include <SDL2/SDL_mixer.h>
 #include "Texturas/texture_manager.h"
+#include "Sonidos/sound_manager.h"
 #include "../protocolo/protocoloCliente.h"
 #include <vector>
 #include <unistd.h>

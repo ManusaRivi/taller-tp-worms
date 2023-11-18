@@ -58,6 +58,8 @@ int Game::run() try {
 	SDL sdl(SDL_INIT_VIDEO);
 	// Inicializo SDL_ttf
 	SDLTTF ttf;
+	// Inicializo SDL_mixer
+    SDL2pp::Mix mix(MIX_INIT_MP3);
 
     // Creo la ventana: 
     // Dimensiones: 854x480, redimensionable
@@ -70,7 +72,21 @@ int Game::run() try {
     // Creo un renderizador default
     Renderer renderer(window, -1, SDL_RENDERER_ACCELERATED);
 
+	// Configuro el sistema de audio
+    if (SDL2pp::Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        throw std::runtime_error("No se pudo abrir el audio");
+    }
+
+	// Cargo las texturas
     TextureManager texture_manager(renderer);
+
+	// Cargo los sonidos
+	SoundManager sound_manager;
+
+	// Reproduzco musica ambiente
+	std::string musica("MusicaAmbiente");
+	SDL2pp::MixChunk& musica_ambiente = sound_manager.get_sound(musica); 
+	int channel1 = SDL2pp::Mix_PlayChannel(-1, chunk1.Get(), 0);
 
 	// Tomo el tiempo actual
     unsigned int t1 = SDL_GetTicks();

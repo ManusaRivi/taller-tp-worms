@@ -1,0 +1,7 @@
+#FORMATO:
+#-  nombre: <nombre>
+#   ruta: <ruta>
+
+# Musica
+- nombre: MusicaAmbiente
+  ruta: /client/game/Sonidos/data/MusicaAmbiente.mp3

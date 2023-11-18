@@ -7,7 +7,7 @@
 #include <vector>
 #include <string>
 
-#include "../game_config.h"
+#include "./game_config.h"
 #include "../worm_wrapper.h"
 #include "./worm.h"
 #include "./viga.h"
@@ -35,8 +35,8 @@ private:
     std::string nombre;
 
 public:
-    explicit Mapa(const char* map_filepath);
-    void Load_Map_File(const char* filepath);
+    explicit Mapa(std::string map_filepath);
+    void Load_Map_File(std::string filepath);
     void Step();
     /*
     * Setea la velocidad del gusano dado por idx, que es el

@@ -3,12 +3,12 @@
 #include <iomanip>
 #include <iostream>
 
-Mapa::Mapa(const char* map_filepath) : world(b2Vec2(0.0f, -10.0f)), contactListener(GroundContactListener()) {
+Mapa::Mapa(std::string map_filepath) : world(b2Vec2(0.0f, -10.0f)), contactListener(GroundContactListener()) {
     world.SetContactListener(&contactListener);
     Load_Map_File(map_filepath);
 }
 
-void Mapa::Load_Map_File(const char* filepath) {
+void Mapa::Load_Map_File(std::string filepath) {
     YAML::Node map = YAML::LoadFile(filepath);
 
     nombre = map["nombre"].as<std::string>();

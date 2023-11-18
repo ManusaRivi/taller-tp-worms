@@ -57,11 +57,12 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snapshot(){
  
     return nullptr;
 }
-
-void ClienteProtocolo::crear_partida(std::string nombre){
+// El segundo argumento no se usa
+void ClienteProtocolo::crear_partida(std::string nombre,uint16_t id_mapa){
     uint8_t cmd = CODIGO_CREAR_PARTIDA;
     enviar_1_byte(cmd);
     enviar_string(nombre);
+    // enviar_2_byte(id_mapa);
 }
 
 void ClienteProtocolo::empezar_partida(){

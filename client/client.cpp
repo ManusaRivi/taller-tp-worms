@@ -55,7 +55,7 @@ void Client::crear_partida(Socket &skt){
 
         if(comando == "crear"){
             std::getline(std::cin, argumento);
-            ptcl.crear_partida(argumento);
+            ptcl.crear_partida(argumento,0);
         }
 
         if(comando == "empezar"){

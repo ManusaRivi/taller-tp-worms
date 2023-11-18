@@ -91,7 +91,7 @@ int Game::run() try {
     TextureManager texture_manager(renderer);
 
 	// Reproduzco musica ambiente
-	//Chunk musica_ambiente(PROJECT_SOURCE_DIR "/client/game/Sonidos/data/MusicaAmbiente.mp3");
+	//Chunk musica_ambiente(PROJECT_SOURCE_DIR "./client/game/Sonidos/data/MusicaAmbiente.mp3");
 	//mixer.PlayChannel(-1, musica_ambiente, 0);
 
 	// Tomo el tiempo actual

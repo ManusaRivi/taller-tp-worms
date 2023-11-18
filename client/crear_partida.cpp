@@ -30,7 +30,8 @@ void Crear_Partida::onCrearButtonClicked() {
 
         QString nombreMapa = this->ui->lineEdit->text();
 
-        protocol.crear_partida(nombreMapa.toStdString());
+        // El segundo argumento no se usa
+        protocol.crear_partida(nombreMapa.toStdString(),0);
 
         this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_LOBBY));
     } else {

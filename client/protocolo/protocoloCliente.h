@@ -23,7 +23,7 @@ class ClienteProtocolo:public Protocolo{
     void detener_movimiento();
     void enviar_movimiento(uint8_t dir);
     std::shared_ptr<MensajeCliente> recibir_snapshot();
-    void crear_partida(std::string nombre);
+    void crear_partida(std::string nombre, uint16_t id);
     void empezar_partida();
     
    

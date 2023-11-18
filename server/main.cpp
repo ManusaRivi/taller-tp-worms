@@ -9,7 +9,8 @@ int main(int argc, char* argv[]) {
     const char* name = "1560";
     BroadCaster broadcaster;
     Queue<std::shared_ptr<Comando>> acciones_a_realizar;
-    Lobby lobby;
+    MapContainer mapas;
+    Lobby lobby(mapas);
     Aceptador skt(name,broadcaster,acciones_a_realizar,lobby);
     skt.start();
     //lobby.start_lobby();

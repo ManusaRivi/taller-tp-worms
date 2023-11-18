@@ -1,13 +1,14 @@
 #include "lobby.h"
 #include "mapContainer.h"
 
-Lobby::Lobby():id_actual(1), lista_mapas(MapContainer()){
+Lobby::Lobby(MapContainer& mapas):lista_mapas(mapas),id_actual(1){
 
 }
 
 uint32_t Lobby::crear_partida(std::string nombre, Queue<Mensaje>* snapshots){
     std::lock_guard<std::mutex> lock(lck);
-    Partida *partida = new Partida(id_actual,nombre);
+    Partida *partida = new Partida(id_actual,nombre,lista_mapas.getMap(0));
+    
     partida->add_queue(snapshots);
     uint32_t id_actuali = this->id_actual;
     this->id_actual++;
@@ -35,14 +36,13 @@ void Lobby::listar_mapas(Queue<Mensaje>* cliente){
     std::lock_guard<std::mutex> lock(lck);
     // MapContainer mapContainer;
     std::map<uint32_t,std::string> lista;
-    int id = 1;
 
     for (auto it = lista_mapas.begin(); it != lista_mapas.end(); ++it) {
         // Accede a cada par clave-valor en el mapa aquí
-        std::string nombre = it->first;
+        std::string nombre = it->second->GetName();
+        std::cout << "Un nombre de mapa es -> " << nombre << std::endl;
         // Realiza las operaciones que desees con el mapa
-        lista.insert({id, nombre});
-        id++;
+        lista.insert({it->first, nombre});
     }
     Mensaje msg(lista, COMANDO::CMD_LISTAR_MAPAS);
     cliente->push(msg);

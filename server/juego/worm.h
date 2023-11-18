@@ -5,6 +5,7 @@
 #include "./collision_categories.h"
 
 #include <vector>
+#include <iostream>
 
 enum directions {
     RIGHT = 0,

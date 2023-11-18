@@ -56,6 +56,9 @@ void Recibidor::run()try{{
         Queue<std::shared_ptr<Comando>> &queue_acciones = lobby.get_queue(id_partida);
         while(partida_online && is_alive){
             std::shared_ptr<Comando> cmd = ptcl.recibir_accion(id);
+            if(!cmd){
+                continue;
+            }
             queue_acciones.push(cmd);
         }
     }

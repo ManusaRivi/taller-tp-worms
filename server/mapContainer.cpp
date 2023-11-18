@@ -20,6 +20,7 @@ void MapContainer::getMaps() {
     
 
     if (fs::is_directory(directorioPath)) {
+        uint32_t id = 0;
         for (const auto& entry : fs::directory_iterator(directorioPath)) {
             if (entry.is_regular_file()) {
                 std::string archivoYAML = entry.path().string();
@@ -29,7 +30,7 @@ void MapContainer::getMaps() {
                     Mapa* mapa = new Mapa(archivoYAML); // ACA HAY QUE INICIALIZAR EL MAPA CON TODOS LOS DATOS
 
                     // Agrega el mapa al MapContainer utilizando el nombre del archivo como ID
-                    this->addMap(mapa->GetName(), mapa);
+                    this->addMap(id, mapa);
                 } catch (const std::exception& e) {
                     std::cerr << "Error al leer el archivo YAML: " << e.what() << std::endl;
                 }
@@ -40,10 +41,10 @@ void MapContainer::getMaps() {
     }
 }
 
-Mapa* MapContainer::getMap(const std::string& nombre) {
-    return mapas[nombre];
+Mapa* MapContainer::getMap(uint32_t id) {
+    return mapas[id];
 }
 
-void MapContainer::addMap(const std::string& id, Mapa* mapa) {
+void MapContainer::addMap(uint32_t id, Mapa* mapa) {
     this->mapas[id] = mapa;
 }

@@ -15,10 +15,7 @@
 
 // Copyright (c) 2019 Erin Catto
 
-enum collisionCategories{
-    BOUNDARY = 0x0001,
-    WORM = 0x0002,
-};
+
 
 class Mapa {
 private:
@@ -35,8 +32,8 @@ private:
     std::string nombre;
 
 public:
-    explicit Mapa(const char* map_filepath);
-    void Load_Map_File(const char* filepath);
+    explicit Mapa(std::string map_filepath);
+    void Load_Map_File(std::string filepath);
     void Step();
     /*
     * Setea la velocidad del gusano dado por idx, que es el

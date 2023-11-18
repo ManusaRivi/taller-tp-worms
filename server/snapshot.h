@@ -26,6 +26,8 @@ class Snapshot {
 
     public:
     //Constructor
+    Snapshot();
+
     Snapshot(std::vector<WormWrapper> worms, std::vector<std::vector<float>> vigas);
 
     Snapshot(std::vector<WormWrapper> worms);

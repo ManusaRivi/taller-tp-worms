@@ -3,12 +3,12 @@
 #include <iomanip>
 #include <iostream>
 
-Mapa::Mapa(const char* map_filepath) : world(b2Vec2(0.0f, -10.0f)), contactListener(GroundContactListener()) {
+Mapa::Mapa(std::string map_filepath) : world(b2Vec2(0.0f, -10.0f)), contactListener(GroundContactListener()) {
     world.SetContactListener(&contactListener);
     Load_Map_File(map_filepath);
 }
 
-void Mapa::Load_Map_File(const char* filepath) {
+void Mapa::Load_Map_File(std::string filepath) {
     YAML::Node map = YAML::LoadFile(filepath);
 
     nombre = map["nombre"].as<std::string>();
@@ -40,7 +40,7 @@ void Mapa::Load_Map_File(const char* filepath) {
         float x_pos = worm["pos_x"].as<float>();
         float y_pos = worm["pos_y"].as<float>();
         int dir = worm["direccion"].as<int>();
-
+        printf("La posicion del gusano es : %f   %f\n",x_pos,y_pos);
         worms.push_back(new Worm (world, config.puntos_de_vida, dir, x_pos, y_pos, id++));
     }
 }
@@ -102,8 +102,9 @@ uint16_t Mapa::gusanos_totales(){
 
 std::vector<WormWrapper> Mapa::get_gusanos(){
     std::vector<WormWrapper> vec_worms;
-    for(auto worm: this->worms){
+    for(auto *worm: this->worms){
         std::vector<float> posicion = worm->GetPosition();
+        printf("la posicion del gusano que se envia es %f   %f\n",posicion[0],posicion[1]);
         vec_worms.push_back(WormWrapper(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo(), worm->aiming_angle()));
     }
     return vec_worms;

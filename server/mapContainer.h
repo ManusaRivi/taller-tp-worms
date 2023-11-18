@@ -15,20 +15,20 @@ namespace fs = std::filesystem;
 
 class MapContainer {
     private:
-    std::map<std::string, Mapa*> mapas;
+    std::map<uint32_t, Mapa*> mapas;
     std::string root;
 
     public:
     MapContainer();
     ~MapContainer();
     void getMaps();
-    void addMap(const std::string&, Mapa*);
-    Mapa* getMap(const std::string&);
-    std::map<std::string, Mapa*>::iterator begin() {
+    void addMap(uint32_t id, Mapa*);
+    Mapa* getMap(uint32_t id);
+    std::map<uint32_t, Mapa*>::iterator begin() {
         return mapas.begin();
     }
 
-    std::map<std::string, Mapa*>::iterator end() {
+    std::map<uint32_t, Mapa*>::iterator end() {
         return mapas.end();
     }
 };

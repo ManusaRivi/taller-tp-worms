@@ -6,7 +6,7 @@
 
 using Clock = std::chrono::steady_clock;
 
-Partida::Partida(uint32_t id, std::string nombre):id_partida(id),nombre_partida(nombre){
+Partida::Partida(uint32_t id, std::string nombre, Mapa *mapa_):mapa(mapa_),id_partida(id),nombre_partida(nombre){
     posibles_id_gusanos.push_back(0);
     posibles_id_gusanos.push_back(1);
 }
@@ -103,7 +103,7 @@ void Partida::run()try{{
 }
 
 Snapshot Partida::generar_snapshot(float tiempo_turno, uint32_t id_gusano_current_turn){
-    Snapshot snap(mapa->devolver_gusanos());
+    Snapshot snap(mapa->get_gusanos());
     snap.add_condiciones_partida(tiempo_turno,id_gusano_current_turn);
     return snap;
 }

@@ -24,7 +24,7 @@ class Partida:public Thread{
 
 
     public:
-    Partida(uint32_t id_partida, std::string nombre);
+    Partida(uint32_t id_partida, std::string nombre, Mapa* mapa);
     void run() override;
     std::string get_nombre();
     void add_queue(Queue<Mensaje>* snapshots);

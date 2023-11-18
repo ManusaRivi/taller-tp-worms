@@ -50,8 +50,6 @@ class World {
     void present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
-                        int& window_width,
-                        int& window_height,
                         float& x_scale,
                         float& y_scale);
 };

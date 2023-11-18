@@ -73,10 +73,11 @@ void World::present_hud(Renderer& renderer,
 void World::present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
-                        int& window_width,
-                        int& window_height,
                         float& x_scale,
                         float& y_scale){
+    
+    int window_width = renderer.GetOutputWidth();
+    int window_height = renderer.GetOutputHeight();
 
     // Obtengo la posicion de la camara:
     float pos_foco_x = worms.at(_id_camera)->get_x();    //Por ahora solo enfoca gusanos

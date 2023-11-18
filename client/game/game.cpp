@@ -8,9 +8,6 @@ using namespace SDL2pp;
 Game::Game(Queue<std::shared_ptr<MensajeCliente>> &queue, Queue<std::shared_ptr<MensajeCliente>> &acciones_):snapshots(queue), acciones(acciones_){}
 
 int Game::run() try {
-
-	World world(0,0);
-
 	std::shared_ptr<World> world;
 	std::vector<uint32_t> id_gusanos;
 	uint32_t id_player;
@@ -242,8 +239,8 @@ int Game::run() try {
         std::shared_ptr<MensajeCliente> snap = snapshots.pop();
 		if (snap->tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
 			std::shared_ptr<SnapshotCliente> snapshot = snap->snap;
-			snapshot->apply_to_world(world);
-			world.present(it_inc, renderer, texture_manager, x_scale, y_scale);
+			snapshot->apply_to_world((*world));
+			(*world).present(it_inc, renderer, texture_manager, x_scale, y_scale);
 			//snapshot->present(it_inc, renderer, texture_manager, window_width, window_height, x_scale, y_scale);
 		}
 		// Timing: calcula la diferencia entre este frame y el anterior

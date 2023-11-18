@@ -42,10 +42,7 @@ void Recibidor::run(){
         if(msg.tipo_mensaje() == COMANDO::CMD_UNIRSE_PARTIDA){
             this->id_gusano = lobby.unirse_a_partida(msg.id_partida_a_unirse,snapshots,id);
             this->id_partida = msg.id_partida_a_unirse;
-        }
-        if(msg.tipo_mensaje() == COMANDO::CMD_LISTAR_MAPAS) {
-            printf("Se recibe pedido de listar mapas en recibidor\n");
-            lobby.listar_mapas(snapshots);
+            id++;
         }
 
         if (msg.tipo_mensaje() == COMANDO::CMD_HANDSHAKE){

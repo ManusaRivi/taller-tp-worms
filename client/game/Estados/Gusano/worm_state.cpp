@@ -15,10 +15,8 @@ void WormState::present(int& it_inc,
     //Seteo como graficar los sprites:
     //Los sprites son de 60x60
 
-	//iteration += it_inc;
-	iteration = it_inc;
-
-	std:: cout << "Iteracion: " << iteration << "\n";
+	iteration += it_inc;
+	//iteration = it_inc;
 
 	int src_x = 0;
 	int src_y = 60 * (iteration % frames);

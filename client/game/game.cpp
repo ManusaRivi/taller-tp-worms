@@ -9,8 +9,7 @@ Game::Game(Queue<std::shared_ptr<MensajeCliente>> &queue, Queue<std::shared_ptr<
 
 int Game::run() try {
 
-	//Por ahora seguimos presentando la snapshot
-	//World world;
+	World world(0,0);
 
 	std::shared_ptr<World> world;
 	std::vector<uint32_t> id_gusanos;
@@ -27,7 +26,7 @@ int Game::run() try {
 			snapshot = msg->snap;
 			acciones.push(msg);
 			se_recibieron_ids = true;
-			//world = msg->world;
+			world = msg->world;
 
 			/*
 				En el Handshake deberia recibir las posiciones de las vigas 
@@ -243,11 +242,9 @@ int Game::run() try {
         std::shared_ptr<MensajeCliente> snap = snapshots.pop();
 		if (snap->tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
 			std::shared_ptr<SnapshotCliente> snapshot = snap->snap;
-			/*
 			snapshot->apply_to_world(world);
 			world.present(it_inc, renderer, texture_manager, x_scale, y_scale);
-			*/
-			snapshot->present(it_inc, renderer, texture_manager, window_width, window_height, x_scale, y_scale);
+			//snapshot->present(it_inc, renderer, texture_manager, window_width, window_height, x_scale, y_scale);
 		}
 		// Timing: calcula la diferencia entre este frame y el anterior
 		// en milisegundos
@@ -260,16 +257,16 @@ int Game::run() try {
 			rest = FRAME_RATE - behind % FRAME_RATE;
 			int lost = behind + rest;
 			t1 += lost;
-			//it_inc = int(lost / FRAME_RATE);
-			it_inc += int(lost / FRAME_RATE);
+			it_inc = int(lost / FRAME_RATE);
+			//it_inc += int(lost / FRAME_RATE);
 		}
 
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
         // El 100% del CPU.
 		SDL_Delay(rest);
 		t1 += FRAME_RATE;
-		//it_inc = 1;
-		it_inc += 1;
+		it_inc = 1;
+		//it_inc += 1;
     }
 
 

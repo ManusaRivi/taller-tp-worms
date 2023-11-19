@@ -2,7 +2,7 @@
 #include "mapContainer.h"
 
 MapContainer::MapContainer() : mapas() {
-    this->root = "server/mapas";
+    this->root = PROJECT_SOURCE_DIR "/server/mapas";
     this->getMaps();
 }
 
@@ -31,6 +31,9 @@ void MapContainer::getMaps() {
 
                     // Agrega el mapa al MapContainer utilizando el nombre del archivo como ID
                     this->addMap(id, mapa);
+
+                    std::cout << "Ya me cargue un mapa\n";
+
                 } catch (const std::exception& e) {
                     std::cerr << "Error al leer el archivo YAML: " << e.what() << std::endl;
                 }

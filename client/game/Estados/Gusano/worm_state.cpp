@@ -41,6 +41,15 @@ void WormState::present(int& it_inc,
 			);
 }
 
+int WormState::get_iteration() {
+	return iteration;
+}
+
+void WormState::set_iteration(int& it) {
+	iteration = it;
+}
+
+
 bool WormState::is_finished() {
 	return finished;
 }

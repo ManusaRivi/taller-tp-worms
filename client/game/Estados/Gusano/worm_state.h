@@ -38,6 +38,10 @@ class WormState {
     
     virtual bool is_finished();
 
+    int get_iteration();
+
+    void set_iteration(int& it);
+    
     //Destructor virtual
     virtual ~WormState() {}
 };

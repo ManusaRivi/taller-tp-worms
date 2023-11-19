@@ -16,7 +16,7 @@ enum directions {
 #define BOX_HEIGHT 0.5f
 
 #define WORM_DENSITY 0.2f
-#define WORM_FRICTION 1.0f
+#define WORM_FRICTION 0.0f
 
 #define MOVING_SPEED 0.2
 

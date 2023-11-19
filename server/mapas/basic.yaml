@@ -76,15 +76,15 @@ vigas:
 
 
 gusanos:
-  - pos_x: 1.5
+  - pos_x: 1
     pos_y: 0.82
     direccion: 0
-  - pos_x: 1.5
+  - pos_x: 2
     pos_y: 0.82
     direccion: 1
-  - pos_x: 1.5
+  - pos_x: 3
     pos_y: 0.82
     direccion: 0
-  - pos_x: 1.5
+  - pos_x: 4
     pos_y: 0.82
     direccion: 1

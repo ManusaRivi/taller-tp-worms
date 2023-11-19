@@ -13,22 +13,22 @@ MainWindow::MainWindow(QWidget *parent)
     this->currentBackgroundIndex = 0;
 
     this->scene = new GraphicsScene(this);
-    scene->setBackgroundBrush(QBrush(QPixmap(backgrounds[currentBackgroundIndex])));
+    this->scene->setBackgroundBrush(QBrush(QPixmap(this->backgrounds[this->currentBackgroundIndex])));
     
-    this->ui->graphicsView->setScene(scene);
+    this->ui->graphicsView->setScene(this->scene);
 
     QPixmap vigaCompleta(":/imagenes/Beam.png");
     QPixmap vigaMitad = vigaCompleta.copy(0, 0, vigaCompleta.width() / 2, vigaCompleta.height());
     vigaMitad = vigaMitad.scaled(64, 64, Qt::KeepAspectRatio);
-    ui->viga->setIcon(QIcon(vigaMitad));
+    this->ui->viga->setIcon(QIcon(vigaMitad));
 
-    connect(ui->worm, &QPushButton::clicked, this, &MainWindow::agregarGusano);
-    connect(ui->viga, &QPushButton::clicked, this, &MainWindow::agregarViga);
-    connect(ui->vigaLarga, &QPushButton::clicked, this, &MainWindow::agregarVigaLarga);
-    connect(ui->exportar, &QPushButton::clicked, this, &MainWindow::exportarMapa);
-    connect(ui->limpiar, &QPushButton::clicked, this, &MainWindow::limpiarMapa);
-    connect(ui->cambiarFondo, &QPushButton::clicked, this, &MainWindow::cambiarFondo);
-    connect(ui->exitApplication, &QPushButton::clicked, this, &MainWindow::exitApplication);
+    connect(this->ui->worm, &QPushButton::clicked, this, &MainWindow::agregarGusano);
+    connect(this->ui->viga, &QPushButton::clicked, this, &MainWindow::agregarViga);
+    connect(this->ui->vigaLarga, &QPushButton::clicked, this, &MainWindow::agregarVigaLarga);
+    connect(this->ui->exportar, &QPushButton::clicked, this, &MainWindow::exportarMapa);
+    connect(this->ui->limpiar, &QPushButton::clicked, this, &MainWindow::limpiarMapa);
+    connect(this->ui->cambiarFondo, &QPushButton::clicked, this, &MainWindow::cambiarFondo);
+    connect(this->ui->exitApplication, &QPushButton::clicked, this, &MainWindow::exitApplication);
     connect(this, &MainWindow::destroyed, this, &MainWindow::exitApplication);
 }
 
@@ -44,8 +44,8 @@ MainWindow::~MainWindow() {
     this->worms.clear();
     this->vigas.clear();
 
-    delete scene;
-    delete ui;
+    delete this->scene;
+    delete this->ui;
 }
 
 void MainWindow::agregarGusano() {
@@ -79,7 +79,6 @@ void MainWindow::agregarViga() {
 
     delete viga;
 }
-
 
 void MainWindow::agregarVigaLarga() {
 
@@ -118,7 +117,6 @@ void MainWindow::exportarMapa() {
         } else {
             tipo = "corta";
         }
-        
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
@@ -150,7 +148,6 @@ void MainWindow::exportarMapa() {
     std::ofstream file("./server/mapas/mapa.yaml");
     file << emitter.c_str();
 }
-
 
 void MainWindow::limpiarMapa() {
     for (QGraphicsPixmapItem* worm : this->worms) {

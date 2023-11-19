@@ -54,16 +54,17 @@ void World::present_hud(Renderer& renderer,
                         float& x_scale,
                         float& y_scale) {
     
+    int ancho_hud = renderer.GetOutputWidth() / 2;
+    int alto_hud = HUD_SPRITE_HEIGHT * ancho_hud / HUD_SPRITE_WIDTH;
     // Busco textura
     std::string texture_name("HUDWeapons");
     Texture& hud_tex = texture_manager.get_texture(texture_name);
 
     //Grafico
     hud_tex.SetAlphaMod(255); // El HUD es totalmente opaco
-    renderer.Copy(
-				hud_tex,
+    renderer.Copy(hud_tex,
 				Rect(0, 0, HUD_SPRITE_WIDTH, HUD_SPRITE_HEIGHT), // El sprite
-				Rect(0, 0, HUD_WIDTH * x_scale, HUD_HEIGHT * y_scale), // Donde lo grafico
+				Rect(0, 0, ancho_hud, alto_hud), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,
 				SDL_FLIP_NONE        // Flip

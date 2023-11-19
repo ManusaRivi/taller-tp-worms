@@ -18,7 +18,7 @@ Worm& Worm::operator=(const Worm& other) {
 
 void Worm::update(std::shared_ptr<Worm> updated_worm) {
     //Si no finalizo la animacion del estado anterior, no se actualiza
-    if (!state->is_finished()) {
+    if (!state->is_finished() || typeid(*state) == typeid(*(updated_worm->state))) {
         return;
     }
 

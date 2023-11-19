@@ -18,7 +18,7 @@ void Enviador::run()try{{
             accion->enviar_accion(ptcl);
         }
         if(cmd->tipo_comando == COMANDO::CMD_CREAR_PARTIDA){
-            ptcl.crear_partida(cmd->nombre_mapa);
+            ptcl.crear_partida(cmd->nombre_mapa,0);
         }
         if(cmd->tipo_comando == COMANDO::CMD_EMPEZAR_PARTIDA){
             ptcl.empezar_partida();

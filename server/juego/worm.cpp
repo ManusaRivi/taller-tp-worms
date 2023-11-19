@@ -6,7 +6,7 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
-    printf("La posicion en el constructo es %f  %f\n",x_pos,y_pos);
+    // printf("La posicion en el constructo es %f  %f\n",x_pos,y_pos);
     gusanoDef.position.Set(x_pos, y_pos);
     b2Body *gusano = world.CreateBody(&gusanoDef);
     this->body = gusano;
@@ -22,7 +22,7 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     fixtureGusano.filter.maskBits = (CollisionCategories::BOUNDARY | CollisionCategories::PROJECTILE);
 
     this->body->CreateFixture(&fixtureGusano);
-    printf("luego de crearle las fixtures la posicion del gusano es %f   %f\n", body->GetPosition().x, body->GetPosition().y);
+    // printf("luego de crearle las fixtures la posicion del gusano es %f   %f\n", body->GetPosition().x, body->GetPosition().y);
 }
 
 void Worm::Move(int dir) {
@@ -113,7 +113,7 @@ void Worm::takeDamage(int damage) {
 
 std::vector<float> Worm::GetPosition() {
     b2Vec2 position = body->GetPosition();
-    printf("Al pedire la posicion se devuelve %f   %f\n",position.x,position.y);
+    // printf("Al pedire la posicion se devuelve %f   %f\n",position.x,position.y);
     return std::vector<float> ({position.x, position.y});
 }
 
@@ -141,6 +141,7 @@ void Worm::cambiar_arma(uint8_t id_arma){
     if (isAirborne()){
         return;
     }
+    printf("Se recibe un id de arma %u\n",id_arma);
     status = id_arma;
 }
 

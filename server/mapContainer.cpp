@@ -2,7 +2,7 @@
 #include "mapContainer.h"
 
 MapContainer::MapContainer() : mapas() {
-    this->root = "../server/mapas";
+    this->root = "server/mapas";
     this->getMaps();
 }
 

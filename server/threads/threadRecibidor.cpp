@@ -42,7 +42,9 @@ void Recibidor::run()try{{
         if(msg.tipo_mensaje() == COMANDO::CMD_UNIRSE_PARTIDA){
             lobby.unirse_a_partida(msg.id_partida_a_unirse,snapshots);
             this->id_partida = msg.id_partida_a_unirse;
+            id++;
         }
+
         if (msg.tipo_mensaje() == COMANDO::CMD_HANDSHAKE){
 
             std::pair<uint32_t,std::vector<uint32_t>> id_gusanos = msg.gusanos_por_player;

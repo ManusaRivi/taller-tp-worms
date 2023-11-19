@@ -83,10 +83,13 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id)try{{
         Mensaje msg(COMANDO::CMD_LISTAR_PARTIDAS);
         return msg;
     }
-    if(buf == CODIGO_LISTAR_MAPAS){
+
+    if (buf == CODIGO_LISTAR_MAPAS) {
+        printf("Se recibe pedido de listar mapas\n");
         Mensaje msg(COMANDO::CMD_LISTAR_MAPAS);
         return msg;
     }
+
     if (buf == CODIGO_UNIRSE_PARTIDA){
         printf("Se recibe un pedido de unirse a partida");
         uint32_t id_partida = recibir_4_bytes();

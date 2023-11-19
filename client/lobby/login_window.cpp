@@ -5,11 +5,12 @@
 #include "ui/ui_login_window.h"
 #include "mainwindow.h"
 
-Login_Window::Login_Window(QWidget *parent, QStackedWidget* stackedWidget) :
+Login_Window::Login_Window(QWidget *parent, QStackedWidget* stackedWidget, Socket* skt) :
     QWidget(parent),
     ui(new Ui::Login_Window) {
     this->ui->setupUi(this);
     this->stackedWidget = stackedWidget;
+    this->skt = skt;
     connect(ui->start, SIGNAL(clicked()), this, SLOT(onComenzarButtonClicked()));
 }
 
@@ -27,8 +28,23 @@ void Login_Window::onComenzarButtonClicked() {
         return;
     }
 
-    this->server = serverText.toStdString();
-    this->port = portText.toStdString();
+    std::string server = serverText.toStdString();
+    std::string port = portText.toStdString();
 
+    const char* serverChar = server.c_str();
+    const char* portChar = port.c_str();
+
+    try {
+        this->skt = new Socket(serverChar, portChar);
+    } catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        QMessageBox::warning(this, "Advertencia", "Servidor o puerto incorrecto.", QMessageBox::Ok);
+	    return;
+    }
+    
     this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_LOBBY));
+}
+
+Socket* Login_Window::getSocket() {
+    return this->skt;
 }

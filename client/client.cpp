@@ -1,27 +1,26 @@
 #include "client.h"
 
 
-Client::Client(int argc, char** argv) : login(argc, argv) {}
+Client::Client(int argc, char** argv) : skt(nullptr), login(argc, argv, this->skt) {}
+
+Client::~Client() {
+    delete this->skt;
+}
 
 int Client::iniciar() {
 
     try {
-        //this->login.start();
-
-        //const std::string server = this->login.getServer();
-        //const std::string port = this->login.getPort();
-
-        const std::string server = "127.0.0.1";
-        const std::string port = "1560";
+        this->login.start();
 
         Queue<std::shared_ptr<MensajeCliente>> queue_comandos; //TODO: Cambiar a Unique ptr
         Queue<std::shared_ptr<MensajeCliente>> queue_snapshots;
 
-        Socket skt(server.data(),port.data());
+        //Socket skt(server.data(),port.data());
 
-        crear_partida(skt);
-        printf("asdadasd");
-        containerThreads container(skt,queue_snapshots,queue_comandos);
+        this->skt = this->login.getSocket();
+
+        //crear_partida();
+        containerThreads container(*this->skt, queue_snapshots, queue_comandos);
 
         //Protocolo prot(server, port);
         container.start();
@@ -42,8 +41,8 @@ int Client::iniciar() {
 }
 
 
-void Client::crear_partida(Socket &skt){
-    ClienteProtocolo ptcl(skt);
+void Client::crear_partida(){
+    ClienteProtocolo ptcl(*this->skt);
     bool se_empieza_partida = false;
     
     while (!se_empieza_partida){

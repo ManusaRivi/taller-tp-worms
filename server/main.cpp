@@ -2,11 +2,10 @@
 #include "threads/threadAceptador.h"
 #include "monitorBroadcaster.h"
 #include "partida.h"
-//#include "mapContainer.h"
 
 int main(int argc, char* argv[]) {
 
-    const char* name = "1560";
+    const char* name = "1617";
     BroadCaster broadcaster;
     Queue<std::shared_ptr<Comando>> acciones_a_realizar;
     MapContainer mapas;

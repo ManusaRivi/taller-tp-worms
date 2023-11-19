@@ -38,7 +38,7 @@ class ClienteProtocolo:public Protocolo{
     void enviar_salto(uint8_t direccion_salto);
     std::map<uint32_t,std::string> pedir_mapas();
     std::map<uint32_t,std::string> pedir_lista_partidas();
-
+    
     private:
     std::shared_ptr<MensajeCliente> recibir_handshake();
     std::shared_ptr<MensajeCliente> recibir_snap();

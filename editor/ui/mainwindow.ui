@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* Estilo para QLineEdit */
+QLineEdit {
+    border: 2px solid #c0392b; /* Borde rojo más oscuro */
+    background-color: #f9d9d9; /* Fondo rojo claro (ajusta el color según tus preferencias) */
+    padding: 8px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes menos redondeados */
+    font-size: 14px; /* Tamaño de fuente */
+    font-family: &quot;YourDesiredFont&quot;, sans-serif; /* Cambia &quot;YourDesiredFont&quot; a la tipografía que desees */
+}
+
+/* Estilo para QComboBox */
+QComboBox {
+    border: 2px solid #c0392b; /* Borde rojo más oscuro */
+    background-color: #f9d9d9; /* Fondo rojo claro (ajusta el color según tus preferencias) */
+    padding: 8px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes menos redondeados */
+    font-size: 14px; /* Tamaño de fuente */
+    font-family: &quot;YourDesiredFont&quot;, sans-serif; /* Cambia &quot;YourDesiredFont&quot; a la tipografía que desees */
+}
+
+/* Estilo para el menú desplegable del QComboBox */
+QComboBox QAbstractItemView {
+    border: 2px solid #c0392b; /* Borde rojo más oscuro */
+    background-color: #f9d9d9; /* Fondo rojo claro (ajusta el color según tus preferencias) */
+    selection-background-color: #c0392b; /* Color de fondo al seleccionar */
+}
+
+/* Estilo para QPushButton (Botones) */
+QPushButton#crear {
+    color: white; /* Color del texto */
+    padding: 12px 24px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+    text-decoration: none; /* Decoración del texto */
+    display: inline-block;
+    font-size: 16px; /* Tamaño de fuente */
+    margin: 8px; /* Márgenes */
+    border-radius: 15px; /* Bordes redondeados */
+    font-family: &quot;Arial&quot;, sans-serif; /* Tipo de fuente */
+    font-weight: bold; /* Letras más gruesas */
+}
+
+QPushButton:hover#crear {
+    background-color: #c0392b; /* Cambio de color al pasar el mouse a rojo más oscuro */
+}
+
+QPushButton {
+    background-color: #e74c3c; /* Rojo */
+    border: 2px solid #c0392b; /* Borde rojo más oscuro */
+    color: white; /* Color del texto */
+    padding: 8px 16px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+    text-decoration: none; /* Decoración del texto */
+    font-size: 14px; /* Tamaño de fuente */
+    margin: 4px; /* Márgenes */
+    border-radius: 8px; /* Bordes redondeados */
+    font-family: &quot;YourDesiredFont&quot;, sans-serif; /* Cambia &quot;YourDesiredFont&quot; a la tipografía que desees */
+    font-weight: bold; /* Letras más gruesas */
+}
+
+QPushButton:hover {
+    background-color: #c0392b; /* Cambio de color al pasar el mouse a rojo más oscuro */
+}
+
+/* Estilo para QLabel */
+QLabel {
+    color: #c0392b; /* Rojo */
+    font-size: 16px; /* Tamaño de fuente */
+    font-family: &quot;YourDesiredFont&quot;, sans-serif; /* Cambia &quot;YourDesiredFont&quot; a la tipografía que desees */
+    font-weight: bold; /* Letras más gruesas */
+}
+
+/* Estilo para QMessageBox::warning */
+QMessageBox {
+    border: 2px solid #e74c3c; /* Borde rojo */
+    background-color: #f2dede; /* Fondo rojo claro */
+    color: #a94442; /* Color del texto */
+    font-size: 14px; /* Tamaño de fuente */
+    font-family: &quot;Arial&quot;, sans-serif; /* Tipo de fuente */
+}
+
+/* Estilo para QGroupBox */
+QGroupBox {
+    border: 2px solid #c0392b; /* Borde rojo más oscuro */
+    background-color: #f9d9d9; /* Fondo rojo claro (ajusta el color según tus preferencias) */
+    border-radius: 5px; /* Bordes menos redondeados */
+    margin-top: 10px; /* Márgenes superiores */
+}
+
+QGroupBox:title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center;
+    padding: 0 3px; /* Espaciado interno para el título */
+    background-color: #f9d9d9; /* Fondo rojo claro (ajusta el color según tus preferencias) */
+    font-size: 18px; /* Aumenta el tamaño de la fuente del título */
+    color: #c0392b; /* Color del título */
+    font-weight: bold; /* Letras más gruesas */
+}
+</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <layout class="QFormLayout" name="formLayout_3">
+      <item row="0" column="0">
+       <layout class="QFormLayout" name="formLayout_2">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="groupBox">
+          <property name="title">
+           <string>Menu</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="0">
+            <layout class="QFormLayout" name="formLayout">
+             <item row="1" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout">
+                 <item>
+                  <widget class="QPushButton" name="viga">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="imagenes.qrc">
+                     <normaloff>:/imagenes/Beam.png</normaloff>:/imagenes/Beam.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>64</width>
+                     <height>32</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="vigaLarga">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="imagenes.qrc">
+                     <normaloff>:/imagenes/Beam.png</normaloff>:/imagenes/Beam.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>64</width>
+                     <height>32</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit">
+                 <property name="placeholderText">
+                  <string>Rotacion</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="0" column="0">
+              <widget class="QPushButton" name="worm">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="imagenes.qrc">
+                 <normaloff>:/imagenes/worm-removebg-preview.png</normaloff>:/imagenes/worm-removebg-preview.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>64</width>
+                 <height>64</height>
+                </size>
+               </property>
+               <property name="checkable">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="1" column="0">
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <widget class="QPushButton" name="exportar">
+               <property name="text">
+                <string>Exportar</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="cambiarFondo">
+               <property name="text">
+                <string>Cambiar Fondo</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="limpiar">
+               <property name="text">
+                <string>Limpiar</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="exitApplication">
+               <property name="text">
+                <string>Salir</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="1">
+       <widget class="QGraphicsView" name="graphicsView"/>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources>
+  <include location="imagenes.qrc"/>
+ </resources>
+ <connections/>
+</ui>

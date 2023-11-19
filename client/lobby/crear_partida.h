@@ -6,6 +6,7 @@
 #include <string>
 
 #include "login_window.h"
+#include "../protocolo/protocoloCliente.h"
 
 namespace Ui {
 class Crear_Partida;
@@ -18,6 +19,7 @@ class Crear_Partida : public QWidget
 public:
     explicit Crear_Partida(QWidget *parent = nullptr, QStackedWidget *stackedWidget = nullptr, Login_Window* ui1 = nullptr);
     ~Crear_Partida();
+    void listarMapas();
 
 public slots:
     void onCrearButtonClicked();

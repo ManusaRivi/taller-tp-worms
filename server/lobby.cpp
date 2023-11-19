@@ -49,7 +49,6 @@ void Lobby::listar_mapas(Queue<Mensaje>* cliente){
 }
 
 Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t id_pedido){
-    std::lock_guard<std::mutex> lock(lck);
     return lista_partidas.at(id_pedido)->get_queue();
 }
 

@@ -5,6 +5,7 @@
 #include <string>
 
 #include "mainwindow.h"
+#include "../../common/socket.h"
 
 class Login {
     private:
@@ -12,11 +13,10 @@ class Login {
     MainWindow mainWindow;
     
     public:
-    Login(int, char**);
+    Login(int, char**, Socket*);
     ~Login();
     int start();
-    const std::string getServer();
-    const std::string getPort();
+    Socket* getSocket();
 };
 
 #endif

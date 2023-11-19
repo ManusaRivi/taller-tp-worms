@@ -4,7 +4,7 @@
 
 
 
-ClienteProtocolo::ClienteProtocolo(Socket &peer):Protocolo(peer) {
+ClienteProtocolo::ClienteProtocolo(Socket& peer):Protocolo(peer) {
             was_closed = false;
         }
 
@@ -73,18 +73,13 @@ void ClienteProtocolo::empezar_partida(){
 
 std::map<uint32_t,std::string> ClienteProtocolo::listar_partidas(){
     std::map<uint32_t,std::string> map;
-    
     uint16_t size = recibir_2_bytes();
     for(uint16_t i = 0; i < size; i++ ){
-        uint32_t id = recibir_4_bytes();
-        std::string nombre = recibir_string();
-        map.insert({id,nombre});
+        uint32_t id_mapa = recibir_4_bytes();
+        std::string nombre_mapa = recibir_string();
+        map.insert({id_mapa,nombre_mapa});
     }
     return map;
-    
-    //std::string nombreMapa = recibir_string();
-    //map.insert({1,nombreMapa});
-    //return map;
 }
 
 std::map<uint32_t,std::string> ClienteProtocolo::pedir_mapas(){

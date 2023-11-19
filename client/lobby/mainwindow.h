@@ -9,11 +9,15 @@
 #include "lobby_window.h"
 #include "lista_espera.h"
 #include "crear_partida.h"
+#include "sala_espera.h"
 
-#define PANTALLA_PINCIPAL   0
-#define PANTALLA_LOBBY      1
-#define PANTALLA_ESPERA     2
-#define PANTALLA_CREAR      3
+#include "../../common/socket.h"
+
+#define PANTALLA_PINCIPAL                       0
+#define PANTALLA_LOBBY                          1
+#define PANTALLA_ESPERA                         2
+#define PANTALLA_CREAR                          3
+#define PANTALLA_ESPERA_SIN_OPCION_A_COMENZAR   4
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,14 +28,9 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr, Socket* skt = nullptr);
     ~MainWindow();
-
-    void setServer(const std::string&);
-    void setPort(const std::string&);
-
-    const std::string getServer();
-    const std::string getPort();
+    Socket* getSocket();
 
 private:
     QStackedWidget* stackedWidget;
@@ -40,8 +39,6 @@ private:
     Lobby_Window* ui2;
     Lista_Espera* ui3;
     Crear_Partida* ui4;
-
-    std::string serverInput;
-    std::string portInput;
+    Sala_Espera* ui5;
 };
 #endif // MAINWINDOW_H

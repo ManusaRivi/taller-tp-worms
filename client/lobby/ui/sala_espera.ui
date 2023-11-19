@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Sala_Espera</class>
+ <widget class="QWidget" name="Sala_Espera">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>580</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>580</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLabel#label_2 {
+	border-image: url(&quot;:imagenes/worms_background.png&quot;)
+}
+
+/* Estilo para QPushButton (Botones) */
+QPushButton#pushButton {
+    color: white; /* Color del texto */
+    padding: 12px 24px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+    text-decoration: none; /* Decoración del texto */
+    display: inline-block;
+    font-size: 16px; /* Tamaño de fuente */
+    margin: 8px; /* Márgenes */
+    border-radius: 15px; /* Bordes redondeados */
+    font-family: &quot;Arial&quot;, sans-serif; /* Tipo de fuente */
+    font-weight: bold; /* Letras más gruesas */
+}
+
+QPushButton:hover#pushButton {
+    background-color: #c0392b; /* Cambio de color al pasar el mouse a rojo más oscuro */
+}
+
+QPushButton {
+    background-color: #e74c3c; /* Rojo */
+    border: 2px solid #c0392b; /* Borde rojo más oscuro */
+    color: white; /* Color del texto */
+    padding: 8px 16px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+    text-decoration: none; /* Decoración del texto */
+    font-size: 14px; /* Tamaño de fuente */
+    margin: 4px; /* Márgenes */
+    border-radius: 8px; /* Bordes redondeados */
+    font-family: &quot;YourDesiredFont&quot;, sans-serif; /* Cambia &quot;YourDesiredFont&quot; a la tipografía que desees */
+    font-weight: bold; /* Letras más gruesas */
+}
+
+/* Estilo para QLabel con nombre &quot;label&quot; */
+QLabel#label {
+    color: #a94442; /* Color del texto */
+    font-size: 18px; /* Tamaño de fuente */
+    font-family: &quot;YourDesiredFont&quot;, sans-serif; /* Cambia &quot;YourDesiredFont&quot; a la tipografía que desees */
+    font-weight: bold; /* Letras más gruesas */
+}
+</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0" rowspan="2" colspan="2">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="1">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Presiona el boton para unirse</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="2">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Unirse</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

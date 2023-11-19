@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Login_Window</class>
+ <widget class="QWidget" name="Login_Window">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>580</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>580</height>
+   </size>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLabel#label {
+	border-image: url(&quot;:imagenes/worms_background.png&quot;)
+}
+
+/* Estilo para QPushButton (Botones) */
+QPushButton#start {
+    color: white; /* Color del texto */
+    padding: 12px 24px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+    text-decoration: none; /* Decoración del texto */
+    display: inline-block;
+    font-size: 16px; /* Tamaño de fuente */
+    margin: 8px; /* Márgenes */
+    border-radius: 15px; /* Bordes redondeados */
+    font-family: &quot;Arial&quot;, sans-serif; /* Tipo de fuente */
+    font-weight: bold; /* Letras más gruesas */
+}
+
+/* Estilo para QLineEdit (Text Box) con marcado (placeholder) centrado */
+QLineEdit {
+    border: 2px solid #ecf0f1; /* Borde gris claro */
+    background-color: white; /* Fondo blanco */
+    padding: 16px; /* Espaciado interno ajustado para centrar el texto del marcado */
+    border-radius: 10px; /* Bordes redondeados */
+    font-size: 14px; /* Tamaño de fuente del texto ingresado */
+    font-family: &quot;Arial&quot;, sans-serif; /* Tipo de fuente del texto ingresado */
+    text-align: center; /* Alineación centrada para el texto del marcado */
+}
+
+/* Establecer el color y la tipografía del marcado (placeholder) */
+QLineEdit::placeholder {
+    color: #7f8c8d; /* Color gris claro para el marcado */
+    font-family: &quot;Verdana&quot;, sans-serif; /* Tipo de fuente del marcado */
+    font-size: 12px; /* Tamaño de fuente del marcado */
+    opacity: 0.75; /* Opacidad para que el texto del marcado no sea demasiado pronunciado */
+}
+
+/* Establecer el color y la tipografía del texto ingresado */
+QLineEdit:focus {
+    /*color: #e74c3c; /* Color verde esmeralda para el texto ingresado */
+    font-family: &quot;Courier New&quot;, monospace; /* Tipo de fuente para el texto ingresado */
+    font-size: 14px; /* Tamaño de fuente para el texto ingresado */
+}
+
+QPushButton:hover#start {
+    background-color: #c0392b; /* Cambio de color al pasar el mouse a rojo más oscuro */
+}
+
+/* Estilo para QMessageBox::warning */
+QMessageBox {
+    border: 2px solid #e74c3c; /* Borde rojo */
+    background-color: #f2dede; /* Fondo rojo claro */
+    color: #a94442; /* Color del texto */
+    font-size: 14px; /* Tamaño de fuente */
+    font-family: &quot;Arial&quot;, sans-serif; /* Tipo de fuente */
+}
+
+QPushButton {
+    background-color: #e74c3c; /* Rojo */
+    border: 2px solid #c0392b; /* Borde rojo más oscuro */
+    color: white; /* Color del texto */
+    padding: 8px 16px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+    text-decoration: none; /* Decoración del texto */
+    font-size: 14px; /* Tamaño de fuente */
+    margin: 4px; /* Márgenes */
+    border-radius: 8px; /* Bordes redondeados */
+    font-family: &quot;Arial&quot;, sans-serif; /* Tipo de fuente */
+    font-weight: bold; /* Letras más gruesas */
+}
+
+QMessageBox QPushButton:hover {
+    background-color: #c0392b; /* Cambio de color al pasar el mouse a rojo más oscuro */
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0" rowspan="2" colspan="2">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLineEdit" name="serverInput">
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="dragEnabled">
+          <bool>false</bool>
+         </property>
+         <property name="readOnly">
+          <bool>false</bool>
+         </property>
+         <property name="placeholderText">
+          <string>Server</string>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="portInput">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="placeholderText">
+          <string>Puerto</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="start">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>Comenzar</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

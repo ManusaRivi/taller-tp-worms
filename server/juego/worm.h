@@ -12,6 +12,9 @@ enum directions {
     LEFT = 1,
 };
 
+#define STATUS_MOVING 1
+#define STATUS_IDLE 0
+
 #define BOX_WIDTH 0.5f
 #define BOX_HEIGHT 0.5f
 

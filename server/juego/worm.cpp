@@ -38,7 +38,7 @@ void Worm::Move(int dir) {
             velocity.x = -1 * MOVING_SPEED;
             break;
     }
-    status = 1;
+    status = STATUS_MOVING;
     body->SetLinearVelocity(velocity);
 }
 
@@ -47,6 +47,7 @@ void Worm::Stop() {
     b2Vec2 velocity = body->GetLinearVelocity();
     velocity.x = 0.0f;
     body->SetLinearVelocity(velocity);
+    status = STATUS_IDLE;
 }
 
 void Worm::JumpForward() {

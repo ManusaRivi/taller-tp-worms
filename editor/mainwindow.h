@@ -8,6 +8,7 @@
 #include <QString>
 #include <QList>
 #include <vector>
+#include <QRectF>
 
 #include "graphicsscene.h"
 

@@ -13,7 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     this->currentBackgroundIndex = 0;
 
     this->scene = new GraphicsScene(this);
-    this->scene->setBackgroundBrush(QBrush(QPixmap(this->backgrounds[this->currentBackgroundIndex])));
+    scene->setBackgroundBrush(QBrush(QPixmap(backgrounds[currentBackgroundIndex])));
+    
     this->ui->graphicsView->setScene(scene);
 
     QPixmap vigaCompleta(":/imagenes/Beam.png");
@@ -62,9 +63,6 @@ void MainWindow::agregarViga() {
 
     QString rotacion = this->ui->lineEdit->text();
 
-    viga->setRotation(rotacion.toFloat());
-    viga->setPos(0, 0);
-
     qreal anchoOriginal = viga->boundingRect().width();
     qreal altoOriginal = viga->boundingRect().height();
 
@@ -72,6 +70,9 @@ void MainWindow::agregarViga() {
 
     QPixmap mitadVigaPixmap = QPixmap(":/imagenes/Beam.png").copy(0, 0, anchoMitad, altoOriginal);
     QGraphicsPixmapItem* mitadViga = new QGraphicsPixmapItem(mitadVigaPixmap);
+
+    mitadViga->setRotation(rotacion.toFloat());
+    mitadViga->setPos(0, 0);
 
     this->vigas.push_back(mitadViga);
     this->scene->addItem(mitadViga);
@@ -95,36 +96,58 @@ void MainWindow::agregarVigaLarga() {
 void MainWindow::exportarMapa() {
     YAML::Emitter emitter;
     std::string nombre = "mapa";
+    std::string tipo;
 
-    emitter << YAML::Key << "nombre" << YAML::Value << nombre;
+    emitter << YAML::BeginMap;
+    emitter << YAML::Key << "nombre";
+    emitter << YAML::Value << nombre;
+    emitter << YAML::EndMap;
 
-    emitter << YAML::Key << "vigas" << YAML::Value << YAML::BeginSeq;
+    emitter << YAML::BeginMap;
+    emitter << YAML::Key << "vigas";
+    emitter << YAML::Value;
+    emitter << YAML::BeginSeq;
+
     for (QGraphicsPixmapItem* viga : this->vigas) {
         QPointF posicion = viga->scenePos();
         qreal angulo = obtenerAnguloInclinacion(viga);
 
+        QRectF boundingRect = viga->boundingRect();
+        if(boundingRect.width() > 100) {
+            tipo = "larga";
+        } else {
+            tipo = "corta";
+        }
+        
+
         emitter << YAML::BeginMap;
-        emitter << YAML::Key << "tipo" << YAML::Value << "larga";
+        emitter << YAML::Key << "tipo" << YAML::Value << tipo;
         emitter << YAML::Key << "pos_x" << YAML::Value << posicion.x();
         emitter << YAML::Key << "pos_y" << YAML::Value << posicion.y();
         emitter << YAML::Key << "angulo" << YAML::Value << angulo;
         emitter << YAML::EndMap;
     }
-    //emitter << YAML::EndSeq;
+    emitter << YAML::EndSeq;
+    emitter << YAML::EndMap;
+    
+    emitter <<YAML::BeginMap;
+    emitter << YAML::Key << "gusanos";
+    emitter << YAML::Value;
+    emitter << YAML::BeginSeq;
 
-    emitter << YAML::Key << "gusanos" << YAML::Value << YAML::BeginSeq;
     for (QGraphicsPixmapItem* worm : this->worms) {
         QPointF posicion = worm->scenePos();
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "pos_x" << YAML::Value << posicion.x();
         emitter << YAML::Key << "pos_y" << YAML::Value << posicion.y();
-        emitter << YAML::Key << "direccion" << YAML::Value << 0;  // Dirección de ejemplo
+        emitter << YAML::Key << "direccion" << YAML::Value << 0;
         emitter << YAML::EndMap;
     }
-    //emitter << YAML::EndSeq;
-
-    std::ofstream file("server/mapas/mapa.yaml");
+    emitter << YAML::EndSeq;
+    emitter << YAML::EndMap;
+    
+    std::ofstream file("./server/mapas/mapa.yaml");
     file << emitter.c_str();
 }
 

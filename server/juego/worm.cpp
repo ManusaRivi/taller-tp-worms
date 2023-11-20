@@ -20,6 +20,7 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     fixtureGusano.friction = WORM_FRICTION;
     fixtureGusano.filter.categoryBits = CollisionCategories::WORM;
     fixtureGusano.filter.maskBits = (CollisionCategories::BOUNDARY | CollisionCategories::PROJECTILE);
+    fixtureGusano.filter.maskBits &= ~CollisionCategories::WORM;
 
     this->body->CreateFixture(&fixtureGusano);
     // printf("luego de crearle las fixtures la posicion del gusano es %f   %f\n", body->GetPosition().x, body->GetPosition().y);

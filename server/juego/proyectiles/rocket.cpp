@@ -42,9 +42,15 @@ void Rocket::explotar()
         b2Body* wormBody = wormQuery.foundBodies[i];
         b2Vec2 wormCenter = wormBody->GetWorldCenter();
 
-        if ((wormCenter - explosionCenter).Length() >= radius)
+        float distanceToCenter = (wormCenter - explosionCenter).Length();
+
+        if (distanceToCenter >= radius)
             continue;
         
         applyBlastImpulse(wormBody, explosionCenter, wormCenter, ROCKET_BLAST_POWER);
+
+        float inverseNormalizedDistanceToCenter = 1 - (distanceToCenter / radius);  // 0: en el radio. 1: en el centro.
+        Worm* worm = (Worm*) wormBody->GetUserData().pointer;
+        worm->takeDamage(inverseNormalizedDistanceToCenter * dmg);
     }
 }

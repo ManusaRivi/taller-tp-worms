@@ -22,7 +22,7 @@ private:
     b2World world;
     GroundContactListener contactListener;
 
-    const float timeStep = 1.0f / 60.0f;
+    const float timeStep = 1.0f / 30.0f;
     const int32 velocityIterations = 6;
     const int32 positionIterations = 2;
 
@@ -34,7 +34,7 @@ private:
 public:
     explicit Mapa(std::string map_filepath);
     void Load_Map_File(std::string filepath);
-    void Step();
+    void Step(int iteracion);
     /*
     * Setea la velocidad del gusano dado por idx, que es el
     * indice en el vector gusanos del gusano a mover.

@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include <chrono>
 
-#define FRAME_RATE 60
+#define FRAME_RATE 30.0f
 
 using Clock = std::chrono::steady_clock;
 
@@ -39,14 +39,14 @@ void Partida::run()try{{
     //Mensaje msg;
     //broadcaster.broadcastSnap(msg);
     //double rate = 1;
-    auto t1 = std::chrono::high_resolution_clock::now();
+    // auto t1 = std::chrono::high_resolution_clock::now();
     int it = 0;
 
-
-    auto startTime = std::chrono::high_resolution_clock::now();
-    int elapsed = 0;
+    double rate = 1.0f/FRAME_RATE;
+    // auto startTime = std::chrono::high_resolution_clock::now();
+    // int elapsed = 0;
     while (is_alive){
-        
+        auto t1 = std::chrono::high_resolution_clock::now();
         //float elapsed = currentTime - startTime;
         std::vector<std::shared_ptr<Comando>> comandos_a_ejecutar;
         std::shared_ptr<Comando> comando;
@@ -64,41 +64,36 @@ void Partida::run()try{{
 
         std::shared_ptr<Comando> comando_ejecutable;
         for( auto &c: comandos_a_ejecutar){
-            c->realizar_accion(mapa,turno_gusano);
+            c->realizar_accion(mapa,0);
         }
 
-        mapa->Step();
-        Snapshot snap = generar_snapshot(elapsed,turno_gusano);
+        mapa->Step(it);
+        Snapshot snap = generar_snapshot(0,0);
         Mensaje broadcast(snap);
         broadcaster.broadcastSnap(broadcast);
 
 
 
-        auto t2 = std::chrono::high_resolution_clock::now();
-        auto difference = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-		int rest = FRAME_RATE - (difference);
-		elapsed = std::chrono::duration_cast<std::chrono::seconds>(t2 - startTime).count();
-		if (rest < 0) {
-			int behind = -rest;
-			rest = FRAME_RATE - behind % FRAME_RATE;
-			int lost = behind + rest;
-			t1 += std::chrono::milliseconds(lost);
-			it += int(lost / FRAME_RATE);
+        auto t2 = std::chrono::high_resolution_clock::now(); 
+        std::chrono::duration<double> duration = t2 - t1;
+		double seconds = duration.count();
+		double rest = rate - seconds;
+        // printf("el rate es de %f y la diferencia de tiempo es de %f\n",rate,seconds);
+		if(rest < 0) {
+            
+			double behind = -rest;
+        	double lost = behind - std::fmod(behind, rate);
+        	t1 += std::chrono::duration_cast<std::chrono::high_resolution_clock::duration>
+                                                        (std::chrono::duration<double>(lost));
+            it+=int(lost/rate);
+        } else {
+			std::this_thread::sleep_for(std::chrono::duration<double>(rest));
 		}
+
+        it++;
 
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
         // El 100% del CPU.
-		std::this_thread::sleep_for(std::chrono::milliseconds(rest));
-		t1 += std::chrono::milliseconds(FRAME_RATE);
-		it += 1;
-        if (elapsed>= 60) {
-            mapa->detener_worm(turno_gusano);
-            turno_gusano = proximo_turno(turno_gusano);
-            player_actual = id_player_por_gusano[turno_gusano];
-            std::cout << "El id del gusano jugando actualmente es : " << unsigned(turno_gusano) << std::endl;
-            startTime = std::chrono::high_resolution_clock::now();
-            std::cout << "Message after 60 seconds" << std::endl;
-        }
     }
 }}catch(const ClosedQueue& e){
         is_alive = false;

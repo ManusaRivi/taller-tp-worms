@@ -2,7 +2,7 @@
 
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
             facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
-            finalHeight(0.0f), jumpSteps(0), id(id_),status(0), angulo_disparo(0), apuntando(false)
+            finalHeight(0.0f), jumpSteps(0), id(id_),status(0), angulo_disparo(0.0f), apuntando(false)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -40,6 +40,7 @@ void Worm::Move(int dir) {
             break;
     }
     status = STATUS_MOVING;
+    // printf("la posicion del gusano es : = %f \n", this->body->GetPosition().x);
     body->SetLinearVelocity(velocity);
 }
 

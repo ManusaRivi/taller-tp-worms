@@ -9,7 +9,7 @@ class DetenerMovimiento:public Comando{
 
 
 
-    void realizar_accion(Mapa* mapa , uint32_t id) override;
+    void realizar_accion(Mapa* mapa) override;
 
 
 

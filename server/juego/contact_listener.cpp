@@ -1,6 +1,6 @@
-#include "./ground_contact_listener.h"
+#include "./contact_listener.h"
 
-void GroundContactListener::BeginContact(b2Contact* contact) {
+void ContactListener::BeginContact(b2Contact* contact) {
     Worm* worm = (Worm*) contact->GetFixtureA()->GetBody()->GetUserData().pointer;
     if (worm)
         worm->startGroundContact();
@@ -10,7 +10,7 @@ void GroundContactListener::BeginContact(b2Contact* contact) {
         worm->startGroundContact();
 }
 
-void GroundContactListener::EndContact(b2Contact* contact) {
+void ContactListener::EndContact(b2Contact* contact) {
     Worm* worm = (Worm*) contact->GetFixtureA()->GetBody()->GetUserData().pointer;
     if (worm)
         worm->endGroundContact();

@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <iostream>
 
-Mapa::Mapa(std::string map_filepath) : world(b2Vec2(0.0f, -10.0f)), contactListener(GroundContactListener()) {
+Mapa::Mapa(std::string map_filepath) : world(b2Vec2(0.0f, -10.0f)), contactListener(ContactListener()) {
     world.SetContactListener(&contactListener);
     Load_Map_File(map_filepath);
 }

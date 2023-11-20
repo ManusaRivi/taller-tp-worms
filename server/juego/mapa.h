@@ -11,7 +11,7 @@
 #include "../worm_wrapper.h"
 #include "./worm.h"
 #include "./viga.h"
-#include "./ground_contact_listener.h"
+#include "./contact_listener.h"
 
 // Copyright (c) 2019 Erin Catto
 
@@ -23,7 +23,7 @@ enum collisionCategories{
 class Mapa {
 private:
     b2World world;
-    GroundContactListener contactListener;
+    ContactListener contactListener;
 
     const float timeStep = 1.0f / 60.0f;
     const int32 velocityIterations = 6;

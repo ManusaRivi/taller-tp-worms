@@ -1,6 +1,6 @@
-#include "viga.h"
+#include "beam.h"
 
-Viga::Viga(b2World& world, int type, float x_pos, float y_pos, float angle) {
+Beam::Beam(b2World& world, int type, float x_pos, float y_pos, float angle) {
     b2BodyDef vigaDef;
     vigaDef.position.Set(x_pos, y_pos);
     vigaDef.angle = angle;
@@ -23,7 +23,7 @@ Viga::Viga(b2World& world, int type, float x_pos, float y_pos, float angle) {
     this->body->CreateFixture(&fixtureViga);
 }
 
-std::vector<float> Viga::get_pos(){
+std::vector<float> Beam::get_pos(){
      std::vector<float> viga({body->GetPosition().x,body->GetPosition().y,body->GetAngle(),this->len});
      return viga;
 }

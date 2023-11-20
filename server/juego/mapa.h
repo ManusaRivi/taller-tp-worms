@@ -10,7 +10,7 @@
 #include "./game_config.h"
 #include "../worm_wrapper.h"
 #include "./worm.h"
-#include "./viga.h"
+#include "./beam.h"
 #include "./contact_listener.h"
 
 // Copyright (c) 2019 Erin Catto
@@ -29,7 +29,7 @@ private:
     const int32 velocityIterations = 6;
     const int32 positionIterations = 2;
 
-    std::vector<Viga*> vigas;
+    std::vector<Beam*> vigas;
     std::vector<Worm*> worms;
 
     std::string nombre;

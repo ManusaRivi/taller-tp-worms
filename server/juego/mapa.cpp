@@ -45,7 +45,7 @@ void Mapa::Load_Map_File(std::string filepath) {
     }
 }
 
-void Mapa::Step() {
+void Mapa::Step(int iteracion) {
     for(auto worm : worms) {
         if (worm->jumpSteps > 0) {
             if (worm->jumpSteps == 1) worm->Stop();

@@ -29,7 +29,8 @@ void WormState::present(int& it_inc,
 
 	//Grafico
     texture.SetAlphaMod(255); // El sprite es totalmente opaco
-    renderer.Copy(
+    // printf("la posicion del gusano es %f %f\n",pos_x,pos_y);
+	renderer.Copy(
 				texture,
 				Rect(src_x, src_y, 60, 60), // El sprite
 				Rect(static_cast<int>(pos_x * x_scale),

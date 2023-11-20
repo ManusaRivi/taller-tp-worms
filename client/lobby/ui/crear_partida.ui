@@ -135,7 +135,7 @@ QMessageBox {
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>Nombre jugador</string>
+            <string>Nombre de la partida</string>
            </property>
           </widget>
          </item>

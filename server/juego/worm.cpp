@@ -93,13 +93,11 @@ void Worm::startGroundContact() {
     finalHeight = position.y;
     float heightDiff = initialHeight - finalHeight;
     if (heightDiff < 2) return;
-    heightDiff = heightDiff < 25 ? heightDiff : 25;
-    takeDamage((int)heightDiff);
-    /* if (2 < heightDiff && heightDiff < 25) {
+    if (2 < heightDiff && heightDiff < 25) {
         takeDamage((int)heightDiff);
     }
     else if (heightDiff >= 25)
-        takeDamage(25); */
+        takeDamage(25);
 }
 
 void Worm::endGroundContact() {

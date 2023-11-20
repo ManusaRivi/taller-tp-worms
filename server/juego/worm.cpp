@@ -29,6 +29,9 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     fixtureGusano.shape = &gusanoBox;
     fixtureGusano.density = WORM_DENSITY;
     fixtureGusano.friction = WORM_FRICTION;
+    
+    this->body->SetFixedRotation(true); // Evita que rote
+
     fixtureGusano.filter.categoryBits = CollisionCategories::WORM;
     fixtureGusano.filter.maskBits = (CollisionCategories::BOUNDARY | CollisionCategories::PROJECTILE);
     fixtureGusano.filter.maskBits &= ~CollisionCategories::WORM;

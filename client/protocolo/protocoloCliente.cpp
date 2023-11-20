@@ -190,8 +190,8 @@ void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
         float angulo = recibir_4_bytes_float();
         uint8_t direccion = recibir_1_byte();
         uint8_t estado = recibir_1_byte();
-        float angulo_disparo = recibir_4_bytes_float()*180/3.14;
-        // printf("x= %f, y= %f  angulo = %f  dir = %u estado = %u disparo = %f\n\n",pos_x,pos_y,angulo,direccion,estado,angulo_disparo);
+        float angulo_disparo = (recibir_4_bytes_float() - 1.57)*180/3.14;
+        printf("id= %d, x= %f, y= %f  angulo = %f  dir = %u estado = %u disparo = %f\n\n", id_gusano,pos_x,pos_y,angulo,direccion,estado,angulo_disparo);
         std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(estado, direccion == 0, angulo, angulo_disparo);
         std::shared_ptr<Worm> worm = std::make_shared<Worm>(pos_x, pos_y, std::move(state));
         snap->add_worm(worm, id_gusano);

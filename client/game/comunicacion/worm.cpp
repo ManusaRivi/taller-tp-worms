@@ -35,11 +35,11 @@ void Worm::present(int& it_inc, Renderer& renderer,
                     TextureManager& texture_manager,
                     float& x_scale, float& y_scale,
                     float& camera_x, float& camera_y) {
-    //float pos_rel_x = _pos_x - camera_x;
-    //float pos_rel_y = _pos_y - camera_y;
+    float pos_rel_x = _pos_x - camera_x;
+    float pos_rel_y = _pos_y - camera_y;
 
-    //state->present(it_inc, renderer, texture_manager, pos_rel_x, pos_rel_y, x_scale, y_scale);
-    state->present(it_inc, renderer, texture_manager, _pos_x, _pos_y, x_scale, y_scale);
+    state->present(it_inc, renderer, texture_manager, pos_rel_x, pos_rel_y, x_scale, y_scale);
+    //state->present(it_inc, renderer, texture_manager, _pos_x, _pos_y, x_scale, y_scale);
 }
 
 std::unique_ptr<WormState> Worm::get_state() {

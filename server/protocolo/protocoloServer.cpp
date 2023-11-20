@@ -192,7 +192,7 @@ void ServerProtocolo::enviar_gusanos(Snapshot snap){
         float angulo = c.get_angulo();
         uint8_t direccion = c.get_direccion();
         uint8_t estado = c.get_estado();
-        float angulo_disparo = c.get_angulo_disparo();
+        float angulo_disparo = c.get_angulo_disparo() + 1.57;
 
         enviar_4_bytes(id);
         enviar_4_bytes_float(posicion[0]);

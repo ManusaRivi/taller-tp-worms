@@ -158,9 +158,9 @@ bool Worm::esta_apuntando(){
 void Worm::incrementar_angulo_en(float inc){
     if(!esta_apuntando_para_arriba){
         inc = -inc;
-        if(angulo_disparo + inc < 0){
-            return;
-        }
+    }
+    if(angulo_disparo + inc < -1.57 || angulo_disparo + inc > 1.57){
+        return;
     }
     angulo_disparo +=inc;
 }

@@ -1,7 +1,7 @@
 #include "worm_wrapper.h"
 
-WormWrapper::WormWrapper(std::vector<float> position, uint8_t dir, uint8_t status, uint32_t id_, float angulo_, float angulo_disparo_): 
-            position(position), dir(dir), status(status), id(id_), angulo(angulo_),angulo_disparo(angulo_disparo_) {}
+WormWrapper::WormWrapper(std::vector<float> position, uint8_t dir, uint8_t status, uint32_t id_, float angulo_, float angulo_disparo_, uint8_t vida_): 
+            position(position), dir(dir), status(status), id(id_), angulo(angulo_),angulo_disparo(angulo_disparo_), vida(vida_) {}
 
 std::vector<float> WormWrapper::get_position(){
     return position;
@@ -24,4 +24,8 @@ uint32_t WormWrapper::get_id(){
 
 float WormWrapper::get_angulo_disparo(){
     return this->angulo_disparo;
+}
+
+uint8_t WormWrapper::get_vida() {
+    return this->vida;
 }

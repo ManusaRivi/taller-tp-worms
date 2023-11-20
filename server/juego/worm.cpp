@@ -182,3 +182,7 @@ float Worm::aiming_angle(){
 void Worm::parar_angulo(){
     apuntando = false;
 }
+
+uint8_t Worm::get_vida() {
+    return hitPoints;
+}

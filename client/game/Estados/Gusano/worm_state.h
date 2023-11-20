@@ -34,7 +34,8 @@ class WormState {
                         float& pos_x,
                         float& pos_y,
                         float& x_scale,
-                        float& y_scale);
+                        float& y_scale,
+                        int& vida);
     
     virtual bool is_finished();
 

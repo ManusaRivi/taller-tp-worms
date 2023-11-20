@@ -18,7 +18,8 @@ void WAiming::present(int& it,
                     float& pos_x,
                     float& pos_y,
                     float& x_scale,
-                    float& y_scale) {
+                    float& y_scale,
+                    int& vida) {
     
     //Determino cual frame usar:
     float normalized_angle = shot_angle + 90.0;

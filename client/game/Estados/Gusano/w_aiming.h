@@ -17,7 +17,8 @@ class WAiming: public WormState {
                         float& pos_x,
                         float& pos_y,
                         float& x_scale,
-                        float& y_scale) override;
+                        float& y_scale,
+                        int& vida) override;
 };
 
 #endif

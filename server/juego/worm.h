@@ -37,7 +37,7 @@ private:
     b2Body* body;
     int facingDirection;
     bool airborne;
-    int hitPoints;
+    uint8_t hitPoints;
     float initialHeight;
     float finalHeight;
 
@@ -87,6 +87,8 @@ public:
     float aiming_angle();
 
     void parar_angulo();
+
+    uint8_t get_vida();
 };
 
 #endif

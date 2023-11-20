@@ -31,7 +31,7 @@ void MapContainer::getMaps() {
 
                     // Agrega el mapa al MapContainer utilizando el nombre del archivo como ID
                     this->addMap(id, mapa);
-
+                    id++;
                     std::cout << "Ya me cargue un mapa\n";
 
                 } catch (const std::exception& e) {

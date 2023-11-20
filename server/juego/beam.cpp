@@ -17,8 +17,8 @@ Beam::Beam(b2World& world, int type, float x_pos, float y_pos, float angle) {
     fixtureViga.shape = &vigaBox;
     fixtureViga.density = BEAM_DENSITY;
     fixtureViga.friction = BEAM_FRICTION;
-    fixtureViga.filter.categoryBits = CollisionCategories::BOUNDARY;
-    fixtureViga.filter.maskBits = (CollisionCategories::WORM | CollisionCategories::PROJECTILE);
+    fixtureViga.filter.categoryBits = CollisionCategories::BOUNDARY_COLL;
+    fixtureViga.filter.maskBits = (CollisionCategories::WORM_COLL | CollisionCategories::PROJECTILE_COLL);
 
     this->body->CreateFixture(&fixtureViga);
 }

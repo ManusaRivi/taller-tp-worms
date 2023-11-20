@@ -17,8 +17,8 @@ Rocket::Rocket(b2World& world, float x_pos, float y_pos, float angle, float powe
     b2FixtureDef fixtureRocket;
     fixtureRocket.shape = &rocketBox;
     fixtureRocket.density = ROCKET_DENSITY;
-    fixtureRocket.filter.categoryBits = CollisionCategories::PROJECTILE;
-    fixtureRocket.filter.maskBits = (CollisionCategories::BOUNDARY | CollisionCategories::WORM);
+    fixtureRocket.filter.categoryBits = CollisionCategories::PROJECTILE_COLL;
+    fixtureRocket.filter.maskBits = (CollisionCategories::BOUNDARY_COLL | CollisionCategories::WORM_COLL);
 
     body->CreateFixture(&fixtureRocket);
 

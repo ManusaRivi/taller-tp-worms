@@ -43,6 +43,7 @@ void Mapa::Load_Map_File(std::string filepath) {
         // printf("La posicion del gusano es : %f   %f\n",x_pos,y_pos);
         worms.push_back(new Worm (world, config.puntos_de_vida, dir, x_pos, y_pos, id++));
     }
+    turnManager.cargar_cantidad_gusanos(worms.size());
 }
 
 void Mapa::Step(int iteracion) {
@@ -55,23 +56,60 @@ void Mapa::Step(int iteracion) {
             worm->incrementar_angulo_en(0.1);
         }
     }
+    std::pair<bool,uint32_t> manager = turnManager.avanzar_tiempo(iteracion);
+    if(manager.first){
+        this->detener_worm(manager.second);
+    }
     world.Step(timeStep, velocityIterations, positionIterations);
 }
 
-void Mapa::MoveWorm(int idx, int dir) {
-    worms[idx]->Move(dir);
+void Mapa::MoveWorm(uint32_t idx, int dir) {
+    if(turnManager.acaba_de_cambiar_turno()){
+        printf("Se esta esperando a que todos los events termiene\n");
+        return;
+    }
+    if(idx != turnManager.get_player_actual()){
+        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        return;
+
+    }
+    worms[turnManager.get_gusano_actual()]->Move(dir);
 }
 
-void Mapa::StopWorm(int idx) {
-    worms[idx]->Stop();
+void Mapa::StopWorm(uint32_t idx) {
+        if(turnManager.acaba_de_cambiar_turno()){
+        printf("Se esta esperando a que todos los events termiene\n");
+        return;
+    }
+    if(idx != turnManager.get_player_actual()){
+        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        return;
+    }
+    worms[turnManager.get_gusano_actual()]->Stop();
 }
 
-void Mapa::JumpWormForward(int idx) {
-    worms[idx]->JumpForward();
+void Mapa::JumpWormForward(uint32_t idx) {
+        if(turnManager.acaba_de_cambiar_turno()){
+        printf("Se esta esperando a que todos los events termiene\n");
+        return;
+    }
+    if(idx != turnManager.get_player_actual()){
+        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        return;
+    }
+    worms[turnManager.get_gusano_actual()]->JumpForward();
 }
 
-void Mapa::JumpWormBackward(int idx) {
-    worms[idx]->JumpBackward();
+void Mapa::JumpWormBackward(uint32_t idx) {
+        if(turnManager.acaba_de_cambiar_turno()){
+        printf("Se esta esperando a que todos los events termiene\n");
+        return;
+    }
+    if(idx != turnManager.get_player_actual()){
+        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        return;
+    }
+    worms[turnManager.get_gusano_actual()]->JumpBackward();
 }
 
 std::string Mapa::GetName() {
@@ -111,11 +149,29 @@ std::vector<WormWrapper> Mapa::get_gusanos(){
 }
 
 void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){
-    worms[id]->cambiar_arma(tipo_arma);
+        if(turnManager.acaba_de_cambiar_turno()){
+        printf("Se esta esperando a que todos los events termiene\n");
+        return;
+    }
+    if(id != turnManager.get_player_actual()){
+        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        return;
+
+    }
+    worms[turnManager.get_gusano_actual()]->cambiar_arma(tipo_arma);
 }
 
 void Mapa::apuntar_para(uint32_t id, int dir){
-    worms[id]->esta_apuntando_para(dir);
+        if(turnManager.acaba_de_cambiar_turno()){
+        printf("Se esta esperando a que todos los events termiene\n");
+        return;
+    }
+    if(id != turnManager.get_player_actual()){
+        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        return;
+
+    }
+    worms[turnManager.get_gusano_actual()]->esta_apuntando_para(dir);
 }
 // std::vector<float> Mapa::get_size(){
 //     this->world.
@@ -126,5 +182,22 @@ void Mapa::detener_worm(uint32_t id){
 }
 
 void Mapa::detener_angulo(uint32_t id){
-    worms[id]->parar_angulo();
+        if(turnManager.acaba_de_cambiar_turno()){
+        printf("Se esta esperando a que todos los events termiene\n");
+        return;
+    }
+    if(id != turnManager.get_player_actual()){
+        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        return;
+
+    }
+    worms[turnManager.get_gusano_actual()]->parar_angulo();
+}
+
+std::map<uint32_t, std::vector<uint32_t>> Mapa::repartir_ids(uint32_t cantidad_jugadores){
+    return this->turnManager.repartir_turnos(cantidad_jugadores);
+}
+
+uint32_t Mapa::gusano_actual(){
+    return this->turnManager.get_gusano_actual();
 }

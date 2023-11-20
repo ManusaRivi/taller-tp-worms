@@ -16,8 +16,6 @@ double now() {
 }
 
 void Partida::run()try{{
-    uint32_t turno_gusano = rand() % mapa->gusanos_totales();
-    uint32_t player_actual = id_player_por_gusano[turno_gusano];
 
     is_alive = true;
     bool partida_iniciada = false;
@@ -28,7 +26,7 @@ void Partida::run()try{{
             printf("Se esta por broadcaster mensaje de que la partida esta por comenzar\n");
             broadcaster.broadcastSnap(msg);
             printf("Se esta por broadcastear el handshake\n");
-            enviar_primer_snapshot(turno_gusano);
+            enviar_primer_snapshot();
             partida_iniciada = true;
         }
     }
@@ -54,23 +52,17 @@ void Partida::run()try{{
             if(!comando){
                 continue;
             }
-            if(comando->get_responsable() != player_actual){
-                printf("{!!!!!!!} El turno no es de este player {!!!!!!}\n");
-                continue;
-            }
             comandos_a_ejecutar.push_back(comando);
         }
 
 
         std::shared_ptr<Comando> comando_ejecutable;
         for( auto &c: comandos_a_ejecutar){
-            uint32_t estado = c->get_comando();
-            printf("estado: %d\n", estado);
-            c->realizar_accion(mapa,0);
+            c->realizar_accion(mapa);
         }
 
         mapa->Step(it);
-        Snapshot snap = generar_snapshot(0,0);
+        Snapshot snap = generar_snapshot(it);
         Mensaje broadcast(snap);
         broadcaster.broadcastSnap(broadcast);
 
@@ -101,9 +93,9 @@ void Partida::run()try{{
         is_alive = false;
 }
 
-Snapshot Partida::generar_snapshot(float tiempo_turno, uint32_t id_gusano_current_turn){
+Snapshot Partida::generar_snapshot(int iteraccion){
     Snapshot snap(mapa->get_gusanos());
-    snap.add_condiciones_partida(tiempo_turno,id_gusano_current_turn);
+    snap.add_condiciones_partida(iteraccion % (30 * 10),mapa->gusano_actual());
     return snap;
 }
 
@@ -120,24 +112,10 @@ Queue<std::shared_ptr<Comando>>& Partida::get_queue(){
 }
 
 
-void Partida::enviar_primer_snapshot(uint32_t id){
-    uint16_t gusanos_disponibles = mapa->gusanos_totales();
-    uint16_t cantidad_players = broadcaster.cantidad_jugadores();
-
-    for(uint32_t i =0; i < gusanos_disponibles;i++){
-        int idx = i%cantidad_players;
-        if (id_gusanos_por_player.find(idx) != id_gusanos_por_player.end()){
-            id_gusanos_por_player[idx].push_back(i);
-        }
-        else{
-            std::vector<uint32_t> id_gusanos;
-            id_gusanos_por_player.insert({idx,id_gusanos});
-            id_gusanos_por_player[idx].push_back(i);
-        }
-        id_player_por_gusano.insert({i,i%cantidad_players});
-    }
+void Partida::enviar_primer_snapshot(){
+    std::map<uint32_t, std::vector<uint32_t>> id_gusanos_por_player = mapa->repartir_ids(broadcaster.cantidad_jugadores());
     Snapshot snap(mapa->get_gusanos(), mapa->get_vigas());
-    snap.add_condiciones_partida(0,id);
+    snap.add_condiciones_partida(0,mapa->gusano_actual());
     // std::vector<float> tamanio_mapa = mapa->get_size();
     broadcaster.informar_primer_snapshot(id_gusanos_por_player, snap);
 }

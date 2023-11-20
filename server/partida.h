@@ -30,7 +30,7 @@ class Partida:public Thread{
     void add_queue(Queue<Mensaje>* snapshots);
     Queue<std::shared_ptr<Comando>>& get_queue();
 
-    Snapshot generar_snapshot(float tiempo_turno, uint32_t id_gusano_current_turn);
+    Snapshot generar_snapshot(int iteracion);
 
     void remover_player(Queue<Mensaje>* snapshots);
     
@@ -40,7 +40,7 @@ class Partida:public Thread{
 
     
     private:
-    void enviar_primer_snapshot(uint32_t id);
+    void enviar_primer_snapshot();
 
     uint32_t proximo_turno(uint32_t turno_actual);
 

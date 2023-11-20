@@ -12,6 +12,7 @@
 #include "./worm.h"
 #include "./viga.h"
 #include "./ground_contact_listener.h"
+#include "turn_manager.h"
 
 // Copyright (c) 2019 Erin Catto
 
@@ -30,6 +31,7 @@ private:
     std::vector<Worm*> worms;
 
     std::string nombre;
+    TurnManager turnManager;
 
 public:
     explicit Mapa(std::string map_filepath);
@@ -40,15 +42,15 @@ public:
     * indice en el vector gusanos del gusano a mover.
     * Si dir es 0, se mueve a la derecha. Si es 1, a la izquierda.
     * */
-    void MoveWorm(int idx, int dir);
+    void MoveWorm(uint32_t idx, int dir);
     /*
     * Setea la velocidad en x del gusano cuyo indice es idx a 0.
     * Mantiene la velocidad en y, para que si esta cayendo y se detiene,
     * siga cayendo con la misma velocidad hacia abajo.
     * */
-    void StopWorm(int idx);
-    void JumpWormForward(int idx);
-    void JumpWormBackward(int idx);
+    void StopWorm(uint32_t idx);
+    void JumpWormForward(uint32_t idx);
+    void JumpWormBackward(uint32_t idx);
 
     std::string GetName();
 
@@ -66,6 +68,10 @@ public:
     void detener_worm(uint32_t id);
 
     void detener_angulo(uint32_t id);
+
+    std::map<uint32_t, std::vector<uint32_t>> repartir_ids(uint32_t cantidad_jugadores);
+
+    uint32_t gusano_actual();
 
     ~Mapa();
 };

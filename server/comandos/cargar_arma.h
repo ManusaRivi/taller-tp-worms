@@ -8,7 +8,7 @@ class CargarArma:public Comando{
     CargarArma(uint32_t id);
 
 
-    void realizar_accion(Mapa*mapa , uint32_t id) override;
+    void realizar_accion(Mapa* mapa) override;
 
 
 };

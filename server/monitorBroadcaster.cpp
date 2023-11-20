@@ -17,7 +17,7 @@ void BroadCaster::broadcastSnap(Mensaje snap){
     }
 }
 
-uint16_t BroadCaster::cantidad_jugadores(){
+uint32_t BroadCaster::cantidad_jugadores(){
     std::lock_guard<std::mutex> lock(lck);
     return this->lista.size();
 }
@@ -25,7 +25,7 @@ uint16_t BroadCaster::cantidad_jugadores(){
 void BroadCaster::informar_primer_snapshot(std::map<uint32_t,std::vector<uint32_t>> gusanos_por_player,
                                         Snapshot snap){
     std::lock_guard<std::mutex> lock(lck);
-    uint16_t i =0;
+    uint32_t i =0;
     for (auto& c: lista) {
         printf("Se envia el id : %u \n", i);
         uint32_t id_player = i;

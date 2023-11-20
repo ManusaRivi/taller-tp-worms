@@ -64,6 +64,8 @@ void Partida::run()try{{
 
         std::shared_ptr<Comando> comando_ejecutable;
         for( auto &c: comandos_a_ejecutar){
+            uint32_t estado = c->get_comando();
+            printf("estado: %d\n", estado);
             c->realizar_accion(mapa,0);
         }
 

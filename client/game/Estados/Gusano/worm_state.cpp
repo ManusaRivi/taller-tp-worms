@@ -1,6 +1,6 @@
 #include "worm_state.h"
 #include <yaml-cpp/yaml.h>
-#include <iostream>
+
 using namespace SDL2pp;
 
 WormState::WormState(): iteration(0) {}

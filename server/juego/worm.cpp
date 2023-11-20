@@ -1,5 +1,10 @@
 #include "worm.h"
 
+union BodyUserData {
+    Worm* worm;
+    // Otros tipos de datos que puedas necesitar.
+};
+
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
             facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
             finalHeight(0.0f), jumpSteps(0), id(id_),status(0), angulo_disparo(0.0f), apuntando(false)
@@ -8,8 +13,14 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     gusanoDef.type = b2_dynamicBody;
     // printf("La posicion en el constructo es %f  %f\n",x_pos,y_pos);
     gusanoDef.position.Set(x_pos, y_pos);
+
+    BodyUserData userData;
+    userData.worm = this;
+    gusanoDef.userData.pointer = reinterpret_cast<uintptr_t>(userData.worm);
+
     b2Body *gusano = world.CreateBody(&gusanoDef);
     this->body = gusano;
+    
 
     b2PolygonShape gusanoBox;
     gusanoBox.SetAsBox(BOX_WIDTH, BOX_HEIGHT);

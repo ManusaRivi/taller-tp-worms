@@ -3,6 +3,7 @@
 
 #include "../../libs/box2d/include/box2d/box2d.h"
 #include "./collision_categories.h"
+#include "./armas/coleccion_armas.h"
 
 #include <vector>
 
@@ -28,9 +29,13 @@ enum directions {
 #define FORWARD_JUMP_X_VELOCITY 1.62
 #define BACKWARD_JUMP_X_VELOCITY 0.2
 
+class ColeccionArmas;
+
 class Worm {
 private:
     b2Body* body;
+    ColeccionArmas* coleccionArmas;
+    Arma* armaActual;
     int facingDirection;
     bool airborne;
     int hitPoints;
@@ -57,6 +62,8 @@ public:
     void takeDamage(int damage);
     std::vector<float> GetPosition();
     float GetAngle();
+    
+    void usar_arma();
 
     int get_facing_direction();
 

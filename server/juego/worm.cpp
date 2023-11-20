@@ -1,8 +1,8 @@
 #include "worm.h"
 
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
-            facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
-            finalHeight(0.0f), jumpSteps(0), id(id_), angulo_disparo(0)
+            coleccionArmas(new ColeccionArmas(world)), facingDirection(direction), airborne(false), hitPoints(hitPoints),
+            initialHeight(0.0f), finalHeight(0.0f), jumpSteps(0), id(id_), angulo_disparo(0)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -88,11 +88,14 @@ void Worm::startGroundContact() {
     b2Vec2 position = body->GetPosition();
     finalHeight = position.y;
     float heightDiff = initialHeight - finalHeight;
-    if (2 < heightDiff && heightDiff < 25) {
+    if (heightDiff < 2) return;
+    heightDiff = heightDiff < 25 ? heightDiff : 25;
+    takeDamage((int)heightDiff);
+    /* if (2 < heightDiff && heightDiff < 25) {
         takeDamage((int)heightDiff);
     }
     else if (heightDiff >= 25)
-        takeDamage(25);
+        takeDamage(25); */
 }
 
 void Worm::endGroundContact() {
@@ -116,6 +119,11 @@ std::vector<float> Worm::GetPosition() {
 
 float Worm::GetAngle() {
     return body->GetAngle();
+}
+
+void Worm::usar_arma() {
+    b2Vec2 position = body->GetPosition();
+    armaActual->Shoot(position.x, position.y, 0.0f, 1.0f);
 }
 
 int Worm::get_facing_direction(){

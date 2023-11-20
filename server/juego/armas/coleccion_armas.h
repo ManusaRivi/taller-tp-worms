@@ -3,7 +3,7 @@
 
 #include "../../../libs/box2d/include/box2d/box2d.h"
 #include "../game_config.h"
-#include "./arma.h"
+#include "arma.h"
 #include "bazooka.h"
 
 #include <map>

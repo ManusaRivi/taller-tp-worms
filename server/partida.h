@@ -40,7 +40,7 @@ class Partida:public Thread{
 
     
     private:
-    void enviar_primer_snapshot();
+    void enviar_primer_snapshot(uint32_t id);
 
     uint32_t proximo_turno(uint32_t turno_actual);
 

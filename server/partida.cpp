@@ -16,6 +16,9 @@ double now() {
 }
 
 void Partida::run()try{{
+    uint32_t turno_gusano = rand() % mapa->gusanos_totales();
+    uint32_t player_actual = id_player_por_gusano[turno_gusano];
+
     is_alive = true;
     bool partida_iniciada = false;
     while(!partida_iniciada){
@@ -25,7 +28,7 @@ void Partida::run()try{{
             printf("Se esta por broadcaster mensaje de que la partida esta por comenzar\n");
             broadcaster.broadcastSnap(msg);
             printf("Se esta por broadcastear el handshake\n");
-            enviar_primer_snapshot();
+            enviar_primer_snapshot(turno_gusano);
             partida_iniciada = true;
         }
     }
@@ -39,8 +42,7 @@ void Partida::run()try{{
     auto t1 = std::chrono::high_resolution_clock::now();
     int it = 0;
 
-    uint32_t turno_gusano = rand() % posibles_id_gusanos.size();
-    uint32_t player_actual = id_player_por_gusano[turno_gusano];
+
     auto startTime = std::chrono::high_resolution_clock::now();
     int elapsed = 0;
     while (is_alive){
@@ -121,7 +123,7 @@ Queue<std::shared_ptr<Comando>>& Partida::get_queue(){
 }
 
 
-void Partida::enviar_primer_snapshot(){
+void Partida::enviar_primer_snapshot(uint32_t id){
     uint16_t gusanos_disponibles = mapa->gusanos_totales();
     uint16_t cantidad_players = broadcaster.cantidad_jugadores();
 
@@ -138,6 +140,7 @@ void Partida::enviar_primer_snapshot(){
         id_player_por_gusano.insert({i,i%cantidad_players});
     }
     Snapshot snap(mapa->get_gusanos(), mapa->get_vigas());
+    snap.add_condiciones_partida(0,id);
     // std::vector<float> tamanio_mapa = mapa->get_size();
     broadcaster.informar_primer_snapshot(id_gusanos_por_player, snap);
 }

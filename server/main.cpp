@@ -25,17 +25,14 @@ int main(int argc, char* argv[]) {
         }
 
     }
-    printf("Se le hace kill al lobby\n");
     lobby.kill();
-    printf("Se le hace shutdown al socket\n");
     skt.shutdown();
     //MapContainer mapContainer;
     //Partida partida;
     //partida.run();
     //Box2dPoC poc;
     //poc.run();
-    printf("Se le va a hacer join al socket\n");
     skt.join();
-    printf("Se le hace join al socket\n");
+    printf("Se cierra el server correctamente\n");
     return 0;
 }

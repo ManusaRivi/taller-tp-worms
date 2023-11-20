@@ -21,11 +21,8 @@ bool Cliente::is_dead(){
 }
 
 void Cliente::join(){
-    printf("Se le va a hacer join al recibidor\n");
     this->recibidor->join();
-    printf("Se le hizo join al recibidor\n");
     this->enviador->join();
-    printf("Se le hizo join al enviador\n");
 }
 
 void Cliente::kill(){
@@ -40,4 +37,5 @@ void Cliente::kill(){
 Cliente::~Cliente(){
     delete this->enviador;
     delete this->recibidor;
+    delete snapshots_a_enviar;
 }

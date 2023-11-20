@@ -23,6 +23,10 @@ Beam::Beam(b2World& world, int type, float x_pos, float y_pos, float angle) {
     this->body->CreateFixture(&fixtureViga);
 }
 
+bodyType Beam::identificar() {
+    return bodyType::BEAM;
+}
+
 std::vector<float> Beam::get_pos(){
      std::vector<float> viga({body->GetPosition().x,body->GetPosition().y,body->GetAngle(),this->len});
      return viga;

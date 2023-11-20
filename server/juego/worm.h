@@ -4,6 +4,7 @@
 #include "../../libs/box2d/include/box2d/box2d.h"
 #include "./collision_categories.h"
 #include "./armas/coleccion_armas.h"
+#include "./colisionable.h"
 
 #include <vector>
 
@@ -31,7 +32,7 @@ enum directions {
 
 class ColeccionArmas;
 
-class Worm {
+class Worm : public Colisionable {
 private:
     b2Body* body;
     ColeccionArmas* coleccionArmas;
@@ -52,6 +53,7 @@ public:
     bool apuntando;
 
     Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id);
+    virtual bodyType identificar() override;
     void Move(int dir);
     void Stop();
     void JumpForward();

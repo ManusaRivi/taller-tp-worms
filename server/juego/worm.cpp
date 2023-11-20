@@ -23,6 +23,10 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     this->body->CreateFixture(&fixtureGusano);
 }
 
+bodyType Worm::identificar() {
+    return bodyType::WORM;
+}
+
 void Worm::Move(int dir) {
     if (jumpSteps > 0) return;
     b2Vec2 velocity = body->GetLinearVelocity();

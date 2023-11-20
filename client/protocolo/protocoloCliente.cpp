@@ -1,6 +1,8 @@
 #include "protocoloCliente.h"
 #include "../../common/socket.h"
 #include "../game/comunicacion/snapshot.h"
+#include "../comandos/mensajes/mensaje_handshake.h"
+#include "../comandos/mensajes/mensaje_snapshot.h"
 
 
 
@@ -35,11 +37,6 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snapshot(){
 
     if(cmd == CODIGO_PARTIDA_POR_COMENZAR){
         std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(COMANDO::CMD_PARTIDA_EMPEZO);
-        return msg;
-    }
-    if(cmd == CODIGO_LISTAR_PARTIDA){
-        std::map<uint32_t,std::string> map = listar_partidas();
-        std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(map);
         return msg;
     }
     if (cmd == CODIGO_HANDSHAKE_EMPEZAR_PARTIDA){
@@ -111,7 +108,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_handshake(){
     for(uint16_t i = 0; i < cantidad_gusanos; i++){
         uint32_t id_gus = recibir_4_bytes();
         id_gusanos.push_back(id_gus);
-        //printf("Se recibe id de gusano = %u \n", id_gus);
+        // printf("Se recibe id de gusano = %u \n", id_gus);
     }
     recibir_gusanos(snap);
     std::map<int, std::shared_ptr<Worm>> worms = snap->get_worms();
@@ -128,7 +125,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_handshake(){
 
 
 
-    std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(id_propio,id_gusanos,world);
+    std::shared_ptr<MensajeHandshake> msg = std::make_shared<MensajeHandshake>(id_propio,id_gusanos,world);
     return msg;
 }
 
@@ -156,7 +153,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     */
     //std::cout << "Es el turno del gusano con ID = " << unsigned(turno_player_actual) << std::endl;
     
-    std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(snap);
+    std::shared_ptr<MensajeSnapshot> msg = std::make_shared<MensajeSnapshot>(snap);
     return msg;
 }
 

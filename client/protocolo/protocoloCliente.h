@@ -3,7 +3,7 @@
 
 #include "../game/comunicacion/snapshot.h"
 #include "../../common/protocolo.h"
-#include "../comandos/mensaje.h"
+#include "../comandos/mensajes/mensaje_cliente.h"
 #include "../game/Estados/worm_state_generator.h"
 
 #include <iostream>

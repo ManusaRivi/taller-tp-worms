@@ -1,5 +1,7 @@
 #include "game.h"
-
+#include "../comandos/mensajes/mensaje_handshake.h"
+#include "../comandos/mensajes/mensaje_snapshot.h"
+#include "../comandos/mensajes/mensaje_handshake_enviar.h"
 using namespace SDL2pp;
 
 #define GAME_MOVE_RIGHT 0x01
@@ -34,13 +36,15 @@ int Game::run() try {
 	bool se_recibieron_ids = false;
 	while(!se_recibieron_ids){
 		std::shared_ptr<MensajeCliente> msg = snapshots.pop();
-		if (msg->tipo_comando == COMANDO::CMD_HANDSHAKE){
-			id_gusanos = msg->id_gusanos;
-			id_player = msg->id_player;
-			snapshot = msg->snap;
-			acciones.push(msg);
+		if (msg->get_tipo_comando() == COMANDO::CMD_HANDSHAKE){
+			std::shared_ptr<MensajeHandshake> handshake = std::dynamic_pointer_cast<MensajeHandshake>(msg);
+			id_gusanos = handshake->get_gusanos();
+			id_player = handshake->get_id();
+			world = handshake->get_world();
+			// std::shared_ptr<MensajeHandshakeEnviar> handshake_envaiar = std::make_shared<MensajeHandshakeEnviar>(id_player,id_gusanos);
+			acciones.push(handshake);
 			se_recibieron_ids = true;
-			world = msg->world;
+			
 
 			/*
 				En el Handshake deberia recibir las posiciones de las vigas 
@@ -65,7 +69,7 @@ int Game::run() try {
 		}
 	}
 
-	printf("El id del player es : %u", id_player);
+	printf("El id del player es : %u \n", id_player);
 	
 
 
@@ -111,6 +115,7 @@ int Game::run() try {
 	bool is_aiming = false;
 	bool is_charging_power = false;
     // Loop principal
+
 	while (1) {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
@@ -296,8 +301,9 @@ int Game::run() try {
 
         //Saco una SnapshotCliente de la Queue
         std::shared_ptr<MensajeCliente> snap = snapshots.pop();
-		if (snap->tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
-			std::shared_ptr<SnapshotCliente> snapshot = snap->snap;
+		if (snap->get_tipo_comando() == COMANDO::CMD_ENVIAR_SNAPSHOT){
+			std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(snap);
+			std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
 			snapshot->apply_to_world((*world));
 			(*world).present(it_inc, renderer, texture_manager, x_scale, y_scale);
 			//snapshot->present(it_inc, renderer, texture_manager, window_width, window_height, x_scale, y_scale);

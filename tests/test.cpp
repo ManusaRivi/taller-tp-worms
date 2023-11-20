@@ -8,6 +8,10 @@
 #include "../client/game/comunicacion/snapshot.h"
 #include "test_socket.h"
 #include <cmath>
+#include "../../client/comandos/mensajes/mensaje_handshake.h"
+#include "../../client/comandos/mensajes/mensaje_snapshot.h"
+#include "../../client/comandos/mensajes/mensaje_handshake_enviar.h"
+#include "../../client/comandos/mensajes/mensaje_accion_jugador.h"
 
 class SnapshotCliente;
 bool compare_gusanos(std::vector<WormWrapper> srv , std::map<int, std::shared_ptr<Worm>> cl);
@@ -26,7 +30,7 @@ TEST(Test_se_envian_snapshot,TEST_SE_ENVIA_POR_SNAPSHOT_UN_GUSANO )
     Snapshot snap(worms);
     svr_protocolo.enviar_gusanos(snap);
     
-    std::shared_ptr<MensajeCliente> msg = clte_protocolo.recibir_snap();
+    std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(clte_protocolo.recibir_snap());
     std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
 
         std::vector<WormWrapper> srv = snap.get_worms();
@@ -46,7 +50,7 @@ TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_POR_SNAPSHOT_DOS_GUSANOS){
     Snapshot snap(worms);
     svr_protocolo.enviar_gusanos(snap);
     
-    std::shared_ptr<MensajeCliente> msg = clte_protocolo.recibir_snap();
+    std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(clte_protocolo.recibir_snap());
     std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
 
 
@@ -85,11 +89,10 @@ TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_UN_HANDSHAKE){
 
 
 
-    std::shared_ptr<MensajeCliente> msg = clte_protocolo.recibir_snapshot();
+    std::shared_ptr<MensajeHandshake> msg = std::dynamic_pointer_cast<MensajeHandshake>(clte_protocolo.recibir_snapshot());
     
     
-    std::shared_ptr<World> world = msg->world;
-    std::shared_ptr<SnapshotCliente> snapshot = msg->snap;
+    std::shared_ptr<World> world = msg->get_world();
     std::vector<WormWrapper> srv = snap.get_worms();
     std::map<int, std::shared_ptr<Worm>> cl = world->get_worms();
 

@@ -1,8 +1,8 @@
-#ifndef _FactoryMensajeClientes
-#define _FactoryMensajeClientes
+#ifndef _FactoryMensajeCliente
+#define _FactoryMensajeCliente
 
 #include "factory_comandos.h"
-#include "mensaje.h"
+#include "mensajes/mensaje_accion_jugador.h"
 
 using namespace std;
 
@@ -14,15 +14,15 @@ class FactoryMensaje{
     public:
     FactoryMensaje();
 
-    std::shared_ptr<MensajeCliente> moverse(uint8_t dir);
-    std::shared_ptr<MensajeCliente> disparar();
-    std::shared_ptr<MensajeCliente> saltar(uint8_t dir);
-    std::shared_ptr<MensajeCliente> cargar_arma();
-    std::shared_ptr<MensajeCliente> cambiar_arma(uint8_t id_arma);
-    std::shared_ptr<MensajeCliente> cambiar_angulo(uint8_t direccion);
-    std::shared_ptr<MensajeCliente> detener_movimiento();
-    std::shared_ptr<MensajeCliente> detener_angulo();
-    std::shared_ptr<MensajeCliente> cambiar_direccion_arma(uint8_t dir);
+    std::shared_ptr<MensajeAccionJugador> moverse(uint8_t dir);
+    std::shared_ptr<MensajeAccionJugador> disparar();
+    std::shared_ptr<MensajeAccionJugador> saltar(uint8_t dir);
+    std::shared_ptr<MensajeAccionJugador> cargar_arma();
+    std::shared_ptr<MensajeAccionJugador> cambiar_arma(uint8_t id_arma);
+    std::shared_ptr<MensajeAccionJugador> cambiar_angulo(uint8_t direccion);
+    std::shared_ptr<MensajeAccionJugador> detener_movimiento();
+    std::shared_ptr<MensajeAccionJugador> detener_angulo();
+    std::shared_ptr<MensajeAccionJugador> cambiar_direccion_arma(uint8_t dir);
 
 
 };

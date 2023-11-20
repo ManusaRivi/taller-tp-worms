@@ -198,3 +198,20 @@ void Worm::parar_angulo(){
 uint8_t Worm::get_vida() {
     return hitPoints;
 }
+
+void Worm::cambiar_direccion(uint8_t dir){
+    switch (dir)
+    {
+    case (RIGHT):
+        {
+            printf("Se recibe comando cambiar_direccion a derecha\n");
+            this->facingDirection = RIGHT;
+            break;
+        }
+    case (LEFT):{
+        printf("Se recibe comando cambiar direccino a izquerda\n");
+        this->facingDirection = LEFT;
+        break;
+    }
+    }
+}

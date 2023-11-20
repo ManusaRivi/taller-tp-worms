@@ -11,6 +11,7 @@
 #include "disparar.h"
 #include "detener_angulo.h"
 #include "cargar_arma.h"
+#include "cambiar_direccion_arma.h"
 
 
 class EmpezarPartida;
@@ -34,6 +35,7 @@ class FactoryComandos{
     std::shared_ptr<CambiarAngulo> comando_cambiar_angulo(uint32_t id, uint8_t direccion);
     std::shared_ptr<DetenerAngulo> comando_detener_angulo(uint32_t id);
     std::shared_ptr<CambiarArma> comando_cambiar_arma(uint32_t id, uint8_t tipo_arma);
+    std::shared_ptr<CambiarDireccionArma> comando_cambia_direccion_arma(uint32_t id, uint8_t dir);
     
 
     ~FactoryComandos();

@@ -51,6 +51,12 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id)try{{
             comando = factory.comando_detener_angulo(id);
             break;
         }
+        case (CODIGO_CAMBIAR_DIRECCION_APUNTADO):{
+            printf("Se recibe codigo par acambiar direccion de apuntado\n");
+            uint8_t dir = recibir_1_byte();
+            comando = factory.comando_cambia_direccion_arma(id,dir);
+            break;
+        }
     }
     return comando;
 

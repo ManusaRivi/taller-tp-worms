@@ -182,7 +182,7 @@ void Mapa::detener_worm(uint32_t id){
 }
 
 void Mapa::detener_angulo(uint32_t id){
-        if(turnManager.acaba_de_cambiar_turno()){
+    if(turnManager.acaba_de_cambiar_turno()){
         printf("Se esta esperando a que todos los events termiene\n");
         return;
     }
@@ -200,4 +200,16 @@ std::map<uint32_t, std::vector<uint32_t>> Mapa::repartir_ids(uint32_t cantidad_j
 
 uint32_t Mapa::gusano_actual(){
     return this->turnManager.get_gusano_actual();
+}
+
+void Mapa::cambiar_direccion(uint32_t id, uint8_t dir){
+    if(turnManager.acaba_de_cambiar_turno()){
+        printf("Se esta esperando a que todos los events termiene\n");
+        return;
+    }
+    if(id != turnManager.get_player_actual()){
+        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        return;
+    }
+    worms[turnManager.get_gusano_actual()]->cambiar_direccion(dir);
 }

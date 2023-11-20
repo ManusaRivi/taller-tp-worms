@@ -36,12 +36,14 @@ class ClienteProtocolo:public Protocolo{
     void cargar_arma();
     void disparar_arma();
     void enviar_salto(uint8_t direccion_salto);
+    void enviar_cambio_direccion_apuntado(uint8_t direccion_apuntado);
     std::map<uint32_t,std::string> pedir_mapas();
     std::map<uint32_t,std::string> pedir_lista_partidas();
 
     // SE PONEN PUBLICOS PARA TESTING
     std::shared_ptr<MensajeCliente> recibir_handshake();
     std::shared_ptr<MensajeCliente> recibir_snap();
+
     
     private:
     

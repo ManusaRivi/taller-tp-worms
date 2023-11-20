@@ -73,6 +73,8 @@ public:
 
     uint32_t gusano_actual();
 
+    void cambiar_direccion(uint32_t id,uint8_t dir);
+
     ~Mapa();
 };
 

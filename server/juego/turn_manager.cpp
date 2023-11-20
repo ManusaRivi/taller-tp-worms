@@ -46,7 +46,7 @@ std::pair<bool,uint32_t> TurnManager::avanzar_tiempo(uint32_t iteracion){
         par.first = true;
         gusano_turno_anterior = this->id_gusano_actual;
         
-        // Llama a la función para cambiar de turno
+
         if(this->id_gusano_actual +1 == cantidad_gusanos){
             this->id_gusano_actual = 0;
             

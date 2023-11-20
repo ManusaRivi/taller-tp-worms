@@ -125,6 +125,8 @@ int Game::run() try {
 						// Quiere mirar a la derecha mientras apunta
 						// Enviar por protocolo "mirar a la derecha apuntando" (es cambiar el 
 						// lado para el cual mira si antes miraba a la izquierda)
+						std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_direccion_arma(GAME_MOVE_RIGHT);
+						acciones.push(msg);
 					} else {
 						right_press = true;
 						std::shared_ptr<MensajeCliente> msg = mensajes.moverse(GAME_MOVE_RIGHT);
@@ -135,6 +137,8 @@ int Game::run() try {
 						// Quiere mirar a la izquierda mientras apunta
 						// Enviar por protocolo "mirar a la izquierda apuntando" (es cambiar el 
 						// lado para el cual mira si antes miraba a la derecha)
+						std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_direccion_arma(GAME_MOVE_LEFT);
+						acciones.push(msg);
 					} else {
 						left_press = true;
 						std::shared_ptr<MensajeCliente> msg = mensajes.moverse(GAME_MOVE_LEFT);
@@ -270,6 +274,7 @@ int Game::run() try {
 					acciones.push(msg);
 					// Enviar por protocolo que disparó (que dejo de cargar el poder)
 					is_aiming = false;
+					has_selected_weapon = false;
 				} else if (tecla == SDLK_RETURN) {
 					return_press = false;
 				} else if (tecla == SDLK_BACKSPACE) {

@@ -52,3 +52,9 @@ std::shared_ptr<MensajeCliente> FactoryMensaje::detener_movimiento(){
     std::shared_ptr<MensajeCliente> msg = make_shared<MensajeCliente>(cmd);
     return msg;
 }
+
+std::shared_ptr<MensajeCliente> FactoryMensaje::cambiar_direccion_arma(uint8_t direccion){
+    std::shared_ptr<ComandoCliente> cmd = factory.accion_cambiar_direccion_arma(direccion);
+    std::shared_ptr<MensajeCliente> msg = make_shared<MensajeCliente>(cmd);
+    return msg;
+}

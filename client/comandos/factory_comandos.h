@@ -8,6 +8,7 @@
 #include "comando_saltar.h"
 #include "comando_detener_angulo.h"
 #include "comando_cambiar_angulo.h"
+#include "comando_cambiar_direccion_arma.h"
 
 struct FactoryComandos{
 
@@ -28,6 +29,8 @@ struct FactoryComandos{
     std::shared_ptr<DetenerAnguloCliente> accion_detener_cambio_angulo();
 
     std::shared_ptr<CambiarAnguloCliente> accion_cambiar_angulo(uint8_t dir);
+
+    std::shared_ptr<CambiarDireccionArmaCliente> accion_cambiar_direccion_arma(uint8_t dir);
 
 
 };

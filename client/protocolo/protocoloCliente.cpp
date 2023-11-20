@@ -243,3 +243,9 @@ void ClienteProtocolo::enviar_cambio_de_arma(uint8_t id_arma){
     enviar_1_byte(cd);
     enviar_1_byte(id_arma);
 }
+
+void ClienteProtocolo::enviar_cambio_direccion_apuntado(uint8_t dir){
+    uint8_t cd = CODIGO_CAMBIAR_DIRECCION_APUNTADO;
+    enviar_1_byte(cd);
+    enviar_1_byte(dir);
+}

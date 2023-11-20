@@ -22,6 +22,7 @@ class FactoryMensaje{
     std::shared_ptr<MensajeCliente> cambiar_angulo(uint8_t direccion);
     std::shared_ptr<MensajeCliente> detener_movimiento();
     std::shared_ptr<MensajeCliente> detener_angulo();
+    std::shared_ptr<MensajeCliente> cambiar_direccion_arma(uint8_t dir);
 
 
 };

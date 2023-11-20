@@ -42,6 +42,11 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
 
 void Worm::Move(int dir) {
     if (jumpSteps > 0) return;
+
+    if (isAirborne()){
+        return;
+    }
+    
     b2Vec2 velocity = body->GetLinearVelocity();
     switch(dir) {
         case RIGHT:

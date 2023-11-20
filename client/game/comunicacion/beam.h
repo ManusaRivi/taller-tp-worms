@@ -19,6 +19,16 @@ class Beam {
     public:
     Beam(int& tamano, float& pos_x, float& pos_y, float& angulo);
 
+    // ##########################################
+    //Funciones para testing
+    int get_tamaio();
+    float get_pos_x();
+    float get_pos_y();
+    float get_angulo();
+
+
+
+    //##################################################
     void present(Renderer& renderer,
                     TextureManager& texture_manager,
                     float& x_scale,

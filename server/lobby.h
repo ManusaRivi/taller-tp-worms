@@ -20,7 +20,7 @@ class Lobby {
     public:
     Lobby(MapContainer& mapas);
     void unirse_a_partida(uint32 id, Queue<Mensaje>* snapshots);
-    uint32_t crear_partida(std::string nombre_partida, Queue<Mensaje>* snapshots);
+    uint32_t crear_partida(std::string nombre_partida, Queue<Mensaje>* snapshots, uint16_t id_mapa);
     void listar_partidas(Queue<Mensaje>* cliente);
     Queue<std::shared_ptr<Comando>> &get_queue(uint32_t id);
     void listar_mapas(Queue<Mensaje>* cliente);

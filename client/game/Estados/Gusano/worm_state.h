@@ -44,6 +44,13 @@ class WormState {
     
     //Destructor virtual
     virtual ~WormState() {}
+
+    float get_direction();
+
+    float get_shooting_angle();
+
+    float get_worm_angle();
+
 };
 
 #endif

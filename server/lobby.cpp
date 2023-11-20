@@ -5,9 +5,9 @@ Lobby::Lobby(MapContainer& mapas):lista_mapas(mapas),id_actual(1){
 
 }
 
-uint32_t Lobby::crear_partida(std::string nombre, Queue<Mensaje>* snapshots){
+uint32_t Lobby::crear_partida(std::string nombre, Queue<Mensaje>* snapshots,uint16_t id_mapa){
     std::lock_guard<std::mutex> lock(lck);
-    Partida *partida = new Partida(id_actual,nombre,lista_mapas.getMap(0));
+    Partida *partida = new Partida(id_actual,nombre,lista_mapas.getMap(id_mapa));
     
     partida->add_queue(snapshots);
     uint32_t id_actuali = this->id_actual;
@@ -17,6 +17,7 @@ uint32_t Lobby::crear_partida(std::string nombre, Queue<Mensaje>* snapshots){
     printf("Se crea una partida nueva\n");
     return id_actuali;
 }
+
 
 
 void Lobby::listar_partidas(Queue<Mensaje>* snapshots){

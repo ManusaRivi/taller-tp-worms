@@ -42,53 +42,49 @@ int Client::iniciar() {
 
 
 void Client::crear_partida(){
-    ClienteProtocolo ptcl(*this->skt);
-    bool se_empieza_partida = false;
+    // ClienteProtocolo ptcl(*this->skt);
+    // bool se_empieza_partida = false;
     
-    while (!se_empieza_partida){
-        std::string argumento, comando;
-        std::cin >> comando;
-        if (comando == "Exit") {
-            break;
-        }
+    // while (!se_empieza_partida){
+    //     std::string argumento, comando;
+    //     std::cin >> comando;
+    //     if (comando == "Exit") {
+    //         break;
+    //     }
 
-        if(comando == "crear"){
-            std::getline(std::cin, argumento);
-            ptcl.crear_partida(argumento,0);
-        }
+    //     if(comando == "crear"){
+    //         std::getline(std::cin, argumento);
+    //         ptcl.crear_partida(argumento,0);
+    //     }
 
-        if(comando == "empezar"){
+    //     if(comando == "empezar"){
 
-            ptcl.empezar_partida();
-            std::shared_ptr<MensajeCliente> msg = ptcl.recibir_snapshot();
-            if (msg->tipo_comando == PARTIDA_COMENZO){
-                printf("Se recibe comando de que la partida empezo\n");
-                return;
-            }
-        }
+    //         ptcl.empezar_partida();
+    //         std::shared_ptr<MensajeCliente> msg = ptcl.recibir_snapshot();
+    //         if (msg->tipo_comando == PARTIDA_COMENZO){
+    //             printf("Se recibe comando de que la partida empezo\n");
+    //             return;
+    //         }
+    //     }
         
-        if(comando == "listar"){
-            imprimir_partidas_disponibles(ptcl.pedir_lista_partidas());
-        }
+    //     if(comando == "listar"){
+    //         imprimir_partidas_disponibles(ptcl.pedir_lista_partidas());
+    //     }
 
-        if (comando == "unirse"){
-            std::getline(std::cin, argumento);
-            ptcl.unirse_partida(argumento);
-            std::shared_ptr<MensajeCliente> msg = ptcl.recibir_snapshot();
-            if(msg->tipo_comando == PARTIDA_COMENZO){
-                return;
-            }
-        }
+    //     if (comando == "unirse"){
+    //         std::getline(std::cin, argumento);
+    //         ptcl.unirse_partida(argumento);
+    //         std::shared_ptr<MensajeCliente> msg = ptcl.recibir_snapshot();
+    //         if(msg->tipo_comando == PARTIDA_COMENZO){
+    //             return;
+    //         }
+    //     }
 
-        if(comando == "mapas"){
-            std::map<uint32_t,std::string> mapas = ptcl.pedir_mapas();
-            imprimir_partidas_disponibles(mapas);
-        }
-
-
-
-
-    }
+    //     if(comando == "mapas"){
+    //         std::map<uint32_t,std::string> mapas = ptcl.pedir_mapas();
+    //         imprimir_partidas_disponibles(mapas);
+    //     }
+    // }
 }
 
 void Client::imprimir_partidas_disponibles(std::map<uint32_t,std::string> partidas){

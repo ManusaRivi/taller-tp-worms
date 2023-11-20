@@ -33,12 +33,13 @@ struct Mensaje{
     std::map<uint32_t,std::string> lista_mapas;
     Snapshot snap;
     std::shared_ptr<Comando> cmd;
-    std::string nombre_mapa;
+    std::string nombre_partida;
     uint8_t tipo_comando;
     uint8_t id_partida_a_unirse;
     std::vector<uint32_t> id_gusanos;
     std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player;
     std::vector<std::vector<float>> vigas;
+    uint16_t id_mapa;
     
 
     Mensaje(Snapshot snap);
@@ -47,7 +48,7 @@ struct Mensaje{
 
     Mensaje(std::shared_ptr<Comando> cmd);
 
-    Mensaje(std::string nombre_mapa);
+    Mensaje(std::string nombre_partida, uint16_t id_mapa_elegido);
 
     Mensaje();
 

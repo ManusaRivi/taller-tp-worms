@@ -27,10 +27,11 @@ class ServerProtocolo:public Protocolo{
     void enviar_mapas(std::map<uint32_t,std::string> lista_mapas);
 
     Mensaje recibir_id_gusanos();
+    void enviar_gusanos(Snapshot snap);
     private:
     void enviar_vigas(std::vector<std::vector<float>> vigas);
     void enviar_lista(std::map<uint32_t,std::string> lista);
-    void enviar_gusanos(Snapshot snap);
+    
 
 
 };

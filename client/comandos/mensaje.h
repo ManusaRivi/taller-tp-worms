@@ -62,6 +62,7 @@ struct MensajeCliente{
     MensajeCliente(uint32_t id_player, std::vector<uint32_t> id_gusanos);
     MensajeCliente(uint32_t id_player, std::vector<uint32_t> id_gusanos, std::shared_ptr<World> world);
 
+    std::shared_ptr<SnapshotCliente> get_snap();
 };
 
 #endif

@@ -53,3 +53,20 @@ void WormState::set_iteration(int& it) {
 bool WormState::is_finished() {
 	return finished;
 }
+
+float WormState::get_direction(){
+	if (facing_right){
+		return 0;
+	}
+	else{
+		return 1;
+	}
+}
+
+float WormState::get_shooting_angle(){
+	return this->shot_angle;
+}
+
+float WormState::get_worm_angle(){
+	return this->worm_angle;
+}

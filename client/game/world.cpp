@@ -108,3 +108,12 @@ void World::present(int& it_inc,
 
     renderer.Present();
 }
+
+
+std::vector<Beam> World::get_beams(){
+    return this->beams;
+}
+std::map<int, std::shared_ptr<Worm>> World::get_worms(){
+    return this->worms;
+}
+

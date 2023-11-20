@@ -69,7 +69,8 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id)try{{
 
     if (buf == CODIGO_CREAR_PARTIDA){
         std::string nombre = recibir_string();
-        Mensaje msg(nombre);
+        uint16_t id_mapa = recibir_2_bytes();
+        Mensaje msg(nombre,id_mapa);
         return msg;
     }
     if (buf == CODIGO_EMPEZAR_PARTIDA){

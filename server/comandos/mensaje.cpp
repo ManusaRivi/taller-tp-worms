@@ -13,7 +13,7 @@ Mensaje::Mensaje(std::shared_ptr<Comando> cmd_):cmd(cmd_),tipo_comando(COMANDO::
 
 }
 
-Mensaje::Mensaje(std::string nombre):nombre_mapa(nombre),tipo_comando(COMANDO::CMD_CREAR_PARTIDA){
+Mensaje::Mensaje(std::string nombre,uint16_t id_mapa_elegido):nombre_partida(nombre),tipo_comando(COMANDO::CMD_CREAR_PARTIDA),id_mapa(id_mapa_elegido){
 
 }
 

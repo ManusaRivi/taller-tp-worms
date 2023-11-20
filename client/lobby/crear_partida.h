@@ -25,6 +25,7 @@ public slots:
     void onCrearButtonClicked();
 
 private:
+    std::vector<std::pair<uint32_t,std::string>> mapas;
     Ui::Crear_Partida *ui;
     QStackedWidget* stackedWidget;
     Login_Window* ui1;

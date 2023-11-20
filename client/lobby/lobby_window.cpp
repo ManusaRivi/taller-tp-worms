@@ -4,6 +4,7 @@
 #include "lobby_window.h"
 #include "ui/ui_lobby_window.h"
 #include "mainwindow.h"
+#include <QtDebug>
 
 Lobby_Window::Lobby_Window(QWidget *parent, QStackedWidget* stackedWidget, Login_Window* ui1, Crear_Partida* ui4) :
     QWidget(parent),
@@ -37,14 +38,30 @@ void Lobby_Window::onListarButtonClicked() {
     for (const auto& pair : maps) {
         QString mapQString = QString::fromStdString(pair.second);
         QListWidgetItem* item = new QListWidgetItem(mapQString);
+
+            // Associate the ID with the item using QVariant
+        QVariant idVariant(pair.first);
+        item->setData(Qt::UserRole, idVariant);
+
         this->ui->listWidget->addItem(item);
     }
 }
 
 void Lobby_Window::onUnirButtonClicked() {
     if (!this->ui->listWidget->selectedItems().isEmpty()) {
-        this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_ESPERA_SIN_OPCION_A_COMENZAR));
-    } else {
-        QMessageBox::warning(this, "Advertencia", "Ningún elemento está seleccionado.", QMessageBox::Ok);
+        QListWidgetItem* selectedItem = this->ui->listWidget->currentItem();
+
+        if (selectedItem) {
+        // Retrieve the associated ID from the item's user role
+            QVariant idVariant = selectedItem->data(Qt::UserRole);
+            uint32_t selectedId = idVariant.toUInt();
+
+            qDebug() << "Selected ID: " << selectedId;
+            ClienteProtocolo protocol(*this->ui1->skt);
+            protocol.unirse_partida(selectedId);
+            this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_ESPERA_SIN_OPCION_A_COMENZAR));
+        } else {
+            QMessageBox::warning(this, "Advertencia", "Ningún elemento está seleccionado.", QMessageBox::Ok);
+        }
     }
 }

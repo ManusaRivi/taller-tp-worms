@@ -19,7 +19,7 @@ void Recibidor::run()try{{
         Mensaje msg = ptcl.recibir_comando(was_closed,id);
         if(msg.tipo_mensaje() == COMANDO::CMD_CREAR_PARTIDA){
             printf("Se recibe un mensaje para crear partdia\n");
-            uint32_t id_partida_queue = lobby.crear_partida(msg.nombre_mapa,snapshots); 
+            uint32_t id_partida_queue = lobby.crear_partida(msg.nombre_partida,snapshots,msg.id_mapa); 
             id_partida = id_partida_queue;
         }
 

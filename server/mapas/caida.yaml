@@ -79,3 +79,7 @@ gusanos:
   - pos_x: 1
     pos_y: 25.82
     direccion: 0
+  - pos_x: 1
+    pos_y: 0
+    direccion: 0
+    

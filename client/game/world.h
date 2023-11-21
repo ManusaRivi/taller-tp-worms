@@ -6,6 +6,7 @@
 #include <string>
 #include "comunicacion/worm.h"
 #include "comunicacion/beam.h"
+#include "camara.h"
 
 #define BACKGROUND_WIDTH 576
 #define BACKGROUND_HEIGHT 324
@@ -54,7 +55,8 @@ class World {
                         Renderer& renderer,
                         TextureManager& texture_manager,
                         float& x_scale,
-                        float& y_scale);
+                        float& y_scale,
+                        Camara& camara);
 
     // Metodos unicamente para testear
 

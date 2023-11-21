@@ -26,6 +26,7 @@
 #include "world.h"
 #include "../comandos/factory_mensajes.h"
 #include <chrono>
+#include "camara.h"
 
 class Game {
     private:

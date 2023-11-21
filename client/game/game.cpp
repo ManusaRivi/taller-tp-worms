@@ -1,4 +1,5 @@
 #include "game.h"
+#include "camara.h"
 #include "../comandos/mensajes/mensaje_handshake.h"
 #include "../comandos/mensajes/mensaje_snapshot.h"
 #include "../comandos/mensajes/mensaje_handshake_enviar.h"
@@ -71,7 +72,7 @@ int Game::run() try {
 
 	// printf("El id del player es : %u \n", id_player);
 	
-
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 
     // Inicializo SDL
 	SDL sdl(SDL_INIT_VIDEO);
@@ -114,8 +115,10 @@ int Game::run() try {
 	bool has_selected_weapon = false;
 	bool is_aiming = false;
 	bool is_charging_power = false;
-    // Loop principal
 
+	Camara camara = {0.0f, 0.0f};
+
+    // Loop principal
 	while (1) {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
@@ -253,8 +256,12 @@ int Game::run() try {
 					acciones.push(msg);
 					// Enviar comando empezo a cargar el poder por protocolo
 				}
+				camara.x = 0;
+				camara.y = 0;
 			} else if (event.type == SDL_KEYUP) {
 				SDL_Keycode tecla = event.key.keysym.sym;
+				camara.x = 0;
+				camara.y = 0;
 				if (tecla == SDLK_RIGHT && !is_aiming) {
 					right_press = false;
 					std::shared_ptr<MensajeCliente> msg = mensajes.detener_movimiento();
@@ -285,6 +292,9 @@ int Game::run() try {
 				} else if (tecla == SDLK_BACKSPACE) {
 					backspace_press = false;
 				}
+			} else if(event.type == SDL_MOUSEMOTION) {
+				camara.x += event.motion.xrel;
+                camara.y += event.motion.yrel;
 			}
         }
         
@@ -305,7 +315,7 @@ int Game::run() try {
 			std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(snap);
 			std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
 			snapshot->apply_to_world((*world));
-			(*world).present(it_inc, renderer, texture_manager, x_scale, y_scale);
+			(*world).present(it_inc, renderer, texture_manager, x_scale, y_scale, camara);
 			//snapshot->present(it_inc, renderer, texture_manager, window_width, window_height, x_scale, y_scale);
 		}
 		// Timing: calcula la diferencia entre este frame y el anterior

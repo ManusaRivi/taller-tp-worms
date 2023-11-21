@@ -1,4 +1,5 @@
 #include "world.h"
+#include "camara.h"
 
 using namespace SDL2pp;
 
@@ -75,7 +76,8 @@ void World::present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
                         float& x_scale,
-                        float& y_scale){
+                        float& y_scale,
+                        Camara& camara){
     
     int window_width = renderer.GetOutputWidth();
     int window_height = renderer.GetOutputHeight();
@@ -84,8 +86,8 @@ void World::present(int& it_inc,
     float pos_foco_x = worms.at(_id_camera)->get_x();    //Por ahora solo enfoca gusanos
     float pos_foco_y = worms.at(_id_camera)->get_y();
 
-    float camera_x = pos_foco_x - (window_width / (2 * x_scale));
-    float camera_y = _map_height - (pos_foco_y + (window_height / (2 * y_scale)));
+    float camera_x = pos_foco_x - (window_width / (2 * x_scale)) + camara.x;
+    float camera_y = _map_height - (pos_foco_y + (window_height / (2 * y_scale))) + camara.y;
 
     if (camera_x < 0) camera_x = 0;
     if (camera_y < 0) camera_y = 0;

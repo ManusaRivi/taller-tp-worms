@@ -58,6 +58,17 @@ void Mapa::Step(int iteracion) {
         if(worm->esta_apuntando()){
             worm->incrementar_angulo_en(0.1);
         }
+        for (auto projectile : projectiles) {
+            if (projectile->hasExploded()) {
+                std::vector<Projectile*>::iterator it = std::find(projectiles.begin(), projectiles.end(), projectile);
+                if (it != projectiles.end())
+                    projectiles.erase(it);
+                delete projectile;
+            }
+            else {
+                projectile->updateAngle();
+            }
+        }
     }
     std::pair<bool,uint32_t> manager = turnManager.avanzar_tiempo(iteracion);
     if(manager.first){

@@ -13,7 +13,7 @@ private:
     const int radius; // int mts
 public:
     Bazooka(b2World& world, int dmg, int radius);
-    virtual void Shoot(float x_pos, float y_pos, float angle, float power) override;
+    virtual Projectile* Shoot(float x_pos, float y_pos, float angle, float power) override;
     virtual ~Bazooka() {}
 };
 

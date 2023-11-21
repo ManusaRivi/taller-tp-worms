@@ -4,6 +4,7 @@
 #include "../../libs/box2d/include/box2d/box2d.h"
 #include "./collision_categories.h"
 #include "./armas/coleccion_armas.h"
+#include "./proyectiles/projectile.h"
 #include "./colisionable.h"
 
 #include <vector>
@@ -72,7 +73,7 @@ public:
     std::vector<float> GetPosition();
     float GetAngle();
     
-    void usar_arma();
+    Projectile* usar_arma();
 
     int get_facing_direction();
 

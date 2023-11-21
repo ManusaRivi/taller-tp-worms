@@ -152,9 +152,9 @@ float Worm::GetAngle() {
     return body->GetAngle();
 }
 
-void Worm::usar_arma() {
+Projectile* Worm::usar_arma() {
     b2Vec2 position = body->GetPosition();
-    armaActual->Shoot(position.x, position.y, 0.0f, 1.0f);
+    return armaActual->Shoot(position.x, position.y, 0.0f, 1.0f);
 }
 
 int Worm::get_facing_direction(){

@@ -11,6 +11,7 @@
 #include "../worm_wrapper.h"
 #include "./worm.h"
 #include "./beam.h"
+#include "./proyectiles/projectile.h"
 #include "./contact_listener.h"
 #include "turn_manager.h"
 
@@ -29,6 +30,7 @@ private:
 
     std::vector<Beam*> vigas;
     std::vector<Worm*> worms;
+    std::vector<Projectile*> projectiles;
 
     std::string nombre;
     TurnManager turnManager;
@@ -64,6 +66,8 @@ public:
 
     void apuntar_para(uint32_t id,int);
     // std::vector<float> get_size();
+
+    void usar_arma(uint32_t idx);
 
     void detener_worm(uint32_t id);
 

@@ -6,10 +6,10 @@
 #include "../worm_query.h"
 #include "./projectile.h"
 
-#define ROCKET_LENGTH 0.3
-#define ROCKET_WIDTH 0.15
+#define ROCKET_LENGTH 0.5f
+#define ROCKET_WIDTH 0.5f
 
-#define ROCKET_DENSITY 0.2
+#define ROCKET_DENSITY 0.05
 
 #define ROCKET_BLAST_POWER 1.0
 
@@ -20,8 +20,7 @@ private:
     int dmg;
     int radius;
 public:
-    Rocket(b2World& world, float x_pos, float y_pos, float angle, int dmg, int radius);
-    virtual void lanzar(float angle, float power) override;
+    Rocket(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius);
     virtual void explotar() override;
 };
 

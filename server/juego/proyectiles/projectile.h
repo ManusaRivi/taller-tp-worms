@@ -8,6 +8,7 @@ class Projectile : public Colisionable
 {
 protected:
     b2Body* body;
+    bool exploded = false;
     void applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec2 applyPoint, float blastPower)
     {
         b2Vec2 blastDir = applyPoint - blastCenter;
@@ -25,13 +26,20 @@ public:
     virtual bodyType identificar() override {
         return bodyType::PROJECTILE;
     }
+    virtual bool hasExploded() {
+        return exploded;
+    }
     virtual b2Vec2 getPosition() {
         return body->GetPosition();
     }
     virtual float getAngle() {
         return body->GetAngle();
     }
-    virtual void lanzar(float angle, float power) = 0;
+    virtual void updateAngle() {
+        b2Vec2 velocity = body->GetLinearVelocity();
+        float newAngle = atan2(velocity.x, velocity.y);
+        body->SetTransform(body->GetPosition(), newAngle);
+    }
     virtual void explotar() = 0;
     virtual ~Projectile() {}
 };

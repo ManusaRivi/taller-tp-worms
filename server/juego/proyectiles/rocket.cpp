@@ -1,6 +1,6 @@
 #include "rocket.h"
 
-Rocket::Rocket(b2World& world, float x_pos, float y_pos, float angle, int dmg, int radius) :
+Rocket::Rocket(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius) :
                 world(world), dmg(dmg), radius(radius)
 {
     b2BodyDef rocketDef;
@@ -21,16 +21,14 @@ Rocket::Rocket(b2World& world, float x_pos, float y_pos, float angle, int dmg, i
     fixtureRocket.filter.maskBits = (CollisionCategories::BOUNDARY_COLL | CollisionCategories::WORM_COLL);
 
     body->CreateFixture(&fixtureRocket);
-}
 
-void Rocket::lanzar(float angle, float power)
-{
     b2Vec2 impulseVec (power * cos(angle), power * sin(angle));
     body->ApplyLinearImpulse(impulseVec, body->GetWorldCenter(), true);
 }
 
 void Rocket::explotar()
 {
+    exploded = true;
     WormQuery wormQuery;
     b2AABB aabb;
     b2Vec2 explosionCenter = body->GetWorldCenter();

@@ -16,8 +16,6 @@
 
 // Copyright (c) 2019 Erin Catto
 
-
-
 class Mapa {
 private:
     b2World world;
@@ -27,7 +25,7 @@ private:
     const int32 velocityIterations = 6;
     const int32 positionIterations = 2;
 
-    std::vector<Beam*> vigas;
+    std::vector<BeamServer*> vigas;
     std::vector<Worm*> worms;
 
     std::string nombre;

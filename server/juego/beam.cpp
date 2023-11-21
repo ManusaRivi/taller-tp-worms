@@ -1,9 +1,10 @@
 #include "beam.h"
 
-Beam::Beam(b2World& world, int type, float x_pos, float y_pos, float angle) {
+BeamServer::BeamServer(b2World& world, int type, float x_pos, float y_pos, float angle) {
     b2BodyDef vigaDef;
     vigaDef.position.Set(x_pos, y_pos);
     vigaDef.angle = angle;
+    vigaDef.userData.pointer = reinterpret_cast<uintptr_t> (this);
     b2Body *viga = world.CreateBody(&vigaDef);
     this->body = viga;
 
@@ -23,11 +24,11 @@ Beam::Beam(b2World& world, int type, float x_pos, float y_pos, float angle) {
     this->body->CreateFixture(&fixtureViga);
 }
 
-bodyType Beam::identificar() {
+bodyType BeamServer::identificar() {
     return bodyType::BEAM;
 }
 
-std::vector<float> Beam::get_pos(){
+std::vector<float> BeamServer::get_pos(){
      std::vector<float> viga({body->GetPosition().x,body->GetPosition().y,body->GetAngle(),this->len});
      return viga;
 }

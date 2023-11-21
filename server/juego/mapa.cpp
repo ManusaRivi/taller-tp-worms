@@ -44,6 +44,8 @@ void Mapa::Load_Map_File(std::string filepath) {
         worms.push_back(new Worm (world, config.puntos_de_vida, dir, x_pos, y_pos, id++));
     }
     turnManager.cargar_cantidad_gusanos(worms.size());
+
+    this->water = new Water(world);
 }
 
 void Mapa::Step(int iteracion) {
@@ -123,6 +125,8 @@ Mapa::~Mapa() {
     for (auto viga: vigas) {
         delete viga;
     }
+
+    delete water;
 }
 
 std::vector<std::vector<float>> Mapa::get_vigas(){

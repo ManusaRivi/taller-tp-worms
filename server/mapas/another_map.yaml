@@ -4,15 +4,15 @@ vigas:
   - tipo: larga
     pos_x: 0
     pos_y: 10
-    angulo: 25
+    angulo: 0
   - tipo: larga
     pos_x: 3
     pos_y: 10
-    angulo: 25
+    angulo: 0
   - tipo: larga
     pos_x: 6
     pos_y: 10
-    angulo: 25
+    angulo: 0
   - tipo: larga
     pos_x: 9
     pos_y: 10

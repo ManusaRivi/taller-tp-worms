@@ -11,6 +11,7 @@
 #include "../worm_wrapper.h"
 #include "./worm.h"
 #include "./beam.h"
+#include "./water.h"
 #include "./contact_listener.h"
 #include "turn_manager.h"
 
@@ -27,6 +28,7 @@ private:
 
     std::vector<BeamServer*> vigas;
     std::vector<Worm*> worms;
+    Water* water;
 
     std::string nombre;
     TurnManager turnManager;

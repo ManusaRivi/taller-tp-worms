@@ -131,6 +131,10 @@ void Worm::endGroundContact() {
     initialHeight = position.y;
 }
 
+void Worm::startWaterContact() {
+    this->hitPoints = 0;
+}
+
 bool Worm::isAirborne() {
     return airborne;
 }

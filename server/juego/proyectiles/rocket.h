@@ -6,6 +6,8 @@
 #include "../worm_query.h"
 #include "./projectile.h"
 
+#define ROCKET_POSITION_OFFSET 2.0
+
 #define ROCKET_LENGTH 0.5f
 #define ROCKET_WIDTH 0.5f
 

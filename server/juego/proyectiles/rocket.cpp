@@ -3,9 +3,13 @@
 Rocket::Rocket(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius) :
                 world(world), dmg(dmg), radius(radius)
 {
+    b2Vec2 positionOffset (ROCKET_POSITION_OFFSET * cos(angle), ROCKET_POSITION_OFFSET * sin(angle));
+    b2Vec2 position (x_pos, y_pos);
+    b2Vec2 finalPos = positionOffset + position;
+
     b2BodyDef rocketDef;
     rocketDef.type = b2_dynamicBody;
-    rocketDef.position.Set(x_pos, y_pos);
+    rocketDef.position.Set(finalPos.x, finalPos.y);
     rocketDef.userData.pointer = reinterpret_cast<uintptr_t> (this);
     rocketDef.angle = angle;
     b2Body* rocketBody = world.CreateBody(&rocketDef);

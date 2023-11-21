@@ -28,7 +28,7 @@ void Mapa::Load_Map_File(std::string filepath) {
         float y_pos = beam["pos_y"].as<float>();
         float angle = beam["angulo"].as<float>();
         
-        vigas.push_back(new Beam (world, size, x_pos, y_pos, angle));
+        vigas.push_back(new BeamServer (world, size, x_pos, y_pos, angle));
     }
 
     GameConfig& config = GameConfig::getInstance();
@@ -140,7 +140,7 @@ uint16_t Mapa::gusanos_totales(){
 
 std::vector<WormWrapper> Mapa::get_gusanos(){
     std::vector<WormWrapper> vec_worms;
-    for(auto *worm: this->worms){
+    for(auto worm: this->worms){
         std::vector<float> posicion = worm->GetPosition();
         // printf("la posicion del gusano que se envia es %f   %f\n",posicion[0],posicion[1]);
         vec_worms.push_back(WormWrapper(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo(), worm->aiming_angle(), worm->get_vida()));

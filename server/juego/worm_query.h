@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "../../box2d/include/box2d/box2d.h"
+#include "../../libs/box2d/include/box2d/box2d.h"
 #include "./worm.h"
 #include "./colisionable.h"
 

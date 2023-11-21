@@ -36,6 +36,10 @@ void World::present_background(Renderer& renderer,
     float pos_rel_y = 0 - camera_y;
 
     //Grafico
+
+    //CUANDO EL HANDSHAKE ENVIE EL TAMAÑO DEL MAPA, CAMBIAR LA
+    //RENDERIZACION EN EL EJE Y COMO alto_mapa * y_scale - static_cast<int>(pos_rel_y * y_scale)
+
     background_tex.SetAlphaMod(255); // El fondo es totalmente opaco
     renderer.Copy(
 				background_tex,

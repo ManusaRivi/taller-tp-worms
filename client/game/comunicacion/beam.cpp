@@ -20,6 +20,9 @@ void Beam::present(Renderer& renderer,
     float pos_rel_x = _pos_x - camera_x;
     float pos_rel_y = _pos_y - camera_y;
 
+    //CUANDO EL HANDSHAKE ENVIE EL TAMAÑO DEL MAPA, REEMPLAZAR EL
+	//renderer.GetOutputHeight() POR EL ALTO DEL MAPA multiplicado por la escala en y.
+
     // Grafico la viga
     texture.SetAlphaMod(255); // El sprite es totalmente opaco
     renderer.Copy(

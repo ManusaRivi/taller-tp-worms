@@ -52,6 +52,9 @@ void WormState::present(int& it_inc,
 	//Grafico
     texture.SetAlphaMod(255); // El sprite es totalmente opaco
     // printf("la posicion del gusano es %f %f\n",pos_x,pos_y);
+
+	//CUANDO EL HANDSHAKE ENVIE EL TAMAÑO DEL MAPA, REEMPLAZAR EL
+	//renderer.GetOutputHeight() POR EL ALTO DEL MAPA multiplicado por la escala en y.
 	renderer.Copy(
 				texture,
 				Rect(src_x, src_y, 60, 60), // El sprite

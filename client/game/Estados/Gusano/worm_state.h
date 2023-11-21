@@ -7,8 +7,8 @@
 #include <vector>
 #include "../../Texturas/texture_manager.h"
 
-#define WORM_WIDTH 1
-#define WORM_HEIGHT 1
+#define WORM_WIDTH 1.2
+#define WORM_HEIGHT 1.2
 
 /*
  * Modela el estado del gusano para poder renderizarlo.

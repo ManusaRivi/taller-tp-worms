@@ -26,8 +26,8 @@ void Beam::present(Renderer& renderer,
     renderer.Copy(
 				texture,
 				Rect(0, 0, largo_sprite, 20), // El sprite
-				Rect(static_cast<int>(pos_rel_x * x_scale - largo_sprite / 2),
-					static_cast<int>(pos_rel_y * y_scale - BEAM_WIDTH / 2),
+				Rect(static_cast<int>((pos_rel_x - _tamano/2) * x_scale),
+					static_cast<int>((pos_rel_y - BEAM_WIDTH / 2) * y_scale),
 					_tamano * x_scale, BEAM_WIDTH * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,

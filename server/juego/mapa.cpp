@@ -52,6 +52,9 @@ void Mapa::Step(int iteracion) {
             if (worm->jumpSteps == 1) worm->Stop();
             worm->jumpSteps--;
         }
+        if (worm->isMoving()) {
+            worm->Move();
+        }
         if(worm->esta_apuntando()){
             worm->incrementar_angulo_en(0.1);
         }
@@ -73,7 +76,7 @@ void Mapa::MoveWorm(uint32_t idx, int dir) {
         return;
 
     }
-    worms[turnManager.get_gusano_actual()]->Move(dir);
+    worms[turnManager.get_gusano_actual()]->StartMovement(dir);
 }
 
 void Mapa::StopWorm(uint32_t idx) {

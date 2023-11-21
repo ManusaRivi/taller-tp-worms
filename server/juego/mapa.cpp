@@ -162,6 +162,16 @@ std::vector<WormWrapper> Mapa::get_gusanos(){
     return vec_worms;
 }
 
+std::vector<ProjectileWrapper> Mapa::get_projectiles() {
+    std::vector<ProjectileWrapper> vec_projectiles;
+    for (auto projectile : projectiles) {
+        b2Vec2 position = projectile->getPosition();
+        float angle = projectile->getAngle();
+        vec_projectiles.push_back(ProjectileWrapper(position.x, position.y, angle, projectile->getType()));
+    }
+    return vec_projectiles;
+}
+
 void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){
         if(turnManager.acaba_de_cambiar_turno()){
         printf("Se esta esperando a que todos los events termiene\n");

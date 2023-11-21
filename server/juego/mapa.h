@@ -9,6 +9,7 @@
 
 #include "./game_config.h"
 #include "../worm_wrapper.h"
+#include "../projectile_wrapper.h"
 #include "./worm.h"
 #include "./beam.h"
 #include "./proyectiles/projectile.h"
@@ -61,6 +62,8 @@ public:
     uint16_t gusanos_totales();
 
     std::vector<WormWrapper> get_gusanos();
+
+    std::vector<ProjectileWrapper> get_projectiles();
 
     void cambiar_arma(uint32_t id, uint8_t tipo);
 

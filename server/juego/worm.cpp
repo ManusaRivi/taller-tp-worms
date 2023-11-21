@@ -6,8 +6,8 @@ union BodyUserData {
 };
 
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
-            facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
-            finalHeight(0.0f), jumpSteps(0), id(id_),status(0), angulo_disparo(0.0f), apuntando(false)
+            coleccionArmas(new ColeccionArmas(world)), facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
+            finalHeight(0.0f), jumpSteps(0), id(id_), status(0), angulo_disparo(0.0f), apuntando(false)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -29,15 +29,18 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     fixtureGusano.shape = &gusanoBox;
     fixtureGusano.density = WORM_DENSITY;
     fixtureGusano.friction = WORM_FRICTION;
-    
+    fixtureGusano.filter.categoryBits = CollisionCategories::WORM_COLL;
+    fixtureGusano.filter.maskBits = (CollisionCategories::BOUNDARY_COLL | CollisionCategories::PROJECTILE_COLL);
+    fixtureGusano.filter.maskBits &= ~CollisionCategories::WORM_COLL;
+              
     this->body->SetFixedRotation(true); // Evita que rote
-
-    fixtureGusano.filter.categoryBits = CollisionCategories::WORM;
-    fixtureGusano.filter.maskBits = (CollisionCategories::BOUNDARY | CollisionCategories::PROJECTILE);
-    fixtureGusano.filter.maskBits &= ~CollisionCategories::WORM;
 
     this->body->CreateFixture(&fixtureGusano);
     // printf("luego de crearle las fixtures la posicion del gusano es %f   %f\n", body->GetPosition().x, body->GetPosition().y);
+}
+
+bodyType Worm::identificar() {
+    return bodyType::WORM;
 }
 
 void Worm::Move(int dir) {
@@ -112,6 +115,7 @@ void Worm::startGroundContact() {
     b2Vec2 position = body->GetPosition();
     finalHeight = position.y;
     float heightDiff = initialHeight - finalHeight;
+    if (heightDiff < 2) return;
     if (2 < heightDiff && heightDiff < 25) {
         takeDamage((int)heightDiff);
     }
@@ -141,6 +145,11 @@ std::vector<float> Worm::GetPosition() {
 
 float Worm::GetAngle() {
     return body->GetAngle();
+}
+
+void Worm::usar_arma() {
+    b2Vec2 position = body->GetPosition();
+    armaActual->Shoot(position.x, position.y, 0.0f, 1.0f);
 }
 
 int Worm::get_facing_direction(){

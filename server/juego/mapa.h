@@ -7,11 +7,11 @@
 #include <vector>
 #include <string>
 
-#include "../game_config.h"
+#include "./game_config.h"
 #include "../worm_wrapper.h"
 #include "./worm.h"
-#include "./viga.h"
-#include "./ground_contact_listener.h"
+#include "./beam.h"
+#include "./contact_listener.h"
 #include "turn_manager.h"
 
 // Copyright (c) 2019 Erin Catto
@@ -21,13 +21,13 @@
 class Mapa {
 private:
     b2World world;
-    GroundContactListener contactListener;
+    ContactListener contactListener;
 
     const float timeStep = 1.0f / 30.0f;
     const int32 velocityIterations = 6;
     const int32 positionIterations = 2;
 
-    std::vector<Viga*> vigas;
+    std::vector<Beam*> vigas;
     std::vector<Worm*> worms;
 
     std::string nombre;

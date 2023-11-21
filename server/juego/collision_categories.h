@@ -2,9 +2,9 @@
 #define COLLISION_CATEGORIES_H
 
 enum CollisionCategories {
-    BOUNDARY = 0x0001,
-    WORM = 0x0002,
-    PROJECTILE = 0x0003
+    BOUNDARY_COLL = 0x0001,
+    WORM_COLL = 0x0002,
+    PROJECTILE_COLL = 0x0004
 };
 
 #endif

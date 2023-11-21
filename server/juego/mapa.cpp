@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <iostream>
 
-Mapa::Mapa(std::string map_filepath) : world(b2Vec2(0.0f, -10.0f)), contactListener(GroundContactListener()) {
+Mapa::Mapa(std::string map_filepath) : world(b2Vec2(0.0f, -10.0f)), contactListener(ContactListener()) {
     world.SetContactListener(&contactListener);
     Load_Map_File(map_filepath);
 }
@@ -15,8 +15,8 @@ void Mapa::Load_Map_File(std::string filepath) {
 
     const YAML::Node& viga_list = map["vigas"];
     for (YAML::const_iterator it = viga_list.begin(); it != viga_list.end(); ++it) {
-        const YAML::Node& viga = *it;
-        std::string tipo = viga["tipo"].as<std::string>();
+        const YAML::Node& beam = *it;
+        std::string tipo = beam["tipo"].as<std::string>();
         int size;
         if (tipo == "larga") {
             size = beamSize::LARGE;
@@ -24,11 +24,11 @@ void Mapa::Load_Map_File(std::string filepath) {
         else if (tipo == "corta") {
             size = beamSize::SMALL;
         }
-        float x_pos = viga["pos_x"].as<float>();
-        float y_pos = viga["pos_y"].as<float>();
-        float angle = viga["angulo"].as<float>();
+        float x_pos = beam["pos_x"].as<float>();
+        float y_pos = beam["pos_y"].as<float>();
+        float angle = beam["angulo"].as<float>();
         
-        vigas.push_back(new Viga (world, size, x_pos, y_pos, angle));
+        vigas.push_back(new Beam (world, size, x_pos, y_pos, angle));
     }
 
     GameConfig& config = GameConfig::getInstance();

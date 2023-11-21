@@ -47,6 +47,8 @@ class SnapshotCliente {
 
     void imprimir_posiciones();
 
+    void actulizar_camara(uint32_t id);
+
     
 };
 

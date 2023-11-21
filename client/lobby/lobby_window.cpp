@@ -56,7 +56,7 @@ void Lobby_Window::onUnirButtonClicked() {
             QVariant idVariant = selectedItem->data(Qt::UserRole);
             uint32_t selectedId = idVariant.toUInt();
 
-            qDebug() << "Selected ID: " << selectedId;
+            // qDebug() << "Selected ID: " << selectedId;
             ClienteProtocolo protocol(*this->ui1->skt);
             protocol.unirse_partida(selectedId);
             this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_ESPERA_SIN_OPCION_A_COMENZAR));

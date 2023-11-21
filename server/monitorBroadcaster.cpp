@@ -27,11 +27,11 @@ void BroadCaster::informar_primer_snapshot(std::map<uint32_t,std::vector<uint32_
     std::lock_guard<std::mutex> lock(lck);
     uint32_t i =0;
     for (auto& c: lista) {
-        printf("Se envia el id : %u \n", i);
+        // printf("Se envia el id : %u \n", i);
         uint32_t id_player = i;
         std::vector<uint32_t> id_gusanos = gusanos_por_player[i];
         std::pair<uint32_t,std::vector<uint32_t>> par({id_player,id_gusanos});
-        printf("Se envia un vector de tamanio %lu \n", id_gusanos.size());
+        // printf("Se envia un vector de tamanio %lu \n", id_gusanos.size());
         Mensaje msg(par,snap);
         c->push(msg);
         i++;

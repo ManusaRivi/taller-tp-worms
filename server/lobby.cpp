@@ -14,7 +14,7 @@ uint32_t Lobby::crear_partida(std::string nombre, Queue<Mensaje>* snapshots,uint
     this->id_actual++;
     lista_partidas.insert({id_actuali,partida});
     partida->start();
-    printf("Se crea una partida nueva\n");
+    // printf("Se crea una partida nueva\n");
     return id_actuali;
 }
 
@@ -25,7 +25,7 @@ void Lobby::listar_partidas(Queue<Mensaje>* snapshots){
     std::map<uint32_t,std::string> lista;
     for (auto i = lista_partidas.begin(); i != lista_partidas.end(); i++){
         std::string nombre = i->second->get_nombre();
-        std::cout << "El nombre de la partida es : " << nombre << std::endl;
+        // std::cout << "El nombre de la partida es : " << nombre << std::endl;
         lista.insert({i->first,nombre});
     }
     Snapshot snap(lista);
@@ -41,7 +41,7 @@ void Lobby::listar_mapas(Queue<Mensaje>* cliente){
     for (auto it = lista_mapas.begin(); it != lista_mapas.end(); ++it) {
         // Accede a cada par clave-valor en el mapa aquí
         std::string nombre = it->second->GetName();
-        std::cout << "Un nombre de mapa es -> " << nombre << std::endl;
+        // std::cout << "Un nombre de mapa es -> " << nombre << std::endl;
         // Realiza las operaciones que desees con el mapa
         lista.insert({it->first, nombre});
     }
@@ -60,7 +60,7 @@ Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t id_pedido){
 
 void Lobby::unirse_a_partida(uint32_t id_partida, Queue<Mensaje>* snapshots){
     std::lock_guard<std::mutex> lock(lck);
-    printf("Se pide unirse un player\n");
+    // printf("Se pide unirse un player\n");
     lista_partidas.at(id_partida)->add_queue(snapshots);
 
 }
@@ -78,7 +78,7 @@ void Lobby::kill(){
     std::lock_guard<std::mutex> lock(lck);
     auto it = lista_partidas.begin();
     while(it != lista_partidas.end()){
-        printf("se le hace kill al lobby\n");
+        // printf("se le hace kill al lobby\n");
         it->second->kill();
         it->second->join();
         delete it->second;

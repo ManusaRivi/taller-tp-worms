@@ -29,7 +29,7 @@ Game::Game(Queue<std::shared_ptr<MensajeCliente>> &queue, Queue<std::shared_ptr<
 int Game::run() try {
 	std::shared_ptr<World> world;
 	std::vector<uint32_t> id_gusanos;
-	uint32_t id_player;
+	// uint32_t id_player;
 	std::shared_ptr<SnapshotCliente> snapshot;
 
 	
@@ -39,7 +39,7 @@ int Game::run() try {
 		if (msg->get_tipo_comando() == COMANDO::CMD_HANDSHAKE){
 			std::shared_ptr<MensajeHandshake> handshake = std::dynamic_pointer_cast<MensajeHandshake>(msg);
 			id_gusanos = handshake->get_gusanos();
-			id_player = handshake->get_id();
+			// id_player = handshake->get_id();
 			world = handshake->get_world();
 			// std::shared_ptr<MensajeHandshakeEnviar> handshake_envaiar = std::make_shared<MensajeHandshakeEnviar>(id_player,id_gusanos);
 			acciones.push(handshake);
@@ -69,7 +69,7 @@ int Game::run() try {
 		}
 	}
 
-	printf("El id del player es : %u \n", id_player);
+	// printf("El id del player es : %u \n", id_player);
 	
 
 
@@ -201,7 +201,7 @@ int Game::run() try {
 					// Selecciono la Granada santa
 					is_aiming = true;
 					has_selected_weapon = true;
-					printf("Se manda una granada santa\n");
+					// printf("Se manda una granada santa\n");
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(GRANADA_SANTA);
 					acciones.push(msg);
 					// Enviar comando "saco granada santa" por protocolo

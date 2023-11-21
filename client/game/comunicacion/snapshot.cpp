@@ -59,3 +59,7 @@ void SnapshotCliente::imprimir_posiciones(){
 std::map<int, std::shared_ptr<Worm>> SnapshotCliente::get_worms(){
     return this->worms;
 }
+
+void SnapshotCliente::actulizar_camara(uint32_t id){
+    this->_id_camera = id;
+}

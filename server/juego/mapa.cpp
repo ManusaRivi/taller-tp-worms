@@ -65,11 +65,11 @@ void Mapa::Step(int iteracion) {
 
 void Mapa::MoveWorm(uint32_t idx, int dir) {
     if(turnManager.acaba_de_cambiar_turno()){
-        printf("Se esta esperando a que todos los events termiene\n");
+        // printf("Se esta esperando a que todos los events termiene\n");
         return;
     }
     if(idx != turnManager.get_player_actual()){
-        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        // printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
         return;
 
     }
@@ -78,11 +78,11 @@ void Mapa::MoveWorm(uint32_t idx, int dir) {
 
 void Mapa::StopWorm(uint32_t idx) {
         if(turnManager.acaba_de_cambiar_turno()){
-        printf("Se esta esperando a que todos los events termiene\n");
+        // printf("Se esta esperando a que todos los events termiene\n");
         return;
     }
     if(idx != turnManager.get_player_actual()){
-        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        // printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
         return;
     }
     worms[turnManager.get_gusano_actual()]->Stop();
@@ -90,11 +90,11 @@ void Mapa::StopWorm(uint32_t idx) {
 
 void Mapa::JumpWormForward(uint32_t idx) {
         if(turnManager.acaba_de_cambiar_turno()){
-        printf("Se esta esperando a que todos los events termiene\n");
+        // printf("Se esta esperando a que todos los events termiene\n");
         return;
     }
     if(idx != turnManager.get_player_actual()){
-        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        // printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
         return;
     }
     worms[turnManager.get_gusano_actual()]->JumpForward();
@@ -102,11 +102,11 @@ void Mapa::JumpWormForward(uint32_t idx) {
 
 void Mapa::JumpWormBackward(uint32_t idx) {
         if(turnManager.acaba_de_cambiar_turno()){
-        printf("Se esta esperando a que todos los events termiene\n");
+        // printf("Se esta esperando a que todos los events termiene\n");
         return;
     }
     if(idx != turnManager.get_player_actual()){
-        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        // printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
         return;
     }
     worms[turnManager.get_gusano_actual()]->JumpBackward();
@@ -150,11 +150,11 @@ std::vector<WormWrapper> Mapa::get_gusanos(){
 
 void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){
         if(turnManager.acaba_de_cambiar_turno()){
-        printf("Se esta esperando a que todos los events termiene\n");
+        // printf("Se esta esperando a que todos los events termiene\n");
         return;
     }
     if(id != turnManager.get_player_actual()){
-        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        // printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
         return;
 
     }
@@ -163,11 +163,11 @@ void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){
 
 void Mapa::apuntar_para(uint32_t id, int dir){
         if(turnManager.acaba_de_cambiar_turno()){
-        printf("Se esta esperando a que todos los events termiene\n");
+        // printf("Se esta esperando a que todos los events termiene\n");
         return;
     }
     if(id != turnManager.get_player_actual()){
-        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        // printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
         return;
 
     }
@@ -183,11 +183,11 @@ void Mapa::detener_worm(uint32_t id){
 
 void Mapa::detener_angulo(uint32_t id){
     if(turnManager.acaba_de_cambiar_turno()){
-        printf("Se esta esperando a que todos los events termiene\n");
+        // printf("Se esta esperando a que todos los events termiene\n");
         return;
     }
     if(id != turnManager.get_player_actual()){
-        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        // printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
         return;
 
     }
@@ -204,11 +204,11 @@ uint32_t Mapa::gusano_actual(){
 
 void Mapa::cambiar_direccion(uint32_t id, uint8_t dir){
     if(turnManager.acaba_de_cambiar_turno()){
-        printf("Se esta esperando a que todos los events termiene\n");
+        // printf("Se esta esperando a que todos los events termiene\n");
         return;
     }
     if(id != turnManager.get_player_actual()){
-        printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        // printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
         return;
     }
     worms[turnManager.get_gusano_actual()]->cambiar_direccion(dir);

@@ -16,26 +16,26 @@ void Enviador::run()try{{
             ptcl.enviar_snapshot(snap);
         }
         if(msg.tipo_comando == COMANDO::CMD_LISTAR_PARTIDAS){
-            printf("En el enviador se estan por mandar partidas\n");
+            // printf("En el enviador se estan por mandar partidas\n");
             ptcl.enviar_partidas(msg.lista_mapas);
         }
         if(msg.tipo_mensaje() == COMANDO::CMD_EMPEZAR_PARTIDA){
-            printf("Se envia mensaje de que la partida empezo\n");
+            // printf("Se envia mensaje de que la partida empezo\n");
             ptcl.check_partida_empezada();
         }
         if(msg.tipo_mensaje() == COMANDO::CMD_HANDSHAKE){
-            printf("Se envia un handshake\n");
+            // printf("Se envia un handshake\n");
             ptcl.enviar_handshake(msg.gusanos_por_player,msg.snap);
         }
 
         if(msg.tipo_mensaje() == COMANDO::CMD_LISTAR_MAPAS){
-            printf("Se envia la lista de mapas");
+            // printf("Se envia la lista de mapas");
             ptcl.enviar_mapas(msg.lista_mapas);
         }
         
     }
 }}catch(const ClosedSocket& e){
-        printf("El cliente se desconecto\n");
+        // printf("El cliente se desconecto\n");
         is_alive = false;
         delete snapshots_a_enviar;
 }catch(const ClosedQueue& e){

@@ -14,45 +14,45 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id)try{{
             break;
         }
         case(CODIGO_DETENER_MOVIMIENTO):{
-            printf("se recibe un codigo de detener el gusano\n");
+            // printf("se recibe un codigo de detener el gusano\n");
             comando = factory.comando_detener(id);
             break;
         }
         case(CODIGO_CAMBIAR_ARMA):{
             uint8_t tipo = recibir_1_byte();
-            printf("Se recibe un cambio de arma con tipo = %u\n",tipo);
+            // printf("Se recibe un cambio de arma con tipo = %u\n",tipo);
             comando = factory.comando_cambiar_arma(id,tipo);
             break;
         }
         case(CODIGO_CAMBIAR_ANGULO):{
             uint8_t dir = recibir_1_byte();
-            printf("Cambiar Angul con direccion = %u\n",dir);
+            // printf("Cambiar Angul con direccion = %u\n",dir);
             comando = factory.comando_cambiar_angulo(id,dir);
             break;
         }
         case(CODIGO_SALTAR):{
             uint8_t dir = recibir_1_byte();
-            printf("Saltar con dir = %u\n",dir);
+            // printf("Saltar con dir = %u\n",dir);
             comando = factory.comando_saltar(id,dir);
             break;
         }
         case(CODIGO_DISPARAR):{
-            printf("Se recibe un comando para disparar\n");
+            // printf("Se recibe un comando para disparar\n");
             comando = factory.comando_disparar(id);
             break;
         }
         case(CODIGO_CARGAR_ARMA):{
-            printf("Se recibe codigo para cargar arma\n");
+            // printf("Se recibe codigo para cargar arma\n");
             comando = factory.comando_cargar_arma(id);
             break;
         }
         case(CODIGO_DETENER_CAMBIO_ANGULO):{
-            printf("Se recibe codigo para mover el angulo para arriba\n");
+            // printf("Se recibe codigo para mover el angulo para arriba\n");
             comando = factory.comando_detener_angulo(id);
             break;
         }
         case (CODIGO_CAMBIAR_DIRECCION_APUNTADO):{
-            printf("Se recibe codigo par acambiar direccion de apuntado\n");
+            // printf("Se recibe codigo par acambiar direccion de apuntado\n");
             uint8_t dir = recibir_1_byte();
             comando = factory.comando_cambia_direccion_arma(id,dir);
             break;
@@ -80,25 +80,25 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id)try{{
         return msg;
     }
     if (buf == CODIGO_EMPEZAR_PARTIDA){
-        printf("Se recibe un codigo de empezar partida\n");
+        // printf("Se recibe un codigo de empezar partida\n");
         Mensaje msg;
         return msg;
     }
 
     if (buf == CODIGO_LISTAR_PARTIDA){
-        printf("Se recibe pedido de listar partidas\n");
+        // printf("Se recibe pedido de listar partidas\n");
         Mensaje msg(COMANDO::CMD_LISTAR_PARTIDAS);
         return msg;
     }
 
     if (buf == CODIGO_LISTAR_MAPAS) {
-        printf("Se recibe pedido de listar mapas\n");
+        // printf("Se recibe pedido de listar mapas\n");
         Mensaje msg(COMANDO::CMD_LISTAR_MAPAS);
         return msg;
     }
 
     if (buf == CODIGO_UNIRSE_PARTIDA){
-        printf("Se recibe un pedido de unirse a partida");
+        // printf("Se recibe un pedido de unirse a partida");
         uint32_t id_partida = recibir_4_bytes();
         Mensaje msg(COMANDO::CMD_UNIRSE_PARTIDA,id_partida);
         return msg;
@@ -125,7 +125,7 @@ void ServerProtocolo::enviar_snapshot(Snapshot snap)try{{
 }
 
 void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string> partidas/*std::string map*/){
-    printf("Se estan por enviar las partidas\n");
+    // printf("Se estan por enviar las partidas\n");
     //uint8_t cmd = CODIGO_LISTAR_PARTIDA;
     //enviar_1_byte(cmd);
     enviar_lista(partidas);
@@ -138,7 +138,7 @@ void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string> lista){
         uint32_t id = i->first;
 
         std::string nombre = i->second;
-        std::cout << "Se envia un nombre " << nombre << std::endl;
+        // std::cout << "Se envia un nombre " << nombre << std::endl;
         enviar_4_bytes(id);
         enviar_string(nombre);
         
@@ -146,7 +146,7 @@ void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string> lista){
 }
 
 void ServerProtocolo::enviar_mapas(std::map<uint32_t,std::string> mapas){
-    printf("Se estan por enviar los mapas\n");
+    // printf("Se estan por enviar los mapas\n");
     enviar_lista(mapas);
 }
 

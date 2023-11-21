@@ -25,6 +25,12 @@ public:
     virtual bodyType identificar() override {
         return bodyType::PROJECTILE;
     }
+    virtual b2Vec2 getPosition() {
+        return body->GetPosition();
+    }
+    virtual float getAngle() {
+        return body->GetAngle();
+    }
     virtual void lanzar(float angle, float power) = 0;
     virtual void explotar() = 0;
     virtual ~Projectile() {}

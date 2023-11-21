@@ -3,6 +3,8 @@
 Rocket::Rocket(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius) :
                 world(world), dmg(dmg), radius(radius)
 {
+    type = ProjectileType::ROCKET;
+
     b2Vec2 positionOffset (ROCKET_POSITION_OFFSET * cos(angle), ROCKET_POSITION_OFFSET * sin(angle));
     b2Vec2 position (x_pos, y_pos);
     b2Vec2 finalPos = positionOffset + position;
@@ -28,6 +30,10 @@ Rocket::Rocket(b2World& world, float x_pos, float y_pos, float angle, float powe
 
     b2Vec2 impulseVec (power * cos(angle), power * sin(angle));
     body->ApplyLinearImpulse(impulseVec, body->GetWorldCenter(), true);
+}
+
+ProjectileType Rocket::getType() {
+    return type;
 }
 
 void Rocket::explotar()

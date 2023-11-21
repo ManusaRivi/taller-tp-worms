@@ -1,7 +1,8 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
-#include "../../../box2d/include/box2d/box2d.h"
+#include "../../../libs/box2d/include/box2d/box2d.h"
+#include "../../../../common/projectile_types.h"
 #include "../colisionable.h"
 
 class Projectile : public Colisionable 
@@ -9,6 +10,7 @@ class Projectile : public Colisionable
 protected:
     b2Body* body;
     bool exploded = false;
+    ProjectileType type;
     void applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec2 applyPoint, float blastPower)
     {
         b2Vec2 blastDir = applyPoint - blastCenter;
@@ -26,6 +28,7 @@ public:
     virtual bodyType identificar() override {
         return bodyType::PROJECTILE;
     }
+    virtual ProjectileType getType() = 0;
     virtual bool hasExploded() {
         return exploded;
     }

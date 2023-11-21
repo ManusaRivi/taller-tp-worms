@@ -31,7 +31,7 @@ void World::present_background(Renderer& renderer,
     std::string texture_name("Background");
     Texture& background_tex = texture_manager.get_texture(texture_name);
 
-    // Encuentro posicion relativa (esta en el (0, 0))
+    // Encuentro posicion relativa (esta en el (0, alto_mapa))
     float pos_rel_x = 0 - camera_x;
     float pos_rel_y = 0 - camera_y;
 
@@ -41,7 +41,7 @@ void World::present_background(Renderer& renderer,
 				background_tex,
 				Rect(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT), // El sprite
 				Rect(static_cast<int>(pos_rel_x * x_scale),
-					_map_height * y_scale - static_cast<int>(pos_rel_y * y_scale),
+					static_cast<int>(pos_rel_y * y_scale),
 					_map_width * x_scale, _map_height * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,
@@ -85,7 +85,7 @@ void World::present(int& it_inc,
     float pos_foco_y = worms.at(_id_camera)->get_y();
 
     float camera_x = pos_foco_x - (window_width / (2 * x_scale));
-    float camera_y = pos_foco_y - (window_height / (2 * y_scale));
+    float camera_y = _map_height - (pos_foco_y + (window_height / (2 * y_scale)));
 
     if (camera_x < 0) camera_x = 0;
     if (camera_y < 0) camera_y = 0;

@@ -20,7 +20,7 @@ void WormState::present(int& it_inc,
 
 	barraDeVida.x = static_cast<int>(pos_x * x_scale);
 
-	barraDeVida.y = renderer.GetOutputHeight() - static_cast<int>(pos_y * y_scale) - 10;
+	barraDeVida.y = static_cast<int>((pos_y - 1) * y_scale);
 
 	SDL_Color colorBarraVida;
 	if (vida <= 10) { // Vida es muy baja
@@ -56,8 +56,8 @@ void WormState::present(int& it_inc,
 	renderer.Copy(
 				texture,
 				Rect(src_x, src_y, 60, 60), // El sprite
-				Rect(static_cast<int>(pos_x * x_scale),
-					static_cast<int>(pos_y * y_scale),
+				Rect(static_cast<int>((pos_x - WORM_WIDTH /2) * x_scale),
+					static_cast<int>((pos_y + WORM_HEIGHT /2) * y_scale),
 					WORM_WIDTH * x_scale, WORM_HEIGHT * y_scale), // Donde lo grafico
 				worm_angle,        // Angulo
 				NullOpt,

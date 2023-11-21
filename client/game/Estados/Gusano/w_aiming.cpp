@@ -52,17 +52,12 @@ void WAiming::present(int& it,
 	Texture& texture = texture_manager.get_texture(texture_name);
 
     //Grafico al gusano:
-
-	//CUANDO EL HANDSHAKE ENVIE EL TAMAÑO DEL MAPA, REEMPLAZAR EL
-	//renderer.GetOutputHeight() POR EL ALTO DEL MAPA multiplicado por la escala en y.
-
-
     texture.SetAlphaMod(255); // El sprite es totalmente opaco
     renderer.Copy(
 				texture,
 				Rect(src_x, src_y, 60, 60), // El sprite
 				Rect(static_cast<int>(pos_x * x_scale),
-					renderer.GetOutputHeight() - static_cast<int>(pos_y * y_scale),
+					static_cast<int>(pos_y * y_scale),
 					WORM_WIDTH * x_scale, WORM_HEIGHT * y_scale), // Donde lo grafico
 				worm_angle,        // Angulo
 				NullOpt,

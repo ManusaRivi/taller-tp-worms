@@ -35,10 +35,11 @@ void Worm::update(std::shared_ptr<Worm> updated_worm) {
 
 void Worm::present(int& it_inc, Renderer& renderer,
                     TextureManager& texture_manager,
+                    float& map_height,
                     float& x_scale, float& y_scale,
                     float& camera_x, float& camera_y) {
     float pos_rel_x = _pos_x - camera_x;
-    float pos_rel_y = _pos_y - camera_y;
+    float pos_rel_y = (map_height - _pos_y) - camera_y;
     int vida = _vida;
 
     state->present(it_inc, renderer, texture_manager, pos_rel_x, pos_rel_y, x_scale, y_scale, vida);

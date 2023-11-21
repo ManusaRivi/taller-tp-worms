@@ -112,7 +112,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_handshake(){
     }
     recibir_gusanos(snap);
     std::map<int, std::shared_ptr<Worm>> worms = snap->get_worms();
-    std::shared_ptr<World> world = std::make_shared<World>(30,30);
+    std::shared_ptr<World> world = std::make_shared<World>(100,100);
     std::vector<std::vector<float>> vigas = recibir_vigas();
     for (auto &viga : vigas){
         int tamanio = viga[3];

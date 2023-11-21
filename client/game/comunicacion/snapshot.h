@@ -31,6 +31,7 @@ class SnapshotCliente {
 
     void add_beam(Beam beam);
 
+/*
     void present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
@@ -38,7 +39,7 @@ class SnapshotCliente {
                         int& window_height,
                         float& x_scale,
                         float& y_scale);
-
+*/
 
     void apply_to_world(World& world);
 

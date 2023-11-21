@@ -6,6 +6,7 @@ Beam::Beam(int& tamano, float& pos_x, float& pos_y, float& angulo_): _tamano(tam
 
 void Beam::present(Renderer& renderer,
                     TextureManager& texture_manager,
+                    float& map_height,
                     float& x_scale,
                     float& y_scale,
                     float& camera_x,
@@ -20,16 +21,13 @@ void Beam::present(Renderer& renderer,
     float pos_rel_x = _pos_x - camera_x;
     float pos_rel_y = _pos_y - camera_y;
 
-    //CUANDO EL HANDSHAKE ENVIE EL TAMAÑO DEL MAPA, REEMPLAZAR EL
-	//renderer.GetOutputHeight() POR EL ALTO DEL MAPA multiplicado por la escala en y.
-
     // Grafico la viga
     texture.SetAlphaMod(255); // El sprite es totalmente opaco
     renderer.Copy(
 				texture,
 				Rect(0, 0, largo_sprite, 20), // El sprite
 				Rect(static_cast<int>(pos_rel_x * x_scale - largo_sprite / 2),
-					renderer.GetOutputHeight() - static_cast<int>(pos_rel_y * y_scale - BEAM_WIDTH / 2),
+					map_height - static_cast<int>(pos_rel_y * y_scale - BEAM_WIDTH / 2),
 					_tamano * x_scale, BEAM_WIDTH * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,

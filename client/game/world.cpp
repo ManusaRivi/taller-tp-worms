@@ -36,16 +36,12 @@ void World::present_background(Renderer& renderer,
     float pos_rel_y = 0 - camera_y;
 
     //Grafico
-
-    //CUANDO EL HANDSHAKE ENVIE EL TAMAÑO DEL MAPA, CAMBIAR LA
-    //RENDERIZACION EN EL EJE Y COMO alto_mapa * y_scale - static_cast<int>(pos_rel_y * y_scale)
-
     background_tex.SetAlphaMod(255); // El fondo es totalmente opaco
     renderer.Copy(
 				background_tex,
 				Rect(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT), // El sprite
 				Rect(static_cast<int>(pos_rel_x * x_scale),
-					static_cast<int>(pos_rel_y * y_scale),
+					_map_height * y_scale - static_cast<int>(pos_rel_y * y_scale),
 					_map_width * x_scale, _map_height * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,
@@ -102,12 +98,12 @@ void World::present(int& it_inc,
 
     // Grafico gusanos
     for (auto& worm : worms) {
-        worm.second->present(it_inc, renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
+        worm.second->present(it_inc, renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
     }
 
     // Grafico vigas
     for (auto& beam : beams) {
-        beam.present(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
+        beam.present(renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
     }
 
     renderer.Present();

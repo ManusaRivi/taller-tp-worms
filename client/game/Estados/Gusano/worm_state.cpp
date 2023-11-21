@@ -14,26 +14,6 @@ void WormState::present(int& it_inc,
 					float& y_scale,
 					int& vida) {
     
-	SDL_Rect barraDeVida;
-	barraDeVida.w = static_cast<int>(WORM_WIDTH * x_scale * (static_cast<float>(vida) / 100));
-	barraDeVida.h = 5;
-
-	barraDeVida.x = static_cast<int>(pos_x * x_scale);
-
-	barraDeVida.y = static_cast<int>((pos_y - 1) * y_scale);
-
-	SDL_Color colorBarraVida;
-	if (vida <= 10) { // Vida es muy baja
-	    colorBarraVida = {255, 0, 0, 255}; // Rojo
-	} else {
-	    colorBarraVida = {0, 255, 0, 255}; // Verde
-	}
-
-	SDL_SetRenderDrawColor(renderer.Get(), colorBarraVida.r, colorBarraVida.g, colorBarraVida.b, colorBarraVida.a);
-	SDL_RenderFillRect(renderer.Get(), &barraDeVida);
-
-
-
     //Seteo como graficar los sprites:
     //Los sprites son de 60x60
 
@@ -56,13 +36,32 @@ void WormState::present(int& it_inc,
 	renderer.Copy(
 				texture,
 				Rect(src_x, src_y, 60, 60), // El sprite
-				Rect(static_cast<int>((pos_x - WORM_WIDTH /2) * x_scale),
-					static_cast<int>((pos_y + WORM_HEIGHT /2) * y_scale),
+				Rect(static_cast<int>((pos_x - WORM_WIDTH /2 - (0.85*WORM_WIDTH)) * x_scale),
+					static_cast<int>((pos_y - WORM_HEIGHT /2 + (0.28*WORM_HEIGHT)) * y_scale),
 					WORM_WIDTH * x_scale, WORM_HEIGHT * y_scale), // Donde lo grafico
 				worm_angle,        // Angulo
 				NullOpt,
 				flip        // Flip
 			);
+
+
+	SDL_Rect barraDeVida;
+	barraDeVida.w = static_cast<int>(WORM_WIDTH * x_scale * (static_cast<float>(vida) / 100));
+	barraDeVida.h = 5;
+
+	barraDeVida.x = static_cast<int>((pos_x - WORM_WIDTH /2 - (0.85*WORM_WIDTH)) * x_scale);
+
+	barraDeVida.y = static_cast<int>((pos_y - 1 + (WORM_WIDTH/2)) * y_scale);
+
+	SDL_Color colorBarraVida;
+	if (vida <= 10) { // Vida es muy baja
+	    colorBarraVida = {255, 0, 0, 255}; // Rojo
+	} else {
+	    colorBarraVida = {0, 255, 0, 255}; // Verde
+	}
+
+	SDL_SetRenderDrawColor(renderer.Get(), colorBarraVida.r, colorBarraVida.g, colorBarraVida.b, colorBarraVida.a);
+	SDL_RenderFillRect(renderer.Get(), &barraDeVida);
 }
 
 int WormState::get_iteration() {

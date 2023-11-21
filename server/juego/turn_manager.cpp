@@ -42,27 +42,30 @@ std::pair<bool,uint32_t> TurnManager::avanzar_tiempo(uint32_t iteracion){
             return par;
         }
     }
-    if (iteracion % (30 * 30) == 0 && iteracion > 0) {
-        par.first = true;
-        gusano_turno_anterior = this->id_gusano_actual;
+    else{
+        if (iteracion % (30 * 30) == 0 && iteracion > 0) {
+            par.first = true;
+            gusano_turno_anterior = this->id_gusano_actual;
         
 
-        if(this->id_gusano_actual +1 == cantidad_gusanos){
+            if(this->id_gusano_actual +1 == cantidad_gusanos){
             this->id_gusano_actual = 0;
             
+            }
+            else{
+                this->id_gusano_actual++;
+            }
+            printf("Se pasa de turno del gusano_id = %u   al gusano id %u\n",gusano_turno_anterior,this->id_gusano_actual);
+            this->id_player_actual = id_player_por_gusano[this->id_gusano_actual];
+            acaba_de_pasar_turno = true;
+            par.second = gusano_turno_anterior;
+            return par;
         }
         else{
-            this->id_gusano_actual++;
+            par.first = false;
         }
-        printf("Se pasa de turno del gusano_id = %u   al gusano id %u\n",gusano_turno_anterior,this->id_gusano_actual);
-        this->id_player_actual = id_player_por_gusano[this->id_gusano_actual];
-        acaba_de_pasar_turno = true;
-        par.second = gusano_turno_anterior;
-        return par;
     }
-    else{
-        par.first = false;
-    }
+    
     return par;
 }
 

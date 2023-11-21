@@ -93,9 +93,6 @@ void World::present(int& it_inc,
     // Grafico fondo
     present_background(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
 
-    // Grafico HUD
-    present_hud(renderer, texture_manager, x_scale, y_scale);
-
     // Grafico gusanos
     for (auto& worm : worms) {
         worm.second->present(it_inc, renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
@@ -105,6 +102,9 @@ void World::present(int& it_inc,
     for (auto& beam : beams) {
         beam.present(renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
     }
+
+    // Grafico HUD
+    present_hud(renderer, texture_manager, x_scale, y_scale);
 
     renderer.Present();
 }

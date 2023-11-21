@@ -33,3 +33,17 @@ void Beam::present(Renderer& renderer,
 				SDL_FLIP_NONE        // Flip
 			);
 }
+
+// Funciones para testing
+    int Beam::get_tamaio(){
+        return this->_tamano;
+    }
+    float Beam::get_pos_x(){
+        return this->_pos_x;
+    }
+    float Beam::get_pos_y(){
+        return this->_pos_y;
+    }
+    float Beam::get_angulo(){
+        return this->angulo;
+    }

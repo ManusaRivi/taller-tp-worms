@@ -5,7 +5,8 @@
 #include "../../common/queue.h"
 #include "../game/comunicacion/snapshot.h"
 #include "../protocolo/protocoloCliente.h"
-#include "../comandos/mensaje.h"
+#include "../comandos/mensajes/mensaje_cliente.h"
+// #include "../comandos/mensaje.h"
 
 
 struct Recibidor:public Thread{

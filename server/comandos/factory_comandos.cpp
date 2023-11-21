@@ -47,6 +47,13 @@ std::shared_ptr<DetenerAngulo> FactoryComandos::comando_detener_angulo(uint32_t 
         return std::make_shared<DetenerAngulo>(id);
 }
 
+std::shared_ptr<CambiarDireccionArma> FactoryComandos::comando_cambia_direccion_arma(uint32_t id, uint8_t dir){
+        return std::make_shared<CambiarDireccionArma>(dir,id);
+}
+
+
+
+
 FactoryComandos::~FactoryComandos(){
 
 }

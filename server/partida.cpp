@@ -2,11 +2,11 @@
 #include <unistd.h>
 #include <chrono>
 
-#define FRAME_RATE 60
+#define FRAME_RATE 30.0f
 
 using Clock = std::chrono::steady_clock;
 
-Partida::Partida(uint32_t id, std::string nombre):id_partida(id),nombre_partida(nombre){
+Partida::Partida(uint32_t id, std::string nombre, Mapa *mapa_):mapa(mapa_),id_partida(id),nombre_partida(nombre){
     posibles_id_gusanos.push_back(0);
     posibles_id_gusanos.push_back(1);
 }
@@ -16,6 +16,7 @@ double now() {
 }
 
 void Partida::run()try{{
+
     is_alive = true;
     bool partida_iniciada = false;
     while(!partida_iniciada){
@@ -36,24 +37,19 @@ void Partida::run()try{{
     //Mensaje msg;
     //broadcaster.broadcastSnap(msg);
     //double rate = 1;
-    auto t1 = std::chrono::high_resolution_clock::now();
+    // auto t1 = std::chrono::high_resolution_clock::now();
     int it = 0;
 
-    uint32_t turno_gusano = rand() % posibles_id_gusanos.size();
-    uint32_t player_actual = id_player_por_gusano[turno_gusano];
-    auto startTime = std::chrono::high_resolution_clock::now();
-    int elapsed = 0;
+    double rate = 1.0f/FRAME_RATE;
+    // auto startTime = std::chrono::high_resolution_clock::now();
+    // int elapsed = 0;
     while (is_alive){
-        
+        auto t1 = std::chrono::high_resolution_clock::now();
         //float elapsed = currentTime - startTime;
         std::vector<std::shared_ptr<Comando>> comandos_a_ejecutar;
         std::shared_ptr<Comando> comando;
         while(acciones_a_realizar.try_pop(comando)){
             if(!comando){
-                continue;
-            }
-            if(comando->get_responsable() != player_actual){
-                printf("{!!!!!!!} El turno no es de este player {!!!!!!}\n");
                 continue;
             }
             comandos_a_ejecutar.push_back(comando);
@@ -62,49 +58,44 @@ void Partida::run()try{{
 
         std::shared_ptr<Comando> comando_ejecutable;
         for( auto &c: comandos_a_ejecutar){
-            c->realizar_accion(mapa,turno_gusano);
+            c->realizar_accion(mapa);
         }
 
-        mapa->Step();
-        Snapshot snap = generar_snapshot(elapsed,turno_gusano);
+        mapa->Step(it);
+        Snapshot snap = generar_snapshot(it);
         Mensaje broadcast(snap);
         broadcaster.broadcastSnap(broadcast);
 
 
 
-        auto t2 = std::chrono::high_resolution_clock::now();
-        auto difference = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-		int rest = FRAME_RATE - (difference);
-		elapsed = std::chrono::duration_cast<std::chrono::seconds>(t2 - startTime).count();
-		if (rest < 0) {
-			int behind = -rest;
-			rest = FRAME_RATE - behind % FRAME_RATE;
-			int lost = behind + rest;
-			t1 += std::chrono::milliseconds(lost);
-			it += int(lost / FRAME_RATE);
+        auto t2 = std::chrono::high_resolution_clock::now(); 
+        std::chrono::duration<double> duration = t2 - t1;
+		double seconds = duration.count();
+		double rest = rate - seconds;
+        // printf("el rate es de %f y la diferencia de tiempo es de %f\n",rate,seconds);
+		if(rest < 0) {
+            
+			double behind = -rest;
+        	double lost = behind - std::fmod(behind, rate);
+        	t1 += std::chrono::duration_cast<std::chrono::high_resolution_clock::duration>
+                                                        (std::chrono::duration<double>(lost));
+            it+=int(lost/rate);
+        } else {
+			std::this_thread::sleep_for(std::chrono::duration<double>(rest));
 		}
+
+        it++;
 
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
         // El 100% del CPU.
-		std::this_thread::sleep_for(std::chrono::milliseconds(rest));
-		t1 += std::chrono::milliseconds(FRAME_RATE);
-		it += 1;
-        if (elapsed>= 60) {
-            mapa->detener_worm(turno_gusano);
-            turno_gusano = proximo_turno(turno_gusano);
-            player_actual = id_player_por_gusano[turno_gusano];
-            std::cout << "El id del gusano jugando actualmente es : " << unsigned(turno_gusano) << std::endl;
-            startTime = std::chrono::high_resolution_clock::now();
-            std::cout << "Message after 60 seconds" << std::endl;
-        }
     }
 }}catch(const ClosedQueue& e){
         is_alive = false;
 }
 
-Snapshot Partida::generar_snapshot(float tiempo_turno, uint32_t id_gusano_current_turn){
-    Snapshot snap(mapa->devolver_gusanos());
-    snap.add_condiciones_partida(tiempo_turno,id_gusano_current_turn);
+Snapshot Partida::generar_snapshot(int iteraccion){
+    Snapshot snap(mapa->get_gusanos());
+    snap.add_condiciones_partida(iteraccion % (30 * 10),mapa->gusano_actual());
     return snap;
 }
 
@@ -122,22 +113,9 @@ Queue<std::shared_ptr<Comando>>& Partida::get_queue(){
 
 
 void Partida::enviar_primer_snapshot(){
-    uint16_t gusanos_disponibles = mapa->gusanos_totales();
-    uint16_t cantidad_players = broadcaster.cantidad_jugadores();
-
-    for(uint32_t i =0; i < gusanos_disponibles;i++){
-        int idx = i%cantidad_players;
-        if (id_gusanos_por_player.find(idx) != id_gusanos_por_player.end()){
-            id_gusanos_por_player[idx].push_back(i);
-        }
-        else{
-            std::vector<uint32_t> id_gusanos;
-            id_gusanos_por_player.insert({idx,id_gusanos});
-            id_gusanos_por_player[idx].push_back(i);
-        }
-        id_player_por_gusano.insert({i,i%cantidad_players});
-    }
+    std::map<uint32_t, std::vector<uint32_t>> id_gusanos_por_player = mapa->repartir_ids(broadcaster.cantidad_jugadores());
     Snapshot snap(mapa->get_gusanos(), mapa->get_vigas());
+    snap.add_condiciones_partida(0,mapa->gusano_actual());
     // std::vector<float> tamanio_mapa = mapa->get_size();
     broadcaster.informar_primer_snapshot(id_gusanos_por_player, snap);
 }

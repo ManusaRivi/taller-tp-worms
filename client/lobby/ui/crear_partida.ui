@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Crear_Partida</class>
+ <widget class="QWidget" name="Crear_Partida">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>580</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>580</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLabel#label_3 {
+	border-image: url(&quot;:imagenes/worms_background.png&quot;)
+}
+
+/* Estilo para QLineEdit */
+QLineEdit {
+    border: 2px solid #c0392b; /* Borde rojo más oscuro */
+    background-color: #f9d9d9; /* Fondo rojo claro (ajusta el color según tus preferencias) */
+    padding: 8px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes menos redondeados */
+    font-size: 14px; /* Tamaño de fuente */
+    font-family: &quot;YourDesiredFont&quot;, sans-serif; /* Cambia &quot;YourDesiredFont&quot; a la tipografía que desees */
+}
+
+/* Estilo para QComboBox */
+QComboBox {
+    border: 2px solid #c0392b; /* Borde rojo más oscuro */
+    background-color: #f9d9d9; /* Fondo rojo claro (ajusta el color según tus preferencias) */
+    padding: 8px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes menos redondeados */
+    font-size: 14px; /* Tamaño de fuente */
+    font-family: &quot;YourDesiredFont&quot;, sans-serif; /* Cambia &quot;YourDesiredFont&quot; a la tipografía que desees */
+}
+
+/* Estilo para el menú desplegable del QComboBox */
+QComboBox QAbstractItemView {
+    border: 2px solid #c0392b; /* Borde rojo más oscuro */
+    background-color: #f9d9d9; /* Fondo rojo claro (ajusta el color según tus preferencias) */
+    selection-background-color: #c0392b; /* Color de fondo al seleccionar */
+}
+
+/* Estilo para QPushButton (Botones) */
+QPushButton#crear {
+    color: white; /* Color del texto */
+    padding: 12px 24px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+    text-decoration: none; /* Decoración del texto */
+    display: inline-block;
+    font-size: 16px; /* Tamaño de fuente */
+    margin: 8px; /* Márgenes */
+    border-radius: 15px; /* Bordes redondeados */
+    font-family: &quot;Arial&quot;, sans-serif; /* Tipo de fuente */
+    font-weight: bold; /* Letras más gruesas */
+}
+
+QPushButton:hover#crear {
+    background-color: #c0392b; /* Cambio de color al pasar el mouse a rojo más oscuro */
+}
+
+QPushButton {
+    background-color: #e74c3c; /* Rojo */
+    border: 2px solid #c0392b; /* Borde rojo más oscuro */
+    color: white; /* Color del texto */
+    padding: 8px 16px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+    text-decoration: none; /* Decoración del texto */
+    font-size: 14px; /* Tamaño de fuente */
+    margin: 4px; /* Márgenes */
+    border-radius: 8px; /* Bordes redondeados */
+    font-family: &quot;YourDesiredFont&quot;, sans-serif; /* Cambia &quot;YourDesiredFont&quot; a la tipografía que desees */
+    font-weight: bold; /* Letras más gruesas */
+}
+
+QPushButton:hover {
+    background-color: #c0392b; /* Cambio de color al pasar el mouse a rojo más oscuro */
+}
+
+/* Estilo para QLabel */
+QLabel {
+    color: #c0392b; /* Rojo */
+    font-size: 16px; /* Tamaño de fuente */
+    font-family: &quot;YourDesiredFont&quot;, sans-serif; /* Cambia &quot;YourDesiredFont&quot; a la tipografía que desees */
+    font-weight: bold; /* Letras más gruesas */
+}
+
+/* Estilo para QMessageBox::warning */
+QMessageBox {
+    border: 2px solid #e74c3c; /* Borde rojo */
+    background-color: #f2dede; /* Fondo rojo claro */
+    color: #a94442; /* Color del texto */
+    font-size: 14px; /* Tamaño de fuente */
+    font-family: &quot;Arial&quot;, sans-serif; /* Tipo de fuente */
+}
+</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0" rowspan="5" colspan="5">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>389</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="2" rowspan="3" colspan="2">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Nombre de la partida</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Mapa</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="1">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLineEdit" name="lineEdit"/>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox">
+           <item>
+            <property name="text">
+             <string>New Item1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>New Item2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>New Item3</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>New Item4</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="crear">
+         <property name="text">
+          <string>Unirse</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="4" rowspan="2">
+    <spacer name="horizontalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>350</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="1">
+    <spacer name="horizontalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>351</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

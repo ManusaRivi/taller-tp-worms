@@ -21,6 +21,7 @@
 #define CODIGO_PARTIDA_POR_COMENZAR 0x06
 #define CODIGO_UNIRSE_PARTIDA 0x07
 #define CODIGO_HANDSHAKE_EMPEZAR_PARTIDA 0x08
+
 #define CODIGO_SNAPSHOT 0x10
 #define CODIGO_CAMBIAR_ANGULO 0x11
 #define CODIGO_CARGAR_ARMA 0x12
@@ -30,6 +31,7 @@
 #define CODIGO_CAMBIAR_ARMA 0x16
 #define CODIGO_RECIBIR_VIGAS 0x17
 #define CODIGO_LISTAR_MAPAS 0x18
+#define CODIGO_CAMBIAR_DIRECCION_APUNTADO 0x20
 
 
 #define SIZE_DOS 2
@@ -47,7 +49,7 @@ class Protocolo{
     public:
     Socket &skt;
 
-    Protocolo(Socket &skt);
+    Protocolo(Socket& skt);
 
     void enviar_4_bytes_float(float num);
 

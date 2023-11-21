@@ -1,5 +1,9 @@
 #include "snapshot.h"
 
+
+Snapshot::Snapshot(){
+    
+}
 Snapshot::Snapshot(std::vector<WormWrapper> worms, std::vector<std::vector<float>> vigas) : worms(worms), vigas(vigas), snapshot_de_la_partida(true) {}
 
 Snapshot::Snapshot(std::vector<WormWrapper> worms) : worms(worms), snapshot_de_la_partida(true) {}

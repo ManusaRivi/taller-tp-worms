@@ -19,7 +19,7 @@ void Recibidor::run()try{{
         Mensaje msg = ptcl.recibir_comando(was_closed,id);
         if(msg.tipo_mensaje() == COMANDO::CMD_CREAR_PARTIDA){
             printf("Se recibe un mensaje para crear partdia\n");
-            uint32_t id_partida_queue = lobby.crear_partida(msg.nombre_mapa,snapshots); 
+            uint32_t id_partida_queue = lobby.crear_partida(msg.nombre_partida,snapshots,msg.id_mapa); 
             id_partida = id_partida_queue;
         }
 
@@ -42,7 +42,9 @@ void Recibidor::run()try{{
         if(msg.tipo_mensaje() == COMANDO::CMD_UNIRSE_PARTIDA){
             lobby.unirse_a_partida(msg.id_partida_a_unirse,snapshots);
             this->id_partida = msg.id_partida_a_unirse;
+            id++;
         }
+
         if (msg.tipo_mensaje() == COMANDO::CMD_HANDSHAKE){
 
             std::pair<uint32_t,std::vector<uint32_t>> id_gusanos = msg.gusanos_por_player;
@@ -56,6 +58,9 @@ void Recibidor::run()try{{
         Queue<std::shared_ptr<Comando>> &queue_acciones = lobby.get_queue(id_partida);
         while(partida_online && is_alive){
             std::shared_ptr<Comando> cmd = ptcl.recibir_accion(id);
+            if(!cmd){
+                continue;
+            }
             queue_acciones.push(cmd);
         }
     }

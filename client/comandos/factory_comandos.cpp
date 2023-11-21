@@ -37,3 +37,7 @@ shared_ptr<CambiarAnguloCliente> FactoryComandos::accion_cambiar_angulo(uint8_t 
 shared_ptr<CargarArmaCliente> FactoryComandos::accion_cargar_arma(){
     return make_shared<CargarArmaCliente>();
 }
+
+shared_ptr<CambiarDireccionArmaCliente> FactoryComandos::accion_cambiar_direccion_arma(uint8_t dir){
+    return make_shared<CambiarDireccionArmaCliente>(dir);
+}

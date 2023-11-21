@@ -1,14 +1,26 @@
 #include "worm.h"
 
+union BodyUserData {
+    Worm* worm;
+    // Otros tipos de datos que puedas necesitar.
+};
+
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
-            coleccionArmas(new ColeccionArmas(world)), facingDirection(direction), airborne(false), hitPoints(hitPoints),
-            initialHeight(0.0f), finalHeight(0.0f), jumpSteps(0), id(id_), angulo_disparo(0)
+            coleccionArmas(new ColeccionArmas(world)), facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
+            finalHeight(0.0f), jumpSteps(0), id(id_), status(0), angulo_disparo(0.0f), apuntando(false)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
+    // printf("La posicion en el constructo es %f  %f\n",x_pos,y_pos);
     gusanoDef.position.Set(x_pos, y_pos);
+
+    BodyUserData userData;
+    userData.worm = this;
+    gusanoDef.userData.pointer = reinterpret_cast<uintptr_t>(userData.worm);
+
     b2Body *gusano = world.CreateBody(&gusanoDef);
     this->body = gusano;
+    
 
     b2PolygonShape gusanoBox;
     gusanoBox.SetAsBox(BOX_WIDTH, BOX_HEIGHT);
@@ -19,8 +31,12 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     fixtureGusano.friction = WORM_FRICTION;
     fixtureGusano.filter.categoryBits = CollisionCategories::WORM_COLL;
     fixtureGusano.filter.maskBits = (CollisionCategories::BOUNDARY_COLL | CollisionCategories::PROJECTILE_COLL);
+    fixtureGusano.filter.maskBits &= ~CollisionCategories::WORM_COLL;
+              
+    this->body->SetFixedRotation(true); // Evita que rote
 
     this->body->CreateFixture(&fixtureGusano);
+    // printf("luego de crearle las fixtures la posicion del gusano es %f   %f\n", body->GetPosition().x, body->GetPosition().y);
 }
 
 bodyType Worm::identificar() {
@@ -29,6 +45,11 @@ bodyType Worm::identificar() {
 
 void Worm::Move(int dir) {
     if (jumpSteps > 0) return;
+
+    if (isAirborne()){
+        return;
+    }
+    
     b2Vec2 velocity = body->GetLinearVelocity();
     switch(dir) {
         case RIGHT:
@@ -40,7 +61,8 @@ void Worm::Move(int dir) {
             velocity.x = -1 * MOVING_SPEED;
             break;
     }
-    status = 1;
+    status = STATUS_MOVING;
+    // printf("la posicion del gusano es : = %f \n", this->body->GetPosition().x);
     body->SetLinearVelocity(velocity);
 }
 
@@ -49,6 +71,7 @@ void Worm::Stop() {
     b2Vec2 velocity = body->GetLinearVelocity();
     velocity.x = 0.0f;
     body->SetLinearVelocity(velocity);
+    status = STATUS_IDLE;
 }
 
 void Worm::JumpForward() {
@@ -116,7 +139,8 @@ void Worm::takeDamage(int damage) {
 
 std::vector<float> Worm::GetPosition() {
     b2Vec2 position = body->GetPosition();
-    return std::vector<float> (position.x, position.y);
+    // printf("Al pedire la posicion se devuelve %f   %f\n",position.x,position.y);
+    return std::vector<float> ({position.x, position.y});
 }
 
 float Worm::GetAngle() {
@@ -148,6 +172,7 @@ void Worm::cambiar_arma(uint8_t id_arma){
     if (isAirborne()){
         return;
     }
+    printf("Se recibe un id de arma %u\n",id_arma);
     status = id_arma;
 }
 
@@ -163,9 +188,9 @@ bool Worm::esta_apuntando(){
 void Worm::incrementar_angulo_en(float inc){
     if(!esta_apuntando_para_arriba){
         inc = -inc;
-        if(angulo_disparo + inc < 0){
-            return;
-        }
+    }
+    if(angulo_disparo + inc < -1.57 || angulo_disparo + inc > 1.57){
+        return;
     }
     angulo_disparo +=inc;
 }
@@ -185,4 +210,25 @@ float Worm::aiming_angle(){
 
 void Worm::parar_angulo(){
     apuntando = false;
+}
+
+uint8_t Worm::get_vida() {
+    return hitPoints;
+}
+
+void Worm::cambiar_direccion(uint8_t dir){
+    switch (dir)
+    {
+    case (RIGHT):
+        {
+            printf("Se recibe comando cambiar_direccion a derecha\n");
+            this->facingDirection = RIGHT;
+            break;
+        }
+    case (LEFT):{
+        printf("Se recibe comando cambiar direccino a izquerda\n");
+        this->facingDirection = LEFT;
+        break;
+    }
+    }
 }

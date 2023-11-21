@@ -1,5 +1,7 @@
 #include "game.h"
-
+#include "../comandos/mensajes/mensaje_handshake.h"
+#include "../comandos/mensajes/mensaje_snapshot.h"
+#include "../comandos/mensajes/mensaje_handshake_enviar.h"
 using namespace SDL2pp;
 
 #define GAME_MOVE_RIGHT 0x01
@@ -11,16 +13,16 @@ using namespace SDL2pp;
 #define ANGULO_ARRIBA 0x00
 #define ANGULO_ABAJO 0x01
 
-#define BAZOOKA 0x05
-#define BASEBALL 0x06
-#define TELEPORTACION 0x08
-#define DINAMITA 0x09
-#define ATAQUE_AEREO 0x11
-#define GRANADA_SANTA 0x12
-#define GRANADA_VERDE 0x14
-#define BANANA 0x16
-#define GRANADA_ROHA 0x18
-#define MORTERO 0x20
+#define BAZOOKA 5
+#define BASEBALL 6
+#define TELEPORTACION 8
+#define DINAMITA 9
+#define ATAQUE_AEREO 11
+#define GRANADA_SANTA 12
+#define GRANADA_VERDE 14
+#define BANANA 16
+#define GRANADA_ROHA 18
+#define MORTERO 20
 
 Game::Game(Queue<std::shared_ptr<MensajeCliente>> &queue, Queue<std::shared_ptr<MensajeCliente>> &acciones_):snapshots(queue), acciones(acciones_){}
 
@@ -34,13 +36,15 @@ int Game::run() try {
 	bool se_recibieron_ids = false;
 	while(!se_recibieron_ids){
 		std::shared_ptr<MensajeCliente> msg = snapshots.pop();
-		if (msg->tipo_comando == COMANDO::CMD_HANDSHAKE){
-			id_gusanos = msg->id_gusanos;
-			id_player = msg->id_player;
-			snapshot = msg->snap;
-			acciones.push(msg);
+		if (msg->get_tipo_comando() == COMANDO::CMD_HANDSHAKE){
+			std::shared_ptr<MensajeHandshake> handshake = std::dynamic_pointer_cast<MensajeHandshake>(msg);
+			id_gusanos = handshake->get_gusanos();
+			id_player = handshake->get_id();
+			world = handshake->get_world();
+			// std::shared_ptr<MensajeHandshakeEnviar> handshake_envaiar = std::make_shared<MensajeHandshakeEnviar>(id_player,id_gusanos);
+			acciones.push(handshake);
 			se_recibieron_ids = true;
-			world = msg->world;
+			
 
 			/*
 				En el Handshake deberia recibir las posiciones de las vigas 
@@ -65,7 +69,7 @@ int Game::run() try {
 		}
 	}
 
-	printf("El id del player es : %u", id_player);
+	printf("El id del player es : %u \n", id_player);
 	
 
 
@@ -91,7 +95,7 @@ int Game::run() try {
     TextureManager texture_manager(renderer);
 
 	// Reproduzco musica ambiente
-	//Chunk musica_ambiente(PROJECT_SOURCE_DIR "/client/game/Sonidos/data/MusicaAmbiente.mp3");
+	//Chunk musica_ambiente(PROJECT_SOURCE_DIR "./client/game/Sonidos/data/MusicaAmbiente.mp3");
 	//mixer.PlayChannel(-1, musica_ambiente, 0);
 
 	// Tomo el tiempo actual
@@ -111,6 +115,7 @@ int Game::run() try {
 	bool is_aiming = false;
 	bool is_charging_power = false;
     // Loop principal
+
 	while (1) {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
@@ -125,6 +130,8 @@ int Game::run() try {
 						// Quiere mirar a la derecha mientras apunta
 						// Enviar por protocolo "mirar a la derecha apuntando" (es cambiar el 
 						// lado para el cual mira si antes miraba a la izquierda)
+						std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_direccion_arma(GAME_MOVE_RIGHT);
+						acciones.push(msg);
 					} else {
 						right_press = true;
 						std::shared_ptr<MensajeCliente> msg = mensajes.moverse(GAME_MOVE_RIGHT);
@@ -135,6 +142,8 @@ int Game::run() try {
 						// Quiere mirar a la izquierda mientras apunta
 						// Enviar por protocolo "mirar a la izquierda apuntando" (es cambiar el 
 						// lado para el cual mira si antes miraba a la derecha)
+						std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_direccion_arma(GAME_MOVE_LEFT);
+						acciones.push(msg);
 					} else {
 						left_press = true;
 						std::shared_ptr<MensajeCliente> msg = mensajes.moverse(GAME_MOVE_LEFT);
@@ -192,6 +201,7 @@ int Game::run() try {
 					// Selecciono la Granada santa
 					is_aiming = true;
 					has_selected_weapon = true;
+					printf("Se manda una granada santa\n");
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(GRANADA_SANTA);
 					acciones.push(msg);
 					// Enviar comando "saco granada santa" por protocolo
@@ -269,6 +279,7 @@ int Game::run() try {
 					acciones.push(msg);
 					// Enviar por protocolo que disparó (que dejo de cargar el poder)
 					is_aiming = false;
+					has_selected_weapon = false;
 				} else if (tecla == SDLK_RETURN) {
 					return_press = false;
 				} else if (tecla == SDLK_BACKSPACE) {
@@ -290,8 +301,9 @@ int Game::run() try {
 
         //Saco una SnapshotCliente de la Queue
         std::shared_ptr<MensajeCliente> snap = snapshots.pop();
-		if (snap->tipo_comando == COMANDO::CMD_ENVIAR_SNAPSHOT){
-			std::shared_ptr<SnapshotCliente> snapshot = snap->snap;
+		if (snap->get_tipo_comando() == COMANDO::CMD_ENVIAR_SNAPSHOT){
+			std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(snap);
+			std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
 			snapshot->apply_to_world((*world));
 			(*world).present(it_inc, renderer, texture_manager, x_scale, y_scale);
 			//snapshot->present(it_inc, renderer, texture_manager, window_width, window_height, x_scale, y_scale);

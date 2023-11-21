@@ -8,7 +8,7 @@ ComandoMovimiento::ComandoMovimiento(uint8_t direccion, uint32_t id):Comando(id)
 
 
 
-void ComandoMovimiento::realizar_accion(Mapa* mapa,uint32_t id){
+void ComandoMovimiento::realizar_accion(Mapa* mapa){
     int direccion;
 
     if(dir == 0x01){
@@ -17,6 +17,6 @@ void ComandoMovimiento::realizar_accion(Mapa* mapa,uint32_t id){
     else{
         direccion = 1;
     }
-    mapa->MoveWorm(id,direccion);
+    mapa->MoveWorm(this->get_responsable(),direccion);
 }
 

@@ -7,19 +7,23 @@
 #include "./colisionable.h"
 
 #include <vector>
+#include <iostream>
 
 enum directions {
     RIGHT = 0,
     LEFT = 1,
 };
 
+#define STATUS_MOVING 1
+#define STATUS_IDLE 0
+
 #define BOX_WIDTH 0.5f
 #define BOX_HEIGHT 0.5f
 
 #define WORM_DENSITY 0.2f
-#define WORM_FRICTION 1.0f
+#define WORM_FRICTION 0.0f
 
-#define MOVING_SPEED 0.2
+#define MOVING_SPEED 0.2f
 
 #define FORWARD_JUMP_STEPS 38
 #define BACKWARD_JUMP_STEPS 58
@@ -39,7 +43,7 @@ private:
     Arma* armaActual;
     int facingDirection;
     bool airborne;
-    int hitPoints;
+    uint8_t hitPoints;
     float initialHeight;
     float finalHeight;
 
@@ -92,6 +96,10 @@ public:
     float aiming_angle();
 
     void parar_angulo();
+
+    uint8_t get_vida();
+
+    void cambiar_direccion(uint8_t dir);
 };
 
 #endif

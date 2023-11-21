@@ -39,6 +39,9 @@ class World {
     public:
     World(float map_width, float map_height);
 
+    std::vector<Beam> get_beams();
+    std::map<int, std::shared_ptr<Worm>> get_worms();
+
     void update_camera(int id_camera);
 
     void add_worm(std::shared_ptr<Worm> worm, int id);
@@ -52,6 +55,9 @@ class World {
                         TextureManager& texture_manager,
                         float& x_scale,
                         float& y_scale);
+
+    // Metodos unicamente para testear
+
 };
 
 #endif

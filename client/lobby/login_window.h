@@ -6,6 +6,9 @@
 #include <QMainWindow>
 #include <string>
 
+#include "../../common/socket.h"
+#include "../protocolo/protocoloCliente.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class Login_Window; }
 QT_END_NAMESPACE
@@ -15,10 +18,10 @@ class Login_Window : public QWidget
     Q_OBJECT
 
 public:
-    explicit Login_Window(QWidget *parent = nullptr, QStackedWidget* stackedWidget = nullptr);
+    explicit Login_Window(QWidget *parent = nullptr, QStackedWidget* stackedWidget = nullptr, Socket* skt = nullptr);
     ~Login_Window();
-    std::string server;
-    std::string port;
+    Socket* getSocket();
+    Socket* skt;
 
 public slots:
     void onComenzarButtonClicked();

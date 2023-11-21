@@ -24,13 +24,13 @@ class Partida:public Thread{
 
 
     public:
-    Partida(uint32_t id_partida, std::string nombre);
+    Partida(uint32_t id_partida, std::string nombre, Mapa* mapa);
     void run() override;
     std::string get_nombre();
     void add_queue(Queue<Mensaje>* snapshots);
     Queue<std::shared_ptr<Comando>>& get_queue();
 
-    Snapshot generar_snapshot(float tiempo_turno, uint32_t id_gusano_current_turn);
+    Snapshot generar_snapshot(int iteracion);
 
     void remover_player(Queue<Mensaje>* snapshots);
     

@@ -51,6 +51,12 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id)try{{
             comando = factory.comando_detener_angulo(id);
             break;
         }
+        case (CODIGO_CAMBIAR_DIRECCION_APUNTADO):{
+            printf("Se recibe codigo par acambiar direccion de apuntado\n");
+            uint8_t dir = recibir_1_byte();
+            comando = factory.comando_cambia_direccion_arma(id,dir);
+            break;
+        }
     }
     return comando;
 
@@ -69,7 +75,8 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id)try{{
 
     if (buf == CODIGO_CREAR_PARTIDA){
         std::string nombre = recibir_string();
-        Mensaje msg(nombre);
+        uint16_t id_mapa = recibir_2_bytes();
+        Mensaje msg(nombre,id_mapa);
         return msg;
     }
     if (buf == CODIGO_EMPEZAR_PARTIDA){
@@ -83,10 +90,13 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id)try{{
         Mensaje msg(COMANDO::CMD_LISTAR_PARTIDAS);
         return msg;
     }
-    if(buf == CODIGO_LISTAR_MAPAS){
+
+    if (buf == CODIGO_LISTAR_MAPAS) {
+        printf("Se recibe pedido de listar mapas\n");
         Mensaje msg(COMANDO::CMD_LISTAR_MAPAS);
         return msg;
     }
+
     if (buf == CODIGO_UNIRSE_PARTIDA){
         printf("Se recibe un pedido de unirse a partida");
         uint32_t id_partida = recibir_4_bytes();
@@ -189,7 +199,8 @@ void ServerProtocolo::enviar_gusanos(Snapshot snap){
         float angulo = c.get_angulo();
         uint8_t direccion = c.get_direccion();
         uint8_t estado = c.get_estado();
-        float angulo_disparo = c.get_angulo_disparo();
+        float angulo_disparo = c.get_angulo_disparo() + 1.57;
+        uint8_t vida = c.get_vida();
 
         enviar_4_bytes(id);
         enviar_4_bytes_float(posicion[0]);
@@ -199,6 +210,7 @@ void ServerProtocolo::enviar_gusanos(Snapshot snap){
         enviar_1_byte(direccion);
         enviar_1_byte(estado);
         enviar_4_bytes_float(angulo_disparo);
+        enviar_1_byte(vida);
 
     }
 }

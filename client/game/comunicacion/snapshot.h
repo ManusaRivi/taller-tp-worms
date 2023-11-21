@@ -1,5 +1,5 @@
-#ifndef SNAPSHOT_H
-#define SNAPSHOT_H
+#ifndef SNAPSHOT_CLIENTE
+#define SNAPSHOT_CLIENTE
 
 #include <SDL2pp/SDL2pp.hh>
 #include <map>
@@ -24,6 +24,8 @@ class SnapshotCliente {
     //Constructor
     SnapshotCliente(int id_camera);
 
+    std::map<int, std::shared_ptr<Worm>> get_worms();
+
     //Agrega un gusano a la lista de gusanos
     void add_worm(std::shared_ptr<Worm> worm, int id);
 
@@ -44,7 +46,7 @@ class SnapshotCliente {
 
     void imprimir_posiciones();
 
-    std::map<int, std::shared_ptr<Worm>> get_worms();
+    
 };
 
 #endif

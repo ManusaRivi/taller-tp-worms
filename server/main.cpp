@@ -2,14 +2,14 @@
 #include "threads/threadAceptador.h"
 #include "monitorBroadcaster.h"
 #include "partida.h"
-//#include "mapContainer.h"
 
 int main(int argc, char* argv[]) {
 
-    const char* name = "1560";
+    const char* name = "1619";
     BroadCaster broadcaster;
     Queue<std::shared_ptr<Comando>> acciones_a_realizar;
-    Lobby lobby;
+    MapContainer mapas;
+    Lobby lobby(mapas);
     Aceptador skt(name,broadcaster,acciones_a_realizar,lobby);
     skt.start();
     //lobby.start_lobby();
@@ -25,17 +25,14 @@ int main(int argc, char* argv[]) {
         }
 
     }
-    printf("Se le hace kill al lobby\n");
     lobby.kill();
-    printf("Se le hace shutdown al socket\n");
     skt.shutdown();
     //MapContainer mapContainer;
     //Partida partida;
     //partida.run();
     //Box2dPoC poc;
     //poc.run();
-    printf("Se le va a hacer join al socket\n");
     skt.join();
-    printf("Se le hace join al socket\n");
+    printf("Se cierra el server correctamente\n");
     return 0;
 }

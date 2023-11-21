@@ -7,8 +7,8 @@
 #include <vector>
 #include "../../Texturas/texture_manager.h"
 
-#define WORM_WIDTH 0.4f
-#define WORM_HEIGHT 0.4f
+#define WORM_WIDTH 1
+#define WORM_HEIGHT 1
 
 /*
  * Modela el estado del gusano para poder renderizarlo.
@@ -34,12 +34,24 @@ class WormState {
                         float& pos_x,
                         float& pos_y,
                         float& x_scale,
-                        float& y_scale);
+                        float& y_scale,
+                        int& vida);
     
     virtual bool is_finished();
 
+    int get_iteration();
+
+    void set_iteration(int& it);
+    
     //Destructor virtual
     virtual ~WormState() {}
+
+    float get_direction();
+
+    float get_shooting_angle();
+
+    float get_worm_angle();
+
 };
 
 #endif

@@ -5,11 +5,86 @@ vigas:
     pos_x: 0
     pos_y: 0
     angulo: 0
+  - tipo: larga
+    pos_x: 3
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 6
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 9
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 12
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 15
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 18
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 21
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 24
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 27
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 30
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 33
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 36
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 39
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 42
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 45
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 48
+    pos_y: 0
+    angulo: 0
+  - tipo: larga
+    pos_x: 51
+    pos_y: 0
+    angulo: 0
+
 
 gusanos:
-  - pos_x: -1.5
+  - pos_x: 1
     pos_y: 0.82
     direccion: 0
-  - pos_x: 1.5
+  - pos_x: 2
+    pos_y: 0.82
+    direccion: 1
+  - pos_x: 3
+    pos_y: 0.82
+    direccion: 0
+  - pos_x: 4
     pos_y: 0.82
     direccion: 1

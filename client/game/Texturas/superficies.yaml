@@ -37,3 +37,6 @@
 - nombre: Background
   ruta: /client/game/Texturas/data/sprites/Background.png
 
+# Proyectiles
+- nombre: Missile
+  ruta: /client/game/Texturas/data/sprites/Missile.png

@@ -27,6 +27,8 @@
 #include "../comandos/factory_mensajes.h"
 #include <chrono>
 
+#include "Proyectiles/projectile_generator.h"
+
 class Game {
     private:
     Queue<std::shared_ptr<MensajeCliente>> &snapshots;

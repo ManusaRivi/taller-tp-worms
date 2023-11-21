@@ -29,7 +29,7 @@ void Beam::present(Renderer& renderer,
 				Rect(static_cast<int>((pos_rel_x - _tamano/2) * x_scale),
 					static_cast<int>((pos_rel_y - BEAM_WIDTH / 2) * y_scale),
 					_tamano * x_scale, BEAM_WIDTH * y_scale), // Donde lo grafico
-				0.0,        // Angulo
+				angulo,        // Angulo
 				NullOpt,
 				SDL_FLIP_NONE        // Flip
 			);

@@ -5,8 +5,8 @@
 #define FRAME_RATE 33
 
 // Tamaño de la camara (7.11, 4)
-#define CAMERA_WIDTH 7.11
-#define CAMERA_HEIGHT 4
+#define CAMERA_WIDTH 16
+#define CAMERA_HEIGHT 9
 
 #define GAME_MIX_FORMAT 0x00008010
 

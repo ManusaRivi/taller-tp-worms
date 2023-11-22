@@ -31,7 +31,7 @@ void World::present_background(Renderer& renderer,
     // Busco textura
     std::string texture_name("Background");
     Texture& background_tex = texture_manager.get_texture(texture_name);
-
+    
     // Encuentro posicion relativa (esta en el (0, alto_mapa))
     float pos_rel_x = 0 - camera_x;
     float pos_rel_y = 0 - camera_y;
@@ -44,6 +44,34 @@ void World::present_background(Renderer& renderer,
 				Rect(static_cast<int>(pos_rel_x * x_scale),
 					static_cast<int>(pos_rel_y * y_scale),
 					_map_width * x_scale, _map_height * y_scale), // Donde lo grafico
+				0.0,        // Angulo
+				NullOpt,
+				SDL_FLIP_NONE        // Flip
+			);
+}
+
+void World::present_water(
+                        Renderer& renderer,
+                        TextureManager& texture_manager,
+                        float& x_scale,
+                        float& y_scale,
+                        float& camera_x,
+                        float& camera_y
+                        ) {
+
+    std::string texture_name_water("Agua");
+    Texture& water_tex = texture_manager.get_texture(texture_name_water);
+
+    float pos_rel_x = 0 - camera_x;
+    float pos_rel_y = _map_height - WATER_SPRITE_HEIGHT - camera_y;
+
+    //Grafico
+    water_tex.SetAlphaMod(255); // Wl agua es totalmente opaca
+    renderer.Copy(water_tex,
+				Rect(0, 0, WATER_SPRITE_WIDTH, WATER_SPRITE_HEIGHT), // El sprite
+				Rect(static_cast<int>(pos_rel_x * x_scale),
+					static_cast<int>(pos_rel_y * y_scale),
+					WATER_SPRITE_WIDTH * x_scale, WATER_SPRITE_HEIGHT * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,
 				SDL_FLIP_NONE        // Flip
@@ -104,6 +132,8 @@ void World::present(int& it_inc,
     for (auto& worm : worms) {
         worm.second->present(it_inc, renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
     }
+
+    present_water(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
 
     // Grafico HUD
     present_hud(renderer, texture_manager, x_scale, y_scale);

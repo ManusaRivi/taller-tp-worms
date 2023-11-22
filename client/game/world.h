@@ -11,6 +11,9 @@
 #define BACKGROUND_WIDTH 576
 #define BACKGROUND_HEIGHT 324
 
+#define WATER_SPRITE_WIDTH 860
+#define WATER_SPRITE_HEIGHT 1
+
 #define HUD_SPRITE_WIDTH 320
 #define HUD_SPRITE_HEIGHT 64
 
@@ -31,6 +34,13 @@ class World {
                         float& y_scale,
                         float& camera_x,
                         float& camera_y);
+
+    void present_water(Renderer& Renderer,
+                        TextureManager& texture_manager,
+                        float& x_scale,
+                        float& y_scale,
+                        float& camera_x,
+                        float& camera_y);   
 
     void present_hud(Renderer& Renderer,
                         TextureManager& texture_manager,

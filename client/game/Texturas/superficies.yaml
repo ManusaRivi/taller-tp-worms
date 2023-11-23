@@ -44,3 +44,28 @@
 # Proyectiles
 - nombre: Missile
   ruta: /client/game/Texturas/data/sprites/Missile.png
+
+- nombre: AirMissile
+  ruta: /client/game/Texturas/data/sprites/AirMissile.png
+
+- nombre: Banana
+  ruta: /client/game/Texturas/data/sprites/Banana.png
+
+- nombre: DynamiteExploding
+  ruta: /client/game/Texturas/data/sprites/DynamiteExploding.png
+
+- nombre: GreenGranade
+  ruta: /client/game/Texturas/data/sprites/GreenGranade.png
+
+- nombre: HolyGranade
+  ruta: /client/game/Texturas/data/sprites/HolyGranade.png
+
+- nombre: Mortar
+  ruta: /client/game/Texturas/data/sprites/Mortar.png
+
+- nombre: RedGranade
+  ruta: /client/game/Texturas/data/sprites/RedGranade.png
+
+- nombre: RedGranadeDrop
+  ruta: /client/game/Texturas/data/sprites/RedGranadeDrop.png
+

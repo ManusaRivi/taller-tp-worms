@@ -3,12 +3,18 @@
 
 #include <vector>
 #include <map>
+#include <memory>
 #include <string>
 #include "comunicacion/worm.h"
 #include "comunicacion/beam.h"
+#include "camara.h"
+#include "comunicacion/projectile.h"
 
 #define BACKGROUND_WIDTH 576
 #define BACKGROUND_HEIGHT 324
+
+#define WATER_SPRITE_WIDTH 860
+#define WATER_SPRITE_HEIGHT 1
 
 #define HUD_SPRITE_WIDTH 320
 #define HUD_SPRITE_HEIGHT 64
@@ -20,6 +26,7 @@ class World {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
     std::vector<Beam> beams;
+    std::vector<std::unique_ptr<Projectile>> projectiles;
     int _id_camera;
     float _map_width;
     float _map_height;
@@ -30,6 +37,13 @@ class World {
                         float& y_scale,
                         float& camera_x,
                         float& camera_y);
+
+    void present_water(Renderer& Renderer,
+                        TextureManager& texture_manager,
+                        float& x_scale,
+                        float& y_scale,
+                        float& camera_x,
+                        float& camera_y);   
 
     void present_hud(Renderer& Renderer,
                         TextureManager& texture_manager,
@@ -50,11 +64,14 @@ class World {
 
     void add_beam(Beam beam);
 
+    void add_projectile(std::unique_ptr<Projectile> projectile);
+
     void present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
                         float& x_scale,
-                        float& y_scale);
+                        float& y_scale,
+                        Camara& camara);
 
     // Metodos unicamente para testear
 

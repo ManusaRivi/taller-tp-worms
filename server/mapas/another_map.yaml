@@ -3,31 +3,31 @@ nombre: selva
 vigas:
   - tipo: larga
     pos_x: 0
-    pos_y: 0
+    pos_y: 10
     angulo: 0
   - tipo: larga
     pos_x: 3
-    pos_y: 0
+    pos_y: 10
     angulo: 0
   - tipo: larga
     pos_x: 6
-    pos_y: 0
+    pos_y: 10
     angulo: 0
   - tipo: larga
     pos_x: 9
-    pos_y: 0
+    pos_y: 10
     angulo: 0
   - tipo: larga
     pos_x: 12
-    pos_y: 0
+    pos_y: 10
     angulo: 0
   - tipo: larga
     pos_x: 15
-    pos_y: 0
+    pos_y: 10
     angulo: 0
   - tipo: larga
     pos_x: 18
-    pos_y: 0
+    pos_y: 10
     angulo: 0
   - tipo: larga
     pos_x: 21
@@ -76,9 +76,9 @@ vigas:
 
 
 gusanos:
-  - pos_x: 1
-    pos_y: 0.82
+  - pos_x: 10
+    pos_y: 10.82
     direccion: 0
-  - pos_x: 2
-    pos_y: 0.82
+  - pos_x: 12
+    pos_y: 10.82
     direccion: 1

@@ -17,7 +17,7 @@ void SnapshotCliente::apply_to_world(World& world) {
         world.update_worm(pair.first, std::move(pair.second));
     }
 }
-
+/*
 void SnapshotCliente::present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
@@ -45,7 +45,7 @@ void SnapshotCliente::present(int& it_inc,
 
     renderer.Present();
 }
-
+*/
 void SnapshotCliente::agregar_turno_actual(uint32_t turno){
     this->id_turno_actual = turno;
 }
@@ -58,4 +58,8 @@ void SnapshotCliente::imprimir_posiciones(){
 
 std::map<int, std::shared_ptr<Worm>> SnapshotCliente::get_worms(){
     return this->worms;
+}
+
+void SnapshotCliente::actulizar_camara(uint32_t id){
+    this->_id_camera = id;
 }

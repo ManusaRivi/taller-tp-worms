@@ -5,8 +5,8 @@
 #define FRAME_RATE 33
 
 // Tamaño de la camara (7.11, 4)
-#define CAMERA_WIDTH 10
-#define CAMERA_HEIGHT 10
+#define CAMERA_WIDTH 16
+#define CAMERA_HEIGHT 9
 
 #define GAME_MIX_FORMAT 0x00008010
 
@@ -26,6 +26,9 @@
 #include "world.h"
 #include "../comandos/factory_mensajes.h"
 #include <chrono>
+#include "camara.h"
+
+#include "Proyectiles/projectile_generator.h"
 
 class Game {
     private:

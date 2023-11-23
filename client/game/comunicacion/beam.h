@@ -31,6 +31,7 @@ class Beam {
     //##################################################
     void present(Renderer& renderer,
                     TextureManager& texture_manager,
+                    float& map_height,
                     float& x_scale,
                     float& y_scale,
                     float& camera_x,

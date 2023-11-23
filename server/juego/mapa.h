@@ -13,12 +13,11 @@
 #include "./worm.h"
 #include "./beam.h"
 #include "./proyectiles/projectile.h"
+#include "./water.h"
 #include "./contact_listener.h"
 #include "turn_manager.h"
 
 // Copyright (c) 2019 Erin Catto
-
-
 
 class Mapa {
 private:
@@ -29,9 +28,10 @@ private:
     const int32 velocityIterations = 6;
     const int32 positionIterations = 2;
 
-    std::vector<Beam*> vigas;
+    std::vector<BeamServer*> vigas;
     std::vector<Worm*> worms;
     std::vector<Projectile*> projectiles;
+    Water* water;
 
     std::string nombre;
     TurnManager turnManager;

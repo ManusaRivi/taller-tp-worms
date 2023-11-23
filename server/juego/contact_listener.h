@@ -12,7 +12,9 @@ enum CollisionType {
     PROYECTIL_WORM,
     WORM_PROYECTIL,
     PROYECTIL_VIGA,
-    VIGA_PROYECTIL
+    VIGA_PROYECTIL,
+    WATER_WORM,
+    WORM_WATER
 };
 
 class ContactListener : public b2ContactListener {

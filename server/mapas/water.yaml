@@ -1,0 +1,15 @@
+nombre: agua
+
+vigas:
+  - tipo: larga
+    pos_x: 10
+    pos_y: 10
+    angulo: 0
+
+gusanos:
+  - pos_x: 10
+    pos_y: 10.82
+    direccion: 0
+  - pos_x: 12
+    pos_y: 10.82
+    direccion: 1

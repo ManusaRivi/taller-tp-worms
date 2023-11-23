@@ -7,7 +7,7 @@ class GameConfig
 {
 private:
     YAML::Node config;
-    GameConfig() :  config(YAML::LoadFile("../configuration.yaml")),
+    GameConfig() :  config(YAML::LoadFile(PROJECT_SOURCE_DIR "/game_config.yaml")),
                     puntos_de_vida(config["puntos_de_vida"].as<int>()),
                     bazooka_dmg(config["dmg_bazooka"].as<int>()),
                     bazooka_radius(config["cantidad_de_vidas"].as<int>()) {}

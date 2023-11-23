@@ -8,6 +8,8 @@ CollisionType ContactListener::getCollisionType(Colisionable* bodyA, Colisionabl
     if (tipoA == bodyType::PROJECTILE && tipoB == bodyType::WORM) return CollisionType::PROYECTIL_WORM;
     if (tipoA == bodyType::WORM && tipoB == bodyType::PROJECTILE) return CollisionType::WORM_PROYECTIL;
     if (tipoA == bodyType::PROJECTILE && tipoB == bodyType::BEAM) return CollisionType::PROYECTIL_VIGA;
+    if (tipoA == bodyType::WATER && tipoB == bodyType::WORM) return CollisionType::WORM_WATER;
+    if (tipoA == bodyType::WORM && tipoB == bodyType::WATER) return CollisionType::WATER_WORM;
     return CollisionType::VIGA_PROYECTIL;
 }
 
@@ -51,6 +53,16 @@ void ContactListener::BeginContact(b2Contact* contact) {
             Projectile* projectile = static_cast<Projectile*>(bodyB);
             projectile->explotar();
         }
+        case WATER_WORM:
+        {
+            Worm* worm = static_cast<Worm*>(bodyA);
+            worm->startWaterContact();
+        }
+        case WORM_WATER:
+        {
+            Worm* worm = static_cast<Worm*>(bodyB);
+            worm->startWaterContact();
+        }
             break;
     }
 }
@@ -78,5 +90,7 @@ void ContactListener::EndContact(b2Contact* contact) {
         case WORM_PROYECTIL: break;
         case PROYECTIL_VIGA: break;
         case VIGA_PROYECTIL: break;
+        case WATER_WORM: break;
+        case WORM_WATER: break;
     }
 }

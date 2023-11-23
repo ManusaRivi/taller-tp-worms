@@ -5,7 +5,7 @@ Aceptador::Aceptador(const char* hostname, BroadCaster &caster, Queue<std::share
                                                                                                                     broadcaster(caster),
                                                                                                                     acciones_a_realizar(accion),
                                                                                                                     lobby(lobby_){
-    std::cout << "Se crea el aceptador" << std::endl;
+    // std::cout << "Se crea el aceptador" << std::endl;
 }
 
 
@@ -16,7 +16,7 @@ void Aceptador::run() try{{
 
     while(true){
         Socket client_skt = this->aceptador.accept();
-        std::cout << "Se acepto un socket" << std::endl;
+        // std::cout << "Se acepto un socket" << std::endl;
         Queue<Mensaje> *queue_enviador = new Queue<Mensaje>;
 
 

@@ -18,23 +18,23 @@ void Recibidor::run()try{{
     while(is_alive){
         Mensaje msg = ptcl.recibir_comando(was_closed,id);
         if(msg.tipo_mensaje() == COMANDO::CMD_CREAR_PARTIDA){
-            printf("Se recibe un mensaje para crear partdia\n");
+            // printf("Se recibe un mensaje para crear partdia\n");
             uint32_t id_partida_queue = lobby.crear_partida(msg.nombre_partida,snapshots,msg.id_mapa); 
             id_partida = id_partida_queue;
         }
 
         if(msg.tipo_mensaje() == COMANDO::CMD_LISTAR_PARTIDAS){
-            printf("Se recibe pedido de listar partidas en recibidor\n");
+            // printf("Se recibe pedido de listar partidas en recibidor\n");
             lobby.listar_partidas(snapshots);
         }
 
         if(msg.tipo_mensaje() == COMANDO::CMD_LISTAR_MAPAS){
-            printf("Se recibe pedido de listar mapas\n");
+            // printf("Se recibe pedido de listar mapas\n");
             lobby.listar_mapas(snapshots);
         }
 
         if (msg.tipo_mensaje() == COMANDO::CMD_EMPEZAR_PARTIDA){
-            printf("Se recibe comando de empezar partida\n");
+            // printf("Se recibe comando de empezar partida\n");
             Queue<std::shared_ptr<Comando>> &queue_acciones = lobby.get_queue(id_partida);
             FactoryComandos factory;
             queue_acciones.push(factory.comando_empezar());
@@ -65,11 +65,11 @@ void Recibidor::run()try{{
         }
     }
 
-    std::cout << "Se desconecto el cliente" << std::endl;
+    // std::cout << "Se desconecto el cliente" << std::endl;
     is_alive = false;
 
 }}catch(const ClosedSocket& e){
-    printf("El recibidor se desconecta i se saca al player de la partida\n");
+    // printf("El recibidor se desconecta i se saca al player de la partida\n");
     if(id_partida > 0 && is_alive){
         lobby.desconectarse_partida(id_partida,snapshots);
     }

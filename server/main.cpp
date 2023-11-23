@@ -2,29 +2,23 @@
 #include "threads/threadAceptador.h"
 #include "monitorBroadcaster.h"
 #include "partida.h"
+#include "server.h"
 
 int main(int argc, char* argv[]) {
 
-    const char* name = "1619";
+    const char* name = "1622";
     BroadCaster broadcaster;
     Queue<std::shared_ptr<Comando>> acciones_a_realizar;
     MapContainer mapas;
     Lobby lobby(mapas);
     Aceptador skt(name,broadcaster,acciones_a_realizar,lobby);
+    printf("Se abre un server con puerto : %s\n",name);
     skt.start();
-    //lobby.start_lobby();
 
-    bool comando_cerrar = false;
-    while (!comando_cerrar) {
-        std::string comando;
-        std::cin >> comando;
+    ServerMain srvr;
 
-        if (comando == "q") {
-            comando_cerrar = true;
-            break;
-        }
+    srvr.empezar_server();
 
-    }
     lobby.kill();
     skt.shutdown();
     //MapContainer mapContainer;

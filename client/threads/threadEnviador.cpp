@@ -29,14 +29,14 @@ void Enviador::run()try{{
         //     ptcl.empezar_partida();
         // }
         if(cmd && cmd->get_tipo_comando() == COMANDO::CMD_HANDSHAKE){
-            printf("Se quiere enviar un handshake\n");
+            // printf("Se quiere enviar un handshake\n");
             std::shared_ptr<MensajeHandshake> hand = std::dynamic_pointer_cast<MensajeHandshake>(cmd);
             if(!hand){
                 return;
             }
-            printf("Se castea el pointer\n");
+            // printf("Se castea el pointer\n");
             ptcl.enviar_handshake(hand->get_id(),hand->get_gusanos());
-            printf("Se envia el handshake\n");
+            // printf("Se envia el handshake\n");
         }
         
     }

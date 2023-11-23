@@ -1,4 +1,5 @@
 #include "world.h"
+#include "camara.h"
 
 using namespace SDL2pp;
 
@@ -10,6 +11,10 @@ void World::add_worm(std::shared_ptr<Worm> worm, int id) {
 
 void World::add_beam(Beam beam) {
     beams.push_back(beam);
+}
+
+void World::add_projectile(std::unique_ptr<Projectile> projectile) {
+    projectiles.push_back(std::move(projectile));
 }
 
 void World::update_camera(int id_camera) {
@@ -30,8 +35,8 @@ void World::present_background(Renderer& renderer,
     // Busco textura
     std::string texture_name("Background");
     Texture& background_tex = texture_manager.get_texture(texture_name);
-
-    // Encuentro posicion relativa (esta en el (0, 0))
+    
+    // Encuentro posicion relativa (esta en el (0, alto_mapa))
     float pos_rel_x = 0 - camera_x;
     float pos_rel_y = 0 - camera_y;
 
@@ -43,6 +48,34 @@ void World::present_background(Renderer& renderer,
 				Rect(static_cast<int>(pos_rel_x * x_scale),
 					static_cast<int>(pos_rel_y * y_scale),
 					_map_width * x_scale, _map_height * y_scale), // Donde lo grafico
+				0.0,        // Angulo
+				NullOpt,
+				SDL_FLIP_NONE        // Flip
+			);
+}
+
+void World::present_water(
+                        Renderer& renderer,
+                        TextureManager& texture_manager,
+                        float& x_scale,
+                        float& y_scale,
+                        float& camera_x,
+                        float& camera_y
+                        ) {
+
+    std::string texture_name_water("Agua");
+    Texture& water_tex = texture_manager.get_texture(texture_name_water);
+
+    float pos_rel_x = 0 - camera_x;
+    float pos_rel_y = _map_height - WATER_SPRITE_HEIGHT - camera_y;
+
+    //Grafico
+    water_tex.SetAlphaMod(255); // Wl agua es totalmente opaca
+    renderer.Copy(water_tex,
+				Rect(0, 0, WATER_SPRITE_WIDTH, WATER_SPRITE_HEIGHT), // El sprite
+				Rect(static_cast<int>(pos_rel_x * x_scale),
+					static_cast<int>(pos_rel_y * y_scale),
+					WATER_SPRITE_WIDTH * x_scale, WATER_SPRITE_HEIGHT * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,
 				SDL_FLIP_NONE        // Flip
@@ -75,7 +108,8 @@ void World::present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
                         float& x_scale,
-                        float& y_scale){
+                        float& y_scale,
+                        Camara& camara){
     
     int window_width = renderer.GetOutputWidth();
     int window_height = renderer.GetOutputHeight();
@@ -84,8 +118,8 @@ void World::present(int& it_inc,
     float pos_foco_x = worms.at(_id_camera)->get_x();    //Por ahora solo enfoca gusanos
     float pos_foco_y = worms.at(_id_camera)->get_y();
 
-    float camera_x = pos_foco_x - (window_width / (2 * x_scale));
-    float camera_y = pos_foco_y - (window_height / (2 * y_scale));
+    float camera_x = pos_foco_x - (window_width / (2 * x_scale)) + camara.x;
+    float camera_y = _map_height - (pos_foco_y + (window_height / (2 * y_scale))) + camara.y;
 
     if (camera_x < 0) camera_x = 0;
     if (camera_y < 0) camera_y = 0;
@@ -93,18 +127,25 @@ void World::present(int& it_inc,
     // Grafico fondo
     present_background(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
 
-    // Grafico HUD
-    present_hud(renderer, texture_manager, x_scale, y_scale);
+    // Grafico vigas
+    for (auto& beam : beams) {
+        beam.present(renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
+    }
 
     // Grafico gusanos
     for (auto& worm : worms) {
-        worm.second->present(it_inc, renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
+        worm.second->present(it_inc, renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
     }
 
-    // Grafico vigas
-    for (auto& beam : beams) {
-        beam.present(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
+    present_water(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
+    // Grafico proyectiles
+    while (!projectiles.empty()) {
+        projectiles.back()->present(renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
+        projectiles.pop_back();
     }
+
+    // Grafico HUD
+    present_hud(renderer, texture_manager, x_scale, y_scale);
 
     renderer.Present();
 }

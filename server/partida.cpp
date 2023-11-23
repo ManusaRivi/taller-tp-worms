@@ -23,9 +23,9 @@ void Partida::run()try{{
         std::shared_ptr<Comando> comando = acciones_a_realizar.pop();
         if(comando->get_comando() == COMANDO::CMD_EMPEZAR_PARTIDA){
             Mensaje msg;
-            printf("Se esta por broadcaster mensaje de que la partida esta por comenzar\n");
+            // printf("Se esta por broadcaster mensaje de que la partida esta por comenzar\n");
             broadcaster.broadcastSnap(msg);
-            printf("Se esta por broadcastear el handshake\n");
+            // printf("Se esta por broadcastear el handshake\n");
             enviar_primer_snapshot();
             partida_iniciada = true;
         }
@@ -33,7 +33,7 @@ void Partida::run()try{{
     if(!is_alive){
         return;
     }
-    std::cout << "Se inicializa la partida\n" << std::endl;
+    // std::cout << "Se inicializa la partida\n" << std::endl;
     //Mensaje msg;
     //broadcaster.broadcastSnap(msg);
     //double rate = 1;

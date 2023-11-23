@@ -87,13 +87,13 @@ void Client::crear_partida(){
     // }
 }
 
-void Client::imprimir_partidas_disponibles(std::map<uint32_t,std::string> partidas){
-     for (auto i = partidas.begin(); i != partidas.end(); i++){
-        uint32_t id = i->first;
+// void Client::imprimir_partidas_disponibles(std::map<uint32_t,std::string> partidas){
+//      for (auto i = partidas.begin(); i != partidas.end(); i++){
+//         uint32_t id = i->first;
         
-        std::string nombre = i->second;
+//         std::string nombre = i->second;
 
-        std::cout <<" La partida " << unsigned(id) << " Con nombre " << nombre << std::endl;
+//         // std::cout <<" La partida " << unsigned(id) << " Con nombre " << nombre << std::endl;
         
-    }
-}
+//     }
+// }

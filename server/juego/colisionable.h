@@ -4,7 +4,8 @@
 enum bodyType {
     BEAM,
     WORM,
-    PROJECTILE
+    PROJECTILE,
+    WATER
 };
 
 class Colisionable

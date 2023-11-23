@@ -12,7 +12,7 @@ ClienteProtocolo::ClienteProtocolo(Socket& peer):Protocolo(peer) {
 
 
 void ClienteProtocolo::enviar_movimiento(uint8_t dir){
-    printf("Se envia un pedido de mover el gusano\n");
+    // printf("Se envia un pedido de mover el gusano\n");
     bool was_closed = false;
     std::vector<uint8_t> buf;
     buf.push_back(CODIGO_MOVER);
@@ -21,7 +21,7 @@ void ClienteProtocolo::enviar_movimiento(uint8_t dir){
 }
 
 void ClienteProtocolo::detener_movimiento(){
-    printf("Se envia una pedido de detener movimiento\n");
+    // printf("Se envia una pedido de detener movimiento\n");
     bool was_closed = false;
     std::vector<uint8_t> buf;
     buf.push_back(CODIGO_DETENER_MOVIMIENTO);
@@ -40,7 +40,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snapshot(){
         return msg;
     }
     if (cmd == CODIGO_HANDSHAKE_EMPEZAR_PARTIDA){
-        printf("Se recibe un handshake del server\n");
+        // printf("Se recibe un handshake del server\n");
         return recibir_handshake();
     }
 
@@ -112,7 +112,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_handshake(){
     }
     recibir_gusanos(snap);
     std::map<int, std::shared_ptr<Worm>> worms = snap->get_worms();
-    std::shared_ptr<World> world = std::make_shared<World>(30,30);
+    std::shared_ptr<World> world = std::make_shared<World>(100,100);
     std::vector<std::vector<float>> vigas = recibir_vigas();
     for (auto &viga : vigas){
         int tamanio = viga[3];
@@ -178,6 +178,7 @@ std::vector<std::vector<float>> ClienteProtocolo::recibir_vigas(){
 
 void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
     uint32_t turno_player_actual = recibir_4_bytes();
+    snap->actulizar_camara(turno_player_actual);
     uint16_t cantidad_gusanos = recibir_2_bytes();
     for(uint16_t i = 0; i < cantidad_gusanos; i++){
         uint32_t id_gusano = recibir_4_bytes();

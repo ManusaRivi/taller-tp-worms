@@ -6,6 +6,7 @@ Beam::Beam(int& tamano, float& pos_x, float& pos_y, float& angulo_): _tamano(tam
 
 void Beam::present(Renderer& renderer,
                     TextureManager& texture_manager,
+                    float& map_height,
                     float& x_scale,
                     float& y_scale,
                     float& camera_x,
@@ -18,17 +19,17 @@ void Beam::present(Renderer& renderer,
     int largo_sprite = _tamano == 6 ? 138 : 69;
 
     float pos_rel_x = _pos_x - camera_x;
-    float pos_rel_y = _pos_y - camera_y;
+    float pos_rel_y = map_height - _pos_y - camera_y;
 
     // Grafico la viga
     texture.SetAlphaMod(255); // El sprite es totalmente opaco
     renderer.Copy(
 				texture,
 				Rect(0, 0, largo_sprite, 20), // El sprite
-				Rect(static_cast<int>(pos_rel_x * x_scale - largo_sprite / 2),
-					renderer.GetOutputHeight() - static_cast<int>(pos_rel_y * y_scale - BEAM_WIDTH / 2),
+				Rect(static_cast<int>((pos_rel_x - _tamano/2) * x_scale),
+					static_cast<int>((pos_rel_y - BEAM_WIDTH / 2) * y_scale),
 					_tamano * x_scale, BEAM_WIDTH * y_scale), // Donde lo grafico
-				0.0,        // Angulo
+				angulo,        // Angulo
 				NullOpt,
 				SDL_FLIP_NONE        // Flip
 			);

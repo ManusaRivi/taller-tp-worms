@@ -68,6 +68,7 @@ public:
     void startGroundContact();
     void endGroundContact();
     bool isMoving();
+    void startWaterContact();
     bool isAirborne();
     void takeDamage(int damage);
     std::vector<float> GetPosition();

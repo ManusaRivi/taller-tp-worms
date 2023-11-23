@@ -120,8 +120,10 @@ void Worm::startGroundContact() {
     if (2 < heightDiff && heightDiff < 25) {
         takeDamage((int)heightDiff);
     }
-    else if (heightDiff >= 25)
+    else if (heightDiff >= 25){
         takeDamage(25);
+    }
+        
 }
 
 void Worm::endGroundContact() {
@@ -132,6 +134,10 @@ void Worm::endGroundContact() {
 
 bool Worm::isMoving() {
     return moving;
+}
+
+void Worm::startWaterContact() {
+    this->hitPoints = 0;
 }
 
 bool Worm::isAirborne() {
@@ -177,7 +183,7 @@ void Worm::cambiar_arma(uint8_t id_arma){
     if (isAirborne()){
         return;
     }
-    printf("Se recibe un id de arma %u\n",id_arma);
+    // printf("Se recibe un id de arma %u\n",id_arma);
     status = id_arma;
 }
 
@@ -238,12 +244,12 @@ void Worm::cambiar_direccion(uint8_t dir){
     {
     case (RIGHT):
         {
-            printf("Se recibe comando cambiar_direccion a derecha\n");
+            // printf("Se recibe comando cambiar_direccion a derecha\n");
             this->facingDirection = RIGHT;
             break;
         }
     case (LEFT):{
-        printf("Se recibe comando cambiar direccino a izquerda\n");
+        // printf("Se recibe comando cambiar direccino a izquerda\n");
         this->facingDirection = LEFT;
         break;
     }

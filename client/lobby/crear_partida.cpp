@@ -53,7 +53,7 @@ void Crear_Partida::onCrearButtonClicked() {
         protocol.crear_partida(ui->lineEdit->text().toStdString(), selectedId);
 
         // Now you can use selectedId and selectedName as needed
-        qDebug() << "Selected ID: " << selectedId << ", Selected Name: " << ui->lineEdit->text();
+        // qDebug() << "Selected ID: " << selectedId << ", Selected Name: " << ui->lineEdit->text();
     } else {
         qDebug() << "No item selected.";
     }

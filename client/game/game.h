@@ -28,6 +28,8 @@
 #include <chrono>
 #include "camara.h"
 
+#include "Proyectiles/projectile_generator.h"
+
 class Game {
     private:
     Queue<std::shared_ptr<MensajeCliente>> &snapshots;

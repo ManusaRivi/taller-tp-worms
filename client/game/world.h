@@ -3,10 +3,12 @@
 
 #include <vector>
 #include <map>
+#include <memory>
 #include <string>
 #include "comunicacion/worm.h"
 #include "comunicacion/beam.h"
 #include "camara.h"
+#include "comunicacion/projectile.h"
 
 #define BACKGROUND_WIDTH 576
 #define BACKGROUND_HEIGHT 324
@@ -24,6 +26,7 @@ class World {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
     std::vector<Beam> beams;
+    std::vector<std::unique_ptr<Projectile>> projectiles;
     int _id_camera;
     float _map_width;
     float _map_height;
@@ -60,6 +63,8 @@ class World {
     void update_worm(const int& id, std::shared_ptr<Worm> worm);
 
     void add_beam(Beam beam);
+
+    void add_projectile(std::unique_ptr<Projectile> projectile);
 
     void present(int& it_inc,
                         Renderer& renderer,

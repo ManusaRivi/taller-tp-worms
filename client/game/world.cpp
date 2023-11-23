@@ -13,6 +13,10 @@ void World::add_beam(Beam beam) {
     beams.push_back(beam);
 }
 
+void World::add_projectile(std::unique_ptr<Projectile> projectile) {
+    projectiles.push_back(std::move(projectile));
+}
+
 void World::update_camera(int id_camera) {
     _id_camera = id_camera;
 }
@@ -134,6 +138,11 @@ void World::present(int& it_inc,
     }
 
     present_water(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
+    // Grafico proyectiles
+    while (!projectiles.empty()) {
+        projectiles.back()->present(renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
+        projectiles.pop_back();
+    }
 
     // Grafico HUD
     present_hud(renderer, texture_manager, x_scale, y_scale);

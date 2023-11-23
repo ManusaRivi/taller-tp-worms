@@ -40,3 +40,7 @@
 # Agua
 - nombre: Agua
   ruta: /client/game/Texturas/data/sprites/agua2.png
+  
+# Proyectiles
+- nombre: Missile
+  ruta: /client/game/Texturas/data/sprites/Missile.png

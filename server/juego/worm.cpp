@@ -154,7 +154,7 @@ float Worm::GetAngle() {
 
 Projectile* Worm::usar_arma() {
     b2Vec2 position = body->GetPosition();
-    return armaActual->Shoot(position.x, position.y, 0.0f, 1.0f);
+    return armaActual->Shoot(position.x, position.y, 0.0f);
 }
 
 int Worm::get_facing_direction(){
@@ -179,6 +179,18 @@ void Worm::cambiar_arma(uint8_t id_arma){
     }
     printf("Se recibe un id de arma %u\n",id_arma);
     status = id_arma;
+}
+
+void Worm::iniciar_carga() {
+    this->armaActual->iniciarCarga();
+}
+
+void Worm::cargar_arma(){
+    this->armaActual->cargar();
+}
+
+bool Worm::esta_cargando_arma() {
+    return this->armaActual->estaCargando();
 }
 
 void Worm::esta_apuntando_para(bool id){

@@ -70,6 +70,8 @@ public:
     void apuntar_para(uint32_t id,int);
     // std::vector<float> get_size();
 
+    void cargar_arma(uint32_t idx);
+
     void usar_arma(uint32_t idx);
 
     void detener_worm(uint32_t id);

@@ -55,19 +55,22 @@ void Mapa::Step(int iteracion) {
         if (worm->isMoving()) {
             worm->Move();
         }
-        if(worm->esta_apuntando()){
+        if (worm->esta_apuntando()){
             worm->incrementar_angulo_en(0.1);
         }
-        for (auto projectile : projectiles) {
-            if (projectile->hasExploded()) {
-                std::vector<Projectile*>::iterator it = std::find(projectiles.begin(), projectiles.end(), projectile);
-                if (it != projectiles.end())
-                    projectiles.erase(it);
-                delete projectile;
-            }
-            else {
-                projectile->updateAngle();
-            }
+        if (worm->esta_cargando_arma()) {
+            worm->cargar_arma();
+        }
+    }
+    for (auto projectile : projectiles) {
+        if (projectile->hasExploded()) {
+            std::vector<Projectile*>::iterator it = std::find(projectiles.begin(), projectiles.end(), projectile);
+            if (it != projectiles.end())
+                projectiles.erase(it);
+            delete projectile;
+        }
+        else {
+            projectile->updateAngle();
         }
     }
     std::pair<bool,uint32_t> manager = turnManager.avanzar_tiempo(iteracion);
@@ -196,6 +199,10 @@ void Mapa::apuntar_para(uint32_t id, int dir){
 
     }
     worms[turnManager.get_gusano_actual()]->esta_apuntando_para(dir);
+}
+
+void Mapa::cargar_arma(uint32_t id) {
+    worms[id]->iniciar_carga();
 }
 
 void Mapa::usar_arma(uint32_t id) {

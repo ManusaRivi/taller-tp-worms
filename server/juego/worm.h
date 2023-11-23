@@ -85,6 +85,12 @@ public:
 
     void cambiar_arma(uint8_t tipo_arma);
 
+    void iniciar_carga();
+
+    void cargar_arma();
+
+    bool esta_cargando_arma();
+
     void esta_apuntando_para(bool dir);
 
     bool apuntando_para_arriba(bool dir);

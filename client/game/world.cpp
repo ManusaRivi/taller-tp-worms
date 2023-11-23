@@ -67,7 +67,7 @@ void World::present_water(
     Texture& water_tex = texture_manager.get_texture(texture_name_water);
 
     float pos_rel_x = 0 - camera_x;
-    float pos_rel_y = _map_height - WATER_SPRITE_HEIGHT - camera_y;
+    float pos_rel_y = _map_height - WATER_HEIGHT - camera_y;
 
     //Grafico
     water_tex.SetAlphaMod(255); // Wl agua es totalmente opaca
@@ -75,7 +75,7 @@ void World::present_water(
 				Rect(0, 0, WATER_SPRITE_WIDTH, WATER_SPRITE_HEIGHT), // El sprite
 				Rect(static_cast<int>(pos_rel_x * x_scale),
 					static_cast<int>(pos_rel_y * y_scale),
-					WATER_SPRITE_WIDTH * x_scale, WATER_SPRITE_HEIGHT * y_scale), // Donde lo grafico
+					_map_width * x_scale, WATER_HEIGHT * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,
 				SDL_FLIP_NONE        // Flip

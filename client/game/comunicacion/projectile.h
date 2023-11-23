@@ -20,13 +20,12 @@
 class Projectile {
     protected:
     std::string texture_name;
-    int frames;
     float _pos_x;
     float _pos_y;
     float _angle;
 
     public:
-    Projectile();
+    Projectile(float& pos_x, float& pos_y, float& angle);
 
     virtual void present(SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,

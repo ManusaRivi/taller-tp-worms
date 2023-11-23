@@ -66,6 +66,6 @@
 - nombre: RedGranade
   ruta: /client/game/Texturas/data/sprites/RedGranade.png
 
-- nombre: RedGranadeDrop
-  ruta: /client/game/Texturas/data/sprites/RedGranadeDrop.png
+- nombre: Drop
+  ruta: /client/game/Texturas/data/sprites/Drop.png
 

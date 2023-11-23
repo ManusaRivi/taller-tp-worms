@@ -321,7 +321,7 @@ int Game::run() try {
 			float pos_x = 1.5f;
 			float pos_y = 25.82f;
 			float angle = 180.0f;
-			unique_ptr<Projectile> prueba = ProjectileGenerator::get_proyectile_with_code(PROYECTILE_MISSILE, pos_x, pos_y, angle);
+			unique_ptr<Projectile> prueba = ProjectileGenerator::get_proyectile_with_code(0, pos_x, pos_y, angle);
 			(*world).add_projectile(std::move(prueba));
 			//--------------------------------------------------------------------
 

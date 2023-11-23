@@ -2,10 +2,18 @@
 #define PROJECTILE_GENERATOR_H
 
 #include "../comunicacion/projectile.h"
-#include "missile.h"
 
-#define PROYECTILE_MISSILE 1
-
+enum ProyectileCode {
+    MISSILE,
+    MORTAR,
+    GREEN_GRANADE,
+    HOLY_GRANADE,
+    RED_GRANADE,
+    BANANA,
+    DYNAMITE,
+    AIR_MISSILE,
+    DROP
+};
 
 class ProjectileGenerator {
     public:

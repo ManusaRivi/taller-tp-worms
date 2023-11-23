@@ -1,6 +1,7 @@
 #include "projectile.h"
 using namespace SDL2pp;
-Projectile::Projectile() {}
+Projectile::Projectile(std::string& texture, float& pos_x, float& pos_y, float& angle):
+                        texture_name(texture), _pos_x(pos_x), _pos_y(pos_y), _angle(angle) {}
 
 void Projectile::present(Renderer& renderer, TextureManager& texture_manager,
                     float& map_height,

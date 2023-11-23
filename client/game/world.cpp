@@ -122,6 +122,8 @@ void World::present(int& it_inc,
     float camera_y = _map_height - (pos_foco_y + (window_height / (2 * y_scale))) + camara.y;
 
     if (camera_x < 0) camera_x = 0;
+    if (camera_x > _map_width - (window_width / x_scale)) camera_x = _map_width - (window_width / x_scale);
+    if (camera_y > _map_height - (window_height / y_scale)) camera_y = _map_height - (window_height / y_scale);
     if (camera_y < 0) camera_y = 0;
 
     // Grafico fondo

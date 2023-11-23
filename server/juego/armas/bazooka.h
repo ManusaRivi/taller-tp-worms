@@ -11,9 +11,12 @@ private:
     b2World& world;
     const int dmg; // dmg en epicentro
     const int radius; // int mts
+    int nivel_carga;
 public:
     Bazooka(b2World& world, int dmg, int radius);
-    virtual Projectile* Shoot(float x_pos, float y_pos, float angle, float power) override;
+    virtual void iniciarCarga() override;
+    virtual void cargar() override;
+    virtual Projectile* Shoot(float x_pos, float y_pos, float angle) override;
     virtual ~Bazooka() {}
 };
 

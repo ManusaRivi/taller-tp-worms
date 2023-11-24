@@ -13,6 +13,7 @@
 #include "./worm.h"
 #include "./beam.h"
 #include "./proyectiles/projectile.h"
+#include "./proyectiles/fragment.h"
 #include "./water.h"
 #include "./contact_listener.h"
 #include "turn_manager.h"

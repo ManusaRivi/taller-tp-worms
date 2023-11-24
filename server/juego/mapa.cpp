@@ -71,11 +71,12 @@ void Mapa::Step(int iteracion) {
             continue;
         }
         if (projectile->hasExploded()) {
+            b2Vec2 position = projectile->getPosition();
+            explosions.push(ExplosionWrapper (position.x, position.y, projectile->getRadius()));
 
             int frag_amount = projectile->getFragCount();
             if (frag_amount > 0) {
                 GameConfig& config = GameConfig::getInstance();
-                b2Vec2 position = projectile->getPosition();
                 for (auto i = 0; i < frag_amount; ++i) {
                     projectiles.push_back(new Fragment (world, position.x, position.y, config.frag_dmg, config.frag_radius));
                 }
@@ -196,6 +197,15 @@ std::vector<ProjectileWrapper> Mapa::get_projectiles() {
         vec_projectiles.push_back(ProjectileWrapper(position.x, position.y, angle, projectile->getType()));
     }
     return vec_projectiles;
+}
+
+std::vector<ExplosionWrapper> Mapa::get_explosions() {
+    std::vector<ExplosionWrapper> vec_explosions;
+    while (!explosions.empty()) {
+        vec_explosions.push_back(explosions.front());
+        explosions.pop();
+    }
+    return vec_explosions;
 }
 
 void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){

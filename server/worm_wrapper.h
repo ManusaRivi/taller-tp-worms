@@ -13,7 +13,7 @@
 #define STATUS_MOVING 1
 
 class WormWrapper {
-    private:
+private:
     std::vector<float> position;  // (x,y)
     uint8_t dir;                  // Despues quizas cambie a un angulo
     
@@ -23,23 +23,40 @@ class WormWrapper {
     float angulo_disparo;          
     uint8_t vida;
 
-    public:
+public:
     //Constructor
-    WormWrapper(std::vector<float> position, uint8_t dir, uint8_t status, uint32_t id, float angulo, float angulo_disparo, uint8_t vida);
+    WormWrapper(std::vector<float> position, uint8_t dir, uint8_t status,
+                uint32_t id, float angulo, float angulo_disparo, uint8_t vida) :
+                    position(position), dir(dir), status(status), id(id),
+                    angulo(angulo), angulo_disparo(angulo_disparo), vida(vida) {}
 
-    std::vector<float> get_position();
+    std::vector<float> get_position() {
+        return position;
+    }
 
-    uint8_t get_direccion();
+    uint8_t get_direccion() {
+        return dir;
+    }
 
-    uint8_t get_estado();
+    uint8_t get_estado() {
+        return status;
+    }
 
-    float get_angulo();
+    uint32_t get_id() {
+        return id;
+    }
 
-    uint32_t get_id();
+    float get_angulo() {
+        return angulo;
+    }
 
-    float get_angulo_disparo();
+    float get_angulo_disparo() {
+        return angulo_disparo;
+    }
 
-    uint8_t get_vida();
+    uint8_t get_vida() {
+        return vida;
+    }
 
 };
 

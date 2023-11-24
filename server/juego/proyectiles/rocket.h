@@ -18,8 +18,6 @@ class Rocket : public Projectile
 {
 private:
     b2World& world;
-    int dmg;
-    int radius;
 public:
     Rocket(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius, int fragments);
     virtual ProjectileType getType() override;

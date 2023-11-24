@@ -2,7 +2,7 @@
 #define WORM_WRAPPER_H
 
 #include <vector>
-#include <iostream>
+#include <stdint.h>
 
 //Direcciones (despues quizas cambie a un angulo)
 #define DIR_RIGHT 1

@@ -4,6 +4,7 @@
 #include "../../libs/box2d/include/box2d/box2d.h"
 #include "./collision_categories.h"
 #include "./armas/coleccion_armas.h"
+#include "./proyectiles/projectile.h"
 #include "./colisionable.h"
 
 #include <vector>
@@ -21,9 +22,9 @@ enum directions {
 #define BOX_HEIGHT 0.5f
 
 #define WORM_DENSITY 0.2f
-#define WORM_FRICTION 0.0f
+#define WORM_FRICTION 0.8f
 
-#define MOVING_SPEED 0.2f
+#define MOVING_SPEED 0.335f
 
 #define FORWARD_JUMP_STEPS 38
 #define BACKWARD_JUMP_STEPS 58
@@ -41,6 +42,7 @@ private:
     b2Body* body;
     ColeccionArmas* coleccionArmas;
     Arma* armaActual;
+    bool moving;
     int facingDirection;
     bool airborne;
     uint8_t hitPoints;
@@ -58,19 +60,21 @@ public:
 
     Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id);
     virtual bodyType identificar() override;
-    void Move(int dir);
+    void StartMovement(int dir);
+    void Move();
     void Stop();
     void JumpForward();
     void JumpBackward();
     void startGroundContact();
     void endGroundContact();
+    bool isMoving();
     void startWaterContact();
     bool isAirborne();
     void takeDamage(int damage);
     std::vector<float> GetPosition();
     float GetAngle();
     
-    void usar_arma();
+    Projectile* usar_arma();
 
     int get_facing_direction();
 
@@ -81,6 +85,12 @@ public:
     float get_angulo();
 
     void cambiar_arma(uint8_t tipo_arma);
+
+    void iniciar_carga();
+
+    void cargar_arma();
+
+    bool esta_cargando_arma();
 
     void esta_apuntando_para(bool dir);
 

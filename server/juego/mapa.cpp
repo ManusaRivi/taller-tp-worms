@@ -49,13 +49,30 @@ void Mapa::Load_Map_File(std::string filepath) {
 }
 
 void Mapa::Step(int iteracion) {
-    for(auto worm : worms) {
+    for (auto worm : worms) {
         if (worm->jumpSteps > 0) {
             if (worm->jumpSteps == 1) worm->Stop();
             worm->jumpSteps--;
         }
-        if(worm->esta_apuntando()){
+        if (worm->isMoving()) {
+            worm->Move();
+        }
+        if (worm->esta_apuntando()){
             worm->incrementar_angulo_en(0.1);
+        }
+        if (worm->esta_cargando_arma()) {
+            worm->cargar_arma();
+        }
+    }
+    for (auto projectile : projectiles) {
+        if (projectile->hasExploded()) {
+            std::vector<Projectile*>::iterator it = std::find(projectiles.begin(), projectiles.end(), projectile);
+            if (it != projectiles.end())
+                projectiles.erase(it);
+            delete projectile;
+        }
+        else {
+            projectile->updateAngle();
         }
     }
     std::pair<bool,uint32_t> manager = turnManager.avanzar_tiempo(iteracion);
@@ -75,7 +92,7 @@ void Mapa::MoveWorm(uint32_t idx, int dir) {
         return;
 
     }
-    worms[turnManager.get_gusano_actual()]->Move(dir);
+    worms[turnManager.get_gusano_actual()]->StartMovement(dir);
 }
 
 void Mapa::StopWorm(uint32_t idx) {
@@ -152,6 +169,16 @@ std::vector<WormWrapper> Mapa::get_gusanos(){
     return vec_worms;
 }
 
+std::vector<ProjectileWrapper> Mapa::get_projectiles() {
+    std::vector<ProjectileWrapper> vec_projectiles;
+    for (auto projectile : projectiles) {
+        b2Vec2 position = projectile->getPosition();
+        float angle = projectile->getAngle();
+        vec_projectiles.push_back(ProjectileWrapper(position.x, position.y, angle, projectile->getType()));
+    }
+    return vec_projectiles;
+}
+
 void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){
         if(turnManager.acaba_de_cambiar_turno()){
         // printf("Se esta esperando a que todos los events termiene\n");
@@ -176,6 +203,14 @@ void Mapa::apuntar_para(uint32_t id, int dir){
 
     }
     worms[turnManager.get_gusano_actual()]->esta_apuntando_para(dir);
+}
+
+void Mapa::cargar_arma(uint32_t id) {
+    worms[id]->iniciar_carga();
+}
+
+void Mapa::usar_arma(uint32_t id) {
+    projectiles.push_back(worms[turnManager.get_gusano_actual()]->usar_arma());
 }
 // std::vector<float> Mapa::get_size(){
 //     this->world.

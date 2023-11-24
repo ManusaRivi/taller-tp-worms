@@ -9,8 +9,10 @@
 
 #include "./game_config.h"
 #include "../worm_wrapper.h"
+#include "../projectile_wrapper.h"
 #include "./worm.h"
 #include "./beam.h"
+#include "./proyectiles/projectile.h"
 #include "./water.h"
 #include "./contact_listener.h"
 #include "turn_manager.h"
@@ -28,6 +30,7 @@ private:
 
     std::vector<BeamServer*> vigas;
     std::vector<Worm*> worms;
+    std::vector<Projectile*> projectiles;
     Water* water;
 
     std::string nombre;
@@ -60,10 +63,16 @@ public:
 
     std::vector<WormWrapper> get_gusanos();
 
+    std::vector<ProjectileWrapper> get_projectiles();
+
     void cambiar_arma(uint32_t id, uint8_t tipo);
 
     void apuntar_para(uint32_t id,int);
     // std::vector<float> get_size();
+
+    void cargar_arma(uint32_t idx);
+
+    void usar_arma(uint32_t idx);
 
     void detener_worm(uint32_t id);
 

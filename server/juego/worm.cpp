@@ -43,31 +43,30 @@ bodyType Worm::identificar() {
     return bodyType::WORM;
 }
 
-void Worm::Move(int dir) {
-    if (jumpSteps > 0) return;
+void Worm::StartMovement(int dir) {
+    if (this->isAirborne()) return;
+    facingDirection = dir;
+    moving = true;
+}
 
-    if (isAirborne()){
-        return;
-    }
-    
+void Worm::Move() {
     b2Vec2 velocity = body->GetLinearVelocity();
-    switch(dir) {
+    float desiredVel = 0;
+    switch(facingDirection) {
         case RIGHT:
-            facingDirection = RIGHT;
-            velocity.x = MOVING_SPEED;
+            desiredVel = MOVING_SPEED;
             break;
         case LEFT:
-            facingDirection = LEFT;
-            velocity.x = -1 * MOVING_SPEED;
+            desiredVel = -1 * MOVING_SPEED;
             break;
     }
-    status = STATUS_MOVING;
-    // printf("la posicion del gusano es : = %f \n", this->body->GetPosition().x);
-    body->SetLinearVelocity(velocity);
+    float velChange = desiredVel - velocity.x;
+    float impulse = body->GetMass() * velChange;
+    body->ApplyLinearImpulse( b2Vec2 (impulse, 0), body->GetWorldCenter(), true);
 }
 
 void Worm::Stop() {
-    if (jumpSteps > 0) return;
+    moving = false;
     b2Vec2 velocity = body->GetLinearVelocity();
     velocity.x = 0.0f;
     body->SetLinearVelocity(velocity);
@@ -75,7 +74,8 @@ void Worm::Stop() {
 }
 
 void Worm::JumpForward() {
-    if (jumpSteps > 0) return;
+    if (this->isAirborne()) return;
+    if (this->isMoving()) Stop();
     jumpSteps = FORWARD_JUMP_STEPS;
     float impulse = body->GetMass() * FORWARD_JUMP_IMPULSE_MULTIPLIER;
     body->ApplyLinearImpulse(b2Vec2(0, impulse), body->GetWorldCenter(), true);
@@ -93,7 +93,8 @@ void Worm::JumpForward() {
 }
 
 void Worm::JumpBackward() {
-    if (jumpSteps > 0) return;
+    if (this->isAirborne()) return;
+    if (this->isMoving()) Stop();
     jumpSteps = BACKWARD_JUMP_STEPS;
     float impulse = body->GetMass() * BACKWARD_JUMP_IMPULSE_MULTIPLIER;
     body->ApplyLinearImpulse(b2Vec2(0, impulse), body->GetWorldCenter(), true);
@@ -131,6 +132,10 @@ void Worm::endGroundContact() {
     initialHeight = position.y;
 }
 
+bool Worm::isMoving() {
+    return moving;
+}
+
 void Worm::startWaterContact() {
     this->hitPoints = 0;
 }
@@ -153,9 +158,9 @@ float Worm::GetAngle() {
     return body->GetAngle();
 }
 
-void Worm::usar_arma() {
+Projectile* Worm::usar_arma() {
     b2Vec2 position = body->GetPosition();
-    armaActual->Shoot(position.x, position.y, 0.0f, 1.0f);
+    return armaActual->Shoot(position.x, position.y, 0.0f);
 }
 
 int Worm::get_facing_direction(){
@@ -180,6 +185,18 @@ void Worm::cambiar_arma(uint8_t id_arma){
     }
     // printf("Se recibe un id de arma %u\n",id_arma);
     status = id_arma;
+}
+
+void Worm::iniciar_carga() {
+    this->armaActual->iniciarCarga();
+}
+
+void Worm::cargar_arma(){
+    this->armaActual->cargar();
+}
+
+bool Worm::esta_cargando_arma() {
+    return this->armaActual->estaCargando();
 }
 
 void Worm::esta_apuntando_para(bool id){

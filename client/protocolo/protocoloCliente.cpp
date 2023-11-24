@@ -206,7 +206,7 @@ void ClienteProtocolo::recibir_projectiles(std::shared_ptr<SnapshotCliente> snap
     for(uint16_t i = 0; i < cantidad; i++){
         float x = recibir_4_bytes_float();
         float y = recibir_4_bytes_float();
-        float angulo = (recibir_4_bytes_float() - 3.14 - 1.57)*180/3.14;
+        float angulo = (recibir_4_bytes_float() +3.14 - 1.57)*180/3.14;
         uint8_t tipo = recibir_1_byte();
         std::unique_ptr<ProjectileClient> projectile =  ProjectileGenerator::get_proyectile_with_code(tipo,
                                                                         x,

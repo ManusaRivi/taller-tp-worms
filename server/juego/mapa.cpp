@@ -193,6 +193,8 @@ std::vector<ProjectileWrapper> Mapa::get_projectiles() {
         }
         b2Vec2 position = projectile->getPosition();
         float angle = projectile->getAngle();
+        
+        angle += 1.57;
         printf("los angulos que se devuelven son %f\n",angle);
         vec_projectiles.push_back(ProjectileWrapper(position.x, position.y, angle, projectile->getType()));
     }

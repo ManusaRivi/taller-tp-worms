@@ -234,7 +234,7 @@ void ServerProtocolo::enviar_proyectlies(std::vector<ProjectileWrapper> proyecti
     for(auto c : proyectiles){
         float x = c.get_x();
         float y = c.get_y();
-        float angle = c.get_angulo();
+        float angle = c.get_angulo() + 1.57;
         uint8_t tipo = c.get_tipo();
 
         enviar_4_bytes_float(x);

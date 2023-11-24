@@ -1,9 +1,10 @@
 #include "rocket.h"
 
-Rocket::Rocket(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius) :
+Rocket::Rocket(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius, int fragments) :
                 world(world), dmg(dmg), radius(radius)
 {
     type = ProjectileType::ROCKET;
+    this->fragments = fragments;
 
     b2Vec2 positionOffset (ROCKET_POSITION_OFFSET * cos(angle), ROCKET_POSITION_OFFSET * sin(angle));
     b2Vec2 position (x_pos, y_pos);

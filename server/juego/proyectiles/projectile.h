@@ -49,7 +49,9 @@ public:
         body->SetTransform(body->GetPosition(), newAngle);
     }
     virtual void explotar() = 0;
-    virtual ~Projectile() {}
+    virtual ~Projectile() {
+        body->GetWorld()->DestroyBody(body);
+    }
 };
 
 #endif

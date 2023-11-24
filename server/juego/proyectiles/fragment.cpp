@@ -1,6 +1,8 @@
 #include "fragment.h"
 
 Fragment::Fragment(b2World& world, float x_pos, float y_pos, int dmg, int radius) : world(world), dmg(dmg), radius(radius) {
+    type = ProjectileType::FRAGMENT;
+
     b2BodyDef fragDef;
     fragDef.type = b2_dynamicBody;
     fragDef.position.Set(x_pos, y_pos);
@@ -20,6 +22,10 @@ Fragment::Fragment(b2World& world, float x_pos, float y_pos, int dmg, int radius
 
     b2Vec2 impulseVec (RandomFloat(MIN_X_IMPULSE, MAX_X_IMPULSE), Y_IMPULSE);
     body->ApplyLinearImpulse(impulseVec, body->GetWorldCenter(), true);
+}
+
+ProjectileType Fragment::getType() {
+    return type;
 }
 
 void Fragment::explotar() {

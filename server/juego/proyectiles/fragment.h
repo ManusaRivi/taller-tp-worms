@@ -30,6 +30,7 @@ private:
     }
 public:
     Fragment(b2World& world, float x_pos, float y_pos, int dmg, int radius);
+    virtual ProjectileType getType() override;
     virtual void explotar() override;
 };
 

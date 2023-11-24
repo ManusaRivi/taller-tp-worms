@@ -20,8 +20,6 @@
 class Fragment : public Projectile {
 private:
     b2World& world;
-    int dmg;
-    int radius;
     inline float RandomFloat(float lo, float hi) {
         float r = (float)(rand() & (RAND_LIMIT));
         r /= RAND_LIMIT;

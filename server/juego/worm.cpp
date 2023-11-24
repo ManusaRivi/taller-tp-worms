@@ -6,7 +6,7 @@ union BodyUserData {
 };
 
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
-            coleccionArmas(new ColeccionArmas(world)), facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
+            coleccionArmas(new ColeccionArmas(world)),armaActual(nullptr), moving(false) ,facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
             finalHeight(0.0f), jumpSteps(0), id(id_), status(0), angulo_disparo(0.0f), apuntando(false)
 {
     b2BodyDef gusanoDef;
@@ -160,7 +160,7 @@ float Worm::GetAngle() {
 
 Projectile* Worm::usar_arma() {
     b2Vec2 position = body->GetPosition();
-    return armaActual->Shoot(position.x, position.y, 0.0f);
+    return armaActual->Shoot(position.x, position.y, this->aiming_angle());
 }
 
 int Worm::get_facing_direction(){
@@ -185,17 +185,29 @@ void Worm::cambiar_arma(uint8_t id_arma){
     }
     // printf("Se recibe un id de arma %u\n",id_arma);
     status = id_arma;
+    armaActual = coleccionArmas->SeleccionarArma(id_arma);
 }
 
 void Worm::iniciar_carga() {
+    if(!this->armaActual){
+        return;
+    }
     this->armaActual->iniciarCarga();
 }
 
 void Worm::cargar_arma(){
+    if(!this->armaActual){
+        printf("no tiene un arma\n");
+        return;
+    }
+    printf("tiene arma\n");
     this->armaActual->cargar();
 }
 
 bool Worm::esta_cargando_arma() {
+    if(!this->armaActual){
+        return false;
+    }
     return this->armaActual->estaCargando();
 }
 

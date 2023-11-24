@@ -8,6 +8,7 @@
 #include "../world.h"
 #include "worm.h"
 #include "beam.h"
+#include "../Proyectiles/projectile_generator.h"
 #include <memory>
 
 using namespace SDL2pp;
@@ -19,7 +20,8 @@ class SnapshotCliente {
     std::vector<Beam> beams;
     int _id_camera;
     uint32_t id_turno_actual;
-
+    std::vector<std::unique_ptr<ProjectileClient>> projectiles;
+ 
     public:
     //Constructor
     SnapshotCliente(int id_camera);
@@ -30,6 +32,8 @@ class SnapshotCliente {
     void add_worm(std::shared_ptr<Worm> worm, int id);
 
     void add_beam(Beam beam);
+
+    void add_projectile(std::unique_ptr<ProjectileClient> projectil);
 
 /*
     void present(int& it_inc,
@@ -48,6 +52,7 @@ class SnapshotCliente {
     void imprimir_posiciones();
 
     void actulizar_camara(uint32_t id);
+
 
     
 };

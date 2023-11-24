@@ -65,7 +65,7 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id)try{{
     throw ClosedSocket();
 }
 
-Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id)try{{
+std::shared_ptr<MensajeServer> ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id)try{{
     std::shared_ptr<Comando> comando;
     uint8_t buf;
     skt.recvall(&buf,1,&was_closed);
@@ -76,49 +76,51 @@ Mensaje ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id)try{{
     if (buf == CODIGO_CREAR_PARTIDA){
         std::string nombre = recibir_string();
         uint16_t id_mapa = recibir_2_bytes();
-        Mensaje msg(nombre,id_mapa);
-        return msg;
+        // Mensaje msg(nombre,id_mapa);
+        return mensajes.crear_partida(nombre,id_mapa);
     }
     if (buf == CODIGO_EMPEZAR_PARTIDA){
         // printf("Se recibe un codigo de empezar partida\n");
-        Mensaje msg;
-        return msg;
+        // Mensaje msg;
+        return mensajes.empezar_partida();
     }
 
     if (buf == CODIGO_LISTAR_PARTIDA){
         // printf("Se recibe pedido de listar partidas\n");
-        Mensaje msg(COMANDO::CMD_LISTAR_PARTIDAS);
-        return msg;
+        // Mensaje msg(COMANDO::CMD_LISTAR_PARTIDAS);
+        return mensajes.listar_partidas_recibidor();
     }
 
     if (buf == CODIGO_LISTAR_MAPAS) {
         // printf("Se recibe pedido de listar mapas\n");
-        Mensaje msg(COMANDO::CMD_LISTAR_MAPAS);
-        return msg;
+        // Mensaje msg(COMANDO::CMD_LISTAR_MAPAS);
+        return mensajes.listar_mapas_recibidor();
     }
 
     if (buf == CODIGO_UNIRSE_PARTIDA){
         // printf("Se recibe un pedido de unirse a partida");
         uint32_t id_partida = recibir_4_bytes();
-        Mensaje msg(COMANDO::CMD_UNIRSE_PARTIDA,id_partida);
-        return msg;
+        // Mensaje msg(COMANDO::CMD_UNIRSE_PARTIDA,id_partida);
+        return mensajes.unirse_partida(id_partida);
     }
 
     if (buf == CODIGO_HANDSHAKE_EMPEZAR_PARTIDA){
         return recibir_id_gusanos();
     }
-    Mensaje msg;
-    return msg;
+    return nullptr;
     
 
 }}catch(const ClosedSocket& e){
     throw ClosedSocket();
 }
 
-void ServerProtocolo::enviar_snapshot(Snapshot snap)try{{
+void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap)try{{
+    std::shared_ptr<SnapshotPartida> snapshot = std::dynamic_pointer_cast<SnapshotPartida>(snap);
     uint8_t cmd = CODIGO_SNAPSHOT;
     enviar_1_byte(cmd);
-    enviar_gusanos(snap);
+    enviar_4_bytes(snapshot->get_gusano_actual());
+    enviar_gusanos(snapshot->get_worms());
+    enviar_proyectlies(snapshot->get_proyectiles());
 
 }}catch(const ClosedSocket& e){
     throw ClosedSocket();
@@ -146,7 +148,6 @@ void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string> lista){
 }
 
 void ServerProtocolo::enviar_mapas(std::map<uint32_t,std::string> mapas){
-    // printf("Se estan por enviar los mapas\n");
     enviar_lista(mapas);
 }
 
@@ -157,7 +158,8 @@ void ServerProtocolo::check_partida_empezada(){
 
 
 
-void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player,Snapshot snap){
+void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player,std::shared_ptr<Snapshot> snap){
+    std::shared_ptr<SnapshotHandshake> snapshot = std::dynamic_pointer_cast<SnapshotHandshake>(snap);
     uint8_t cmd = CODIGO_HANDSHAKE_EMPEZAR_PARTIDA;
     uint16_t cantidad_gusanos = gusanos_por_player.second.size();
     enviar_1_byte(cmd);
@@ -166,13 +168,15 @@ void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>>
     for(uint16_t i = 0; i < cantidad_gusanos;i++){ // Se envia el id de los gusanos que le pertenecen al player
         enviar_4_bytes(gusanos_por_player.second[i]);
     }
-    enviar_gusanos(snap);
-    enviar_vigas(snap.get_vigas());
+    enviar_4_bytes(snapshot->get_gusano_actual());
+    enviar_gusanos(snapshot->get_worms());
+    enviar_vigas(snapshot->get_vigas());
+    // printf("Se termina de enviar handshake\n");
 }
 
 
 
-Mensaje ServerProtocolo::recibir_id_gusanos(){
+std::shared_ptr<MensajeServer> ServerProtocolo::recibir_id_gusanos(){
     uint32_t id_player = recibir_4_bytes();
     uint16_t cantidad_gusanos = recibir_2_bytes();
     std::vector<uint32_t> ids_gusanos;
@@ -180,17 +184,12 @@ Mensaje ServerProtocolo::recibir_id_gusanos(){
         ids_gusanos.push_back(recibir_4_bytes());
     }
     std::pair<uint32_t,std::vector<uint32_t>> par(id_player,ids_gusanos);
-    Mensaje msg(par);
-    return msg;
+    // Mensaje msg(par);
+    return mensajes.handshake_recibir(par);
 }
 
 
-void ServerProtocolo::enviar_gusanos(Snapshot snap){
-    uint32_t turno_current_gusano = snap.get_gusano_jugador();
-    enviar_4_bytes(turno_current_gusano);
-
-    
-    std::vector<WormWrapper> worms = snap.get_worms();
+void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper> worms){
     uint8_t cant_players = worms.size();  
     enviar_2_byte(cant_players);
     for (auto &c: worms){
@@ -225,5 +224,23 @@ void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>> vigas){
         enviar_4_bytes_float(viga[1]);
         enviar_4_bytes_float(viga[2]);
         enviar_4_bytes_float(viga[3]);
+    }
+}
+
+
+void ServerProtocolo::enviar_proyectlies(std::vector<ProjectileWrapper> proyectiles){
+    uint16_t cantidad = proyectiles.size();
+    enviar_2_byte(cantidad);
+    for(auto c : proyectiles){
+        float x = c.get_x();
+        float y = c.get_y();
+        float angle = c.get_angulo();
+        uint8_t tipo = c.get_tipo();
+
+        enviar_4_bytes_float(x);
+        enviar_4_bytes_float(y);
+        enviar_4_bytes_float(angle);
+        enviar_1_byte(tipo);
+
     }
 }

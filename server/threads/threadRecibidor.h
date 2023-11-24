@@ -16,13 +16,13 @@ struct Recibidor:public Thread{
     std::atomic<bool> is_alive;
     Queue<std::shared_ptr<Comando>> &acciones_a_realizar;
     uint32_t id;
-    Queue<Mensaje>* snapshots;
+    Queue<std::shared_ptr<MensajeServer>>* snapshots;
     uint32_t id_partida;
     Lobby &lobby;
     uint8_t id_gusano;
     std::vector<uint32_t> id_gusanos;
 
-    Recibidor(Socket &peer, Queue<std::shared_ptr<Comando>> &acciones,Queue<Mensaje>* snapshots,Lobby &lobby);
+    Recibidor(Socket &peer, Queue<std::shared_ptr<Comando>> &acciones,Queue<std::shared_ptr<MensajeServer>>* snapshots,Lobby &lobby);
 
     void run() override;
 

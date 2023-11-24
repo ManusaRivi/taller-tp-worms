@@ -28,7 +28,7 @@ class World {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
     std::vector<Beam> beams;
-    std::vector<std::unique_ptr<Projectile>> projectiles;
+    std::vector<std::unique_ptr<ProjectileClient>> projectiles;
     int _id_camera;
     float _map_width;
     float _map_height;
@@ -66,7 +66,7 @@ class World {
 
     void add_beam(Beam beam);
 
-    void add_projectile(std::unique_ptr<Projectile> projectile);
+    void add_projectile(std::unique_ptr<ProjectileClient> projectile);
 
     void present(int& it_inc,
                         Renderer& renderer,

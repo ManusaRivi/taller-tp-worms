@@ -7,6 +7,8 @@
 #include "juego/mapa.h"
 #include "monitorBroadcaster.h"
 #include <SDL2pp/SDL2pp.hh>
+#include "snapshots/snapshot_partida.h"
+#include "snapshots/snapshot_handshake.h"
 
 class Partida:public Thread{
 
@@ -21,18 +23,19 @@ class Partida:public Thread{
     std::map<uint32_t,uint32_t> id_player_por_gusano;
     std::mutex lck;
     std::atomic<bool> is_alive;
+    FactoryMensajesServer mensajes;
 
 
     public:
     Partida(uint32_t id_partida, std::string nombre, Mapa* mapa);
     void run() override;
     std::string get_nombre();
-    void add_queue(Queue<Mensaje>* snapshots);
+    void add_queue(Queue<std::shared_ptr<MensajeServer>>* snapshots);
     Queue<std::shared_ptr<Comando>>& get_queue();
 
-    Snapshot generar_snapshot(int iteracion);
+    std::shared_ptr<Snapshot> generar_snapshot(int iteracion);
 
-    void remover_player(Queue<Mensaje>* snapshots);
+    void remover_player(Queue<std::shared_ptr<MensajeServer>>* snapshots);
     
     void kill();
 

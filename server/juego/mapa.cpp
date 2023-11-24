@@ -60,11 +60,16 @@ void Mapa::Step(int iteracion) {
         if (worm->esta_apuntando()){
             worm->incrementar_angulo_en(0.1);
         }
+
         if (worm->esta_cargando_arma()) {
             worm->cargar_arma();
         }
     }
+    // printf("Se termina de iterar los gusanos\n");
     for (auto projectile : projectiles) {
+        if(!projectile){
+            continue;
+        }
         if (projectile->hasExploded()) {
 
             int frag_amount = projectile->getFragCount();
@@ -85,6 +90,7 @@ void Mapa::Step(int iteracion) {
             projectile->updateAngle();
         }
     }
+    // printf("Se termina de iterar los projectiles\n");
     std::pair<bool,uint32_t> manager = turnManager.avanzar_tiempo(iteracion);
     if(manager.first){
         this->detener_worm(manager.second);
@@ -182,6 +188,9 @@ std::vector<WormWrapper> Mapa::get_gusanos(){
 std::vector<ProjectileWrapper> Mapa::get_projectiles() {
     std::vector<ProjectileWrapper> vec_projectiles;
     for (auto projectile : projectiles) {
+        if(!projectile){
+            continue;
+        }
         b2Vec2 position = projectile->getPosition();
         float angle = projectile->getAngle();
         vec_projectiles.push_back(ProjectileWrapper(position.x, position.y, angle, projectile->getType()));
@@ -200,6 +209,7 @@ void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){
 
     }
     worms[turnManager.get_gusano_actual()]->cambiar_arma(tipo_arma);
+    printf("Se llega a cambiar de arma\n");
 }
 
 void Mapa::apuntar_para(uint32_t id, int dir){
@@ -216,11 +226,15 @@ void Mapa::apuntar_para(uint32_t id, int dir){
 }
 
 void Mapa::cargar_arma(uint32_t id) {
+    
     worms[id]->iniciar_carga();
+    printf("Se empieza a cargar el arma\n");
 }
 
 void Mapa::usar_arma(uint32_t id) {
+    
     projectiles.push_back(worms[turnManager.get_gusano_actual()]->usar_arma());
+    printf("Se dispara el arma\n");
 }
 // std::vector<float> Mapa::get_size(){
 //     this->world.

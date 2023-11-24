@@ -11,6 +11,10 @@ void SnapshotCliente::add_beam(Beam beam) {
     beams.push_back(beam);
 }
 
+void SnapshotCliente::add_projectile(std::unique_ptr<ProjectileClient> proyectil){
+    projectiles.push_back(std::move(proyectil));
+}
+
 void SnapshotCliente::apply_to_world(World& world) {
     world.update_camera(_id_camera);
     for (const auto& pair: worms) {

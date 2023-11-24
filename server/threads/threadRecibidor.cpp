@@ -1,6 +1,6 @@
 #include "threadRecibidor.h"
 
-Recibidor::Recibidor(Socket &peer, Queue<std::shared_ptr<Comando>> &acciones_,Queue<Mensaje>* snapshots_,Lobby &lobby_):skt(peer),
+Recibidor::Recibidor(Socket &peer, Queue<std::shared_ptr<Comando>> &acciones_,Queue<std::shared_ptr<MensajeServer>>* snapshots_,Lobby &lobby_):skt(peer),
                                                                                                                         acciones_a_realizar(acciones_), 
                                                                                                                         snapshots(snapshots_),
                                                                                                                         id_partida(0),
@@ -16,38 +16,44 @@ void Recibidor::run()try{{
     Queue<std::shared_ptr<Comando>> cola;
     //bool esta_en_partida = false;
     while(is_alive){
-        Mensaje msg = ptcl.recibir_comando(was_closed,id);
-        if(msg.tipo_mensaje() == COMANDO::CMD_CREAR_PARTIDA){
+        std::shared_ptr<MensajeServer> msg = ptcl.recibir_comando(was_closed,id);
+        if(!msg){
+            continue;
+        }
+        if(msg->get_tipo() == COMANDO::CMD_CREAR_PARTIDA){
+            std::shared_ptr<MensajeCrearPartida> crear = std::dynamic_pointer_cast<MensajeCrearPartida>(msg);
             // printf("Se recibe un mensaje para crear partdia\n");
-            uint32_t id_partida_queue = lobby.crear_partida(msg.nombre_partida,snapshots,msg.id_mapa); 
+            uint32_t id_partida_queue = lobby.crear_partida(crear->get_nombre_partida(),snapshots,crear->get_id_mapa()); 
             id_partida = id_partida_queue;
         }
 
-        if(msg.tipo_mensaje() == COMANDO::CMD_LISTAR_PARTIDAS){
+        else if(msg->get_tipo() == COMANDO::CMD_LISTAR_PARTIDAS){
+            
             // printf("Se recibe pedido de listar partidas en recibidor\n");
             lobby.listar_partidas(snapshots);
         }
 
-        if(msg.tipo_mensaje() == COMANDO::CMD_LISTAR_MAPAS){
-            // printf("Se recibe pedido de listar mapas\n");
+        else if(msg->get_tipo() == COMANDO::CMD_LISTAR_MAPAS){
+
             lobby.listar_mapas(snapshots);
         }
 
-        if (msg.tipo_mensaje() == COMANDO::CMD_EMPEZAR_PARTIDA){
+        else if (msg->get_tipo() == COMANDO::CMD_EMPEZAR_PARTIDA){
             // printf("Se recibe comando de empezar partida\n");
             Queue<std::shared_ptr<Comando>> &queue_acciones = lobby.get_queue(id_partida);
             FactoryComandos factory;
             queue_acciones.push(factory.comando_empezar());
         }
-        if(msg.tipo_mensaje() == COMANDO::CMD_UNIRSE_PARTIDA){
-            lobby.unirse_a_partida(msg.id_partida_a_unirse,snapshots);
-            this->id_partida = msg.id_partida_a_unirse;
+        else if(msg->get_tipo() == COMANDO::CMD_UNIRSE_PARTIDA){
+            std::shared_ptr<MensajeUnirsePartida> unirse = std::dynamic_pointer_cast<MensajeUnirsePartida>(msg);
+            lobby.unirse_a_partida(unirse->get_id_partida(),snapshots);
+            this->id_partida = unirse->get_id_partida();
             id++;
         }
 
-        if (msg.tipo_mensaje() == COMANDO::CMD_HANDSHAKE){
-
-            std::pair<uint32_t,std::vector<uint32_t>> id_gusanos = msg.gusanos_por_player;
+        else if (msg->get_tipo() == COMANDO::CMD_HANDSHAKE){
+            std::shared_ptr<MensajeHandshakeRecibir> par = std::dynamic_pointer_cast<MensajeHandshakeRecibir>(msg);
+            std::pair<uint32_t,std::vector<uint32_t>> id_gusanos = par->get_pair();
             this->id_gusanos = id_gusanos.second;
             this->id = id_gusanos.first;
             break;

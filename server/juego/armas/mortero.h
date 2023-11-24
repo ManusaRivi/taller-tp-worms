@@ -4,7 +4,7 @@
 #include "arma.h"
 #include "../game_config.h"
 #include "../proyectiles/rocket.h"
-#include "../../box2d/include/box2d/box2d.h"
+#include "../../../libs/box2d/include/box2d/box2d.h"
 
 class Mortero : public Arma {
 private:

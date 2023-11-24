@@ -1,48 +1,48 @@
-#ifndef SNAPSHOT_H
-#define SNAPSHOT_H
+// #ifndef SNAPSHOT_H
+// #define SNAPSHOT_H
 
-#include <vector>
-#include "worm_wrapper.h"
-#include <map>
-#include <cstdint>
-#include <string>
-
-
-// Simula la "imagen" del estado del juego.
-class Snapshot {
-    private:
-    std::vector<WormWrapper> worms;
-    std::vector<std::vector<float>> vigas;
-    std::map<uint32_t,std::string> lista;
-    bool snapshot_de_la_partida;
-    float tiempo_partida;
-    uint32_t id_gusano_jugando;
+// #include <vector>
+// #include "worm_wrapper.h"
+// #include <map>
+// #include <cstdint>
+// #include <string>
 
 
-/*
- * La idea es, mas adelante, que este Snapshot tenga:
- * - El vector de posiciones de las vigas encapsulado en una clase.
- */
+// // Simula la "imagen" del estado del juego.
+// class Snapshot {
+//     private:
+//     std::vector<WormWrapper> worms;
+//     std::vector<std::vector<float>> vigas;
+//     std::map<uint32_t,std::string> lista;
+//     bool snapshot_de_la_partida;
+//     float tiempo_partida;
+//     uint32_t id_gusano_jugando;
 
-    public:
-    //Constructor
-    Snapshot();
 
-    Snapshot(std::vector<WormWrapper> worms, std::vector<std::vector<float>> vigas);
+// /*
+//  * La idea es, mas adelante, que este Snapshot tenga:
+//  * - El vector de posiciones de las vigas encapsulado en una clase.
+//  */
 
-    Snapshot(std::vector<WormWrapper> worms);
+//     public:
+//     //Constructor
+//     Snapshot();
 
-    Snapshot(std::map<uint32_t,std::string> lista);
+//     Snapshot(std::vector<WormWrapper> worms, std::vector<std::vector<float>> vigas);
 
-    std::vector<WormWrapper> get_worms();
+//     Snapshot(std::vector<WormWrapper> worms);
 
-    bool snap_partida();
+//     Snapshot(std::map<uint32_t,std::string> lista);
 
-    std::vector<std::vector<float>> get_vigas();
+//     std::vector<WormWrapper> get_worms();
 
-    void add_condiciones_partida(float tiempo_turno, uint32_t id_gusano_current_turn);
+//     bool snap_partida();
 
-    uint32_t get_gusano_jugador();
-};
+//     std::vector<std::vector<float>> get_vigas();
 
-#endif
+//     void add_condiciones_partida(float tiempo_turno, uint32_t id_gusano_current_turn);
+
+//     uint32_t get_gusano_jugador();
+// };
+
+// #endif

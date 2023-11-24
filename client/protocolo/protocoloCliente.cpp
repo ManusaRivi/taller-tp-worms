@@ -144,6 +144,8 @@ void ClienteProtocolo::enviar_handshake(uint32_t id_player, std::vector<uint32_t
 std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     std::shared_ptr<SnapshotCliente> snap= std::make_shared<SnapshotCliente>(0);
     recibir_gusanos(snap);
+    recibir_projectiles(snap);
+
     /*
     int tamano = 6;
     float posx = 1.5;
@@ -197,6 +199,22 @@ void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
         snap->add_worm(worm, id_gusano);
     }
     snap->agregar_turno_actual(turno_player_actual);
+}
+
+void ClienteProtocolo::recibir_projectiles(std::shared_ptr<SnapshotCliente> snap){
+    uint16_t cantidad = recibir_2_bytes();
+    for(uint16_t i = 0; i < cantidad; i++){
+        float x = recibir_4_bytes_float();
+        float y = recibir_4_bytes_float();
+        float angulo = recibir_4_bytes_float();
+        uint8_t tipo = recibir_1_byte();
+        std::unique_ptr<ProjectileClient> projectile =  ProjectileGenerator::get_proyectile_with_code(tipo,
+                                                                        x,
+                                                                        y,
+                                                                        angulo);
+        printf("Los datos que llegan son %f    %f   %f\n",x,y,angulo);
+        snap->add_projectile(std::move(projectile));
+    }
 }
 
 bool ClienteProtocolo::recibir_comienzo_de_partida(){

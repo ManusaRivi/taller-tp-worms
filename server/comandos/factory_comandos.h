@@ -12,6 +12,7 @@
 #include "detener_angulo.h"
 #include "cargar_arma.h"
 #include "cambiar_direccion_arma.h"
+#include "mensajes/mensaje.h"
 
 
 class EmpezarPartida;

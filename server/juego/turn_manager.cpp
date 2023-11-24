@@ -2,7 +2,7 @@
 
 
 
-TurnManager::TurnManager(){
+TurnManager::TurnManager():acaba_de_pasar_turno(false){
 
 }
 

@@ -13,7 +13,7 @@ void World::add_beam(Beam beam) {
     beams.push_back(beam);
 }
 
-void World::add_projectile(std::unique_ptr<Projectile> projectile) {
+void World::add_projectile(std::unique_ptr<ProjectileClient> projectile) {
     projectiles.push_back(std::move(projectile));
 }
 

@@ -17,7 +17,7 @@ void Aceptador::run() try{{
     while(true){
         Socket client_skt = this->aceptador.accept();
         // std::cout << "Se acepto un socket" << std::endl;
-        Queue<Mensaje> *queue_enviador = new Queue<Mensaje>;
+        Queue<std::shared_ptr<MensajeServer>> *queue_enviador = new Queue<std::shared_ptr<MensajeServer>>;
 
 
         

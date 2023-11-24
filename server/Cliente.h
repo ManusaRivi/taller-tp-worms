@@ -11,10 +11,10 @@ struct Cliente{
     Enviador *enviador;
 
 
-    Queue<Mensaje>* snapshots_a_enviar;
+    Queue<std::shared_ptr<MensajeServer>>* snapshots_a_enviar;
     Lobby &lobby;
 
-    Cliente(Socket &peer, Queue<Mensaje>* caster, Queue<std::shared_ptr<Comando>> &acciones_a_realizar,Lobby &lobby);
+    Cliente(Socket &peer, Queue<std::shared_ptr<MensajeServer>>* caster, Queue<std::shared_ptr<Comando>> &acciones_a_realizar,Lobby &lobby);
 
     void start();
 

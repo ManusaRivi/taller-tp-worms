@@ -4,6 +4,7 @@ ColeccionArmas::ColeccionArmas(b2World& world) : world(world)
 {
     GameConfig& config = GameConfig::getInstance();
     armas[Armas::BAZOOKA] = new Bazooka(world, config.bazooka_dmg, config.bazooka_radius);
+    armas[Armas::MORTERO] = new Mortero(world, config.mortar_dmg, config.mortar_radius);
 }
 
 Arma* ColeccionArmas::SeleccionarArma(Armas arma)

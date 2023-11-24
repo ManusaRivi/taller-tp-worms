@@ -66,6 +66,16 @@ void Mapa::Step(int iteracion) {
     }
     for (auto projectile : projectiles) {
         if (projectile->hasExploded()) {
+
+            int frag_amount = projectile->getFragCount();
+            if (frag_amount > 0) {
+                GameConfig& config = GameConfig::getInstance();
+                b2Vec2 position = projectile->getPosition();
+                for (auto i = 0; i < frag_amount; ++i) {
+                    projectiles.push_back(new Fragment (world, position.x, position.y, config.frag_dmg, config.frag_radius));
+                }
+            }
+
             std::vector<Projectile*>::iterator it = std::find(projectiles.begin(), projectiles.end(), projectile);
             if (it != projectiles.end())
                 projectiles.erase(it);

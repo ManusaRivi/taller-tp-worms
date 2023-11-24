@@ -2,7 +2,6 @@
 #define ROCKET_H
 
 #include "../../../../libs/box2d/include/box2d/box2d.h"
-#include "../collision_categories.h"
 #include "../worm_query.h"
 #include "./projectile.h"
 
@@ -22,7 +21,7 @@ private:
     int dmg;
     int radius;
 public:
-    Rocket(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius);
+    Rocket(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius, int fragments);
     virtual ProjectileType getType() override;
     virtual void explotar() override;
 };

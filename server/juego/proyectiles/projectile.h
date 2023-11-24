@@ -3,14 +3,16 @@
 
 #include "../../../libs/box2d/include/box2d/box2d.h"
 #include "../../../../common/projectile_types.h"
+#include "../collision_categories.h"
 #include "../colisionable.h"
 
 class Projectile : public Colisionable 
 {
 protected:
     b2Body* body;
-    bool exploded = false;
     ProjectileType type;
+    bool exploded = false;
+    int fragments;
     void applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec2 applyPoint, float blastPower)
     {
         b2Vec2 blastDir = applyPoint - blastCenter;
@@ -31,6 +33,9 @@ public:
     virtual ProjectileType getType() = 0;
     virtual bool hasExploded() {
         return exploded;
+    }
+    virtual int getFragCount() {
+        return fragments;
     }
     virtual b2Vec2 getPosition() {
         return body->GetPosition();

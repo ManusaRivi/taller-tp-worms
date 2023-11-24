@@ -2,7 +2,8 @@
 #define PROJECTILE_TYPES_H
 
 enum ProjectileType {
-    ROCKET
+    ROCKET,
+    FRAGMENT
 };
 
 #endif

@@ -5,12 +5,14 @@
 #include "../game_config.h"
 #include "arma.h"
 #include "bazooka.h"
+#include "mortero.h"
 
 #include <map>
 #include <memory>
 
 enum Armas {
     BAZOOKA,
+    MORTERO,
     GRANADA,
     DINAMITA,
     BATE

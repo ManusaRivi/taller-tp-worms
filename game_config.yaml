@@ -3,6 +3,12 @@ puntos_de_vida: 100
 cantidad_de_vidas: 1
 
 # Atributos de armas:
+
+# Frags
+cantidad_frags: 6
+danio_frags: 10
+radio_frags: 2
+
 # Bazooka
 dmg_bazooka: 50
 radio_bazooka: 2
@@ -11,9 +17,6 @@ radio_bazooka: 2
 ammo_mortero: 10
 dmg_mortero: 50
 radio_mortero: 2
-dmg_mortero_frag: 10
-radio_mortero_frag: 2
-mortero_frags: 6
 
 # Granada Verde
 dmg_granada_verde: 30
@@ -23,9 +26,6 @@ radio_granada_verde: 2
 ammo_granada_roja: 10
 dmg_granada_roja: 30
 radio_granada_roja: 2
-dmg_granada_roja_frag: 10
-radio_granada_roja_frag: 2
-granada_roja_frags: 6
 
 # Banana
 ammo_banana: 5

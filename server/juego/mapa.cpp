@@ -73,6 +73,7 @@ void Mapa::Step(int iteracion) {
         if (projectile->hasExploded()) {
             b2Vec2 position = projectile->getPosition();
             explosions.push(ExplosionWrapper (position.x, position.y, projectile->getRadius()));
+            sounds.push(SoundTypes::EXPLOSION);
 
             int frag_amount = projectile->getFragCount();
             if (frag_amount > 0) {
@@ -209,6 +210,15 @@ std::vector<ExplosionWrapper> Mapa::get_explosions() {
         explosions.pop();
     }
     return vec_explosions;
+}
+
+std::vector<SoundTypes> Mapa::get_sounds() {
+    std::vector<SoundTypes> vec_sounds;
+    while (!sounds.empty()) {
+        vec_sounds.push_back(sounds.front());
+        sounds.pop();
+    }
+    return vec_sounds;
 }
 
 void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){

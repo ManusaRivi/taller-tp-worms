@@ -20,6 +20,9 @@ void SnapshotCliente::apply_to_world(World& world) {
     for (const auto& pair: worms) {
         world.update_worm(pair.first, std::move(pair.second));
     }
+    for(auto &c:projectiles){
+        world.add_projectile(std::move(c));
+    }
 }
 /*
 void SnapshotCliente::present(int& it_inc,

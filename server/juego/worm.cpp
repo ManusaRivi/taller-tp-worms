@@ -160,7 +160,15 @@ float Worm::GetAngle() {
 
 Projectile* Worm::usar_arma() {
     b2Vec2 position = body->GetPosition();
-    return armaActual->Shoot(position.x, position.y, this->aiming_angle());
+    float angle;
+    if(this->facingDirection == LEFT){
+        angle = this->aiming_angle() + 1.57;
+    }
+    else{
+        angle = this->aiming_angle();
+    }
+    printf("el angulo con el que se dispara es %f\n",angle);
+    return armaActual->Shoot(position.x, position.y, angle);
 }
 
 int Worm::get_facing_direction(){

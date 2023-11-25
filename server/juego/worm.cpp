@@ -61,6 +61,7 @@ void Worm::Move() {
             break;
     }
     float velChange = desiredVel - velocity.x;
+    status = 1;
     float impulse = body->GetMass() * velChange;
     body->ApplyLinearImpulse( b2Vec2 (impulse, 0), body->GetWorldCenter(), true);
 }

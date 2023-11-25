@@ -2,7 +2,7 @@
 #define GAME_H
 
 // Frame rate, 33 para 30FPS
-#define FRAME_RATE 33
+#define FRAME_RATE 16
 
 // Tamaño de la camara (7.11, 4)
 #define CAMERA_WIDTH 16

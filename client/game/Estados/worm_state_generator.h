@@ -2,21 +2,13 @@
 #define WORM_STATE_GENERATOR_H
 
 #include <memory>
+#include "../../../common/worm_states.h"
+
 #include "Gusano/worm_state.h"
 #include "Gusano/w_idle.h"
 #include "Gusano/w_walk.h"
 #include "Gusano/w_aiming.h"
 #include "Gusano/grave.h"
-
-#define WORM_STATE_IDLE 0
-#define WORM_STATE_WALKING 1
-#define WORM_STATE_DEAD 2
-
-#define WORM_STATE_BAZOOKA_AIMING 5
-#define WORM_STATE_HOLY_GRANADE_AIMING 12
-#define WORM_STATE_GRANADE_AIMING 14
-#define WORM_STATE_BANANA_AIMING 16
-#define WORM_STATE_RED_GRANADE_AIMING 18
 
 
 class WormStateGenerator {

@@ -20,6 +20,7 @@
 #include <vector>
 #include <unistd.h>
 #include "../../common/queue.h"
+#include "../../common/armas.h"
 #include "comunicacion/snapshot.h"
 #include "../comandos/comando.h"
 #include "../comandos/factory_comandos.h"

@@ -15,7 +15,7 @@ std::unique_ptr<ProjectileClient> ProjectileGenerator::get_proyectile_with_code(
             return std::make_unique<ProjectileClient>(std::string("HolyGranade"), pos_x, pos_y, angle);
         case ProjectileType::RED_GRANADE:
             return std::make_unique<ProjectileClient>(std::string("RedGranade"), pos_x, pos_y, angle);
-        case ProjectileType::BANANA:
+        case ProjectileType::BANANA_GRENADE:
             return std::make_unique<ProjectileClient>(std::string("Banana"), pos_x, pos_y, angle);
         case ProjectileType::AIR_MISSILE:
             return std::make_unique<ProjectileClient>(std::string("AirMissile"), pos_x, pos_y, angle);

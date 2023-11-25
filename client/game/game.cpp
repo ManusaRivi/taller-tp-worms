@@ -14,17 +14,6 @@ using namespace SDL2pp;
 #define ANGULO_ARRIBA 0x00
 #define ANGULO_ABAJO 0x01
 
-#define BAZOOKA 5
-#define BASEBALL 6
-#define TELEPORTACION 8
-#define DINAMITA 9
-#define ATAQUE_AEREO 11
-#define GRANADA_SANTA 12
-#define GRANADA_VERDE 14
-#define BANANA 16
-#define GRANADA_ROHA 18
-#define MORTERO 20
-
 Game::Game(Queue<std::shared_ptr<MensajeCliente>> &queue, Queue<std::shared_ptr<MensajeCliente>> &acciones_):snapshots(queue), acciones(acciones_){}
 
 int Game::run() try {
@@ -145,35 +134,35 @@ int Game::run() try {
 					// ToDo: Desarrollar para cuenta regresiva
 					has_selected_weapon = true;
 					is_aiming = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(BAZOOKA);
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::BAZOOKA);
 					acciones.push(msg);
 					// Enviar comando "saco bazooka" por protocolo
 				} else if (tecla == SDLK_2 && !has_selected_weapon) {
 					// Selecciono el Bate
 					// ToDo: Desarrollar para cuenta regresiva
 					has_selected_weapon = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(BASEBALL);
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::BATE);
 					acciones.push(msg);
 					// Enviar comando "saco bate" por protocolo
 				} else if (tecla == SDLK_3 && !has_selected_weapon) {
 					// Selecciono Teletransportacion
 					// ToDo: Desarrollar para cuenta regresiva
 					has_selected_weapon = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(TELEPORTACION);
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::TELETRANSPORTACION);
 					acciones.push(msg);
 					// Enviar comando "saco teletransportador" por protocolo
 				} else if (tecla == SDLK_4 && !has_selected_weapon) {
 					// Selecciono la Dinamita
 					// ToDo: Desarrollar para cuenta regresiva
 					has_selected_weapon = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(DINAMITA);
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::DINAMITA);
 					acciones.push(msg);
 					// Enviar comando "saco dinamita" por protocolo
 				} else if (tecla == SDLK_5 && !has_selected_weapon) {
 					// Selecciono el Ataque Aereo
 					// ToDo: Desarrollar para cuenta regresiva
 					has_selected_weapon = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(ATAQUE_AEREO);
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::ATAQUE_AEREO);
 					acciones.push(msg);
 					// Enviar comando "saco ataque aereo" por protocolo
 				} else if (tecla == SDLK_6 && !has_selected_weapon) {
@@ -181,35 +170,35 @@ int Game::run() try {
 					is_aiming = true;
 					has_selected_weapon = true;
 					// printf("Se manda una granada santa\n");
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(GRANADA_SANTA);
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::GRANADA_SANTA);
 					acciones.push(msg);
 					// Enviar comando "saco granada santa" por protocolo
 				} else if (tecla == SDLK_7 && !has_selected_weapon) {
 					// Selecciono la Granada verde
 					is_aiming = true;
 					has_selected_weapon = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(GRANADA_VERDE);
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::GRANADA);
 					acciones.push(msg);
 					// Enviar comando "saco granada verde" por protocolo
 				} else if (tecla == SDLK_8 && !has_selected_weapon) {
 					// Selecciono la Banana
 					is_aiming = true;
 					has_selected_weapon = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(BANANA);
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::BANANA);
 					acciones.push(msg);
 					// Enviar comando "saco banana" por protocolo
 				} else if (tecla == SDLK_9 && !has_selected_weapon) {
 					// Selecciono la Granada roja
 					has_selected_weapon = true;
 					is_aiming = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(GRANADA_ROHA);
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::GRANADA_ROJA);
 					acciones.push(msg);
 					// Enviar comando "saco granada roja" por protocolo
 				} else if (tecla == SDLK_0 && !has_selected_weapon) {
 					// Selecciono el mortero
 					has_selected_weapon = true;
 					is_aiming = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(MORTERO);
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::MORTERO);
 					acciones.push(msg);
 					// Enviar comando "saco mortero" por protocolo
 				} else if (tecla == SDLK_UP && !up_press && is_aiming) {

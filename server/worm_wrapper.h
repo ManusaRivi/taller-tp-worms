@@ -3,15 +3,11 @@
 
 #include <vector>
 #include <stdint.h>
+#include "../common/worm_states.h"
 
 //Direcciones (despues quizas cambie a un angulo)
 #define DIR_RIGHT 1
 #define DIR_LEFT 0
-
-//Estados (Despues va a haber mas)
-#define STATUS_IDLE 0
-#define STATUS_MOVING 1
-#define STATUS_DEAD 2
 
 class WormWrapper {
 private:
@@ -41,7 +37,7 @@ public:
 
     uint8_t get_estado() {
         if (vida <= 0) {
-            status = STATUS_DEAD;
+            status = WormStates::DEAD;
         }
         return status;
     }

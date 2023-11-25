@@ -7,7 +7,7 @@ enum ProjectileType {
     GREEN_GRANADE,
     HOLY_GRANADE,
     RED_GRANADE,
-    BANANA,
+    BANANA_GRENADE,
     DYNAMITE,
     AIR_MISSILE,
     FRAGMENT

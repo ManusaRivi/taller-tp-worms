@@ -7,7 +7,7 @@ union BodyUserData {
 
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
             coleccionArmas(new ColeccionArmas(world)),armaActual(nullptr), moving(false) ,facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
-            finalHeight(0.0f), jumpSteps(0), id(id_), status(0), angulo_disparo(0.0f), apuntando(false)
+            finalHeight(0.0f), jumpSteps(0), id(id_), status(WormStates::IDLE), angulo_disparo(0.0f), apuntando(false)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -61,7 +61,7 @@ void Worm::Move() {
             break;
     }
     float velChange = desiredVel - velocity.x;
-    status = 1;
+    status = WormStates::WALK;
     float impulse = body->GetMass() * velChange;
     body->ApplyLinearImpulse( b2Vec2 (impulse, 0), body->GetWorldCenter(), true);
 }
@@ -71,7 +71,7 @@ void Worm::Stop() {
     b2Vec2 velocity = body->GetLinearVelocity();
     velocity.x = 0.0f;
     body->SetLinearVelocity(velocity);
-    status = STATUS_IDLE;
+    status = WormStates::IDLE;
 }
 
 void Worm::JumpForward() {
@@ -91,6 +91,7 @@ void Worm::JumpForward() {
             break;
     }
     body->SetLinearVelocity(velocity);
+    //state = WormStates::JUMP;
 }
 
 void Worm::JumpBackward() {
@@ -110,6 +111,7 @@ void Worm::JumpBackward() {
             break;
     }
     body->SetLinearVelocity(velocity);
+    //state = WormStates::BACKFLIP;
 }
 
 void Worm::startGroundContact() {
@@ -192,8 +194,53 @@ void Worm::cambiar_arma(uint8_t id_arma){
     if (isAirborne()){
         return;
     }
-    // printf("Se recibe un id de arma %u\n",id_arma);
-    status = id_arma;
+    
+    switch (id_arma)
+    {
+    case Armas::BAZOOKA:
+        status = WormStates::BAZOOKA_AIMING;
+        break;
+    
+    case Armas::MORTERO:
+        status = WormStates::MORTAR_AIMING;
+        break;
+    
+    case Armas::GRANADA:
+        status = WormStates::GREEN_GRENADE_AIMING;
+        break;
+    
+    case Armas::DINAMITA:
+        status = WormStates::DINAMITA_AIMING;
+        break;
+    
+    case Armas::BATE:
+        status = WormStates::BATE_AIMING;
+        break;
+    
+    case Armas::ATAQUE_AEREO:
+        status = WormStates::AIR_ATTACK_AIMING;
+        break;
+    
+    case Armas::GRANADA_SANTA:
+        status = WormStates::HOLY_GRANADE_AIMING;
+        break;
+    
+    case Armas::GRANADA_ROJA:
+        status = WormStates::RED_GRENADE_AIMING;
+        break;
+    
+    case Armas::BANANA:
+        status = WormStates::BANANA_AIMING;
+        break;
+    
+    case Armas::TELETRANSPORTACION:
+        status = WormStates::TELEPORT_AIMING;
+        break;
+    
+    default:
+        break;
+    }
+
     armaActual = coleccionArmas->SeleccionarArma(id_arma);
 }
 
@@ -243,7 +290,7 @@ void Worm::detener_acciones(){
     if(!airborne){
         angulo_disparo = 0;
         apuntando = false;
-        status = 0;
+        status = WormStates::IDLE;
         this->Stop();
     }
 }

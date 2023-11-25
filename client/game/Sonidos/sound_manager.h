@@ -15,7 +15,7 @@ class SoundManager {
     public:
     SoundManager();
 
-    std::shared_ptr<SDL2pp::Chunk> get_sound(SoundTypes sound_type);
+    std::shared_ptr<SDL2pp::Chunk> get_sound(int sound_type);
 };
 
 #endif

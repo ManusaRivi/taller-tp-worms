@@ -20,7 +20,7 @@ SoundManager::SoundManager() {
     
 }
 
-std::shared_ptr<SDL2pp::Chunk> SoundManager::get_sound(SoundTypes sound_type) {
+std::shared_ptr<SDL2pp::Chunk> SoundManager::get_sound(int sound_type) {
     std::string sound_name;
     switch (sound_type){
     case SoundTypes::AMBIENT_MUSIC:

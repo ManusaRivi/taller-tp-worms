@@ -2,6 +2,7 @@
 #define SOUND_TYPES_H
 
 enum SoundTypes {
+    AMBIENT_MUSIC,
     AIR_STRIKE,
     BANANA_BOUNCE,
     GRENADE_BOUNCE,

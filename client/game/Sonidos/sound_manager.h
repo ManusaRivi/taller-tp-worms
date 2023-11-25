@@ -5,6 +5,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <yaml-cpp/yaml.h>
 #include <map>
+#include "../../../common/sound_types.h"
 #include <string>
 
 class SoundManager {
@@ -14,7 +15,7 @@ class SoundManager {
     public:
     SoundManager();
 
-    std::shared_ptr<SDL2pp::Chunk> get_sound(std::string& sound_name);
+    std::shared_ptr<SDL2pp::Chunk> get_sound(SoundTypes sound_type);
 };
 
 #endif

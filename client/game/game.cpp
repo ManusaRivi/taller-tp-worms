@@ -72,8 +72,7 @@ int Game::run() try {
 	SoundManager sound_manager;
 
 	// Reproduzco musica ambiente
-	std::string nombre_musica("MusicaAmbiente");
-	std::shared_ptr<Chunk> musica_ambiente = sound_manager.get_sound(nombre_musica);
+	std::shared_ptr<Chunk> musica_ambiente = sound_manager.get_sound(SoundTypes::AMBIENT_MUSIC);
 	mixer.PlayChannel(-1, (*musica_ambiente), 0);
 
 	// Tomo el tiempo actual

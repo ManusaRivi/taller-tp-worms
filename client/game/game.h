@@ -15,6 +15,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_audio.h>
 #include "Texturas/texture_manager.h"
+#include "Sonidos/sound_manager.h"
 #include "../protocolo/protocoloCliente.h"
 #include <vector>
 #include <unistd.h>

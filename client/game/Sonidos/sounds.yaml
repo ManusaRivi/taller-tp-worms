@@ -50,17 +50,17 @@
 
 # Gusanos
 - nombre: AdiosMundoCruel
-  ruta: /client/game/Sonidos/data/Efectos/AdiosMundoCruel.wav
+  ruta: /client/game/Sonidos/data/Gusanos/AdiosMundoCruel.wav
 
 - nombre: ComoTePilleVeras
-  ruta: /client/game/Sonidos/data/Efectos/ComoTePilleVeras.wav
+  ruta: /client/game/Sonidos/data/Gusanos/ComoTePilleVeras.wav
 
 - nombre: Fuego
-  ruta: /client/game/Sonidos/data/Efectos/Fuego.wav
+  ruta: /client/game/Sonidos/data/Gusanos/Fuego.wav
 
 - nombre: Granada
-  ruta: /client/game/Sonidos/data/Efectos/Granada.wav
+  ruta: /client/game/Sonidos/data/Gusanos/Granada.wav
 
 - nombre: SomosLosMejores
-  ruta: /client/game/Sonidos/data/Efectos/SomosLosMejores.wav
+  ruta: /client/game/Sonidos/data/Gusanos/SomosLosMejores.wav
 

@@ -13,6 +13,10 @@ void World::add_beam(Beam beam) {
     beams.push_back(beam);
 }
 
+void World::add_sound(std::shared_ptr<Chunk> sound) {
+    sonidos.push_back(sound);
+}
+
 void World::add_projectile(std::unique_ptr<ProjectileClient> projectile) {
     projectiles.push_back(std::move(projectile));
 }
@@ -107,6 +111,7 @@ void World::present_hud(Renderer& renderer,
 void World::present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
+                        Mixer& mixer,
                         float& x_scale,
                         float& y_scale,
                         Camara& camara){
@@ -148,6 +153,13 @@ void World::present(int& it_inc,
 
     // Grafico HUD
     present_hud(renderer, texture_manager, x_scale, y_scale);
+
+    // Reproduzco sonidos
+    while (!sonidos.empty()) {
+        std::shared_ptr<Chunk> sonido = sonidos.back();
+        mixer.PlayChannel(-1, (*sonido), 0);
+        sonidos.pop_back();
+    }
 
     renderer.Present();
 }

@@ -29,6 +29,7 @@ class World {
     std::map<int, std::shared_ptr<Worm>> worms;
     std::vector<Beam> beams;
     std::vector<std::unique_ptr<ProjectileClient>> projectiles;
+    std::vector<std::shared_ptr<Chunk>> sonidos;
     int _id_camera;
     float _map_width;
     float _map_height;
@@ -62,6 +63,8 @@ class World {
 
     void add_worm(std::shared_ptr<Worm> worm, int id);
 
+    void add_sound(std::shared_ptr<Chunk> sound);
+
     void update_worm(const int& id, std::shared_ptr<Worm> worm);
 
     void add_beam(Beam beam);
@@ -71,6 +74,7 @@ class World {
     void present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
+                        Mixer& mixer,
                         float& x_scale,
                         float& y_scale,
                         Camara& camara);

@@ -291,17 +291,7 @@ int Game::run() try {
 			std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(snap);
 			std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
 			snapshot->apply_to_world((*world));
-
-			// PRUEBA PROYECTIL ----------------------------------------------------
-			//Asi deberian agregarse por protocolo los proyectiles:
-			float pos_x = 1.5f;
-			float pos_y = 25.82f;
-			float angle = 180.0f;
-			unique_ptr<ProjectileClient> prueba = ProjectileGenerator::get_proyectile_with_code(0, pos_x, pos_y, angle);
-			(*world).add_projectile(std::move(prueba));
-			//--------------------------------------------------------------------
-
-			(*world).present(it_inc, renderer, texture_manager, x_scale, y_scale, camara);
+			(*world).present(it_inc, renderer, texture_manager, mixer, x_scale, y_scale, camara);
 			//snapshot->present(it_inc, renderer, texture_manager, window_width, window_height, x_scale, y_scale);
 		}
 		// Timing: calcula la diferencia entre este frame y el anterior

@@ -15,6 +15,10 @@ void SnapshotCliente::add_projectile(std::unique_ptr<ProjectileClient> proyectil
     projectiles.push_back(std::move(proyectil));
 }
 
+void SnapshotCliente::add_sound(std::shared_ptr<Chunk> sound) {
+    sonidos.push_back(sound);
+}
+
 void SnapshotCliente::apply_to_world(World& world) {
     world.update_camera(_id_camera);
     for (const auto& pair: worms) {
@@ -22,6 +26,11 @@ void SnapshotCliente::apply_to_world(World& world) {
     }
     for(auto &c:projectiles){
         world.add_projectile(std::move(c));
+    }
+
+    while (!sonidos.empty()) {
+        world.add_sound(sonidos.back());
+        sonidos.pop_back();
     }
 }
 /*

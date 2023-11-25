@@ -21,6 +21,7 @@ class SnapshotCliente {
     int _id_camera;
     uint32_t id_turno_actual;
     std::vector<std::unique_ptr<ProjectileClient>> projectiles;
+    std::vector<std::shared_ptr<Chunk>> sonidos;
  
     public:
     //Constructor
@@ -34,6 +35,8 @@ class SnapshotCliente {
     void add_beam(Beam beam);
 
     void add_projectile(std::unique_ptr<ProjectileClient> projectil);
+
+    void add_sound(std::shared_ptr<Chunk> sound);
 
 /*
     void present(int& it_inc,

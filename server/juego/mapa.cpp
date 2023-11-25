@@ -49,7 +49,16 @@ void Mapa::Load_Map_File(std::string filepath) {
 }
 
 void Mapa::Step(int iteracion) {
+    int idx = 0;
     for (auto worm : worms) {
+        if (worm->isDead()) {
+            worm->kill();
+            this->turnManager.deleteWorm(idx);
+            //delete worm; ??
+            worms.erase(worms.begin() + idx);
+            //idx--; ??
+            return;
+        }
         if (worm->jumpSteps > 0) {
             if (worm->jumpSteps == 1) worm->Stop();
             worm->jumpSteps--;
@@ -64,6 +73,7 @@ void Mapa::Step(int iteracion) {
         if (worm->esta_cargando_arma()) {
             worm->cargar_arma();
         }
+        idx++;
     }
     // printf("Se termina de iterar los gusanos\n");
     for (auto projectile : projectiles) {

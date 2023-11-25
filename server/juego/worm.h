@@ -76,6 +76,8 @@ public:
     void takeDamage(int damage);
     std::vector<float> GetPosition();
     float GetAngle();
+    bool isDead();
+    void kill();
     
     Projectile* usar_arma();
 

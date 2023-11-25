@@ -11,6 +11,7 @@
 //Estados (Despues va a haber mas)
 #define STATUS_IDLE 0
 #define STATUS_MOVING 1
+#define STATUS_DEAD 2
 
 class WormWrapper {
 private:
@@ -39,6 +40,9 @@ public:
     }
 
     uint8_t get_estado() {
+        if (vida <= 0) {
+            status = STATUS_DEAD;
+        }
         return status;
     }
 

@@ -276,3 +276,13 @@ void Worm::cambiar_direccion(uint8_t dir){
     }
     }
 }
+
+bool Worm::isDead() {
+    return (this->hitPoints <= 0) ? true : false;
+}
+
+void Worm::kill() {
+    this->hitPoints = 0;
+    //delete this->coleccionArmas;
+}
+

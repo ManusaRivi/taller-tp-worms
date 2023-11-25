@@ -33,7 +33,9 @@ std::unique_ptr<WormState> WormStateGenerator::get_state_with_code(int status_co
         frames = 31;
         return std::make_unique<WAiming>(std::string("WAimRGr"), frames, facing_right, worm_angle, shot_angle);
 
-    
+    case WORM_STATE_DEAD:
+        return std::make_unique<Grave>(facing_right, worm_angle);
+        
     default:
         throw std::runtime_error("WormStateGenerator: No existe ese codigo de estado");
     }

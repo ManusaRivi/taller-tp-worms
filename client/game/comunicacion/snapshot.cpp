@@ -15,7 +15,7 @@ void SnapshotCliente::add_projectile(std::unique_ptr<ProjectileClient> proyectil
     projectiles.push_back(std::move(proyectil));
 }
 
-void SnapshotCliente::add_sound(std::shared_ptr<Chunk> sound) {
+void SnapshotCliente::add_sound(int sound) {
     sonidos.push_back(sound);
 }
 

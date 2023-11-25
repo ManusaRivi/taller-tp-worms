@@ -13,7 +13,7 @@ void World::add_beam(Beam beam) {
     beams.push_back(beam);
 }
 
-void World::add_sound(std::shared_ptr<Chunk> sound) {
+void World::add_sound(int sound) {
     sonidos.push_back(sound);
 }
 
@@ -111,6 +111,7 @@ void World::present_hud(Renderer& renderer,
 void World::present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
+                        SoundManager& sound_manager,
                         Mixer& mixer,
                         float& x_scale,
                         float& y_scale,
@@ -156,7 +157,7 @@ void World::present(int& it_inc,
 
     // Reproduzco sonidos
     while (!sonidos.empty()) {
-        std::shared_ptr<Chunk> sonido = sonidos.back();
+        std::shared_ptr<Chunk> sonido = sound_manager.get_sound(sonidos.back());
         mixer.PlayChannel(-1, (*sonido), 0);
         sonidos.pop_back();
     }

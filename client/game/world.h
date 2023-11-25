@@ -9,6 +9,7 @@
 #include "comunicacion/beam.h"
 #include "camara.h"
 #include "comunicacion/projectile.h"
+#include "Sonidos/sound_manager.h"
 
 #define BACKGROUND_WIDTH 576
 #define BACKGROUND_HEIGHT 324
@@ -29,7 +30,7 @@ class World {
     std::map<int, std::shared_ptr<Worm>> worms;
     std::vector<Beam> beams;
     std::vector<std::unique_ptr<ProjectileClient>> projectiles;
-    std::vector<std::shared_ptr<Chunk>> sonidos;
+    std::vector<int> sonidos;
     int _id_camera;
     float _map_width;
     float _map_height;
@@ -63,7 +64,7 @@ class World {
 
     void add_worm(std::shared_ptr<Worm> worm, int id);
 
-    void add_sound(std::shared_ptr<Chunk> sound);
+    void add_sound(int sound_code);
 
     void update_worm(const int& id, std::shared_ptr<Worm> worm);
 
@@ -74,6 +75,7 @@ class World {
     void present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
+                        SoundManager& sound_manager,
                         Mixer& mixer,
                         float& x_scale,
                         float& y_scale,

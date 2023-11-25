@@ -6,10 +6,13 @@
 #include <yaml-cpp/yaml.h>
 #include <vector>
 #include <string>
+#include <queue>
 
 #include "./game_config.h"
 #include "../worm_wrapper.h"
 #include "../projectile_wrapper.h"
+#include "../explosion_wrapper.h"
+#include "../../common/sound_types.h"
 #include "./worm.h"
 #include "./beam.h"
 #include "./proyectiles/projectile.h"
@@ -32,6 +35,8 @@ private:
     std::vector<BeamServer*> vigas;
     std::vector<Worm*> worms;
     std::vector<Projectile*> projectiles;
+    std::queue<ExplosionWrapper> explosions;
+    std::queue<SoundTypes> sounds;
     Water* water;
 
     std::string nombre;
@@ -65,6 +70,10 @@ public:
     std::vector<WormWrapper> get_gusanos();
 
     std::vector<ProjectileWrapper> get_projectiles();
+
+    std::vector<ExplosionWrapper> get_explosions();
+
+    std::vector<SoundTypes> get_sounds();
 
     void cambiar_arma(uint32_t id, uint8_t tipo);
 

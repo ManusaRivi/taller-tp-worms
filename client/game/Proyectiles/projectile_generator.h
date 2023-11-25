@@ -2,10 +2,18 @@
 #define PROJECTILE_GENERATOR_H
 
 #include "../comunicacion/projectile.h"
-#include "missile.h"
 
-#define PROYECTILE_MISSILE 1
-
+enum ProyectileCode {
+    MISSILE,
+    MORTAR,
+    GREEN_GRANADE,
+    HOLY_GRANADE,
+    RED_GRANADE,
+    BANANA,
+    DYNAMITE,
+    AIR_MISSILE,
+    DROP
+};
 
 class ProjectileGenerator {
     public:
@@ -17,7 +25,7 @@ class ProjectileGenerator {
  * `pos_y`: Posicion en y
  * `angle`: Angulo (angulo=0 => mira a derecha)
  */
-    static std::unique_ptr<Projectile> get_proyectile_with_code(int proy_code,
+    static std::unique_ptr<ProjectileClient> get_proyectile_with_code(int proy_code,
                                                             float& pos_x,
                                                             float& pos_y,
                                                             float& angle);

@@ -1,5 +1,5 @@
-#ifndef PROJECTILE_H
-#define PROJECTILE_H
+#ifndef PROJECTILE_H_CLIENT
+#define PROJECTILE_H_CLIENT
 
 #include <SDL2pp/SDL2pp.hh>
 #include <string>
@@ -17,16 +17,15 @@
  * ToDo:    Cambiar a clase abstracta con descendientes
  *          cuando haya mas que un unico tipo de proyectil.
  */
-class Projectile {
+class ProjectileClient {
     protected:
     std::string texture_name;
-    int frames;
     float _pos_x;
     float _pos_y;
     float _angle;
 
     public:
-    Projectile();
+    ProjectileClient(const std::string& texture, float& pos_x, float& pos_y, float& angle);
 
     virtual void present(SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,
@@ -35,7 +34,7 @@ class Projectile {
                     float& camera_x, float& camera_y);
     
     //Destructor virtual
-    virtual ~Projectile() {}
+    virtual ~ProjectileClient() {}
 };
 
 #endif

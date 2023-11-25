@@ -7,9 +7,9 @@ ColeccionArmas::ColeccionArmas(b2World& world) : world(world)
     armas[Armas::MORTERO] = new Mortero(world, config.mortar_dmg, config.mortar_radius);
 }
 
-Arma* ColeccionArmas::SeleccionarArma(Armas arma)
+Arma* ColeccionArmas::SeleccionarArma(uint8_t id_arma)
 {
-    return armas[arma];
+    return armas[id_arma];
 }
 
 ColeccionArmas::~ColeccionArmas()

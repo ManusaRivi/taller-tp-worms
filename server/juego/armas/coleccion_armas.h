@@ -10,13 +10,26 @@
 #include <map>
 #include <memory>
 
+
+#define BAZOOKA_id 5
+#define BASEBALL_id 6
+#define TELEPORTACION_id 8
+#define DINAMITA_id 9
+#define ATAQUE_AEREO_id 11
+#define GRANADA_SANTA_id 12
+#define GRANADA_VERDE_id 14
+#define BANANA_id 16
+#define GRANADA_ROHA_id 18
+#define MORTERO_id 20
+
 enum Armas {
-    BAZOOKA,
-    MORTERO,
-    GRANADA,
-    DINAMITA,
-    BATE
+    BAZOOKA = BAZOOKA_id,
+    MORTERO = MORTERO_id,
+    GRANADA = GRANADA_SANTA_id,
+    DINAMITA = DINAMITA_id,
+    BATE = BASEBALL_id
 };
+
 
 class ColeccionArmas
 {
@@ -25,7 +38,7 @@ private:
     std::map<int, Arma*> armas;
 public:
     ColeccionArmas(b2World& world);
-    Arma* SeleccionarArma(Armas arma);
+    Arma* SeleccionarArma(uint8_t id_arma);
     ~ColeccionArmas();
 };
 

@@ -1,8 +1,10 @@
 #include "fragment.h"
 
-Fragment::Fragment(b2World& world, float x_pos, float y_pos, int dmg, int radius) : world(world), dmg(dmg), radius(radius) {
+Fragment::Fragment(b2World& world, float x_pos, float y_pos, int dmg, int radius) : world(world) {
     type = ProjectileType::FRAGMENT;
-
+    this->dmg = dmg;
+    this->radius = radius;
+    
     b2BodyDef fragDef;
     fragDef.type = b2_dynamicBody;
     fragDef.position.Set(x_pos, y_pos);

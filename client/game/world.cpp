@@ -13,7 +13,11 @@ void World::add_beam(Beam beam) {
     beams.push_back(beam);
 }
 
-void World::add_projectile(std::unique_ptr<Projectile> projectile) {
+void World::add_sound(int sound) {
+    sonidos.push_back(sound);
+}
+
+void World::add_projectile(std::unique_ptr<ProjectileClient> projectile) {
     projectiles.push_back(std::move(projectile));
 }
 
@@ -67,7 +71,7 @@ void World::present_water(
     Texture& water_tex = texture_manager.get_texture(texture_name_water);
 
     float pos_rel_x = 0 - camera_x;
-    float pos_rel_y = _map_height - WATER_SPRITE_HEIGHT - camera_y;
+    float pos_rel_y = _map_height - WATER_HEIGHT - camera_y;
 
     //Grafico
     water_tex.SetAlphaMod(255); // Wl agua es totalmente opaca
@@ -75,7 +79,7 @@ void World::present_water(
 				Rect(0, 0, WATER_SPRITE_WIDTH, WATER_SPRITE_HEIGHT), // El sprite
 				Rect(static_cast<int>(pos_rel_x * x_scale),
 					static_cast<int>(pos_rel_y * y_scale),
-					WATER_SPRITE_WIDTH * x_scale, WATER_SPRITE_HEIGHT * y_scale), // Donde lo grafico
+					_map_width * x_scale, WATER_HEIGHT * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,
 				SDL_FLIP_NONE        // Flip
@@ -107,6 +111,8 @@ void World::present_hud(Renderer& renderer,
 void World::present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
+                        SoundManager& sound_manager,
+                        Mixer& mixer,
                         float& x_scale,
                         float& y_scale,
                         Camara& camara){
@@ -122,6 +128,8 @@ void World::present(int& it_inc,
     float camera_y = _map_height - (pos_foco_y + (window_height / (2 * y_scale))) + camara.y;
 
     if (camera_x < 0) camera_x = 0;
+    if (camera_x > _map_width - (window_width / x_scale)) camera_x = _map_width - (window_width / x_scale);
+    if (camera_y > _map_height - (window_height / y_scale)) camera_y = _map_height - (window_height / y_scale);
     if (camera_y < 0) camera_y = 0;
 
     // Grafico fondo
@@ -146,6 +154,13 @@ void World::present(int& it_inc,
 
     // Grafico HUD
     present_hud(renderer, texture_manager, x_scale, y_scale);
+
+    // Reproduzco sonidos
+    while (!sonidos.empty()) {
+        std::shared_ptr<Chunk> sonido = sound_manager.get_sound(sonidos.back());
+        mixer.PlayChannel(-1, (*sonido), 0);
+        sonidos.pop_back();
+    }
 
     renderer.Present();
 }

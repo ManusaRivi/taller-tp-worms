@@ -30,7 +30,6 @@ Game::Game(Queue<std::shared_ptr<MensajeCliente>> &queue, Queue<std::shared_ptr<
 int Game::run() try {
 	std::shared_ptr<World> world;
 	std::vector<uint32_t> id_gusanos;
-	// uint32_t id_player;
 	std::shared_ptr<SnapshotCliente> snapshot;
 
 	
@@ -40,37 +39,11 @@ int Game::run() try {
 		if (msg->get_tipo_comando() == COMANDO::CMD_HANDSHAKE){
 			std::shared_ptr<MensajeHandshake> handshake = std::dynamic_pointer_cast<MensajeHandshake>(msg);
 			id_gusanos = handshake->get_gusanos();
-			// id_player = handshake->get_id();
 			world = handshake->get_world();
-			// std::shared_ptr<MensajeHandshakeEnviar> handshake_envaiar = std::make_shared<MensajeHandshakeEnviar>(id_player,id_gusanos);
 			acciones.push(handshake);
 			se_recibieron_ids = true;
-			
-
-			/*
-				En el Handshake deberia recibir las posiciones de las vigas 
-				Y las posiciones iniciales de todos los gusanos (como una snapshot,
-				ahora la snapshot deberia dejar de contener las vigas)
-
-				* Idea: Crear world en el protocolo de esta manera:
-			
-					World world(ancho_mapa, alto_mapa);
-					Por cada Worm:
-						world.add_worm(worm, id);
-
-					Por cada viga:
-						world.add_beam(beam);
-			
-
-					Y guardarlo en el msg de tipo handshake.
-					Luego, reemplazar este comentario con:
-				
-					world = msg->world;
-			*/
 		}
 	}
-
-	// printf("El id del player es : %u \n", id_player);
 	
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 
@@ -79,7 +52,7 @@ int Game::run() try {
 	// Inicializo SDL_ttf
 	SDLTTF ttf;
 	// Inicializo SDL_mixer
-    //SDL2pp::Mixer mixer(MIX_DEFAULT_FREQUENCY, GAME_MIX_FORMAT, 2, 1024);
+    SDL2pp::Mixer mixer(MIX_DEFAULT_FREQUENCY, GAME_MIX_FORMAT, 2, 1024);
 
     // Creo la ventana: 
     // Dimensiones: 854x480, redimensionable
@@ -95,9 +68,12 @@ int Game::run() try {
 	// Cargo las texturas
     TextureManager texture_manager(renderer);
 
+	// Cargo los sonidos
+	SoundManager sound_manager;
+
 	// Reproduzco musica ambiente
-	//Chunk musica_ambiente(PROJECT_SOURCE_DIR "./client/game/Sonidos/data/MusicaAmbiente.mp3");
-	//mixer.PlayChannel(-1, musica_ambiente, 0);
+	std::shared_ptr<Chunk> musica_ambiente = sound_manager.get_sound(SoundTypes::AMBIENT_MUSIC);
+	mixer.PlayChannel(-1, (*musica_ambiente), 0);
 
 	// Tomo el tiempo actual
     unsigned int t1 = SDL_GetTicks();
@@ -315,17 +291,7 @@ int Game::run() try {
 			std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(snap);
 			std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
 			snapshot->apply_to_world((*world));
-
-			// PRUEBA PROYECTIL ----------------------------------------------------
-			//Asi deberian agregarse por protocolo los proyectiles:
-			float pos_x = 1.5f;
-			float pos_y = 25.82f;
-			float angle = 180.0f;
-			unique_ptr<Projectile> prueba = ProjectileGenerator::get_proyectile_with_code(PROYECTILE_MISSILE, pos_x, pos_y, angle);
-			(*world).add_projectile(std::move(prueba));
-			//--------------------------------------------------------------------
-
-			(*world).present(it_inc, renderer, texture_manager, x_scale, y_scale, camara);
+			(*world).present(it_inc, renderer, texture_manager, sound_manager, mixer, x_scale, y_scale, camara);
 			//snapshot->present(it_inc, renderer, texture_manager, window_width, window_height, x_scale, y_scale);
 		}
 		// Timing: calcula la diferencia entre este frame y el anterior

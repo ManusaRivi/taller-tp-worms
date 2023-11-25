@@ -2,7 +2,8 @@
 #include "../../common/thread.h"
 #include "../../common/queue.h"
 #include "../protocolo/protocoloServer.h"
-#include "../snapshot.h"
+#include "../snapshots/snapshot.h"
+#include "../comandos/mensajes/factory_mensajes.h"
 
 
 struct Enviador:public Thread{
@@ -10,9 +11,9 @@ struct Enviador:public Thread{
     Socket &skt;
     std::atomic<bool> is_alive;
     uint32_t id;
-    Queue<Mensaje> *snapshots_a_enviar;
+    Queue<std::shared_ptr<MensajeServer>> *snapshots_a_enviar;
 
-    Enviador(Socket &peer, Queue<Mensaje>* snapshots);
+    Enviador(Socket &peer, Queue<std::shared_ptr<MensajeServer>>* snapshots);
 
     void run() override;
 

@@ -51,6 +51,7 @@ class ClienteProtocolo:public Protocolo{
     std::map<uint32_t,std::string> listar_partidas();
     std::vector<std::vector<float>> recibir_vigas();
     void recibir_gusanos(std::shared_ptr<SnapshotCliente> snap);
+    void recibir_projectiles(std::shared_ptr<SnapshotCliente> snap);
 
 
 };

@@ -9,12 +9,15 @@
 #include "comunicacion/beam.h"
 #include "camara.h"
 #include "comunicacion/projectile.h"
+#include "Sonidos/sound_manager.h"
 
 #define BACKGROUND_WIDTH 576
 #define BACKGROUND_HEIGHT 324
 
-#define WATER_SPRITE_WIDTH 860
-#define WATER_SPRITE_HEIGHT 1
+#define WATER_SPRITE_WIDTH 1920
+#define WATER_SPRITE_HEIGHT 64
+
+#define WATER_HEIGHT 8
 
 #define HUD_SPRITE_WIDTH 320
 #define HUD_SPRITE_HEIGHT 64
@@ -26,7 +29,8 @@ class World {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
     std::vector<Beam> beams;
-    std::vector<std::unique_ptr<Projectile>> projectiles;
+    std::vector<std::unique_ptr<ProjectileClient>> projectiles;
+    std::vector<int> sonidos;
     int _id_camera;
     float _map_width;
     float _map_height;
@@ -60,15 +64,19 @@ class World {
 
     void add_worm(std::shared_ptr<Worm> worm, int id);
 
+    void add_sound(int sound_code);
+
     void update_worm(const int& id, std::shared_ptr<Worm> worm);
 
     void add_beam(Beam beam);
 
-    void add_projectile(std::unique_ptr<Projectile> projectile);
+    void add_projectile(std::unique_ptr<ProjectileClient> projectile);
 
     void present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
+                        SoundManager& sound_manager,
+                        Mixer& mixer,
                         float& x_scale,
                         float& y_scale,
                         Camara& camara);

@@ -22,7 +22,7 @@ void Partida::run()try{{
     while(!partida_iniciada){
         std::shared_ptr<Comando> comando = acciones_a_realizar.pop();
         if(comando->get_comando() == COMANDO::CMD_EMPEZAR_PARTIDA){
-            Mensaje msg;
+            std::shared_ptr<MensajeServer> msg = mensajes.empezar_partida();
             // printf("Se esta por broadcaster mensaje de que la partida esta por comenzar\n");
             broadcaster.broadcastSnap(msg);
             // printf("Se esta por broadcastear el handshake\n");
@@ -62,10 +62,13 @@ void Partida::run()try{{
         }
 
         mapa->Step(it);
-        Snapshot snap = generar_snapshot(it);
-        Mensaje broadcast(snap);
+        // printf("Termina de hacerse el step\n");
+        std::shared_ptr<Snapshot> snap = generar_snapshot(it);
+        // printf("Se termina de generar el snapshot\n");
+        std::shared_ptr<MensajeServer> broadcast = mensajes.snapshot(snap);
         broadcaster.broadcastSnap(broadcast);
-
+        // printf("Se termina de broadcastear el mensaje\n");
+        
 
 
         auto t2 = std::chrono::high_resolution_clock::now(); 
@@ -93,9 +96,10 @@ void Partida::run()try{{
         is_alive = false;
 }
 
-Snapshot Partida::generar_snapshot(int iteraccion){
-    Snapshot snap(mapa->get_gusanos());
-    snap.add_condiciones_partida(iteraccion % (30 * 10),mapa->gusano_actual());
+std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
+    // Snapshot snap(mapa->get_gusanos());
+    // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa->gusano_actual());
+    std::shared_ptr<SnapshotPartida> snap = std::make_shared<SnapshotPartida>(mapa->get_gusanos(),mapa->get_projectiles(),iteraccion % (30 * 10),mapa->gusano_actual());
     return snap;
 }
 
@@ -103,7 +107,7 @@ std::string Partida::get_nombre(){
     return this->nombre_partida;
 }
 
-void Partida::add_queue(Queue<Mensaje>* snapshots){
+void Partida::add_queue(Queue<std::shared_ptr<MensajeServer>>* snapshots){
     broadcaster.add_queue(snapshots);
 }
 
@@ -114,8 +118,9 @@ Queue<std::shared_ptr<Comando>>& Partida::get_queue(){
 
 void Partida::enviar_primer_snapshot(){
     std::map<uint32_t, std::vector<uint32_t>> id_gusanos_por_player = mapa->repartir_ids(broadcaster.cantidad_jugadores());
-    Snapshot snap(mapa->get_gusanos(), mapa->get_vigas());
-    snap.add_condiciones_partida(0,mapa->gusano_actual());
+    // Snapshot snap(mapa->get_gusanos(), mapa->get_vigas());
+    std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(mapa->get_gusanos(),mapa->get_vigas(),mapa->gusano_actual());
+    //snap.add_condiciones_partida(0,mapa->gusano_actual());
     // std::vector<float> tamanio_mapa = mapa->get_size();
     broadcaster.informar_primer_snapshot(id_gusanos_por_player, snap);
 }
@@ -131,7 +136,7 @@ uint32_t Partida::proximo_turno(uint32_t turno_actual){
     }
 }
 
-void Partida::remover_player(Queue<Mensaje>* snapshots){
+void Partida::remover_player(Queue<std::shared_ptr<MensajeServer>>* snapshots){
     broadcaster.remover_player(snapshots);
 }
 

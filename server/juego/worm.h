@@ -15,6 +15,9 @@ enum directions {
     LEFT = 1,
 };
 
+
+
+
 #define STATUS_MOVING 1
 #define STATUS_IDLE 0
 

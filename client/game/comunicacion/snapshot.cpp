@@ -11,10 +11,26 @@ void SnapshotCliente::add_beam(Beam beam) {
     beams.push_back(beam);
 }
 
+void SnapshotCliente::add_projectile(std::unique_ptr<ProjectileClient> proyectil){
+    projectiles.push_back(std::move(proyectil));
+}
+
+void SnapshotCliente::add_sound(int sound) {
+    sonidos.push_back(sound);
+}
+
 void SnapshotCliente::apply_to_world(World& world) {
     world.update_camera(_id_camera);
     for (const auto& pair: worms) {
         world.update_worm(pair.first, std::move(pair.second));
+    }
+    for(auto &c:projectiles){
+        world.add_projectile(std::move(c));
+    }
+
+    while (!sonidos.empty()) {
+        world.add_sound(sonidos.back());
+        sonidos.pop_back();
     }
 }
 /*

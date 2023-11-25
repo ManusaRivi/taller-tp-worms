@@ -27,16 +27,14 @@ TEST(Test_se_envian_snapshot,TEST_SE_ENVIA_POR_SNAPSHOT_UN_GUSANO )
     //(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo(), worm->aiming_angle())
     WormWrapper worm_1({{0.5,1.2},1,0,0,1.2,0, 100});
     std::vector<WormWrapper> worms({worm_1});
-    Snapshot snap(worms);
-    svr_protocolo.enviar_gusanos(snap);
+    svr_protocolo.enviar_gusanos(worms);
     
     std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(clte_protocolo.recibir_snap());
     std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
 
-        std::vector<WormWrapper> srv = snap.get_worms();
     std::map<int, std::shared_ptr<Worm>> cl = snapshot->get_worms();
 
-    EXPECT_TRUE(compare_gusanos(srv,cl));
+    EXPECT_TRUE(compare_gusanos(worms,cl));
 }
 
 TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_POR_SNAPSHOT_DOS_GUSANOS){
@@ -47,17 +45,15 @@ TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_POR_SNAPSHOT_DOS_GUSANOS){
     WormWrapper worm_1({{0.5,1.2},1,0,0,1.2,0, 100});
     WormWrapper worm_2({{0.5,1.2},1,12,1,34,54, 100});
     std::vector<WormWrapper> worms({worm_1,worm_2});
-    Snapshot snap(worms);
-    svr_protocolo.enviar_gusanos(snap);
+    svr_protocolo.enviar_gusanos(worms);
     
     std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(clte_protocolo.recibir_snap());
     std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
 
 
-    std::vector<WormWrapper> srv = snap.get_worms();
     std::map<int, std::shared_ptr<Worm>> cl = snapshot->get_worms();
 
-    EXPECT_TRUE(compare_gusanos(srv,cl));
+    EXPECT_TRUE(compare_gusanos(worms,cl));
 }
 
 TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_UN_HANDSHAKE){
@@ -81,7 +77,7 @@ TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_UN_HANDSHAKE){
     std::vector<float> viga_3({10, 15.7, 3, 6});
     std::vector<float> viga_4({10, 15.7, 3, 6});
     std::vector<std::vector<float>> vigas({viga_1,viga_2,viga_3,viga_4});
-    Snapshot snap(worms,vigas);
+    std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(worms,vigas,1);
     svr_protocolo.enviar_handshake(id_gusanos_por_player,snap);
 
 
@@ -93,7 +89,7 @@ TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_UN_HANDSHAKE){
     
     
     std::shared_ptr<World> world = msg->get_world();
-    std::vector<WormWrapper> srv = snap.get_worms();
+    std::vector<WormWrapper> srv = worms;
     std::map<int, std::shared_ptr<Worm>> cl = world->get_worms();
 
 

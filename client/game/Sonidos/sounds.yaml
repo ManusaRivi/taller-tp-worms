@@ -2,6 +2,65 @@
 #-  nombre: <nombre>
 #   ruta: <ruta>
 
-# Musica
+# Efectos
 - nombre: MusicaAmbiente
-  ruta: /client/game/Sonidos/data/MusicaAmbiente.mp3
+  ruta: /client/game/Sonidos/data/Efectos/MusicaAmbiente.mp3
+
+- nombre: AirStrike
+  ruta: /client/game/Sonidos/data/Efectos/AirStrike.wav
+
+- nombre: BananaImpact
+  ruta: /client/game/Sonidos/data/Efectos/BananaImpact.wav
+
+- nombre: BaseBallBatImpact
+  ruta: /client/game/Sonidos/data/Efectos/BaseBallBatImpact.wav
+
+- nombre: BaseBallBatJingle
+  ruta: /client/game/Sonidos/data/Efectos/BaseBallBatJingle.wav
+
+- nombre: Cough
+  ruta: /client/game/Sonidos/data/Efectos/Cough.wav
+
+- nombre: Explosion
+  ruta: /client/game/Sonidos/data/Efectos/Explosion.wav
+
+- nombre: Fuse
+  ruta: /client/game/Sonidos/data/Efectos/Fuse.WAV
+
+- nombre: GreenGranadeImpact
+  ruta: /client/game/Sonidos/data/Efectos/GreenGranadeImpact.WAV
+
+- nombre: Splash
+  ruta: /client/game/Sonidos/data/Efectos/Splash.wav
+
+- nombre: Teleport
+  ruta: /client/game/Sonidos/data/Efectos/Teleport.WAV
+
+- nombre: WalkLoop
+  ruta: /client/game/Sonidos/data/Efectos/WalkLoop.wav
+
+- nombre: WormLanding
+  ruta: /client/game/Sonidos/data/Efectos/WormLanding.wav
+
+- nombre: HolyGranade
+  ruta: /client/game/Sonidos/data/Efectos/HolyGranade.WAV
+
+- nombre: HolyGranadeImpact
+  ruta: /client/game/Sonidos/data/Efectos/HolyGranadeImpact.WAV
+
+# Gusanos
+- nombre: AdiosMundoCruel
+  ruta: /client/game/Sonidos/data/Gusanos/AdiosMundoCruel.wav
+
+- nombre: ComoTePilleVeras
+  ruta: /client/game/Sonidos/data/Gusanos/ComoTePilleVeras.wav
+
+- nombre: Fuego
+  ruta: /client/game/Sonidos/data/Gusanos/Fuego.wav
+
+- nombre: Granada
+  ruta: /client/game/Sonidos/data/Gusanos/Granada.wav
+
+- nombre: SomosLosMejores
+  ruta: /client/game/Sonidos/data/Gusanos/SomosLosMejores.wav
+

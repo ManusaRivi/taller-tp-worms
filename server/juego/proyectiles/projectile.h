@@ -13,6 +13,8 @@ protected:
     ProjectileType type;
     bool exploded = false;
     int fragments;
+    int dmg;
+    int radius;
     void applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec2 applyPoint, float blastPower)
     {
         b2Vec2 blastDir = applyPoint - blastCenter;
@@ -39,6 +41,9 @@ public:
     }
     virtual b2Vec2 getPosition() {
         return body->GetPosition();
+    }
+    virtual float getRadius() {
+        return radius;
     }
     virtual float getAngle() {
         return body->GetAngle();

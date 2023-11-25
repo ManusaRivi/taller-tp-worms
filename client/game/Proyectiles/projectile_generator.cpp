@@ -1,28 +1,28 @@
 #include "projectile_generator.h"
 
-std::unique_ptr<ProjectileClient> ProjectileGenerator::get_proyectile_with_code(int proy_code,
+std::unique_ptr<ProjectileClient> ProjectileGenerator::get_proyectile_with_code(int proy_type,
                                                                         float& pos_x,
                                                                         float& pos_y,
                                                                         float& angle) {
-    switch(proy_code) {
-        case MISSILE:
+    switch(proy_type) {
+        case ProjectileType::ROCKET:
             return std::make_unique<ProjectileClient>(std::string("Missile"), pos_x, pos_y, angle);
-        case MORTAR:
+        case ProjectileType::MORTAR:
             return std::make_unique<ProjectileClient>(std::string("Mortar"), pos_x, pos_y, angle);
-        case GREEN_GRANADE:
+        case ProjectileType::GREEN_GRANADE:
             return std::make_unique<ProjectileClient>(std::string("GreenGranade"), pos_x, pos_y, angle);
-        case HOLY_GRANADE:
+        case ProjectileType::HOLY_GRANADE:
             return std::make_unique<ProjectileClient>(std::string("HolyGranade"), pos_x, pos_y, angle);
-        case RED_GRANADE:
+        case ProjectileType::RED_GRANADE:
             return std::make_unique<ProjectileClient>(std::string("RedGranade"), pos_x, pos_y, angle);
-        case BANANA:
+        case ProjectileType::BANANA:
             return std::make_unique<ProjectileClient>(std::string("Banana"), pos_x, pos_y, angle);
-        case AIR_MISSILE:
+        case ProjectileType::AIR_MISSILE:
             return std::make_unique<ProjectileClient>(std::string("AirMissile"), pos_x, pos_y, angle);
         /*
-        case DROP:
+        case ProjectileType::FRAGMENT:
             return std::make_unique<Drop>(pos_x, pos_y, angle);
-        case DYNAMITE:
+        case ProjectileType::DYNAMITE:
             return std::make_unique<Dynamite>(pos_x, pos_y, angle, tiempo a explotar);
         */
         default:

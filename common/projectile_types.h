@@ -3,6 +3,13 @@
 
 enum ProjectileType {
     ROCKET,
+    MORTAR,
+    GREEN_GRANADE,
+    HOLY_GRANADE,
+    RED_GRANADE,
+    BANANA,
+    DYNAMITE,
+    AIR_MISSILE,
     FRAGMENT
 };
 

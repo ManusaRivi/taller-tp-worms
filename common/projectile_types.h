@@ -3,7 +3,8 @@
 
 enum ProjectileType {
     ROCKET,
-    FRAGMENT
+    FRAGMENT,
+    GRENADE
 };
 
 #endif

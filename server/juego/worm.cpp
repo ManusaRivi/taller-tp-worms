@@ -115,6 +115,7 @@ void Worm::JumpBackward() {
 }
 
 void Worm::startGroundContact() {
+    sounds.push(SoundTypes::GROUND_CONTACT);
     airborne = false;
     b2Vec2 position = body->GetPosition();
     finalHeight = position.y;
@@ -140,6 +141,7 @@ bool Worm::isMoving() {
 }
 
 void Worm::startWaterContact() {
+    sounds.push(SoundTypes::SPLASH);
     this->hitPoints = 0;
 }
 
@@ -148,6 +150,7 @@ bool Worm::isAirborne() {
 }
 
 void Worm::takeDamage(int damage) {
+    sounds.push(SoundTypes::HURT_WORM);
     hitPoints -= damage;
 }
 
@@ -164,6 +167,12 @@ float Worm::GetAngle() {
 Projectile* Worm::usar_arma() {
     if(!armaActual || this->isDead()){
         return nullptr;
+    }
+    if (armaActual->isGrenade()) {
+        sounds.push(SoundTypes::WORM_GRENADE_SHOUT);
+    }
+    if (armaActual->isRocket()) {
+        sounds.push(SoundTypes::WORM_BAZOOKA_SHOUT);
     }
     b2Vec2 position = body->GetPosition();
     float angle;
@@ -215,7 +224,7 @@ void Worm::cambiar_arma(uint8_t id_arma){
         status = WormStates::MORTAR_AIMING;
         break;
     
-    case Armas::GRANADA:
+    case Armas::GRANADA_VERDE:
         status = WormStates::GREEN_GRENADE_AIMING;
         break;
     
@@ -352,6 +361,7 @@ bool Worm::isDead() {
 }
 
 void Worm::kill() {
+    sounds.push(SoundTypes::WORM_DEATH_CRY);
     this->hitPoints = 0;
     //delete this->coleccionArmas;
 }

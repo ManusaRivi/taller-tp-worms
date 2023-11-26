@@ -10,7 +10,7 @@
 #include "./colisionable.h"
 
 #include <vector>
-#include <iostream>
+#include <queue>
 
 enum directions {
     RIGHT = 0,
@@ -59,6 +59,7 @@ public:
     float angulo_disparo;
     bool esta_apuntando_para_arriba;
     bool apuntando;
+    std::queue<SoundTypes> sounds;
 
     Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id);
     virtual bodyType identificar() override;

@@ -26,7 +26,41 @@
 
 - nombre: Grave
   ruta: /client/game/Texturas/data/sprites/grave2.png
-  
+
+- nombre: WAimAir
+  ruta: /client/game/Texturas/data/sprites/WAimAir.png
+
+- nombre: WAimBate
+  ruta: /client/game/Texturas/data/sprites/WAimBate.png
+
+- nombre: WAimDyn
+  ruta: /client/game/Texturas/data/sprites/WAimDyn.png
+
+- nombre: WAimTel
+  ruta: /client/game/Texturas/data/sprites/WAimTel.png
+
+- nombre: WBackflip
+  ruta: /client/game/Texturas/data/sprites/WBackflip.png
+
+- nombre: WFall
+  ruta: /client/game/Texturas/data/sprites/WFall.png
+
+- nombre: WJump
+  ruta: /client/game/Texturas/data/sprites/WJump.png
+
+- nombre: WShootAir
+  ruta: /client/game/Texturas/data/sprites/WShootAir.png
+
+- nombre: WShootBate
+  ruta: /client/game/Texturas/data/sprites/WShootBate.png
+
+- nombre: WShootTel
+  ruta: /client/game/Texturas/data/sprites/WShootTel.png
+
+- nombre: WWinner
+  ruta: /client/game/Texturas/data/sprites/WWinner.png
+
+
 # Viga
 - nombre: Beam
   ruta: /client/game/Texturas/data/sprites/Beam.png
@@ -71,3 +105,5 @@
 - nombre: Drop
   ruta: /client/game/Texturas/data/sprites/Drop.png
 
+- nombre: Dynamite
+  ruta: /client/game/Texturas/data/sprites/DynamiteExploding.png

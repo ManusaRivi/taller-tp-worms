@@ -215,7 +215,7 @@ void Worm::cambiar_arma(uint8_t id_arma){
         status = WormStates::MORTAR_AIMING;
         break;
     
-    case Armas::GRANADA:
+    case Armas::GRANADA_VERDE:
         status = WormStates::GREEN_GRENADE_AIMING;
         break;
     

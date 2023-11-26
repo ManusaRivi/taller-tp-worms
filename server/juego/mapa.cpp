@@ -106,7 +106,7 @@ void Mapa::Step(int iteracion) {
             delete projectile;
         }
         else {
-            if (projectile->getType() != ProjectileType::GRENADE) {
+            if (projectile->getType() != ProjectileType::GREEN_GRENADE) {
                 projectile->updateAngle();
             }
             else {

@@ -3,7 +3,7 @@
 Grenade::Grenade(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius, int fragments, int seconds) :
                 world(world), timer(GrenadeTimer (seconds))
 {
-    type = ProjectileType::GRENADE;
+    type = ProjectileType::GREEN_GRENADE;
     this->fragments = fragments;
     this->dmg = dmg;
     this->radius = radius;

@@ -33,28 +33,28 @@ void ContactListener::BeginContact(b2Contact* contact) {
         case PROYECTIL_WORM:
         {
             Projectile* projectile = static_cast<Projectile*>(bodyA);
-            if (projectile->getType() != ProjectileType::GRENADE)
+            if (projectile->getType() != ProjectileType::GREEN_GRENADE)
                 projectile->SetExplosion();
         }
             break;
         case WORM_PROYECTIL:
         {
             Projectile* projectile = static_cast<Projectile*>(bodyB);
-            if (projectile->getType() != ProjectileType::GRENADE)
+            if (projectile->getType() != ProjectileType::GREEN_GRENADE)
                 projectile->SetExplosion();
         }
             break;
         case PROYECTIL_VIGA:
         {
             Projectile* projectile = static_cast<Projectile*>(bodyA);
-            if (projectile->getType() != ProjectileType::GRENADE)
+            if (projectile->getType() != ProjectileType::GREEN_GRENADE)
                 projectile->SetExplosion();
         }
             break;
         case VIGA_PROYECTIL:
         {
             Projectile* projectile = static_cast<Projectile*>(bodyB);
-            if (projectile->getType() != ProjectileType::GRENADE)
+            if (projectile->getType() != ProjectileType::GREEN_GRENADE)
                 projectile->SetExplosion();
         }
         case WATER_WORM:

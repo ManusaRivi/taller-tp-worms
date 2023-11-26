@@ -177,7 +177,7 @@ int Game::run() try {
 					// Selecciono la Granada verde
 					is_aiming = true;
 					has_selected_weapon = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::GRANADA);
+					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::GRANADA_VERDE);
 					acciones.push(msg);
 					// Enviar comando "saco granada verde" por protocolo
 				} else if (tecla == SDLK_8 && !has_selected_weapon) {

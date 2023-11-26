@@ -25,7 +25,7 @@
 enum Armas {
     BAZOOKA = BAZOOKA_id,
     MORTERO = MORTERO_id,
-    GRANADA = GRANADA_SANTA_id,
+    GRANADA_VERDE = GRANADA_VERDE_id,
     DINAMITA = DINAMITA_id,
     BATE = BASEBALL_id
 };

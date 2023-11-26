@@ -26,12 +26,7 @@ Fragment::Fragment(b2World& world, float x_pos, float y_pos, int dmg, int radius
     body->ApplyLinearImpulse(impulseVec, body->GetWorldCenter(), true);
 }
 
-ProjectileType Fragment::getType() {
-    return type;
-}
-
 void Fragment::explotar() {
-    exploded = true;
     WormQuery wormQuery;
     b2AABB aabb;
     b2Vec2 explosionCenter = body->GetWorldCenter();

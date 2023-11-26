@@ -14,8 +14,14 @@ private:
                     frag_radius(config["radio_frags"].as<int>()),
                     bazooka_dmg(config["dmg_bazooka"].as<int>()),
                     bazooka_radius(config["cantidad_de_vidas"].as<int>()),
+                    mortar_ammo(config["ammo_mortero"].as<int>()),
                     mortar_dmg(config["dmg_mortero"].as<int>()),
-                    mortar_radius(config["radio_mortero"].as<int>()) {}
+                    mortar_radius(config["radio_mortero"].as<int>()),
+                    green_grenade_dmg(config["dmg_granada_verde"].as<int>()),
+                    green_grenade_radius(config["radio_granada_verde"].as<int>()),
+                    red_grenade_ammo(config["ammo_granada_roja"].as<int>()),
+                    red_grenade_dmg(config["dmg_granada_roja"].as<int>()),
+                    red_grenade_radius(config["radio_granada_roja"].as<int>()) {}
     GameConfig(const GameConfig&) = delete;
     GameConfig& operator=(const GameConfig&) = delete;
 public:
@@ -28,8 +34,16 @@ public:
     const int bazooka_dmg;
     const int bazooka_radius;
 
+    const int mortar_ammo;
     const int mortar_dmg;
     const int mortar_radius;
+
+    const int green_grenade_dmg;
+    const int green_grenade_radius;
+
+    const int red_grenade_ammo;
+    const int red_grenade_dmg;
+    const int red_grenade_radius;
 
     static GameConfig& getInstance()
     {

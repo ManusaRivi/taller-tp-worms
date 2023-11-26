@@ -6,6 +6,8 @@
 #include "arma.h"
 #include "bazooka.h"
 #include "mortero.h"
+#include "granada_verde.h"
+#include "granada_roja.h"
 
 #include <map>
 #include <memory>

@@ -17,6 +17,7 @@
 #include "./beam.h"
 #include "./proyectiles/projectile.h"
 #include "./proyectiles/fragment.h"
+#include "./proyectiles/grenade.h"
 #include "./water.h"
 #include "./contact_listener.h"
 #include "turn_manager.h"
@@ -87,6 +88,8 @@ public:
     void cargar_arma(uint32_t idx);
 
     void usar_arma(uint32_t idx);
+
+    void set_grenade_time(uint32_t idx, int seconds);
 
     void detener_worm(uint32_t id);
 

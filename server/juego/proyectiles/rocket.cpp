@@ -35,13 +35,8 @@ Rocket::Rocket(b2World& world, float x_pos, float y_pos, float angle, float powe
     body->ApplyLinearImpulse(impulseVec, body->GetWorldCenter(), true);
 }
 
-ProjectileType Rocket::getType() {
-    return type;
-}
-
 void Rocket::explotar()
 {
-    exploded = true;
     WormQuery wormQuery;
     b2AABB aabb;
     b2Vec2 explosionCenter = body->GetWorldCenter();

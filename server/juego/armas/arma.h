@@ -16,7 +16,7 @@ public:
     Arma() {};
     virtual void iniciarCarga() = 0;
     virtual void cargar() = 0;
-    virtual bool estaCargando() {
+    bool estaCargando() {
         return cargando;
     }
     virtual Projectile* Shoot(float x_pos, float y_pos, float angle) = 0;

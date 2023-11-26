@@ -9,11 +9,13 @@
 class Mortero : public Arma {
 private:
     b2World& world;
+    int ammo;
+    const int fragments;
     const int dmg; // dmg en epicentro
     const int radius; // int mts
     int nivel_carga;
 public:
-    Mortero(b2World& world, int dmg, int radius);
+    Mortero(b2World& world, int ammo, int fragments, int dmg, int radius);
     virtual void iniciarCarga() override;
     virtual void cargar() override;
     virtual Projectile* Shoot(float x_pos, float y_pos, float angle) override;

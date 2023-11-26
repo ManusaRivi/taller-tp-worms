@@ -81,7 +81,7 @@ void Mapa::Step(int iteracion) {
             continue;
         }
         if (projectile->hasExploded()) {
-            
+            projectile->explotar();
             b2Vec2 position = projectile->getPosition();
             // Se añade el proyectil que exploto a la lista de proyectiles pasados
             cementerio_proyectiles.push_back(ProjectileWrapper(position.x,position.y,projectile->getAngle()+ 1.57,projectile->getType(),projectile->get_id()));
@@ -106,7 +106,13 @@ void Mapa::Step(int iteracion) {
             delete projectile;
         }
         else {
-            projectile->updateAngle();
+            if (projectile->getType() != ProjectileType::GRENADE) {
+                projectile->updateAngle();
+            }
+            else {
+                Grenade* grenade = static_cast<Grenade*>(projectile);
+                grenade->advance_time();
+            }
         }
     }
     // printf("Se termina de iterar los projectiles\n");
@@ -267,7 +273,8 @@ void Mapa::apuntar_para(uint32_t id, int dir){
 }
 
 void Mapa::cargar_arma(uint32_t id) {
-    
+    if (turnManager.acaba_de_cambiar_turno()) return;
+    if (id != turnManager.get_player_actual()) return;
     worms[id]->iniciar_carga();
     printf("Se empieza a cargar el arma\n");
 }
@@ -292,6 +299,12 @@ void Mapa::usar_arma(uint32_t id) {
     projectiles.push_back(proyectil);
     this->identificador_entidades++;
     printf("Se dispara el arma\n");
+}
+
+void Mapa::set_grenade_time(uint32_t id, int seconds) {
+    if (turnManager.acaba_de_cambiar_turno()) return;
+    if (id != turnManager.get_player_actual()) return;
+    worms[id]->set_grenade_timer(seconds);
 }
 // std::vector<float> Mapa::get_size(){
 //     this->world.

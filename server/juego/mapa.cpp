@@ -72,7 +72,7 @@ void Mapa::Step(int iteracion) {
         }
         if (projectile->hasExploded()) {
             projectile->explotar();
-            
+
             b2Vec2 position = projectile->getPosition();
             explosions.push(ExplosionWrapper (position.x, position.y, projectile->getRadius()));
             sounds.push(SoundTypes::EXPLOSION);
@@ -91,7 +91,13 @@ void Mapa::Step(int iteracion) {
             delete projectile;
         }
         else {
-            projectile->updateAngle();
+            if (projectile->getType() != ProjectileType::GRENADE) {
+                projectile->updateAngle();
+            }
+            else {
+                Grenade* grenade = static_cast<Grenade*>(projectile);
+                grenade->advance_time();
+            }
         }
     }
     // printf("Se termina de iterar los projectiles\n");

@@ -34,29 +34,49 @@ void ContactListener::BeginContact(b2Contact* contact) {
         {
             Projectile* projectile = static_cast<Projectile*>(bodyA);
             // if (projectile->getType() != ProjectileType::GRENADE)
-            if (!projectile->isGrenade())
+            if (!projectile->isGrenade()){
                 projectile->SetExplosion();
+            }
+            else {
+                Grenade* grenade = static_cast<Grenade*>(projectile);
+                grenade->bounce();
+            }
         }
             break;
         case WORM_PROYECTIL:
         {
             Projectile* projectile = static_cast<Projectile*>(bodyB);
-            if (!projectile->isGrenade())
+            if (!projectile->isGrenade()) {
                 projectile->SetExplosion();
+            }
+            else {
+                Grenade* grenade = static_cast<Grenade*>(projectile);
+                grenade->bounce();
+            }
         }
             break;
         case PROYECTIL_VIGA:
         {
             Projectile* projectile = static_cast<Projectile*>(bodyA);
-            if (!projectile->isGrenade())
+            if (!projectile->isGrenade()) {
                 projectile->SetExplosion();
+            }
+            else {
+                Grenade* grenade = static_cast<Grenade*>(projectile);
+                grenade->bounce();
+            }
         }
             break;
         case VIGA_PROYECTIL:
         {
             Projectile* projectile = static_cast<Projectile*>(bodyB);
-            if (!projectile->isGrenade())
+            if (!projectile->isGrenade()) {
                 projectile->SetExplosion();
+            }
+            else {
+                Grenade* grenade = static_cast<Grenade*>(projectile);
+                grenade->bounce();
+            }
         }
         case WATER_WORM:
         {

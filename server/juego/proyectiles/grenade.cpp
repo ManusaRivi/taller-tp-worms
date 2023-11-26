@@ -42,6 +42,10 @@ void Grenade::advance_time() {
     if (timer.advance_time()) this->explotar();
 }
 
+void Grenade::bounce() {
+    this->sounds.push(SoundTypes::GRENADE_BOUNCE);
+}
+
 bool Grenade::isGrenade() {
     return true;
 }

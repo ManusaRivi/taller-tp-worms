@@ -23,6 +23,7 @@ public:
     Grenade(b2World& world, ProjectileType type, float x_pos, float y_pos,
             float angle, float power, int dmg, int radius, int fragments, int seconds);
     void advance_time();
+    void bounce();
     virtual bool isGrenade() override;
     virtual void explotar() override;
 };

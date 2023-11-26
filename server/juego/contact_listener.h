@@ -2,6 +2,7 @@
 #define CONTACT_LISTENER_H
 
 #include "../../libs/box2d/include/box2d/box2d.h"
+#include "../../common/projectile_types.h"
 #include "./proyectiles/projectile.h"
 #include "./colisionable.h"
 #include "./worm.h"

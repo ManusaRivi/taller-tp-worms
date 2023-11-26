@@ -1,7 +1,10 @@
 #include <map>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
+#define TIEMPO_POR_TURNO 30.0f
+#define FRAME_RATE 30.0f
 
 class TurnManager{
 
@@ -13,7 +16,7 @@ class TurnManager{
     uint32_t id_gusano_actual;
 
     uint32_t gusano_turno_anterior;
-
+    int cantidad_players;
 
     bool acaba_de_pasar_turno;
 
@@ -26,5 +29,7 @@ class TurnManager{
     uint32_t get_player_actual();
     uint32_t get_gusano_actual();
     bool acaba_de_cambiar_turno();
+    void deleteWorm(int idx);
+    uint32_t getNextWorm(uint32_t id_player) const;
 
 };

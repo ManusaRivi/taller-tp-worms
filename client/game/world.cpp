@@ -145,7 +145,7 @@ void World::present(int& it_inc,
         worm.second->present(it_inc, renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
     }
 
-    present_water(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
+    //present_water(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
     // Grafico proyectiles
     while (!projectiles.empty()) {
         projectiles.back()->present(renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);

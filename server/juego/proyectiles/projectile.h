@@ -15,6 +15,7 @@ protected:
     int fragments;
     int dmg;
     int radius;
+    uint32_t id;
     void applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec2 applyPoint, float blastPower)
     {
         b2Vec2 blastDir = applyPoint - blastCenter;
@@ -61,6 +62,13 @@ public:
     virtual void explotar() = 0;
     virtual ~Projectile() {
         body->GetWorld()->DestroyBody(body);
+    }
+    virtual uint32_t get_id(){
+        return this->id;
+    }
+
+    virtual void insertar_id(uint32_t id_recibido){
+        this->id = id_recibido;
     }
 };
 

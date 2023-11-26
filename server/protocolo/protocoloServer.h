@@ -36,6 +36,7 @@ class ServerProtocolo:public Protocolo{
     void enviar_vigas(std::vector<std::vector<float>> vigas);
     void enviar_lista(std::map<uint32_t,std::string> lista);
     void enviar_proyectlies(std::vector<ProjectileWrapper> lista);
+    void enviar_explosiones(std::vector<ExplosionWrapper> lsita);
     
 
 

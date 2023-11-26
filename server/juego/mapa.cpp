@@ -49,7 +49,16 @@ void Mapa::Load_Map_File(std::string filepath) {
 }
 
 void Mapa::Step(int iteracion) {
+    int idx = 0;
     for (auto worm : worms) {
+        if (worm->isDead()) {
+            worm->kill();
+            this->turnManager.deleteWorm(idx);
+            //delete worm; ??
+            worms.erase(worms.begin() + idx);
+            //idx--; ??
+            return;
+        }
         if (worm->jumpSteps > 0) {
             if (worm->jumpSteps == 1) worm->Stop();
             worm->jumpSteps--;
@@ -64,6 +73,7 @@ void Mapa::Step(int iteracion) {
         if (worm->esta_cargando_arma()) {
             worm->cargar_arma();
         }
+        idx++;
     }
     // printf("Se termina de iterar los gusanos\n");
     for (auto projectile : projectiles) {
@@ -72,16 +82,21 @@ void Mapa::Step(int iteracion) {
         }
         if (projectile->hasExploded()) {
             projectile->explotar();
-
             b2Vec2 position = projectile->getPosition();
-            explosions.push(ExplosionWrapper (position.x, position.y, projectile->getRadius()));
+            // Se añade el proyectil que exploto a la lista de proyectiles pasados
+            cementerio_proyectiles.push_back(ProjectileWrapper(position.x,position.y,projectile->getAngle()+ 1.57,projectile->getType(),projectile->get_id()));
+            explosions.push(ExplosionWrapper (position.x, position.y, projectile->getRadius(),this->identificador_entidades));
+            this->identificador_entidades++;
             sounds.push(SoundTypes::EXPLOSION);
 
             int frag_amount = projectile->getFragCount();
             if (frag_amount > 0) {
                 GameConfig& config = GameConfig::getInstance();
                 for (auto i = 0; i < frag_amount; ++i) {
-                    projectiles.push_back(new Fragment (world, position.x, position.y, config.frag_dmg, config.frag_radius));
+                    Fragment* fragmento = new Fragment (world, position.x, position.y, config.frag_dmg, config.frag_radius);
+                    fragmento->insertar_id(this->identificador_entidades);
+                    projectiles.push_back(fragmento);
+                    this->identificador_entidades++;
                 }
             }
 
@@ -206,7 +221,7 @@ std::vector<ProjectileWrapper> Mapa::get_projectiles() {
         
         angle += 1.57;
         printf("los angulos que se devuelven son %f\n",angle);
-        vec_projectiles.push_back(ProjectileWrapper(position.x, position.y, angle, projectile->getType()));
+        vec_projectiles.push_back(ProjectileWrapper(position.x, position.y, angle, projectile->getType(),projectile->get_id()));
     }
     return vec_projectiles;
 }
@@ -214,6 +229,7 @@ std::vector<ProjectileWrapper> Mapa::get_projectiles() {
 std::vector<ExplosionWrapper> Mapa::get_explosions() {
     std::vector<ExplosionWrapper> vec_explosions;
     while (!explosions.empty()) {
+        cementerio_explosiones.push_back(explosions.front());
         vec_explosions.push_back(explosions.front());
         explosions.pop();
     }
@@ -264,9 +280,24 @@ void Mapa::cargar_arma(uint32_t id) {
 }
 
 void Mapa::usar_arma(uint32_t id) {
-    if (turnManager.acaba_de_cambiar_turno()) return;
-    if (id != turnManager.get_player_actual()) return;
-    projectiles.push_back(worms[turnManager.get_gusano_actual()]->usar_arma());
+
+    if(turnManager.acaba_de_cambiar_turno()){
+        // printf("Se esta esperando a que todos los events termiene\n");
+        return;
+    }
+    if(id != turnManager.get_player_actual()){
+        // printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        return;
+
+    }
+
+    Projectile* proyectil = worms[turnManager.get_gusano_actual()]->usar_arma();
+    if (!proyectil){
+        return;
+    }
+    proyectil->insertar_id(this->identificador_entidades);
+    projectiles.push_back(proyectil);
+    this->identificador_entidades++;
     printf("Se dispara el arma\n");
 }
 
@@ -297,6 +328,7 @@ void Mapa::detener_angulo(uint32_t id){
 }
 
 std::map<uint32_t, std::vector<uint32_t>> Mapa::repartir_ids(uint32_t cantidad_jugadores){
+    this->identificador_entidades = cantidad_jugadores + 1;
     return this->turnManager.repartir_turnos(cantidad_jugadores);
 }
 
@@ -314,4 +346,11 @@ void Mapa::cambiar_direccion(uint32_t id, uint8_t dir){
         return;
     }
     worms[turnManager.get_gusano_actual()]->cambiar_direccion(dir);
+}
+
+std::vector<ProjectileWrapper> Mapa::get_cementerio_proyectiles(){
+    return this->cementerio_proyectiles;
+}
+std::vector<ExplosionWrapper> Mapa::get_cementerio_explosiones(){
+    return this->cementerio_explosiones;
 }

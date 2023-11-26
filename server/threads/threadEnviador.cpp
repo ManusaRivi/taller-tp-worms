@@ -47,7 +47,6 @@ void Enviador::run()try{{
 }}catch(const ClosedSocket& e){
         // printf("El cliente se desconecto\n");
         is_alive = false;
-        delete snapshots_a_enviar;
 }catch(const ClosedQueue& e){
     is_alive = false;
 }

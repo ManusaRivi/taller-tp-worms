@@ -8,7 +8,9 @@
 #include "../world.h"
 #include "worm.h"
 #include "beam.h"
+#include "explosiones.h"
 #include "../Proyectiles/projectile_generator.h"
+
 #include <memory>
 
 using namespace SDL2pp;
@@ -22,6 +24,7 @@ class SnapshotCliente {
     uint32_t id_turno_actual;
     std::vector<std::unique_ptr<ProjectileClient>> projectiles;
     std::vector<int> sonidos;
+    std::vector<ExplosionesCliente> explosiones;
  
     public:
     //Constructor
@@ -37,6 +40,8 @@ class SnapshotCliente {
     void add_projectile(std::unique_ptr<ProjectileClient> projectil);
 
     void add_sound(int sound_code);
+
+    void add_explosion(ExplosionesCliente explosion);
 
 /*
     void present(int& it_inc,

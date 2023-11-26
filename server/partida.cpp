@@ -43,7 +43,10 @@ void Partida::run()try{{
     double rate = 1.0f/FRAME_RATE;
     // auto startTime = std::chrono::high_resolution_clock::now();
     // int elapsed = 0;
+    
     while (is_alive){
+
+
         auto t1 = std::chrono::high_resolution_clock::now();
         //float elapsed = currentTime - startTime;
         std::vector<std::shared_ptr<Comando>> comandos_a_ejecutar;
@@ -88,7 +91,6 @@ void Partida::run()try{{
 		}
 
         it++;
-
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
         // El 100% del CPU.
     }
@@ -97,9 +99,23 @@ void Partida::run()try{{
 }
 
 std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
+    std::vector<WormWrapper> vector_gusanos = mapa->get_gusanos();
+    std::vector<ProjectileWrapper> vector_proyectiles = mapa->get_projectiles();
+    std::vector<ExplosionWrapper> vector_explosiones = mapa->get_explosions();
+    uint32_t tiempo_del_turno = iteraccion % static_cast<int>(FRAME_RATE * TIEMPO_POR_TURNO);
+    uint32_t gusano_jugando_actualmente = mapa->gusano_actual();
+    std::vector<ProjectileWrapper> cementerio_projectiles = mapa->get_cementerio_proyectiles();
+    std::vector<ExplosionWrapper> cementerio_explosiones = mapa->get_cementerio_explosiones();
+
     // Snapshot snap(mapa->get_gusanos());
     // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa->gusano_actual());
-    std::shared_ptr<SnapshotPartida> snap = std::make_shared<SnapshotPartida>(mapa->get_gusanos(),mapa->get_projectiles(),iteraccion % (30 * 10),mapa->gusano_actual());
+    std::shared_ptr<SnapshotPartida> snap = std::make_shared<SnapshotPartida>(vector_gusanos,
+                                                                            vector_proyectiles,
+                                                                            vector_explosiones,
+                                                                            tiempo_del_turno,
+                                                                            gusano_jugando_actualmente,
+                                                                            cementerio_explosiones,
+                                                                            cementerio_projectiles);
     return snap;
 }
 

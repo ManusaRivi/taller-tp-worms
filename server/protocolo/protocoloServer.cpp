@@ -121,19 +121,23 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap)try{{
     enviar_4_bytes(snapshot->get_gusano_actual());
     enviar_gusanos(snapshot->get_worms());
     enviar_proyectlies(snapshot->get_proyectiles());
+    enviar_explosiones(snapshot->get_explosiones());
 
 }}catch(const ClosedSocket& e){
     throw ClosedSocket();
 }
 
-void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string> partidas/*std::string map*/){
+void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string> partidas/*std::string map*/)try{{
     // printf("Se estan por enviar las partidas\n");
     //uint8_t cmd = CODIGO_LISTAR_PARTIDA;
     //enviar_1_byte(cmd);
     enviar_lista(partidas);
+}}catch(const ClosedSocket& e){
+    throw ClosedSocket();
 }
 
-void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string> lista){
+
+void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string> lista)try{{
     uint16_t cantidad_mapas = lista.size();
     enviar_2_byte(cantidad_mapas);
     for (auto i = lista.begin(); i != lista.end(); i++){
@@ -145,20 +149,29 @@ void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string> lista){
         enviar_string(nombre);
         
     }
+}}catch(const ClosedSocket& e){
+    throw ClosedSocket();
 }
 
-void ServerProtocolo::enviar_mapas(std::map<uint32_t,std::string> mapas){
+
+void ServerProtocolo::enviar_mapas(std::map<uint32_t,std::string> mapas)try{{
     enviar_lista(mapas);
+}}catch(const ClosedSocket& e){
+    throw ClosedSocket();
 }
 
-void ServerProtocolo::check_partida_empezada(){
+
+void ServerProtocolo::check_partida_empezada()try{{
     uint8_t cmd = CODIGO_PARTIDA_POR_COMENZAR;
     enviar_1_byte(cmd);
+}}catch(const ClosedSocket& e){
+    throw ClosedSocket();
 }
 
 
 
-void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player,std::shared_ptr<Snapshot> snap){
+
+void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player,std::shared_ptr<Snapshot> snap)try{{
     std::shared_ptr<SnapshotHandshake> snapshot = std::dynamic_pointer_cast<SnapshotHandshake>(snap);
     uint8_t cmd = CODIGO_HANDSHAKE_EMPEZAR_PARTIDA;
     uint16_t cantidad_gusanos = gusanos_por_player.second.size();
@@ -172,11 +185,14 @@ void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>>
     enviar_gusanos(snapshot->get_worms());
     enviar_vigas(snapshot->get_vigas());
     // printf("Se termina de enviar handshake\n");
+}}catch(const ClosedSocket& e){
+    throw ClosedSocket();
 }
 
 
 
-std::shared_ptr<MensajeServer> ServerProtocolo::recibir_id_gusanos(){
+
+std::shared_ptr<MensajeServer> ServerProtocolo::recibir_id_gusanos()try{{
     uint32_t id_player = recibir_4_bytes();
     uint16_t cantidad_gusanos = recibir_2_bytes();
     std::vector<uint32_t> ids_gusanos;
@@ -186,10 +202,13 @@ std::shared_ptr<MensajeServer> ServerProtocolo::recibir_id_gusanos(){
     std::pair<uint32_t,std::vector<uint32_t>> par(id_player,ids_gusanos);
     // Mensaje msg(par);
     return mensajes.handshake_recibir(par);
+}}catch(const ClosedSocket& e){
+    throw ClosedSocket();
 }
 
 
-void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper> worms){
+
+void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper> worms)try{{
     uint8_t cant_players = worms.size();  
     enviar_2_byte(cant_players);
     for (auto &c: worms){
@@ -212,9 +231,12 @@ void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper> worms){
         enviar_1_byte(vida);
 
     }
+}}catch(const ClosedSocket& e){
+    throw ClosedSocket();
 }
 
-void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>> vigas){
+
+void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>> vigas)try{{
 
     uint16_t cantidad_vigas = vigas.size();
     enviar_2_byte(cantidad_vigas);
@@ -225,22 +247,49 @@ void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>> vigas){
         enviar_4_bytes_float(viga[2]);
         enviar_4_bytes_float(viga[3]);
     }
+}}catch(const ClosedSocket& e){
+    throw ClosedSocket();
 }
 
 
-void ServerProtocolo::enviar_proyectlies(std::vector<ProjectileWrapper> proyectiles){
+
+void ServerProtocolo::enviar_proyectlies(std::vector<ProjectileWrapper> proyectiles)try{{
     uint16_t cantidad = proyectiles.size();
     enviar_2_byte(cantidad);
     for(auto c : proyectiles){
+        uint32_t id = c.get_id();
         float x = c.get_x();
         float y = c.get_y();
         float angle = c.get_angulo() + 1.57;
         uint8_t tipo = c.get_tipo();
 
+        enviar_4_bytes(id);
         enviar_4_bytes_float(x);
         enviar_4_bytes_float(y);
         enviar_4_bytes_float(angle);
         enviar_1_byte(tipo);
 
     }
+}}catch(const ClosedSocket& e){
+    throw ClosedSocket();
+}
+
+
+void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper> explosiones)try{{
+    uint16_t cantidad = explosiones.size();
+    enviar_2_byte(cantidad);
+    for(auto c : explosiones){
+        uint32_t id = c.get_id();
+        float x = c.get_x();
+        float y = c.get_y();
+        float radio = c.get_radius();
+
+        enviar_4_bytes(id);
+        enviar_4_bytes_float(x);
+        enviar_4_bytes_float(y);
+        enviar_4_bytes_float(radio);
+
+    }
+}}catch(const ClosedSocket& e){
+    throw ClosedSocket();
 }

@@ -19,6 +19,10 @@ void SnapshotCliente::add_sound(int sound) {
     sonidos.push_back(sound);
 }
 
+void SnapshotCliente::add_explosion(ExplosionesCliente explosion){
+    explosiones.push_back(explosion);
+}
+
 void SnapshotCliente::apply_to_world(World& world) {
     world.update_camera(_id_camera);
     for (const auto& pair: worms) {

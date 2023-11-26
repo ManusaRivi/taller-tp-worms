@@ -2,6 +2,8 @@
 #define WORM_H
 
 #include "../../libs/box2d/include/box2d/box2d.h"
+#include "../../common/worm_states.h"
+#include "../../common/armas.h"
 #include "./collision_categories.h"
 #include "./armas/coleccion_armas.h"
 #include "./proyectiles/projectile.h"
@@ -73,6 +75,8 @@ public:
     void takeDamage(int damage);
     std::vector<float> GetPosition();
     float GetAngle();
+    bool isDead();
+    void kill();
     
     Projectile* usar_arma();
 

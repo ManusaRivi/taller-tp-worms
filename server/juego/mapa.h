@@ -39,9 +39,13 @@ private:
     std::queue<ExplosionWrapper> explosions;
     std::queue<SoundTypes> sounds;
     Water* water;
+    std::vector<ProjectileWrapper> cementerio_proyectiles;
+    std::vector<ExplosionWrapper> cementerio_explosiones;
 
     std::string nombre;
     TurnManager turnManager;
+    uint32_t identificador_entidades;
+
 
 public:
     explicit Mapa(std::string map_filepath);
@@ -96,6 +100,9 @@ public:
     uint32_t gusano_actual();
 
     void cambiar_direccion(uint32_t id,uint8_t dir);
+
+     std::vector<ProjectileWrapper> get_cementerio_proyectiles();
+    std::vector<ExplosionWrapper> get_cementerio_explosiones();
 
     ~Mapa();
 };

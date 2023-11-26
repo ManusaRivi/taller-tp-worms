@@ -7,7 +7,7 @@ union BodyUserData {
 
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
             coleccionArmas(new ColeccionArmas(world)),armaActual(nullptr), moving(false) ,facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
-            finalHeight(0.0f), jumpSteps(0), id(id_), status(0), angulo_disparo(0.0f), apuntando(false)
+            finalHeight(0.0f), jumpSteps(0), id(id_), status(WormStates::IDLE), angulo_disparo(0.0f), apuntando(false)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -61,7 +61,7 @@ void Worm::Move() {
             break;
     }
     float velChange = desiredVel - velocity.x;
-    status = 1;
+    status = WormStates::WALK;
     float impulse = body->GetMass() * velChange;
     body->ApplyLinearImpulse( b2Vec2 (impulse, 0), body->GetWorldCenter(), true);
 }
@@ -71,7 +71,7 @@ void Worm::Stop() {
     b2Vec2 velocity = body->GetLinearVelocity();
     velocity.x = 0.0f;
     body->SetLinearVelocity(velocity);
-    status = STATUS_IDLE;
+    status = WormStates::IDLE;
 }
 
 void Worm::JumpForward() {
@@ -91,6 +91,7 @@ void Worm::JumpForward() {
             break;
     }
     body->SetLinearVelocity(velocity);
+    //state = WormStates::JUMP;
 }
 
 void Worm::JumpBackward() {
@@ -110,6 +111,7 @@ void Worm::JumpBackward() {
             break;
     }
     body->SetLinearVelocity(velocity);
+    //state = WormStates::BACKFLIP;
 }
 
 void Worm::startGroundContact() {
@@ -160,14 +162,24 @@ float Worm::GetAngle() {
 }
 
 Projectile* Worm::usar_arma() {
+    if(!armaActual || this->isDead()){
+        return nullptr;
+    }
     b2Vec2 position = body->GetPosition();
     float angle;
     if(this->facingDirection == LEFT){
-        angle = this->aiming_angle() + 1.57;
+        if(this->aiming_angle() < 0){
+            angle =  (- this->aiming_angle()) + 3.14;
+        }
+        else{
+            angle = this->aiming_angle() + 1.57;
+        }
+        
     }
     else{
         angle = this->aiming_angle();
     }
+    printf("El angulo con el que se estada apuntando es : %f\n",this->aiming_angle());
     printf("el angulo con el que se dispara es %f\n",angle);
     return armaActual->Shoot(position.x, position.y, angle);
 }
@@ -189,22 +201,70 @@ uint8_t Worm::get_status(){
 }
 
 void Worm::cambiar_arma(uint8_t id_arma){
-    if (isAirborne()){
+    if (isAirborne() || this->isDead()){
         return;
     }
-    // printf("Se recibe un id de arma %u\n",id_arma);
-    status = id_arma;
+    
+    switch (id_arma)
+    {
+    case Armas::BAZOOKA:
+        status = WormStates::BAZOOKA_AIMING;
+        break;
+    
+    case Armas::MORTERO:
+        status = WormStates::MORTAR_AIMING;
+        break;
+    
+    case Armas::GRANADA:
+        status = WormStates::GREEN_GRENADE_AIMING;
+        break;
+    
+    case Armas::DINAMITA:
+        status = WormStates::DINAMITA_AIMING;
+        break;
+    
+    case Armas::BATE:
+        status = WormStates::BATE_AIMING;
+        break;
+    
+    case Armas::ATAQUE_AEREO:
+        status = WormStates::AIR_ATTACK_AIMING;
+        break;
+    
+    case Armas::GRANADA_SANTA:
+        status = WormStates::HOLY_GRANADE_AIMING;
+        break;
+    
+    case Armas::GRANADA_ROJA:
+        status = WormStates::RED_GRENADE_AIMING;
+        break;
+    
+    case Armas::BANANA:
+        status = WormStates::BANANA_AIMING;
+        break;
+    
+    case Armas::TELETRANSPORTACION:
+        status = WormStates::TELEPORT_AIMING;
+        break;
+    
+    default:
+        break;
+    }
+
     armaActual = coleccionArmas->SeleccionarArma(id_arma);
 }
 
 void Worm::iniciar_carga() {
-    if(!this->armaActual){
+    if(!this->armaActual || this->isDead()){
         return;
     }
     this->armaActual->iniciarCarga();
 }
 
 void Worm::cargar_arma(){
+    if(this->isDead()){
+        return;
+    }
     if(!this->armaActual){
         printf("no tiene un arma\n");
         return;
@@ -214,7 +274,7 @@ void Worm::cargar_arma(){
 }
 
 bool Worm::esta_cargando_arma() {
-    if(!this->armaActual){
+    if(!this->armaActual || this->isDead()){
         return false;
     }
     return this->armaActual->estaCargando();
@@ -249,7 +309,7 @@ void Worm::detener_acciones(){
     if(!airborne){
         angulo_disparo = 0;
         apuntando = false;
-        status = 0;
+        status = WormStates::IDLE;
         this->Stop();
     }
 }
@@ -260,6 +320,7 @@ float Worm::aiming_angle(){
 
 void Worm::parar_angulo(){
     apuntando = false;
+    printf("El ultimo angulo de apuntado es %f\n",this->aiming_angle());
 }
 
 uint8_t Worm::get_vida() {
@@ -267,6 +328,9 @@ uint8_t Worm::get_vida() {
 }
 
 void Worm::cambiar_direccion(uint8_t dir){
+    if(this->isDead()){
+        return;
+    }
     switch (dir)
     {
     case (RIGHT):
@@ -282,3 +346,13 @@ void Worm::cambiar_direccion(uint8_t dir){
     }
     }
 }
+
+bool Worm::isDead() {
+    return (this->hitPoints <= 0) ? true : false;
+}
+
+void Worm::kill() {
+    this->hitPoints = 0;
+    //delete this->coleccionArmas;
+}
+

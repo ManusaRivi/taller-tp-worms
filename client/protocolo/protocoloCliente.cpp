@@ -145,6 +145,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     std::shared_ptr<SnapshotCliente> snap= std::make_shared<SnapshotCliente>(0);
     recibir_gusanos(snap);
     recibir_projectiles(snap);
+    recibir_explosiones(snap);
 
     /*
     int tamano = 6;
@@ -204,6 +205,8 @@ void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
 void ClienteProtocolo::recibir_projectiles(std::shared_ptr<SnapshotCliente> snap){
     uint16_t cantidad = recibir_2_bytes();
     for(uint16_t i = 0; i < cantidad; i++){
+
+        uint32_t id = recibir_4_bytes();
         float x = recibir_4_bytes_float();
         float y = recibir_4_bytes_float();
         float angulo = (recibir_4_bytes_float() +3.14 - 1.57)*180/3.14;
@@ -211,9 +214,22 @@ void ClienteProtocolo::recibir_projectiles(std::shared_ptr<SnapshotCliente> snap
         std::unique_ptr<ProjectileClient> projectile =  ProjectileGenerator::get_proyectile_with_code(tipo,
                                                                         x,
                                                                         y,
-                                                                        angulo);
-        printf("Los datos que llegan son %f    %f   %f\n",x,y,angulo);
+                                                                        angulo,id);
+        printf("Los datos que llegan son  %u  %f    %f   %f\n",id,x,y,angulo);
         snap->add_projectile(std::move(projectile));
+    }
+}
+
+void ClienteProtocolo::recibir_explosiones(std::shared_ptr<SnapshotCliente> snap){
+    uint16_t cantidad = recibir_2_bytes();
+    for(uint16_t i = 0; i < cantidad; i++){
+
+        uint32_t id = recibir_4_bytes();
+        float x = recibir_4_bytes_float();
+        float y = recibir_4_bytes_float();
+        float radio = recibir_4_bytes_float();
+        printf("Se recibio una explosion de datos %u   %f    %f    %f\n",id,x,y,radio);
+        snap->add_explosion(ExplosionesCliente(id,x,y,radio));
     }
 }
 

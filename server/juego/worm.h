@@ -15,9 +15,6 @@ enum directions {
     LEFT = 1,
 };
 
-
-
-
 #define STATUS_MOVING 1
 #define STATUS_IDLE 0
 
@@ -100,6 +97,8 @@ public:
     bool apuntando_para_arriba(bool dir);
 
     void incrementar_angulo_en(float inc);
+
+    void set_grenade_timer(int seconds);
 
     bool esta_apuntando();
 

@@ -239,6 +239,12 @@ void Worm::incrementar_angulo_en(float inc){
     angulo_disparo +=inc;
 }
 
+void Worm::set_grenade_timer(int seconds) {
+    GranadaArma* arma = dynamic_cast<GranadaArma*>(armaActual);
+    if (!arma) return;
+    arma->SetTime(seconds);
+}
+
 void Worm::detener_acciones(){
     if(!airborne){
         angulo_disparo = 0;

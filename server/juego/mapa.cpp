@@ -257,13 +257,15 @@ void Mapa::apuntar_para(uint32_t id, int dir){
 }
 
 void Mapa::cargar_arma(uint32_t id) {
-    
+    if (turnManager.acaba_de_cambiar_turno()) return;
+    if (id != turnManager.get_player_actual()) return;
     worms[id]->iniciar_carga();
     printf("Se empieza a cargar el arma\n");
 }
 
 void Mapa::usar_arma(uint32_t id) {
-    
+    if (turnManager.acaba_de_cambiar_turno()) return;
+    if (id != turnManager.get_player_actual()) return;
     projectiles.push_back(worms[turnManager.get_gusano_actual()]->usar_arma());
     printf("Se dispara el arma\n");
 }

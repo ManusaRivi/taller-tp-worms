@@ -21,5 +21,5 @@ Projectile* Mortero::Shoot(float x_pos, float y_pos, float angle) {
     float power = BASELINE_POWER + (POWER_PER_CHARGE * nivel_carga); // a nivel carga = 1, el power es 0.5. a nivel carga = 40, el power es 2.0.
     nivel_carga = 0;
     cargando = false;
-    return new Rocket (world, x_pos, y_pos, angle, power, dmg, radius, fragments);
+    return new Rocket (world, ProjectileType::MORTAR, x_pos, y_pos, angle, power, dmg, radius, fragments);
 }

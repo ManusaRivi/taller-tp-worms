@@ -77,6 +77,7 @@ void Mapa::Step(int iteracion) {
     }
     // printf("Se termina de iterar los gusanos\n");
     for (auto projectile : projectiles) {
+        
         if(!projectile){
             continue;
         }
@@ -93,7 +94,7 @@ void Mapa::Step(int iteracion) {
             if (frag_amount > 0) {
                 GameConfig& config = GameConfig::getInstance();
                 for (auto i = 0; i < frag_amount; ++i) {
-                    Fragment* fragmento = new Fragment (world, position.x, position.y, config.frag_dmg, config.frag_radius);
+                    Fragment* fragmento = new Fragment (world, ProjectileType::FRAGMENT, position.x, position.y, config.frag_dmg, config.frag_radius);
                     fragmento->insertar_id(this->identificador_entidades);
                     projectiles.push_back(fragmento);
                     this->identificador_entidades++;
@@ -106,7 +107,7 @@ void Mapa::Step(int iteracion) {
             delete projectile;
         }
         else {
-            if (projectile->getType() != ProjectileType::GRENADE) {
+            if (projectile->isGrenade()) {
                 projectile->updateAngle();
             }
             else {

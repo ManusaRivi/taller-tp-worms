@@ -43,7 +43,10 @@ void Partida::run()try{{
     double rate = 1.0f/FRAME_RATE;
     // auto startTime = std::chrono::high_resolution_clock::now();
     // int elapsed = 0;
+    
     while (is_alive){
+
+
         auto t1 = std::chrono::high_resolution_clock::now();
         //float elapsed = currentTime - startTime;
         std::vector<std::shared_ptr<Comando>> comandos_a_ejecutar;
@@ -88,7 +91,6 @@ void Partida::run()try{{
 		}
 
         it++;
-
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
         // El 100% del CPU.
     }

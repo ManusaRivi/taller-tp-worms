@@ -5,7 +5,7 @@
 
 class Dynamite: public ProjectileClient {
     public:
-    Dynamite(float& pos_x, float& pos_y, float& angle);
+    Dynamite(float& pos_x, float& pos_y, float& angle, uint32_t id);
 
     virtual void present(SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,

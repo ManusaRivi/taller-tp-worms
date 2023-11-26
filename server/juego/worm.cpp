@@ -162,14 +162,24 @@ float Worm::GetAngle() {
 }
 
 Projectile* Worm::usar_arma() {
+    if(!armaActual || this->isDead()){
+        return nullptr;
+    }
     b2Vec2 position = body->GetPosition();
     float angle;
     if(this->facingDirection == LEFT){
-        angle = this->aiming_angle() + 1.57;
+        if(this->aiming_angle() < 0){
+            angle =  (- this->aiming_angle()) + 3.14;
+        }
+        else{
+            angle = this->aiming_angle() + 1.57;
+        }
+        
     }
     else{
         angle = this->aiming_angle();
     }
+    printf("El angulo con el que se estada apuntando es : %f\n",this->aiming_angle());
     printf("el angulo con el que se dispara es %f\n",angle);
     return armaActual->Shoot(position.x, position.y, angle);
 }
@@ -191,7 +201,7 @@ uint8_t Worm::get_status(){
 }
 
 void Worm::cambiar_arma(uint8_t id_arma){
-    if (isAirborne()){
+    if (isAirborne() || this->isDead()){
         return;
     }
     
@@ -245,13 +255,16 @@ void Worm::cambiar_arma(uint8_t id_arma){
 }
 
 void Worm::iniciar_carga() {
-    if(!this->armaActual){
+    if(!this->armaActual || this->isDead()){
         return;
     }
     this->armaActual->iniciarCarga();
 }
 
 void Worm::cargar_arma(){
+    if(this->isDead()){
+        return;
+    }
     if(!this->armaActual){
         printf("no tiene un arma\n");
         return;
@@ -261,7 +274,7 @@ void Worm::cargar_arma(){
 }
 
 bool Worm::esta_cargando_arma() {
-    if(!this->armaActual){
+    if(!this->armaActual || this->isDead()){
         return false;
     }
     return this->armaActual->estaCargando();
@@ -301,6 +314,7 @@ float Worm::aiming_angle(){
 
 void Worm::parar_angulo(){
     apuntando = false;
+    printf("El ultimo angulo de apuntado es %f\n",this->aiming_angle());
 }
 
 uint8_t Worm::get_vida() {
@@ -308,6 +322,9 @@ uint8_t Worm::get_vida() {
 }
 
 void Worm::cambiar_direccion(uint8_t dir){
+    if(this->isDead()){
+        return;
+    }
     switch (dir)
     {
     case (RIGHT):

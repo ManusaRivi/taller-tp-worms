@@ -2,8 +2,8 @@
 
 using namespace SDL2pp;
 
-Dynamite::Dynamite(float& pos_x, float& pos_y, float& angle):
-                    ProjectileClient("Dynamite", pos_x, pos_y, angle) {}
+Dynamite::Dynamite(float& pos_x, float& pos_y, float& angle, uint32_t id):
+                    ProjectileClient("Dynamite", pos_x, pos_y, angle, id) {}
 
 void Dynamite::present(SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,

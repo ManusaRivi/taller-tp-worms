@@ -25,8 +25,9 @@ std::unique_ptr<ProjectileClient> ProjectileGenerator::get_proyectile_with_code(
             return std::make_unique<Fragment>(pos_x, pos_y, angle);
         case ProjectileType::DYNAMITE:
             return std::make_unique<Dynamite>(pos_x, pos_y, angle);
-        
+        */
         default:
             throw std::runtime_error("No existe ese codigo de proyectil");
+        
     }
 }

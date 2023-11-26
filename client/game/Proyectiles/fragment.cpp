@@ -2,8 +2,8 @@
 
 using namespace SDL2pp;
 
-Fragment::Fragment(float& pos_x, float& pos_y, float& angle):
-                    ProjectileClient("Drop", pos_x, pos_y, angle) {}
+Fragment::Fragment(float& pos_x, float& pos_y, float& angle, uint32_t id):
+                    ProjectileClient("Drop", pos_x, pos_y, angle, id) {}
 
 void Fragment::present(SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,

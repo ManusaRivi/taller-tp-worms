@@ -273,9 +273,24 @@ void Mapa::cargar_arma(uint32_t id) {
 }
 
 void Mapa::usar_arma(uint32_t id) {
+
+    if(turnManager.acaba_de_cambiar_turno()){
+        // printf("Se esta esperando a que todos los events termiene\n");
+        return;
+    }
+    if(id != turnManager.get_player_actual()){
+        // printf("NO ES EL TURNO DE ESTE PLAYER!!!!!\n");
+        return;
+
+    }
+
     Projectile* proyectil = worms[turnManager.get_gusano_actual()]->usar_arma();
+    if (!proyectil){
+        return;
+    }
     proyectil->insertar_id(this->identificador_entidades);
     projectiles.push_back(proyectil);
+    this->identificador_entidades++;
     printf("Se dispara el arma\n");
 }
 // std::vector<float> Mapa::get_size(){

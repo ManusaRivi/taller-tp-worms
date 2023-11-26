@@ -9,7 +9,7 @@
 class Fragment: public ProjectileClient {
     public:
 
-    Fragment(float& pos_x, float& pos_y, float& angle);
+    Fragment(float& pos_x, float& pos_y, float& angle, uint32_t id);
 
     void present(SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,

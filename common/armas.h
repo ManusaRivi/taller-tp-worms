@@ -4,7 +4,7 @@
 enum Armas {
     BAZOOKA,
     MORTERO,
-    GRANADA,
+    GRANADA_VERDE,
     DINAMITA,
     BATE,
     ATAQUE_AEREO,

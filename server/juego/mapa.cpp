@@ -197,31 +197,26 @@ Mapa::~Mapa() {
     delete water;
 }
 
-std::vector<std::vector<float>> Mapa::get_vigas(){
-    std::vector<std::vector<float>> vec_vigas;
+void Mapa::get_vigas(std::vector<std::vector<float>>& beam_vector){
     for (auto viga:vigas){
         std::vector<float> viga_pos = viga->get_pos();
-        vec_vigas.push_back(viga_pos);
+        beam_vector.push_back(viga_pos);
     }
-    return vec_vigas;
 }
 
 uint16_t Mapa::gusanos_totales(){
     return this->worms.size();
 }
 
-std::vector<WormWrapper> Mapa::get_gusanos(){
-    std::vector<WormWrapper> vec_worms;
+void Mapa::get_gusanos(std::vector<WormWrapper>& worm_vector){
     for(auto worm: this->worms){
         std::vector<float> posicion = worm->GetPosition();
         // printf("la posicion del gusano que se envia es %f   %f\n",posicion[0],posicion[1]);
-        vec_worms.push_back(WormWrapper(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo(), worm->aiming_angle(), worm->get_vida()));
+        worm_vector.push_back(WormWrapper(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo(), worm->aiming_angle(), worm->get_vida()));
     }
-    return vec_worms;
 }
 
-std::vector<ProjectileWrapper> Mapa::get_projectiles() {
-    std::vector<ProjectileWrapper> vec_projectiles;
+void Mapa::get_projectiles(std::vector<ProjectileWrapper>& projectile_vector) {
     for (auto projectile : projectiles) {
         if(!projectile){
             continue;
@@ -231,28 +226,35 @@ std::vector<ProjectileWrapper> Mapa::get_projectiles() {
         
         angle += 1.57;
         printf("los angulos que se devuelven son %f\n",angle);
-        vec_projectiles.push_back(ProjectileWrapper(position.x, position.y, angle, projectile->getType(),projectile->get_id()));
+        projectile_vector.push_back(ProjectileWrapper(position.x, position.y, angle, projectile->getType(),projectile->get_id()));
     }
-    return vec_projectiles;
 }
 
-std::vector<ExplosionWrapper> Mapa::get_explosions() {
-    std::vector<ExplosionWrapper> vec_explosions;
+void Mapa::get_explosions(std::vector<ExplosionWrapper>& explosion_vector) {
     while (!explosions.empty()) {
         cementerio_explosiones.push_back(explosions.front());
-        vec_explosions.push_back(explosions.front());
+        explosion_vector.push_back(explosions.front());
         explosions.pop();
     }
-    return vec_explosions;
 }
 
-std::vector<SoundTypes> Mapa::get_sounds() {
-    std::vector<SoundTypes> vec_sounds;
+void Mapa::get_cementerio_proyectiles(std::vector<ProjectileWrapper>& projectile_vector){
+    for (auto projectile : cementerio_proyectiles) {
+        projectile_vector.push_back(projectile);
+    }
+}
+
+void Mapa::get_cementerio_explosiones(std::vector<ExplosionWrapper>& explosion_vector){
+    for (auto explosion : cementerio_explosiones) {
+        explosion_vector.push_back(explosion);
+    }
+}
+
+void Mapa::get_sounds(std::vector<SoundTypes>& sound_vector) {
     while (!sounds.empty()) {
-        vec_sounds.push_back(sounds.front());
+        sound_vector.push_back(sounds.front());
         sounds.pop();
     }
-    return vec_sounds;
 }
 
 void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){
@@ -356,11 +358,4 @@ void Mapa::cambiar_direccion(uint32_t id, uint8_t dir){
         return;
     }
     worms[turnManager.get_gusano_actual()]->cambiar_direccion(dir);
-}
-
-std::vector<ProjectileWrapper> Mapa::get_cementerio_proyectiles(){
-    return this->cementerio_proyectiles;
-}
-std::vector<ExplosionWrapper> Mapa::get_cementerio_explosiones(){
-    return this->cementerio_explosiones;
 }

@@ -69,16 +69,20 @@ public:
     std::string GetName();
 
     WormWrapper devolver_gusano(int idx);
-    std::vector<std::vector<float>> get_vigas();
+    void get_vigas(std::vector<std::vector<float>>& beam_vector);
     uint16_t gusanos_totales();
 
-    std::vector<WormWrapper> get_gusanos();
+    void get_gusanos(std::vector<WormWrapper>& worm_vector);
 
-    std::vector<ProjectileWrapper> get_projectiles();
+    void get_projectiles(std::vector<ProjectileWrapper>& projectile_vector);
 
-    std::vector<ExplosionWrapper> get_explosions();
+    void get_explosions(std::vector<ExplosionWrapper>& explosion_vector);
 
-    std::vector<SoundTypes> get_sounds();
+    void get_cementerio_proyectiles(std::vector<ProjectileWrapper>& projectile_vector);
+
+    void get_cementerio_explosiones(std::vector<ExplosionWrapper>& explosion_vector);
+
+    void get_sounds(std::vector<SoundTypes>& sound_vector);
 
     void cambiar_arma(uint32_t id, uint8_t tipo);
 
@@ -100,9 +104,6 @@ public:
     uint32_t gusano_actual();
 
     void cambiar_direccion(uint32_t id,uint8_t dir);
-
-     std::vector<ProjectileWrapper> get_cementerio_proyectiles();
-    std::vector<ExplosionWrapper> get_cementerio_explosiones();
 
     ~Mapa();
 };

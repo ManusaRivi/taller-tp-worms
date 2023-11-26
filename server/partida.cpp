@@ -99,13 +99,18 @@ void Partida::run()try{{
 }
 
 std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
-    std::vector<WormWrapper> vector_gusanos = mapa->get_gusanos();
-    std::vector<ProjectileWrapper> vector_proyectiles = mapa->get_projectiles();
-    std::vector<ExplosionWrapper> vector_explosiones = mapa->get_explosions();
+    std::vector<WormWrapper> vector_gusanos;
+    mapa->get_gusanos(vector_gusanos);
+    std::vector<ProjectileWrapper> vector_proyectiles;
+    mapa->get_projectiles(vector_proyectiles);
+    std::vector<ExplosionWrapper> vector_explosiones;
+    mapa->get_explosions(vector_explosiones);
     uint32_t tiempo_del_turno = iteraccion % static_cast<int>(FRAME_RATE * TIEMPO_POR_TURNO);
     uint32_t gusano_jugando_actualmente = mapa->gusano_actual();
-    std::vector<ProjectileWrapper> cementerio_projectiles = mapa->get_cementerio_proyectiles();
-    std::vector<ExplosionWrapper> cementerio_explosiones = mapa->get_cementerio_explosiones();
+    std::vector<ProjectileWrapper> cementerio_projectiles;
+    mapa->get_cementerio_proyectiles(cementerio_projectiles);
+    std::vector<ExplosionWrapper> cementerio_explosiones;
+    mapa->get_cementerio_explosiones(cementerio_explosiones);
 
     // Snapshot snap(mapa->get_gusanos());
     // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa->gusano_actual());

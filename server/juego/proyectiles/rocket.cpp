@@ -1,9 +1,9 @@
 #include "rocket.h"
 
-Rocket::Rocket(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius, int fragments) :
+Rocket::Rocket(b2World& world, ProjectileType type, float x_pos, float y_pos, float angle, float power, int dmg, int radius, int fragments) :
                 world(world)
 {
-    type = ProjectileType::ROCKET;
+    this->type = type;
     this->fragments = fragments;
     this->dmg = dmg;
     this->radius = radius;
@@ -33,6 +33,10 @@ Rocket::Rocket(b2World& world, float x_pos, float y_pos, float angle, float powe
 
     b2Vec2 impulseVec (power * cos(angle), power * sin(angle));
     body->ApplyLinearImpulse(impulseVec, body->GetWorldCenter(), true);
+}
+
+bool Rocket::isGrenade() {
+    return false;
 }
 
 void Rocket::explotar()

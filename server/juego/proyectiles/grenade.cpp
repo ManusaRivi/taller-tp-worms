@@ -1,9 +1,10 @@
 #include "grenade.h"
 
-Grenade::Grenade(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius, int fragments, int seconds) :
+Grenade::Grenade(b2World& world, ProjectileType type, float x_pos, float y_pos,
+                float angle, float power, int dmg, int radius, int fragments, int seconds) :
                 world(world), timer(GrenadeTimer (seconds))
 {
-    type = ProjectileType::GRENADE;
+    this->type = type;
     this->fragments = fragments;
     this->dmg = dmg;
     this->radius = radius;
@@ -39,6 +40,10 @@ Grenade::Grenade(b2World& world, float x_pos, float y_pos, float angle, float po
 
 void Grenade::advance_time() {
     if (timer.advance_time()) this->explotar();
+}
+
+bool Grenade::isGrenade() {
+    return true;
 }
 
 void Grenade::explotar()

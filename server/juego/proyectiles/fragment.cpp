@@ -1,7 +1,7 @@
 #include "fragment.h"
 
-Fragment::Fragment(b2World& world, float x_pos, float y_pos, int dmg, int radius) : world(world) {
-    type = ProjectileType::FRAGMENT;
+Fragment::Fragment(b2World& world, ProjectileType type, float x_pos, float y_pos, int dmg, int radius) : world(world) {
+    this->type = type;
     this->dmg = dmg;
     this->radius = radius;
     

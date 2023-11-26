@@ -20,8 +20,10 @@ private:
     b2World& world;
     GrenadeTimer timer;
 public:
-    Grenade(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius, int fragments, int seconds);
+    Grenade(b2World& world, ProjectileType type, float x_pos, float y_pos,
+            float angle, float power, int dmg, int radius, int fragments, int seconds);
     void advance_time();
+    virtual bool isGrenade() override;
     virtual void explotar() override;
 };
 

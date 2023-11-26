@@ -8,7 +8,7 @@ class GranadaRoja : public GranadaArma {
 private:
     b2World& world;
     int ammo;
-    int fragments;
+    const int fragments;
     const int dmg;
     const int radius;
     int nivel_carga;

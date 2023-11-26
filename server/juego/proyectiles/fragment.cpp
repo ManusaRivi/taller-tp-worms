@@ -31,7 +31,6 @@ ProjectileType Fragment::getType() {
 }
 
 void Fragment::explotar() {
-    exploded = true;
     WormQuery wormQuery;
     b2AABB aabb;
     b2Vec2 explosionCenter = body->GetWorldCenter();

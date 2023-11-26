@@ -71,6 +71,8 @@ void Mapa::Step(int iteracion) {
             continue;
         }
         if (projectile->hasExploded()) {
+            projectile->explotar();
+            
             b2Vec2 position = projectile->getPosition();
             explosions.push(ExplosionWrapper (position.x, position.y, projectile->getRadius()));
             sounds.push(SoundTypes::EXPLOSION);

@@ -41,7 +41,6 @@ ProjectileType Rocket::getType() {
 
 void Rocket::explotar()
 {
-    exploded = true;
     WormQuery wormQuery;
     b2AABB aabb;
     b2Vec2 explosionCenter = body->GetWorldCenter();

@@ -53,6 +53,9 @@ public:
         float newAngle = atan2(velocity.x, velocity.y);
         body->SetTransform(body->GetPosition(), newAngle);
     }
+    void SetExplosion() {
+        exploded = true;
+    }
     virtual void explotar() = 0;
     virtual ~Projectile() {
         body->GetWorld()->DestroyBody(body);

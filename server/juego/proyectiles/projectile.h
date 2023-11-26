@@ -32,23 +32,25 @@ public:
     virtual bodyType identificar() override {
         return bodyType::PROJECTILE;
     }
-    virtual ProjectileType getType() = 0;
-    virtual bool hasExploded() {
+    ProjectileType getType() {
+        return type;
+    }
+    bool hasExploded() {
         return exploded;
     }
-    virtual int getFragCount() {
+    int getFragCount() {
         return fragments;
     }
-    virtual b2Vec2 getPosition() {
+    b2Vec2 getPosition() {
         return body->GetPosition();
     }
-    virtual float getRadius() {
+    float getRadius() {
         return radius;
     }
-    virtual float getAngle() {
+    float getAngle() {
         return body->GetAngle();
     }
-    virtual void updateAngle() {
+    void updateAngle() {
         b2Vec2 velocity = body->GetLinearVelocity();
         float newAngle = atan2(velocity.x, velocity.y);
         body->SetTransform(body->GetPosition(), newAngle);

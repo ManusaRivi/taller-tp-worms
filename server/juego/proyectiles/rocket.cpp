@@ -35,10 +35,6 @@ Rocket::Rocket(b2World& world, float x_pos, float y_pos, float angle, float powe
     body->ApplyLinearImpulse(impulseVec, body->GetWorldCenter(), true);
 }
 
-ProjectileType Rocket::getType() {
-    return type;
-}
-
 void Rocket::explotar()
 {
     WormQuery wormQuery;

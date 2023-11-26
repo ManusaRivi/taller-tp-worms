@@ -229,7 +229,7 @@ void ClienteProtocolo::recibir_explosiones(std::shared_ptr<SnapshotCliente> snap
         float y = recibir_4_bytes_float();
         float radio = recibir_4_bytes_float();
         printf("Se recibio una explosion de datos %u   %f    %f    %f\n",id,x,y,radio);
-        snap->add_explosion(ExplosionesCliente(id,x,y,radio));
+        snap->add_explosion(ExplosionCliente(id,x,y,radio));
     }
 }
 

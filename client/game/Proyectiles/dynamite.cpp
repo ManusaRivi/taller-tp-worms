@@ -5,7 +5,7 @@ using namespace SDL2pp;
 Dynamite::Dynamite(float& pos_x, float& pos_y, float& angle, uint32_t id):
                     ProjectileClient("Dynamite", pos_x, pos_y, angle, id) {}
 
-void Dynamite::present(SDL2pp::Renderer& renderer,
+void Dynamite::present(int& it, SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,
                     float& map_height,
                     float& x_scale, float& y_scale,
@@ -15,9 +15,9 @@ void Dynamite::present(SDL2pp::Renderer& renderer,
     float pos_rel_x = _pos_x - camera_x;
     float pos_rel_y = map_height - _pos_y - camera_y;
 
-    // Frame (falta agregar it_inc para reproducir animacion)
+    // Frame
     int src_x = 0;
-    int src_y = 0;
+    int src_y = 60 * (it % DYNAMITE_FRAMES);
 
     // Obtengo la textura
 	Texture& texture = texture_manager.get_texture(texture_name);

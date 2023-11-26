@@ -3,7 +3,8 @@
 
 using namespace SDL2pp;
 
-World::World(float map_width, float map_height): _map_width(map_width), _map_height(map_height) {}
+World::World(float map_width, float map_height): 
+            proy_it(0), _map_width(map_width), _map_height(map_height) {}
 
 void World::add_worm(std::shared_ptr<Worm> worm, int id) {
     worms.emplace(id, worm);
@@ -18,7 +19,11 @@ void World::add_sound(int sound) {
 }
 
 void World::add_projectile(std::unique_ptr<ProjectileClient> projectile) {
-    projectiles.push_back(std::move(projectile));
+    projectiles.emplace(projectile->get_id(), std::move(projectile));
+}
+
+void World::add_explosion(ExplosionCliente explosion) {
+    explosions.emplace(explosion.get_id(), explosion);
 }
 
 void World::update_camera(int id_camera) {
@@ -121,8 +126,23 @@ void World::present(int& it_inc,
     int window_height = renderer.GetOutputHeight();
 
     // Obtengo la posicion de la camara:
-    float pos_foco_x = worms.at(_id_camera)->get_x();    //Por ahora solo enfoca gusanos
-    float pos_foco_y = worms.at(_id_camera)->get_y();
+    float pos_foco_x = 0;
+    float pos_foco_y = 0;
+    
+    auto it_worm = worms.find(_id_camera);
+    auto it_proj = projectiles.find(_id_camera);
+    auto it_exp = explosions.find(_id_camera);
+
+    if (it_worm != worms.end()) {
+        pos_foco_x = it_worm->second->get_x();
+        pos_foco_y = it_worm->second->get_y();
+    } else if (it_proj != projectiles.end()){
+        pos_foco_x = it_proj->second->get_x();
+        pos_foco_y = it_proj->second->get_y();
+    } else if (it_exp != explosions.end()) {
+        pos_foco_x = it_exp->second.get_x();
+        pos_foco_y = it_exp->second.get_y();
+    }
 
     float camera_x = pos_foco_x - (window_width / (2 * x_scale)) + camara.x;
     float camera_y = _map_height - (pos_foco_y + (window_height / (2 * y_scale))) + camara.y;
@@ -147,10 +167,11 @@ void World::present(int& it_inc,
 
     //present_water(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
     // Grafico proyectiles
-    while (!projectiles.empty()) {
-        projectiles.back()->present(renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
-        projectiles.pop_back();
+    proy_it += it_inc;
+    for (auto& projectil : projectiles) {
+        projectil.second->present(proy_it, renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
     }
+    projectiles.clear();
 
     // Grafico HUD
     present_hud(renderer, texture_manager, x_scale, y_scale);

@@ -6,6 +6,8 @@
 #include "arma.h"
 #include "bazooka.h"
 #include "mortero.h"
+#include "granada_verde.h"
+#include "granada_roja.h"
 
 #include <map>
 #include <memory>
@@ -19,13 +21,14 @@
 #define GRANADA_SANTA_id 12
 #define GRANADA_VERDE_id 14
 #define BANANA_id 16
-#define GRANADA_ROHA_id 18
+#define GRANADA_ROJA_id 18
 #define MORTERO_id 20
 
 enum Armas {
     BAZOOKA = BAZOOKA_id,
     MORTERO = MORTERO_id,
     GRANADA_VERDE = GRANADA_VERDE_id,
+    GRANADA_ROJA = GRANADA_ROJA_id,
     DINAMITA = DINAMITA_id,
     BATE = BASEBALL_id
 };

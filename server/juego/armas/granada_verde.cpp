@@ -4,6 +4,14 @@ GranadaVerde::GranadaVerde(b2World& world, int dmg, int radius) : world(world), 
     cargando = false;
 }
 
+bool GranadaVerde::isGrenade() {
+    return true;
+}
+
+bool GranadaVerde::isRocket() {
+    return false;
+}
+
 void GranadaVerde::iniciarCarga() {
     cargando = true;
 }

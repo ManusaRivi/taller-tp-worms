@@ -14,6 +14,8 @@ protected:
     bool cargando;
 public:
     Arma() {};
+    virtual bool isGrenade() = 0;
+    virtual bool isRocket() = 0;
     virtual void iniciarCarga() = 0;
     virtual void cargar() = 0;
     bool estaCargando() {

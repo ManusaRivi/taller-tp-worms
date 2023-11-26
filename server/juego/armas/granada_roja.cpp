@@ -6,6 +6,14 @@ GranadaRoja::GranadaRoja(b2World& world, int ammo, int fragments, int dmg, int r
     cargando = false;
 }
 
+bool GranadaRoja::isGrenade() {
+    return true;
+}
+
+bool GranadaRoja::isRocket() {
+    return false;
+}
+
 void GranadaRoja::iniciarCarga() {
     cargando = true;
 }

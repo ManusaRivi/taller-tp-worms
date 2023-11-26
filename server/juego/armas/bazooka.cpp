@@ -4,6 +4,14 @@ Bazooka::Bazooka(b2World& world, int dmg, int radius) : world(world), dmg(dmg), 
     cargando = false;
 }
 
+bool Bazooka::isGrenade() {
+    return false;
+}
+
+bool Bazooka::isRocket() {
+    return true;
+}
+
 void Bazooka::iniciarCarga() {
     cargando = true;
 }

@@ -77,7 +77,11 @@ void Mapa::Step(int iteracion) {
     }
     // printf("Se termina de iterar los gusanos\n");
     for (auto projectile : projectiles) {
-        
+        while(!projectile->sounds.empty()) {
+            SoundTypes sound = projectile->sounds.front();
+            sounds.push(sound);
+            projectile->sounds.pop();
+        }
         if(!projectile){
             continue;
         }

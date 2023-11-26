@@ -2,6 +2,7 @@
 #define SNAPSHOT_SERVER_H
 #include "../worm_wrapper.h"
 #include "../projectile_wrapper.h"
+#include "../explosion_wrapper.h"
 #include <vector>
 
 enum tipo_snapshot{

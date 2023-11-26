@@ -10,9 +10,10 @@ private:
     float y_pos;
     float angulo;
     ProjectileType tipo;
+    uint32_t id_proyectil;
 public:
-    ProjectileWrapper(float x_pos, float y_pos, float angulo, ProjectileType tipo) :
-            x_pos(x_pos), y_pos(y_pos), angulo(angulo), tipo(tipo) {}
+    ProjectileWrapper(float x_pos, float y_pos, float angulo, ProjectileType tipo, uint32_t id_) :
+            x_pos(x_pos), y_pos(y_pos), angulo(angulo), tipo(tipo),id_proyectil(id_) {}
 
     float get_x(){
         return this->x_pos;
@@ -28,6 +29,10 @@ public:
 
     uint8_t get_tipo(){
         return this->tipo;
+    }
+
+    uint32_t get_id(){
+        return this->id_proyectil;
     }
 };
 

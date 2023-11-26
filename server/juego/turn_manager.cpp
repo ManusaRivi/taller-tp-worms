@@ -89,7 +89,7 @@ void TurnManager::cargar_cantidad_gusanos(uint32_t cant_gusanos){
 std::pair<bool,uint32_t> TurnManager::avanzar_tiempo(uint32_t iteracion){
     std::pair<bool,uint32_t> par;
     if (acaba_de_pasar_turno){
-        if(iteracion % (30 * 5) == 0 && iteracion > 0){
+        if(iteracion % static_cast<int>(FRAME_RATE * 5) == 0 && iteracion > 0){
             // printf("Pasaron 5 segundos desde el turno anterior y se debe para al gusano %u\n",gusano_turno_anterior);
             acaba_de_pasar_turno = false;
             par.first = true;
@@ -98,7 +98,7 @@ std::pair<bool,uint32_t> TurnManager::avanzar_tiempo(uint32_t iteracion){
         }
     }
     else{
-        if (iteracion % (30 * 30) == 0 && iteracion > 0) {
+        if (iteracion % static_cast<int>(FRAME_RATE * TIEMPO_POR_TURNO) == 0 && iteracion > 0) {
             par.first = true;
             gusano_turno_anterior = this->id_gusano_actual;
         

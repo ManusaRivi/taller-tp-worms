@@ -19,7 +19,8 @@ class ProjectileGenerator {
     static std::unique_ptr<ProjectileClient> get_proyectile_with_code(int proy_type,
                                                             float& pos_x,
                                                             float& pos_y,
-                                                            float& angle);
+                                                            float& angle,
+                                                            uint32_t id);
 };
 
 #endif

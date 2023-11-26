@@ -3,6 +3,9 @@
 #include <vector>
 #include <algorithm>
 
+#define TIEMPO_POR_TURNO 30.0f
+#define FRAME_RATE 30.0f
+
 class TurnManager{
 
     std::map<uint32_t,std::vector<uint32_t>> id_gusanos_por_player;

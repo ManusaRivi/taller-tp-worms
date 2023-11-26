@@ -51,6 +51,11 @@ void Mapa::Load_Map_File(std::string filepath) {
 void Mapa::Step(int iteracion) {
     int idx = 0;
     for (auto worm : worms) {
+        while(!worm->sounds.empty()) {
+            SoundTypes sound = worm->sounds.front();
+            sounds.push(sound);
+            worm->sounds.pop();
+        }
         if (worm->isDead()) {
             worm->kill();
             this->turnManager.deleteWorm(idx);
@@ -77,13 +82,13 @@ void Mapa::Step(int iteracion) {
     }
     // printf("Se termina de iterar los gusanos\n");
     for (auto projectile : projectiles) {
+        if(!projectile){
+            continue;
+        }
         while(!projectile->sounds.empty()) {
             SoundTypes sound = projectile->sounds.front();
             sounds.push(sound);
             projectile->sounds.pop();
-        }
-        if(!projectile){
-            continue;
         }
         if (projectile->hasExploded()) {
             projectile->explotar();

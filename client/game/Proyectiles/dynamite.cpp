@@ -1,9 +1,12 @@
-#include "projectile.h"
-using namespace SDL2pp;
-ProjectileClient::ProjectileClient(const std::string texture, float& pos_x, float& pos_y, float& angle):
-                        texture_name(texture), _pos_x(pos_x), _pos_y(pos_y), _angle(angle) {}
+#include "dynamite.h"
 
-void ProjectileClient::present(Renderer& renderer, TextureManager& texture_manager,
+using namespace SDL2pp;
+
+Dynamite::Dynamite(float& pos_x, float& pos_y, float& angle):
+                    ProjectileClient("Dynamite", pos_x, pos_y, angle) {}
+
+void Dynamite::present(SDL2pp::Renderer& renderer,
+                    TextureManager& texture_manager,
                     float& map_height,
                     float& x_scale, float& y_scale,
                     float& camera_x, float& camera_y) {
@@ -12,19 +15,9 @@ void ProjectileClient::present(Renderer& renderer, TextureManager& texture_manag
     float pos_rel_x = _pos_x - camera_x;
     float pos_rel_y = map_height - _pos_y - camera_y;
 
-    // Determino cual frame usar:
-    //Normalizo el angulo
-    float normalized_angle = fmodf(_angle, 360.0f);
-
-    if (normalized_angle < 0.0f) {
-        normalized_angle += 360.0f;
-    }
-
-    //Calculo el frame
+    // Frame (falta agregar it_inc para reproducir animacion)
     int src_x = 0;
-    int src_y = static_cast<int>((_angle - START_ANGLE) / INC_ANGLE);
-    src_y = (src_y + CANT_FRAMES) % CANT_FRAMES;
-    src_y = 60* src_y;
+    int src_y = 0;
 
     // Obtengo la textura
 	Texture& texture = texture_manager.get_texture(texture_name);

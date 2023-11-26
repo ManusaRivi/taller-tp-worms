@@ -25,7 +25,7 @@ class ProjectileClient {
     float _angle;
 
     public:
-    ProjectileClient(const std::string& texture, float& pos_x, float& pos_y, float& angle);
+    ProjectileClient(const std::string texture, float& pos_x, float& pos_y, float& angle);
 
     virtual void present(SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,

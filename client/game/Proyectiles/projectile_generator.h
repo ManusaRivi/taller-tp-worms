@@ -3,7 +3,8 @@
 
 #include "../comunicacion/projectile.h"
 #include "../../../common/projectile_types.h"
-
+#include "fragment.h"
+#include "dynamite.h"
 
 class ProjectileGenerator {
     public:

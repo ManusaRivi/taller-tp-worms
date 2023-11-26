@@ -19,12 +19,11 @@ std::unique_ptr<ProjectileClient> ProjectileGenerator::get_proyectile_with_code(
             return std::make_unique<ProjectileClient>(std::string("Banana"), pos_x, pos_y, angle);
         case ProjectileType::AIR_MISSILE:
             return std::make_unique<ProjectileClient>(std::string("AirMissile"), pos_x, pos_y, angle);
-        /*
         case ProjectileType::FRAGMENT:
-            return std::make_unique<Drop>(pos_x, pos_y, angle);
+            return std::make_unique<Fragment>(pos_x, pos_y, angle);
         case ProjectileType::DYNAMITE:
-            return std::make_unique<Dynamite>(pos_x, pos_y, angle, tiempo a explotar);
-        */
+            return std::make_unique<Dynamite>(pos_x, pos_y, angle);
+        
         default:
             throw std::runtime_error("No existe ese codigo de proyectil");
     }

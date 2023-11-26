@@ -1,0 +1,33 @@
+nombre: vigasInclinadas
+
+vigas:
+  - tipo: larga
+    pos_x: 10
+    pos_y: 10
+    angulo: 0
+  - tipo: larga
+    pos_x: 13
+    pos_y: 10.5
+    angulo: 0
+  - tipo: larga
+    pos_x: 16
+    pos_y: 11
+    angulo: 0
+  - tipo: larga
+    pos_x: 19
+    pos_y: 11.5
+    angulo: 0
+
+gusanos:
+  - pos_x: 11
+    pos_y: 10.82
+    direccion: 0
+  - pos_x: 11.5
+    pos_y: 10.82
+    direccion: 1
+  - pos_x: 12
+    pos_y: 10.82
+    direccion: 0
+  - pos_x: 12.5
+    pos_y: 10.82
+    direccion: 1

@@ -24,7 +24,10 @@ private:
                     red_grenade_radius(config["radio_granada_roja"].as<int>()),
                     banana_ammo(config["ammo_banana"].as<int>()),
                     banana_dmg(config["dmg_banana"].as<int>()),
-                    banana_radius(config["radio_banana"].as<int>()) {}
+                    banana_radius(config["radio_banana"].as<int>()),
+                    holy_grenade_ammo(config["ammo_santa"].as<int>()),
+                    holy_grenade_dmg(config["dmg_santa"].as<int>()),
+                    holy_grenade_radius(config["radio_santa"].as<int>()) {}
     GameConfig(const GameConfig&) = delete;
     GameConfig& operator=(const GameConfig&) = delete;
 public:
@@ -51,6 +54,10 @@ public:
     const int banana_ammo;
     const int banana_dmg;
     const int banana_radius;
+
+    const int holy_grenade_ammo;
+    const int holy_grenade_dmg;
+    const int holy_grenade_radius;
 
     static GameConfig& getInstance()
     {

@@ -137,3 +137,7 @@ uint32_t TurnManager::get_player_actual(){
 bool TurnManager::acaba_de_cambiar_turno(){
     return acaba_de_pasar_turno;
 }
+
+uint32_t TurnManager::get_equipo(uint32_t id) {
+    return id_player_por_gusano[id];
+}

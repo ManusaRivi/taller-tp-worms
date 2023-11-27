@@ -219,6 +219,7 @@ void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper> worms)try{{
         uint8_t estado = c.get_estado();
         float angulo_disparo = c.get_angulo_disparo() + 1.57;
         uint8_t vida = c.get_vida();
+        uint32_t equipo = c.get_equipo();
 
         enviar_4_bytes(id);
         enviar_4_bytes_float(posicion[0]);
@@ -229,6 +230,7 @@ void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper> worms)try{{
         enviar_1_byte(estado);
         enviar_4_bytes_float(angulo_disparo);
         enviar_1_byte(vida);
+        enviar_4_bytes(equipo);
 
     }
 }}catch(const ClosedSocket& e){

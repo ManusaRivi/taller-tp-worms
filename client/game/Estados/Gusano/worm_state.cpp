@@ -12,7 +12,8 @@ void WormState::present(int& it_inc,
 					float& pos_y,
 					float& x_scale,
 					float& y_scale,
-					int& vida) {
+					int& vida,
+					uint32_t& equipo) {
     
     //Seteo como graficar los sprites:
     //Los sprites son de 60x60
@@ -44,24 +45,7 @@ void WormState::present(int& it_inc,
 				flip        // Flip
 			);
 
-
-	SDL_Rect barraDeVida;
-	barraDeVida.w = static_cast<int>(WORM_WIDTH * x_scale * (static_cast<float>(vida) / 100));
-	barraDeVida.h = 5;
-
-	barraDeVida.x = static_cast<int>((pos_x - WORM_WIDTH /2 - (0.85*WORM_WIDTH)) * x_scale);
-
-	barraDeVida.y = static_cast<int>((pos_y - 1 + (WORM_WIDTH/2)) * y_scale);
-
-	SDL_Color colorBarraVida;
-	if (vida <= 10) { // Vida es muy baja
-	    colorBarraVida = {255, 0, 0, 255}; // Rojo
-	} else {
-	    colorBarraVida = {0, 255, 0, 255}; // Verde
-	}
-
-	SDL_SetRenderDrawColor(renderer.Get(), colorBarraVida.r, colorBarraVida.g, colorBarraVida.b, colorBarraVida.a);
-	SDL_RenderFillRect(renderer.Get(), &barraDeVida);
+	this->setBarraVida(renderer, pos_x, pos_y, x_scale, y_scale, vida, equipo);
 }
 
 int WormState::get_iteration() {
@@ -96,4 +80,48 @@ float WormState::get_shooting_angle(){
 
 float WormState::get_worm_angle(){
 	return this->worm_angle;
+}
+
+SDL_Color WormState::hashEquipo(uint32_t& indice) {
+
+    SDL_Color colores[NUM_COLORES] = {
+        {0, 0, 255, 255},   // Azul
+        {255, 255, 0, 255}, // Amarillo
+        {0, 255, 255, 255},  // Cian
+        {255, 0, 255, 255}, // Magenta
+        {255, 165, 0, 255}  // Naranja
+    };
+
+    uint32_t indiceCircular = indice % NUM_COLORES;
+
+    return colores[indiceCircular];
+}
+
+void WormState::setBarraVida(SDL2pp::Renderer& renderer, float& pos_x, float& pos_y, float& x_scale, float& y_scale, int& vida, uint32_t& equipo) {
+	
+	SDL_Rect barraDeVida;
+	barraDeVida.w = static_cast<int>(WORM_WIDTH * x_scale * (static_cast<float>(vida) / 100));
+	barraDeVida.h = 5;
+
+	barraDeVida.x = static_cast<int>((pos_x - WORM_WIDTH /2 - (0.85*WORM_WIDTH)) * x_scale);
+
+	barraDeVida.y = static_cast<int>((pos_y - 1 + (WORM_WIDTH/2)) * y_scale);
+
+	SDL_Color colorBarraVida;
+	SDL_Color colorBorde;
+
+	if (vida <= 10) { // Vida es muy baja
+	    colorBarraVida = {255, 0, 0, 255}; // Rojo
+	} else {
+	    colorBarraVida = {0, 255, 0, 255}; // Verde
+	}
+
+	colorBorde = hashEquipo(equipo);
+
+	SDL_SetRenderDrawColor(renderer.Get(), colorBarraVida.r, colorBarraVida.g, colorBarraVida.b, colorBarraVida.a);
+	SDL_RenderFillRect(renderer.Get(), &barraDeVida);
+
+	// Dibuja el borde
+	SDL_SetRenderDrawColor(renderer.Get(), colorBorde.r, colorBorde.g, colorBorde.b, colorBorde.a);
+	SDL_RenderDrawRect(renderer.Get(), &barraDeVida);
 }

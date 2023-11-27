@@ -14,11 +14,12 @@ class Worm {
     float _pos_x;
     float _pos_y;
     uint8_t _vida;
+    uint32_t _equipo;
     std::unique_ptr<WormState> state;        
     
     public:
     //Constructor
-    Worm(float& pos_x, float& pos_y, uint8_t& vida, std::unique_ptr<WormState> state);
+    Worm(float& pos_x, float& pos_y, uint8_t& vida, uint32_t& equipo, std::unique_ptr<WormState> state);
 
     //Constructor por copia:
     Worm(const Worm& other);
@@ -42,6 +43,7 @@ class Worm {
 
     float get_y();
     uint8_t getVida();
+    uint32_t getEquipo();
 };
 
 #endif

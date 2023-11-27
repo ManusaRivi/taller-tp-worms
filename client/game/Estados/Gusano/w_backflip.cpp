@@ -22,7 +22,8 @@ void WBackflip::present(int& it_inc,
 					float& pos_y,
 					float& x_scale,
 					float& y_scale,
-					int& vida) {
+					int& vida,
+					uint32_t& equipo) {
     
     //Seteo como graficar los sprites:
     //Los sprites son de 60x60
@@ -58,21 +59,5 @@ void WBackflip::present(int& it_inc,
 			);
 
 
-	SDL_Rect barraDeVida;
-	barraDeVida.w = static_cast<int>(WORM_WIDTH * x_scale * (static_cast<float>(vida) / 100));
-	barraDeVida.h = 5;
-
-	barraDeVida.x = static_cast<int>((pos_x - WORM_WIDTH /2 - (0.85*WORM_WIDTH)) * x_scale);
-
-	barraDeVida.y = static_cast<int>((pos_y - 1 + (WORM_WIDTH/2)) * y_scale);
-
-	SDL_Color colorBarraVida;
-	if (vida <= 10) { // Vida es muy baja
-	    colorBarraVida = {255, 0, 0, 255}; // Rojo
-	} else {
-	    colorBarraVida = {0, 255, 0, 255}; // Verde
-	}
-
-	SDL_SetRenderDrawColor(renderer.Get(), colorBarraVida.r, colorBarraVida.g, colorBarraVida.b, colorBarraVida.a);
-	SDL_RenderFillRect(renderer.Get(), &barraDeVida);
+	this->setBarraVida(renderer, pos_x, pos_y, x_scale, y_scale, vida, equipo);
 }

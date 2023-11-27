@@ -10,6 +10,8 @@
 #define WORM_WIDTH 1.2
 #define WORM_HEIGHT 1.2
 
+#define NUM_COLORES 5
+
 /*
  * Modela el estado del gusano para poder renderizarlo.
  */
@@ -35,7 +37,8 @@ class WormState {
                         float& pos_y,
                         float& x_scale,
                         float& y_scale,
-                        int& vida);
+                        int& vida,
+                        uint32_t& equipo);
     
     virtual bool is_finished();
 
@@ -53,6 +56,10 @@ class WormState {
     float get_shooting_angle();
 
     float get_worm_angle();
+
+    SDL_Color hashEquipo(uint32_t& equipo);
+
+    void setBarraVida(SDL2pp::Renderer& renderer, float& pos_x, float& pos_y, float& x_scale, float& y_scale, int& vida, uint32_t& equipo);
 
 };
 

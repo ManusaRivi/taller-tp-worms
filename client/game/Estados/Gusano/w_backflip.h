@@ -17,7 +17,8 @@ class WBackflip: public WormState {
                         float& pos_y,
                         float& x_scale,
                         float& y_scale,
-                        int& vida) override;
+                        int& vida,
+                        uint32_t& equipo) override;
 
 };
 

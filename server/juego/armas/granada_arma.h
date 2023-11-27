@@ -10,6 +10,12 @@ public:
     void SetTime(int seconds) {
         this->seconds = seconds;
     }
+    virtual bool isGrenade() override {
+        return true;
+    }
+    virtual bool isRocket() override {
+        return false;
+    }
 };
 
 #endif

@@ -2,7 +2,6 @@
 #define GRANADA_VERDE_H
 
 #include "granada_arma.h"
-#include "../proyectiles/grenade.h"
 
 class GranadaVerde : public GranadaArma {
 private:

@@ -40,6 +40,11 @@ Grenade::Grenade(b2World& world, ProjectileType type, float x_pos, float y_pos,
 }
 
 void Grenade::advance_time() {
+    if (this->type == ProjectileType::HOLY_GRANADE) {
+        if (timer.is_about_to_explode()) {
+            this->sounds.push(SoundTypes::HOLY_GRANADE_CHOIR);
+        }
+    }
     if (timer.advance_time()) this->explotar();
 }
 

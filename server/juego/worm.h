@@ -25,6 +25,7 @@ enum directions {
 
 #define WORM_DENSITY 0.2f
 #define WORM_FRICTION 0.8f
+#define WORM_RESTITUTION 0.5f
 
 #define MOVING_SPEED 0.335f
 

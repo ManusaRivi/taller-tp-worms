@@ -27,7 +27,10 @@ private:
                     banana_radius(config["radio_banana"].as<int>()),
                     holy_grenade_ammo(config["ammo_santa"].as<int>()),
                     holy_grenade_dmg(config["dmg_santa"].as<int>()),
-                    holy_grenade_radius(config["radio_santa"].as<int>()) {}
+                    holy_grenade_radius(config["radio_santa"].as<int>()),
+                    dynamite_ammo(config["ammo_dinamita"].as<int>()),
+                    dynamite_dmg(config["dmg_dinamita"].as<int>()),
+                    dynamite_radius(config["radio_dinamita"].as<int>()) {}
     GameConfig(const GameConfig&) = delete;
     GameConfig& operator=(const GameConfig&) = delete;
 public:
@@ -58,6 +61,10 @@ public:
     const int holy_grenade_ammo;
     const int holy_grenade_dmg;
     const int holy_grenade_radius;
+
+    const int dynamite_ammo;
+    const int dynamite_dmg;
+    const int dynamite_radius;
 
     static GameConfig& getInstance()
     {

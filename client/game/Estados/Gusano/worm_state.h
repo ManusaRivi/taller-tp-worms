@@ -16,7 +16,7 @@
 class WormState {
     protected:
     std::string texture_name;
-    unsigned int frames;
+    int frames;
     bool facing_right;
     float worm_angle;
     float shot_angle;
@@ -38,6 +38,8 @@ class WormState {
                         int& vida);
     
     virtual bool is_finished();
+
+    virtual bool change_position();
 
     int get_iteration();
 

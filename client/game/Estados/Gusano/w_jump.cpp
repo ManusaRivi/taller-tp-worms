@@ -1,11 +1,22 @@
-#include "worm_state.h"
-#include <yaml-cpp/yaml.h>
+#include "w_jump.h"
 
 using namespace SDL2pp;
 
-WormState::WormState(): iteration(0) {}
+WJump::WJump(bool& facing_right,
+            float& worm_angle) {
+    this->texture_name = "WJump";
+    this->frames = 6;
+    this->facing_right = facing_right;
+    this->worm_angle = worm_angle;
+    this->shot_angle = 0.0;
+    this->finished = false;
+}
 
-void WormState::present(int& it_inc,
+bool WJump::change_position() {
+    return true;
+}
+
+void WJump::present(int& it_inc,
                     SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,
 					float& pos_x,
@@ -18,10 +29,13 @@ void WormState::present(int& it_inc,
     //Los sprites son de 60x60
 
 	iteration += it_inc;
-	//iteration = it_inc;
 
+    if (iteration >= frames) {
+        iteration = frames;
+        finished = true;
+    }
 	int src_x = 0;
-	int src_y = 60 * (iteration % frames);
+	int src_y = 60 * iteration;
 
     //Voltear el sprite dependiendo para que lado mire
     int flip = facing_right ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
@@ -62,38 +76,4 @@ void WormState::present(int& it_inc,
 
 	SDL_SetRenderDrawColor(renderer.Get(), colorBarraVida.r, colorBarraVida.g, colorBarraVida.b, colorBarraVida.a);
 	SDL_RenderFillRect(renderer.Get(), &barraDeVida);
-}
-
-int WormState::get_iteration() {
-	return iteration;
-}
-
-void WormState::set_iteration(int& it) {
-	iteration = it;
-}
-
-
-bool WormState::is_finished() {
-	return finished;
-}
-
-bool WormState::change_position() {
-	return finished;
-}
-
-float WormState::get_direction(){
-	if (facing_right){
-		return 0;
-	}
-	else{
-		return 1;
-	}
-}
-
-float WormState::get_shooting_angle(){
-	return this->shot_angle;
-}
-
-float WormState::get_worm_angle(){
-	return this->worm_angle;
 }

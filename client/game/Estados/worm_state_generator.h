@@ -7,6 +7,9 @@
 #include "Gusano/worm_state.h"
 #include "Gusano/w_idle.h"
 #include "Gusano/w_walk.h"
+#include "Gusano/w_jump.h"
+#include "Gusano/w_backflip.h"
+#include "Gusano/w_fall.h"
 #include "Gusano/w_aiming.h"
 #include "Gusano/grave.h"
 

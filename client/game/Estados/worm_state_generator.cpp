@@ -35,6 +35,15 @@ std::unique_ptr<WormState> WormStateGenerator::get_state_with_code(int status_co
 
     case WormStates::DEAD:
         return std::make_unique<Grave>(facing_right, worm_angle);
+    
+    case WormStates::JUMP:
+        return std::make_unique<WJump>(facing_right, worm_angle);
+    
+    case WormStates::BACKFLIP:
+        return std::make_unique<WBackflip>(facing_right, worm_angle);
+    
+    case WormStates::FALL:
+        return std::make_unique<WFall>(facing_right, worm_angle);
         
     default:
         throw std::runtime_error("WormStateGenerator: No existe ese codigo de estado");

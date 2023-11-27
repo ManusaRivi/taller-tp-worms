@@ -19,18 +19,21 @@ Worm& Worm::operator=(const Worm& other) {
 
 void Worm::update(std::shared_ptr<Worm> updated_worm) {
     //Si no finalizo la animacion del estado anterior, no se actualiza
+    _vida = updated_worm->getVida();
+    if (state->change_position()) {
+        _pos_x = updated_worm->get_x();
+        _pos_y = updated_worm->get_y();
+    }
     if (!state->is_finished()) {
         return;
     }
+    // Si el estado ya finalizo actualizo el estado
     int it = 0;
     if (typeid(*state) == typeid(*(updated_worm->state))) {
         it = state->get_iteration();
     }
     state = std::move(updated_worm->get_state());
     state->set_iteration(it);
-    _pos_x = updated_worm->get_x();
-    _pos_y = updated_worm->get_y();
-    _vida = updated_worm->getVida();
 }
 
 void Worm::present(int& it_inc, Renderer& renderer,

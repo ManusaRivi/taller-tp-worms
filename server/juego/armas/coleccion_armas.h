@@ -9,6 +9,7 @@
 #include "granada_verde.h"
 #include "granada_roja.h"
 #include "banana.h"
+#include "granada_santa.h"
 
 #include <map>
 #include <memory>

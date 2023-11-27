@@ -8,6 +8,7 @@ ColeccionArmas::ColeccionArmas(b2World& world) : world(world)
     armas[Armas::GRANADA_VERDE] = new GranadaVerde(world, config.green_grenade_dmg, config.green_grenade_radius);
     armas[Armas::GRANADA_ROJA] = new GranadaRoja(world, config.red_grenade_ammo, config.frag_amount, config.red_grenade_dmg, config.red_grenade_radius);
     armas[Armas::BANANA] = new Banana(world, config.banana_ammo, config.banana_dmg, config.banana_radius);
+    armas[Armas::GRANADA_SANTA] = new GranadaSanta(world, config.holy_grenade_ammo, config.holy_grenade_dmg, config.holy_grenade_radius);
 }
 
 Arma* ColeccionArmas::SeleccionarArma(uint8_t id_arma)

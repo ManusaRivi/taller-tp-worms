@@ -1,7 +1,8 @@
 #include "grenade.h"
 
 Grenade::Grenade(b2World& world, ProjectileType type, float x_pos, float y_pos,
-                float angle, float power, int dmg, int radius, int fragments, int seconds) :
+                float angle, float power, int dmg, int radius, int fragments,
+                float restitution, int seconds) :
                 world(world), timer(GrenadeTimer (seconds))
 {
     this->type = type;
@@ -27,7 +28,7 @@ Grenade::Grenade(b2World& world, ProjectileType type, float x_pos, float y_pos,
     b2FixtureDef fixtureGrenade;
     fixtureGrenade.shape = &grenadeBox;
     fixtureGrenade.density = GRENADE_DENSITY;
-    fixtureGrenade.restitution = GRENADE_RESTITUTION;
+    fixtureGrenade.restitution = restitution;
     fixtureGrenade.filter.categoryBits = CollisionCategories::PROJECTILE_COLL;
     fixtureGrenade.filter.maskBits = (CollisionCategories::BOUNDARY_COLL | CollisionCategories::WORM_COLL);
 

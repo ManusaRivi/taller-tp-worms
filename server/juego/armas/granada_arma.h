@@ -2,6 +2,9 @@
 #define GRANADA_ARMA_H
 
 #include "arma.h"
+#include "../proyectiles/grenade.h"
+
+#define GRENADE_BASE_RESTITUTION 0.5f
 
 class GranadaArma : public Arma {
 protected:

@@ -44,7 +44,12 @@ void Grenade::advance_time() {
 }
 
 void Grenade::bounce() {
-    this->sounds.push(SoundTypes::GRENADE_BOUNCE);
+    if(this->type == ProjectileType::BANANA_GRENADE) {
+        this->sounds.push(SoundTypes::BANANA_BOUNCE);
+    }
+    else {
+        this->sounds.push(SoundTypes::GRENADE_BOUNCE);
+    }
 }
 
 bool Grenade::isGrenade() {

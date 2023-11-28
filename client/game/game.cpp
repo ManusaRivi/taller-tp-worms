@@ -141,6 +141,7 @@ int Game::run() try {
 					// Selecciono el Bate
 					// ToDo: Desarrollar para cuenta regresiva
 					has_selected_weapon = true;
+					is_aiming = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::BATE);
 					acciones.push(msg);
 					// Enviar comando "saco bate" por protocolo

@@ -44,7 +44,15 @@ std::unique_ptr<WormState> WormStateGenerator::get_state_with_code(int status_co
     
     case WormStates::FALL:
         return std::make_unique<WFall>(facing_right, worm_angle);
-        
+    
+    case WormStates::BATE_AIMING:
+        frames = 31;
+        return std::make_unique<WAiming>(std::string("WAimBate"), frames, facing_right, worm_angle, shot_angle);
+    
+    case WormStates::BATE_SHOOTING:
+        frames = 31;
+        return std::make_unique<WAiming>(std::string("WShootBate"), frames, facing_right, worm_angle, shot_angle);
+
     default:
         throw std::runtime_error("WormStateGenerator: No existe ese codigo de estado");
     }

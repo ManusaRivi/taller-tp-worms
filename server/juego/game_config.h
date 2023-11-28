@@ -30,7 +30,8 @@ private:
                     holy_grenade_radius(config["radio_santa"].as<int>()),
                     dynamite_ammo(config["ammo_dinamita"].as<int>()),
                     dynamite_dmg(config["dmg_dinamita"].as<int>()),
-                    dynamite_radius(config["radio_dinamita"].as<int>()) {}
+                    dynamite_radius(config["radio_dinamita"].as<int>()),
+                    bat_dmg(config["dmg_bate"].as<int>()) {}
     GameConfig(const GameConfig&) = delete;
     GameConfig& operator=(const GameConfig&) = delete;
 public:
@@ -65,6 +66,8 @@ public:
     const int dynamite_ammo;
     const int dynamite_dmg;
     const int dynamite_radius;
+
+    const int bat_dmg;
 
     static GameConfig& getInstance()
     {

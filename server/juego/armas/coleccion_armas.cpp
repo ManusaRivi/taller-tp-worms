@@ -10,6 +10,7 @@ ColeccionArmas::ColeccionArmas(b2World& world) : world(world)
     armas[Armas::BANANA] = new Banana(world, config.banana_ammo, config.banana_dmg, config.banana_radius);
     armas[Armas::GRANADA_SANTA] = new GranadaSanta(world, config.holy_grenade_ammo, config.holy_grenade_dmg, config.holy_grenade_radius);
     armas[Armas::DINAMITA] = new Dinamita(world, config.dynamite_ammo, config.dynamite_dmg, config.dynamite_radius);
+    armas[Armas::BATE] = new Bate(world, config.bat_dmg);
 }
 
 Arma* ColeccionArmas::SeleccionarArma(uint8_t id_arma)

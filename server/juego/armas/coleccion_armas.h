@@ -11,6 +11,7 @@
 #include "banana.h"
 #include "granada_santa.h"
 #include "dinamita.h"
+#include "bate.h"
 
 #include <map>
 #include <memory>

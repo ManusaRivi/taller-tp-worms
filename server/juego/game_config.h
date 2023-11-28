@@ -31,7 +31,11 @@ private:
                     dynamite_ammo(config["ammo_dinamita"].as<int>()),
                     dynamite_dmg(config["dmg_dinamita"].as<int>()),
                     dynamite_radius(config["radio_dinamita"].as<int>()),
-                    bat_dmg(config["dmg_bate"].as<int>()) {}
+                    bat_dmg(config["dmg_bate"].as<int>()),
+                    airstrike_rockets(config["num_misiles"].as<int>()),
+                    airstrike_ammo(config["ammo_misiles"].as<int>()),
+                    airstrike_dmg(config["dmg_misil"].as<int>()),
+                    airstrike_radius(config["radio_misil"].as<int>()) {}
     GameConfig(const GameConfig&) = delete;
     GameConfig& operator=(const GameConfig&) = delete;
 public:
@@ -68,6 +72,11 @@ public:
     const int dynamite_radius;
 
     const int bat_dmg;
+
+    const int airstrike_rockets;
+    const int airstrike_ammo;
+    const int airstrike_dmg;
+    const int airstrike_radius;
 
     static GameConfig& getInstance()
     {

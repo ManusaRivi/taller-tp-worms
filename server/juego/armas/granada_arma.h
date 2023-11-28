@@ -8,7 +8,7 @@
 
 class GranadaArma : public Arma {
 protected:
-    int seconds = 1;
+    int seconds = 5;
 public:
     void SetTime(int seconds) {
         this->seconds = seconds;

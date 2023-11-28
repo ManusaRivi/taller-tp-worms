@@ -174,6 +174,20 @@ void World::present(int& it_inc,
     }
     projectiles.clear();
 
+    // Grafico Explosiones
+    for (auto& explosion : explosions) {
+        explosion.second.present(it_inc, renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
+    }
+
+    // Borro las explosiones que ya no existen
+    for (auto it = explosions.begin(); it != explosions.end();) {
+        if (it->second.is_finished()) {
+            it = explosions.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
     // Grafico HUD
     present_hud(renderer, texture_manager, x_scale, y_scale);
 

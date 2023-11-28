@@ -23,7 +23,7 @@ public:
     Armas obtenerTipo() {
         return tipo;
     }
-    virtual Projectile* Shoot(float x_pos, float y_pos, float angle) = 0;
+    virtual void Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) = 0;
     virtual ~Arma() {}
 };
 

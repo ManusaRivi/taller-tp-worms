@@ -80,7 +80,7 @@ public:
     bool isDead();
     void kill();
     
-    Projectile* usar_arma();
+    void usar_arma(std::vector<Projectile*>& projectiles, uint32_t& entity_id);
 
     int get_facing_direction();
 

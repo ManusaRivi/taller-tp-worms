@@ -16,7 +16,7 @@ public:
     Banana(b2World& world, int ammo, int dmg, int radius);
     virtual void iniciarCarga() override;
     virtual void cargar() override;
-    virtual Projectile* Shoot(float x_pos, float y_pos, float angle) override;
+    virtual void Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) override;
     virtual ~Banana() {}
 };
 

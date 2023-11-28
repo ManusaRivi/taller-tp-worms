@@ -14,11 +14,14 @@ void Banana::cargar() {
         nivel_carga++;
 }
 
-Projectile* Banana::Shoot(float x_pos, float y_pos, float angle) {
-    if (ammo == 0) return NULL;
+void Banana::Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) {
+    if (ammo == 0) return;
     --ammo;
     float power = BASELINE_POWER + (POWER_PER_CHARGE * nivel_carga); // a nivel carga = 1, el power es 0.5. a nivel carga = 40, el power es 2.0.
     nivel_carga = 0;
     cargando = false;
-    return new Grenade (world, ProjectileType::BANANA_GRENADE, x_pos, y_pos, angle, power, dmg, radius, 0, BANANA_RESTITUTION, seconds);
+    Grenade* grenade = new Grenade (world, ProjectileType::BANANA_GRENADE, x_pos, y_pos, angle, power, dmg, radius, 0, BANANA_RESTITUTION, seconds);
+    grenade->insertar_id(entity_id);
+    projectiles.push_back(grenade);
+    entity_id++;
 }

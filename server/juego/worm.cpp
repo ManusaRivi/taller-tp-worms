@@ -165,9 +165,9 @@ float Worm::GetAngle() {
     return body->GetAngle();
 }
 
-Projectile* Worm::usar_arma() {
+void Worm::usar_arma(std::vector<Projectile*>& projectiles, uint32_t& entity_id) {
     if(!armaActual || this->isDead()){
-        return nullptr;
+        return;
     }
     b2Vec2 position = body->GetPosition();
     float angle;
@@ -204,7 +204,7 @@ Projectile* Worm::usar_arma() {
     }
     printf("El angulo con el que se estada apuntando es : %f\n",this->aiming_angle());
     printf("el angulo con el que se dispara es %f\n",angle);
-    return armaActual->Shoot(position.x, position.y, angle);
+    armaActual->Shoot(projectiles, entity_id, position.x, position.y, angle);
 }
 
 int Worm::get_facing_direction(){

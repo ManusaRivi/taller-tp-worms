@@ -303,13 +303,14 @@ void Mapa::usar_arma(uint32_t id) {
 
     }
 
-    Projectile* proyectil = worms[turnManager.get_gusano_actual()]->usar_arma();
+    /* Projectile* proyectil = worms[turnManager.get_gusano_actual()]->usar_arma();
     if (!proyectil){
         return;
     }
     proyectil->insertar_id(this->identificador_entidades);
     projectiles.push_back(proyectil);
-    this->identificador_entidades++;
+    this->identificador_entidades++; */
+    worms[turnManager.get_gusano_actual()]->usar_arma(projectiles, this->identificador_entidades);
     printf("Se dispara el arma\n");
 }
 

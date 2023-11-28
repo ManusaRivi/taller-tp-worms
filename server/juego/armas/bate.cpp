@@ -6,7 +6,7 @@ void Bate::iniciarCarga() {}
 
 void Bate::cargar() {}
 
-Projectile* Bate::Shoot(float x_pos, float y_pos, float angle) {
+void Bate::Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) {
     WormQuery wormQuery;
     b2AABB aabb;
     float hitbox_offset = HITBOX_OFFSET;
@@ -28,6 +28,4 @@ Projectile* Bate::Shoot(float x_pos, float y_pos, float angle) {
         Worm* worm = (Worm*) wormBody->GetUserData().pointer;
         worm->takeDamage(dmg);
     }
-
-    return nullptr;
 }

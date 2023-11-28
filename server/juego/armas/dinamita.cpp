@@ -6,10 +6,12 @@ void Dinamita::iniciarCarga() {}
 
 void Dinamita::cargar() {}
 
-Projectile* Dinamita::Shoot(float x_pos, float y_pos, float angle) {
-    if (ammo == 0) return NULL;
+void Dinamita::Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) {
+    if (ammo == 0) return;
     --ammo;
     Grenade* grenade = new Grenade (world, ProjectileType::DYNAMITE, x_pos, y_pos, angle, DYNAMITE_IMPULSE, dmg, radius, 0, 0, seconds);
     grenade->sounds.push(SoundTypes::FUSE);
-    return grenade;
+    grenade->insertar_id(entity_id);
+    projectiles.push_back(grenade);
+    entity_id++;
 }

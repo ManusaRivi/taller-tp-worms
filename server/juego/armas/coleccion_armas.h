@@ -10,6 +10,7 @@
 #include "granada_roja.h"
 #include "banana.h"
 #include "granada_santa.h"
+#include "dinamita.h"
 
 #include <map>
 #include <memory>

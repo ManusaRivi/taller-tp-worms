@@ -172,36 +172,45 @@ void Worm::usar_arma(std::vector<Projectile*>& projectiles, uint32_t& entity_id)
     b2Vec2 position = body->GetPosition();
     float angle;
     Armas tipo = armaActual->obtenerTipo();
-    if (tipo == DINAMITA) {
-        if (this->facingDirection == RIGHT) {
-            angle = 0;
-        }
-        else {
-            angle = b2_pi;
-        }
+    if (tipo == ATAQUE_AEREO) {
+        sounds.push(SoundTypes::AIR_STRIKE);
+        position = b2Vec2 (x_target, y_target);
+        angle = 1.5f * b2_pi;
     }
     else {
-        if (tipo == BAZOOKA || tipo == MORTERO) {
-            sounds.push(SoundTypes::WORM_BAZOOKA_SHOUT);
-        }
-        if (tipo == BATE) {
-            sounds.push(SoundTypes::BAT_ATTACK);
+        if (tipo == DINAMITA) {
+            if (this->facingDirection == RIGHT) {
+                angle = 0;
+            }
+            else {
+                angle = b2_pi;
+            }
         }
         else {
-            sounds.push(SoundTypes::WORM_GRENADE_SHOUT);
-        }
-        if(this->facingDirection == LEFT){
-            if(this->aiming_angle() < 0){
-                angle =  (- this->aiming_angle()) + 3.14;
+            if (tipo == BAZOOKA || tipo == MORTERO) {
+                sounds.push(SoundTypes::WORM_BAZOOKA_SHOUT);
+            }
+            if (tipo == BATE) {
+                sounds.push(SoundTypes::BAT_ATTACK);
+            }
+            else {
+                sounds.push(SoundTypes::WORM_GRENADE_SHOUT);
+            }
+            if(this->facingDirection == LEFT){
+                if(this->aiming_angle() < 0){
+                    angle =  (- this->aiming_angle()) + 3.14;
+                }
+                else{
+                    angle = this->aiming_angle() + 1.57;
+                }
             }
             else{
-                angle = this->aiming_angle() + 1.57;
+                angle = this->aiming_angle();
             }
         }
-        else{
-            angle = this->aiming_angle();
-        }
     }
+    
+    
     printf("El angulo con el que se estada apuntando es : %f\n",this->aiming_angle());
     printf("el angulo con el que se dispara es %f\n",angle);
     armaActual->Shoot(projectiles, entity_id, position.x, position.y, angle);
@@ -321,6 +330,11 @@ void Worm::incrementar_angulo_en(float inc){
         return;
     }
     angulo_disparo +=inc;
+}
+
+void Worm::set_target(float x, float y) {
+    this->x_target = x;
+    this->y_target = y;
 }
 
 void Worm::set_grenade_timer(int seconds) {

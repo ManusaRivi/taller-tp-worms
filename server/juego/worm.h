@@ -51,6 +51,8 @@ private:
     uint8_t hitPoints;
     float initialHeight;
     float finalHeight;
+    float x_target;
+    float y_target;
 
 public:
     int jumpSteps;
@@ -103,6 +105,8 @@ public:
     bool apuntando_para_arriba(bool dir);
 
     void incrementar_angulo_en(float inc);
+
+    void set_target(float x, float y);
 
     void set_grenade_timer(int seconds);
 

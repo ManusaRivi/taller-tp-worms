@@ -325,6 +325,7 @@ int Game::run() try {
 		it_inc = 1;
 		//it_inc += 1;
 
+		//Verifica si la partida termino
 		if(world->checkOnePlayerRemains()) {
 			this->is_active = false;
 			this->drawGameOverScreen(renderer);

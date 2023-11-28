@@ -12,7 +12,12 @@
 #include "Gusano/w_fall.h"
 #include "Gusano/w_aiming.h"
 #include "Gusano/grave.h"
-
+#include "Gusano/w_teleport_aiming.h"
+#include "Gusano/w_teleport_shooting.h"
+#include "Gusano/w_dyn_aiming.h"
+#include "Gusano/w_air_aiming.h"
+#include "Gusano/w_air_shooting.h"
+#include "Gusano/w_winner.h"
 
 class WormStateGenerator {
     public:

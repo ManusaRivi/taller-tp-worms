@@ -22,7 +22,8 @@ enum WormStates {
     GREEN_GRENADE_AIMING,
     BANANA_AIMING,
     RED_GRENADE_AIMING,
-    MORTAR_AIMING
+    MORTAR_AIMING,
+    WINNER
 };
 
 #endif

@@ -38,12 +38,13 @@ class Game {
     Queue<std::shared_ptr<MensajeCliente>> &acciones;
     FactoryComandos factory;
     FactoryMensaje mensajes;
-    
+    bool is_active;
 
     public:
     Game(Queue<std::shared_ptr<MensajeCliente>> &snapshots, Queue<std::shared_ptr<MensajeCliente>> &acciones);
 
     int run();
+    void drawGameOverScreen(Renderer& renderer);
 
 };
 

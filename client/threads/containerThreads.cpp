@@ -14,8 +14,8 @@ void containerThreads::start(){
 }
 
 void containerThreads::join(){
-    skt.close();
     skt.shutdown(2);
+    skt.close();
     this->recibidor.kill();
     this->enviador.join();
     this->recibidor.join();

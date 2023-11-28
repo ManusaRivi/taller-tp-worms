@@ -195,3 +195,17 @@ std::map<int, std::shared_ptr<Worm>> World::get_worms(){
     return this->worms;
 }
 
+bool World::checkOnePlayerRemains() {
+    
+    bool pertenecen_al_mismo_equipo = true;
+    uint32_t equipo_comun = worms.begin()->second->getEquipo();
+
+    for (const auto& par : worms) {
+        if ((par.second->getEquipo() != equipo_comun) && (par.second->getVida() > 0)) {
+            pertenecen_al_mismo_equipo = false;
+            break;
+        }
+    }
+
+    return pertenecen_al_mismo_equipo;
+}

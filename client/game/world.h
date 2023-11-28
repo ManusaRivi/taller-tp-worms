@@ -79,6 +79,8 @@ class World {
 
     void add_explosion(ExplosionCliente explosion);
 
+    bool checkOnePlayerRemains();
+
     void present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,

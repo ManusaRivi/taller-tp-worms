@@ -86,6 +86,20 @@ void TurnManager::cargar_cantidad_gusanos(uint32_t cant_gusanos){
     this->cantidad_gusanos = cant_gusanos;
 }
 
+bool TurnManager::checkOnePlayerRemains() {
+    
+    bool sonTodosIguales = true;
+    uint32_t primer_valor = id_player_por_gusano.begin()->second;
+
+    for (const auto& par : id_player_por_gusano) {
+        if (par.second != primer_valor) {
+            sonTodosIguales = false;
+            break;
+        }
+    }
+    return sonTodosIguales;
+}
+
 std::pair<bool,uint32_t> TurnManager::avanzar_tiempo(uint32_t iteracion){
     std::pair<bool,uint32_t> par;
     if (acaba_de_pasar_turno){

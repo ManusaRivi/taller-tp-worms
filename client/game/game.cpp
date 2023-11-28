@@ -14,7 +14,9 @@ using namespace SDL2pp;
 #define ANGULO_ARRIBA 0x00
 #define ANGULO_ABAJO 0x01
 
-Game::Game(Queue<std::shared_ptr<MensajeCliente>> &queue, Queue<std::shared_ptr<MensajeCliente>> &acciones_):snapshots(queue), acciones(acciones_){}
+Game::Game(Queue<std::shared_ptr<MensajeCliente>> &queue, Queue<std::shared_ptr<MensajeCliente>> &acciones_):snapshots(queue), acciones(acciones_) {
+	this->is_active = true;
+}
 
 int Game::run() try {
 	std::shared_ptr<World> world;
@@ -84,7 +86,7 @@ int Game::run() try {
 	Camara camara = {0.0f, 0.0f};
 
     // Loop principal
-	while (1) {
+	while (is_active) {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_QUIT) {
@@ -141,6 +143,7 @@ int Game::run() try {
 					// Selecciono el Bate
 					// ToDo: Desarrollar para cuenta regresiva
 					has_selected_weapon = true;
+					is_aiming = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::BATE);
 					acciones.push(msg);
 					// Enviar comando "saco bate" por protocolo
@@ -321,11 +324,40 @@ int Game::run() try {
 		t1 += FRAME_RATE;
 		it_inc = 1;
 		//it_inc += 1;
+
+		if(world->checkOnePlayerRemains()) {
+			this->is_active = false;
+			this->drawGameOverScreen(renderer);
+		}
+
     }
 
+
+	return 0;
 
 } catch (std::exception& e) {
 	// En caso de error, lo imprimo y devuelvo 1.
 	std::cerr << e.what() << std::endl;
 	return 1;
+}
+
+void Game::drawGameOverScreen(Renderer& renderer) {
+
+	TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
+
+    SDL_Color textColor = {255, 255, 255, 255};
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, "Game Over", textColor);
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer.Get(), textSurface);
+
+    SDL_Rect textRect;
+    textRect.x = 300;
+    textRect.y = 250;
+    textRect.w = textSurface->w;
+    textRect.h = textSurface->h;
+
+    SDL_RenderCopy(renderer.Get(), textTexture, nullptr, &textRect);
+
+    SDL_RenderPresent(renderer.Get());
+
+    SDL_Delay(3000);
 }

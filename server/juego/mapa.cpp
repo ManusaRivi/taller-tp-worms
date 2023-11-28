@@ -354,3 +354,7 @@ std::vector<ProjectileWrapper> Mapa::get_cementerio_proyectiles(){
 std::vector<ExplosionWrapper> Mapa::get_cementerio_explosiones(){
     return this->cementerio_explosiones;
 }
+
+bool Mapa::checkOnePlayerRemains() {
+    return this->turnManager.checkOnePlayerRemains();
+}

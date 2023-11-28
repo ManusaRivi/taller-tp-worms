@@ -140,7 +140,11 @@ Queue<std::shared_ptr<Comando>>& Partida::get_queue(){
 void Partida::enviar_primer_snapshot(){
     std::map<uint32_t, std::vector<uint32_t>> id_gusanos_por_player = mapa->repartir_ids(broadcaster.cantidad_jugadores());
     // Snapshot snap(mapa->get_gusanos(), mapa->get_vigas());
-    std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(mapa->get_gusanos(),mapa->get_vigas(),mapa->gusano_actual());
+    std::vector<WormWrapper> worms;
+    mapa->get_gusanos(worms);
+    std::vector<std::vector<float>> beams;
+    mapa->get_vigas(beams);
+    std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(worms, beams, mapa->gusano_actual());
     //snap.add_condiciones_partida(0,mapa->gusano_actual());
     // std::vector<float> tamanio_mapa = mapa->get_size();
     broadcaster.informar_primer_snapshot(id_gusanos_por_player, snap);

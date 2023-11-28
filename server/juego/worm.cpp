@@ -169,25 +169,38 @@ Projectile* Worm::usar_arma() {
     if(!armaActual || this->isDead()){
         return nullptr;
     }
-    if (armaActual->isGrenade()) {
-        sounds.push(SoundTypes::WORM_GRENADE_SHOUT);
-    }
-    if (armaActual->isRocket()) {
-        sounds.push(SoundTypes::WORM_BAZOOKA_SHOUT);
-    }
     b2Vec2 position = body->GetPosition();
     float angle;
-    if(this->facingDirection == LEFT){
-        if(this->aiming_angle() < 0){
-            angle =  (- this->aiming_angle()) + 3.14;
+    Armas tipo = armaActual->obtenerTipo();
+    if (tipo == DINAMITA) {
+        if (this->facingDirection == RIGHT) {
+            angle = 0;
+        }
+        else {
+            angle = b2_pi;
+        }
+    }
+    else {
+        if (tipo == BAZOOKA || tipo == MORTERO) {
+            sounds.push(SoundTypes::WORM_BAZOOKA_SHOUT);
+        }
+        if (tipo == BATE) {
+            sounds.push(SoundTypes::BAT_ATTACK);
+        }
+        else {
+            sounds.push(SoundTypes::WORM_GRENADE_SHOUT);
+        }
+        if(this->facingDirection == LEFT){
+            if(this->aiming_angle() < 0){
+                angle =  (- this->aiming_angle()) + 3.14;
+            }
+            else{
+                angle = this->aiming_angle() + 1.57;
+            }
         }
         else{
-            angle = this->aiming_angle() + 1.57;
+            angle = this->aiming_angle();
         }
-        
-    }
-    else{
-        angle = this->aiming_angle();
     }
     printf("El angulo con el que se estada apuntando es : %f\n",this->aiming_angle());
     printf("el angulo con el que se dispara es %f\n",angle);
@@ -234,6 +247,7 @@ void Worm::cambiar_arma(uint8_t id_arma){
         break;
     
     case Armas::BATE:
+        sounds.push(SoundTypes::BAT_EQUIP);
         status = WormStates::BATE_AIMING;
         break;
     

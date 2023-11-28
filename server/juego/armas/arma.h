@@ -2,6 +2,7 @@
 #define ARMA_H
 
 #include "../proyectiles/projectile.h"
+#include "../../common/armas.h"
 
 #define BASELINE_POWER 0.5f
 #define MAX_POWER 2.0f

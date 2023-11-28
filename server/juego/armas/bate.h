@@ -8,8 +8,7 @@
 #define HITBOX_OFFSET 1.5f
 #define HITBOX_HALF_SIDE 0.75f
 
-#define IMPULSE_X 3.0f
-#define IMPULSE_Y 4.0f
+#define IMPULSE 3.5f
 
 class Bate : public Arma {
 private:

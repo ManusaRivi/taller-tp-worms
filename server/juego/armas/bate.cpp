@@ -1,14 +1,6 @@
 #include "bate.h"
 
-Bate::Bate(b2World& world, int dmg) : world(world), dmg(dmg) {}
-
-bool Bate::isGrenade() {
-    return false;
-}
-
-bool Bate::isRocket() {
-    return false;
-}
+Bate::Bate(b2World& world, int dmg) : world(world), dmg(dmg) { tipo = Armas::BATE; }
 
 void Bate::iniciarCarga() {}
 

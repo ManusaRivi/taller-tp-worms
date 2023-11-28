@@ -17,8 +17,6 @@ private:
     const int dmg;
 public:
     Bate(b2World& world, int dmg);
-    virtual bool isGrenade() override;
-    virtual bool isRocket() override;
     virtual void iniciarCarga() override;
     virtual void cargar() override;
     virtual Projectile* Shoot(float x_pos, float y_pos, float angle) override;

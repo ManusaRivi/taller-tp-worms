@@ -2,14 +2,7 @@
 
 Bazooka::Bazooka(b2World& world, int dmg, int radius) : world(world), dmg(dmg), radius(radius), nivel_carga(0) {
     cargando = false;
-}
-
-bool Bazooka::isGrenade() {
-    return false;
-}
-
-bool Bazooka::isRocket() {
-    return true;
+    tipo = Armas::BAZOOKA;
 }
 
 void Bazooka::iniciarCarga() {

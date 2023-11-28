@@ -12,14 +12,16 @@ class Arma
 {
 protected:
     bool cargando;
+    Armas tipo;
 public:
     Arma() {};
-    virtual bool isGrenade() = 0;
-    virtual bool isRocket() = 0;
     virtual void iniciarCarga() = 0;
     virtual void cargar() = 0;
     bool estaCargando() {
         return cargando;
+    }
+    Armas obtenerTipo() {
+        return tipo;
     }
     virtual Projectile* Shoot(float x_pos, float y_pos, float angle) = 0;
     virtual ~Arma() {}

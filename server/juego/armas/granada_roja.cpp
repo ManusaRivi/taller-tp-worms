@@ -4,6 +4,7 @@ GranadaRoja::GranadaRoja(b2World& world, int ammo, int fragments, int dmg, int r
                         world(world), ammo(ammo), fragments(fragments), dmg(dmg), radius(radius), nivel_carga(0)
 {
     cargando = false;
+    tipo = Armas::GRANADA_ROJA;
 }
 
 void GranadaRoja::iniciarCarga() {

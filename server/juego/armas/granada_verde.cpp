@@ -2,6 +2,7 @@
 
 GranadaVerde::GranadaVerde(b2World& world, int dmg, int radius) : world(world), dmg(dmg), radius(radius), nivel_carga(0) {
     cargando = false;
+    tipo = Armas::GRANADA_VERDE;
 }
 
 void GranadaVerde::iniciarCarga() {

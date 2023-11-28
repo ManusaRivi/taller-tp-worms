@@ -4,14 +4,7 @@ Mortero::Mortero(b2World& world, int ammo, int fragments, int dmg, int radius) :
                  world(world), ammo(ammo), fragments(fragments), dmg(dmg), radius(radius)
 {
     cargando = false;
-}
-
-bool Mortero::isGrenade() {
-    return false;
-}
-
-bool Mortero::isRocket() {
-    return true;
+    tipo = Armas::MORTERO;
 }
 
 void Mortero::iniciarCarga() {

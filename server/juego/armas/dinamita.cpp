@@ -1,6 +1,6 @@
 #include "dinamita.h"
 
-Dinamita::Dinamita(b2World& world, int ammo, int dmg, int radius) : world(world), dmg(dmg), radius(radius) {}
+Dinamita::Dinamita(b2World& world, int ammo, int dmg, int radius) : world(world), dmg(dmg), radius(radius) { tipo = Armas::DINAMITA; }
 
 void Dinamita::iniciarCarga() {}
 

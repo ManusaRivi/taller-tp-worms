@@ -107,3 +107,9 @@
 
 - nombre: Dynamite
   ruta: /client/game/Texturas/data/sprites/DynamiteExploding.png
+
+
+# Exploson
+- nombre: Explosion
+  ruta: /client/game/Texturas/data/sprites/Explosion.png
+

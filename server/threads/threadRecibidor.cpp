@@ -30,12 +30,16 @@ void Recibidor::run()try{{
         else if(msg->get_tipo() == COMANDO::CMD_LISTAR_PARTIDAS){
             
             // printf("Se recibe pedido de listar partidas en recibidor\n");
-            lobby.listar_partidas(snapshots);
+            std::map<uint32_t,std::string> lista = lobby.listar_partidas(snapshots);
+            std::shared_ptr<MensajeServer> mensaje_lista = mensajes.listar_partidas(lista);
+            snapshots->push(mensaje_lista);
+
         }
 
         else if(msg->get_tipo() == COMANDO::CMD_LISTAR_MAPAS){
-
-            lobby.listar_mapas(snapshots);
+            std::map<uint32_t,std::string> lista = this->lobby.listar_mapas(snapshots);
+            std::shared_ptr<MensajeServer> mensaje_lista = mensajes.listar_partidas(lista);
+            snapshots->push(mensaje_lista);
         }
 
         else if (msg->get_tipo() == COMANDO::CMD_EMPEZAR_PARTIDA){

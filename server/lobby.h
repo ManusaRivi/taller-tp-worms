@@ -21,9 +21,9 @@ class Lobby {
     Lobby(MapContainer& mapas);
     void unirse_a_partida(uint32 id, Queue<std::shared_ptr<MensajeServer>>* snapshots);
     uint32_t crear_partida(std::string nombre_partida, Queue<std::shared_ptr<MensajeServer>>* snapshots, uint16_t id_mapa);
-    void listar_partidas(Queue<std::shared_ptr<MensajeServer>>* cliente);
+    std::map<uint32_t,std::string> listar_partidas(Queue<std::shared_ptr<MensajeServer>>* cliente);
     Queue<std::shared_ptr<Comando>> &get_queue(uint32_t id);
-    void listar_mapas(Queue<std::shared_ptr<MensajeServer>>* cliente);
+    std::map<uint32_t,std::string> listar_mapas(Queue<std::shared_ptr<MensajeServer>>* cliente);
     void desconectarse_partida(uint32_t id, Queue<std::shared_ptr<MensajeServer>>* snapshots);
     void kill();
 

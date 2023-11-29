@@ -51,6 +51,14 @@ std::shared_ptr<CambiarDireccionArma> FactoryComandos::comando_cambia_direccion_
         return std::make_shared<CambiarDireccionArma>(dir,id);
 }
 
+std::shared_ptr<SetearTarget> FactoryComandos::comando_setear_target(uint32_t id, float x, float y){
+        return std::make_shared<SetearTarget>(x,y,id );
+}
+
+std::shared_ptr<SetearTimer> FactoryComandos::comando_setear_timer(uint32_t id, uint32_t time){
+        return std::make_shared<SetearTimer>(time,id);
+}
+
 
 
 

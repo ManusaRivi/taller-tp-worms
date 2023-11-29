@@ -43,6 +43,8 @@ class ClienteProtocolo:public Protocolo{
     // SE PONEN PUBLICOS PARA TESTING
     std::shared_ptr<MensajeCliente> recibir_handshake();
     std::shared_ptr<MensajeCliente> recibir_snap();
+    void enviar_timer(uint32_t time);
+    void enviar_target(float x, float y);
 
     
     private:

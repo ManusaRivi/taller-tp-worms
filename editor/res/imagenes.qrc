@@ -3,5 +3,8 @@
         <file>imagenes/worm-removebg-preview.png</file>
         <file>imagenes/Beam.png</file>
         <file>imagenes/Background.png</file>
+        <file>imagenes/Background2.png</file>
+        <file>imagenes/Background3.png</file>
+        <file>imagenes/Background4.png</file>
     </qresource>
 </RCC>

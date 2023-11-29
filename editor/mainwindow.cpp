@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    this->backgrounds << ":/imagenes/Background.png" <<":/res/worm-removebg-preview.png" << ":/res/viga2-removebg-preview.png" << ":/res/viga_larga2-removebg-preview.png";
+    this->backgrounds << ":/imagenes/Background.png" <<":/imagenes/Background2.png" << ":/imagenes/Background3.png" << ":/imagenes/Background4.png";
     this->currentBackgroundIndex = 0;
 
     this->scene = new GraphicsScene(this);
@@ -92,14 +92,38 @@ void MainWindow::agregarVigaLarga() {
     viga->setPos(0, 0);
 }
 
+std::string MainWindow::generarNombreAleatorio() {
+    const std::string letras = "abcdefghijklmnopqrstuvwxyz";
+    const int longitudNombre = 5;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, letras.size() - 1);
+
+    std::string nombreAleatorio;
+
+    for (int i = 0; i < longitudNombre; ++i) {
+        nombreAleatorio += letras[dis(gen)];
+    }
+
+    return nombreAleatorio;
+}
+
 void MainWindow::exportarMapa() {
+
+    QString nombre = this->ui->nombreMapa->text();
+    std::string nombre_mapa = nombre.toStdString();
+
+    if(nombre_mapa.empty()) {
+        nombre_mapa = this->generarNombreAleatorio();
+    }
+
     YAML::Emitter emitter;
-    std::string nombre = "mapa";
     std::string tipo;
 
     emitter << YAML::BeginMap;
     emitter << YAML::Key << "nombre";
-    emitter << YAML::Value << nombre;
+    emitter << YAML::Value << nombre_mapa;
     emitter << YAML::EndMap;
 
     emitter << YAML::BeginMap;
@@ -145,7 +169,7 @@ void MainWindow::exportarMapa() {
     emitter << YAML::EndSeq;
     emitter << YAML::EndMap;
     
-    std::ofstream file("./server/mapas/mapa.yaml");
+    std::ofstream file(PROJECT_SOURCE_DIR "/server/mapas/" + nombre_mapa + ".yaml");
     file << emitter.c_str();
 }
 

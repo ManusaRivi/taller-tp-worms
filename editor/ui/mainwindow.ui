@@ -125,6 +125,45 @@ QGroupBox:title {
            <string>Menu</string>
           </property>
           <layout class="QGridLayout" name="gridLayout">
+           <item row="1" column="0">
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <widget class="QPushButton" name="exportar">
+               <property name="text">
+                <string>Exportar</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="nombreMapa">
+               <property name="placeholderText">
+                <string>Nombre Mapa</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="cambiarFondo">
+               <property name="text">
+                <string>Cambiar Fondo</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="limpiar">
+               <property name="text">
+                <string>Limpiar</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="exitApplication">
+               <property name="text">
+                <string>Salir</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
            <item row="0" column="0">
             <layout class="QFormLayout" name="formLayout">
              <item row="1" column="0">
@@ -193,38 +232,6 @@ QGroupBox:title {
                </property>
                <property name="checkable">
                 <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="1" column="0">
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <item>
-              <widget class="QPushButton" name="exportar">
-               <property name="text">
-                <string>Exportar</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="cambiarFondo">
-               <property name="text">
-                <string>Cambiar Fondo</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="limpiar">
-               <property name="text">
-                <string>Limpiar</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="exitApplication">
-               <property name="text">
-                <string>Salir</string>
                </property>
               </widget>
              </item>

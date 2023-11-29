@@ -23,9 +23,7 @@ void Partida::run()try{{
         std::shared_ptr<Comando> comando = acciones_a_realizar.pop();
         if(comando->get_comando() == COMANDO::CMD_EMPEZAR_PARTIDA){
             std::shared_ptr<MensajeServer> msg = mensajes.empezar_partida();
-            // printf("Se esta por broadcaster mensaje de que la partida esta por comenzar\n");
             broadcaster.broadcastSnap(msg);
-            // printf("Se esta por broadcastear el handshake\n");
             enviar_primer_snapshot();
             partida_iniciada = true;
         }
@@ -33,19 +31,11 @@ void Partida::run()try{{
     if(!is_alive){
         return;
     }
-    // std::cout << "Se inicializa la partida\n" << std::endl;
-    //Mensaje msg;
-    //broadcaster.broadcastSnap(msg);
-    //double rate = 1;
-    // auto t1 = std::chrono::high_resolution_clock::now();
     int it = 0;
 
     double rate = 1.0f/FRAME_RATE;
-    // auto startTime = std::chrono::high_resolution_clock::now();
-    // int elapsed = 0;
     
     while (is_alive){
-
 
         auto t1 = std::chrono::high_resolution_clock::now();
         //float elapsed = currentTime - startTime;
@@ -63,14 +53,10 @@ void Partida::run()try{{
         for( auto &c: comandos_a_ejecutar){
             c->realizar_accion(mapa);
         }
-
         mapa->Step(it);
-
         if(mapa->checkOnePlayerRemains()) {
-            printf("La partida termino\n");
             is_alive = false;
         }
-
         std::shared_ptr<Snapshot> snap = generar_snapshot(it);
         std::shared_ptr<MensajeServer> broadcast = mensajes.snapshot(snap);
         broadcaster.broadcastSnap(broadcast);
@@ -79,7 +65,6 @@ void Partida::run()try{{
         std::chrono::duration<double> duration = t2 - t1;
 		double seconds = duration.count();
 		double rest = rate - seconds;
-        // printf("el rate es de %f y la diferencia de tiempo es de %f\n",rate,seconds);
 		if(rest < 0) {
             
 			double behind = -rest;
@@ -113,8 +98,6 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
     std::vector<ExplosionWrapper> cementerio_explosiones;
     mapa->get_cementerio_explosiones(cementerio_explosiones);
 
-    // Snapshot snap(mapa->get_gusanos());
-    // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa->gusano_actual());
     std::shared_ptr<SnapshotPartida> snap = std::make_shared<SnapshotPartida>(vector_gusanos,
                                                                             vector_proyectiles,
                                                                             vector_explosiones,
@@ -140,14 +123,11 @@ Queue<std::shared_ptr<Comando>>& Partida::get_queue(){
 
 void Partida::enviar_primer_snapshot(){
     std::map<uint32_t, std::vector<uint32_t>> id_gusanos_por_player = mapa->repartir_ids(broadcaster.cantidad_jugadores());
-    // Snapshot snap(mapa->get_gusanos(), mapa->get_vigas());
     std::vector<WormWrapper> worms;
     mapa->get_gusanos(worms);
     std::vector<std::vector<float>> beams;
     mapa->get_vigas(beams);
     std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(worms, beams, mapa->gusano_actual());
-    //snap.add_condiciones_partida(0,mapa->gusano_actual());
-    // std::vector<float> tamanio_mapa = mapa->get_size();
     broadcaster.informar_primer_snapshot(id_gusanos_por_player, snap);
 }
 

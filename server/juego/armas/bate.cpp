@@ -12,7 +12,7 @@ void Bate::Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity_id, flo
     WormQuery wormQuery;
     b2AABB aabb;
     float hitbox_offset = HITBOX_OFFSET;
-    if (angle != 0) {
+    if (angle > b2_pi || angle < -b2_pi) {
         hitbox_offset *= -1;
     }
     b2Vec2 center (x_pos + hitbox_offset, y_pos);

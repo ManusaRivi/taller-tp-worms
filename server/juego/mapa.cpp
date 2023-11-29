@@ -361,13 +361,6 @@ void Mapa::cambiar_direccion(uint32_t id, uint8_t dir){
     worms[turnManager.get_gusano_actual()]->cambiar_direccion(dir);
 }
 
-std::vector<ProjectileWrapper> Mapa::get_cementerio_proyectiles(){
-    return this->cementerio_proyectiles;
-}
-std::vector<ExplosionWrapper> Mapa::get_cementerio_explosiones(){
-    return this->cementerio_explosiones;
-}
-
 bool Mapa::checkOnePlayerRemains() {
     return this->turnManager.checkOnePlayerRemains();
 }

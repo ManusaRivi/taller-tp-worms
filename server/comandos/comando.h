@@ -57,6 +57,8 @@ class Comando{
 
     uint32_t get_comando();
 
+    virtual ~Comando() = default;
+
 
 };
 

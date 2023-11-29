@@ -395,3 +395,7 @@ void Worm::kill() {
     //delete this->coleccionArmas;
 }
 
+Worm::~Worm(){
+    delete coleccionArmas;
+}
+

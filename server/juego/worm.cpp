@@ -169,9 +169,13 @@ void Worm::usar_arma(std::vector<Projectile*>& projectiles, uint32_t& entity_id)
     if(!armaActual || this->isDead()){
         return;
     }
+    Armas tipo = armaActual->obtenerTipo();
+    if (tipo == TELETRANSPORTACION) {
+        body->SetTransform(b2Vec2 (x_target, y_target), body->GetAngle());
+        return;
+    }
     b2Vec2 position = body->GetPosition();
     float angle;
-    Armas tipo = armaActual->obtenerTipo();
     if (tipo == ATAQUE_AEREO) {
         sounds.push(SoundTypes::AIR_STRIKE);
         position = b2Vec2 (x_target, y_target);

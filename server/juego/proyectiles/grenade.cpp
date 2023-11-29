@@ -45,7 +45,7 @@ void Grenade::advance_time() {
             this->sounds.push(SoundTypes::HOLY_GRANADE_CHOIR);
         }
     }
-    if (timer.advance_time()) this->hasExploded();
+    if (timer.advance_time()) this->SetExplosion();
 }
 
 void Grenade::bounce() {

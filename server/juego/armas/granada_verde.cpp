@@ -20,7 +20,7 @@ void GranadaVerde::Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity
     float power = BASELINE_POWER + (POWER_PER_CHARGE * nivel_carga); // a nivel carga = 1, el power es 0.5. a nivel carga = 40, el power es 2.0.
     nivel_carga = 0;
     cargando = false;
-    Grenade* grenade = new Grenade (world, ProjectileType::GREEN_GRANADE, x_pos, y_pos, angle, power, dmg, radius, 0, GRENADE_BASE_RESTITUTION, seconds);
+    Grenade* grenade = new Grenade (world, ProjectileType::GREEN_GRENADE, x_pos, y_pos, angle, power, dmg, radius, 0, GRENADE_BASE_RESTITUTION, seconds);
     grenade->insertar_id(entity_id);
     projectiles.push_back(grenade);
     entity_id++;

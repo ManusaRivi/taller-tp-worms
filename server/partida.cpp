@@ -23,9 +23,7 @@ void Partida::run()try{{
         std::shared_ptr<Comando> comando = acciones_a_realizar.pop();
         if(comando->get_comando() == COMANDO::CMD_EMPEZAR_PARTIDA){
             std::shared_ptr<MensajeServer> msg = mensajes.empezar_partida();
-            // printf("Se esta por broadcaster mensaje de que la partida esta por comenzar\n");
             broadcaster.broadcastSnap(msg);
-            // printf("Se esta por broadcastear el handshake\n");
             enviar_primer_snapshot();
             partida_iniciada = true;
         }
@@ -33,19 +31,11 @@ void Partida::run()try{{
     if(!is_alive){
         return;
     }
-    // std::cout << "Se inicializa la partida\n" << std::endl;
-    //Mensaje msg;
-    //broadcaster.broadcastSnap(msg);
-    //double rate = 1;
-    // auto t1 = std::chrono::high_resolution_clock::now();
     int it = 0;
 
     double rate = 1.0f/FRAME_RATE;
-    // auto startTime = std::chrono::high_resolution_clock::now();
-    // int elapsed = 0;
     
     while (is_alive){
-
 
         auto t1 = std::chrono::high_resolution_clock::now();
         //float elapsed = currentTime - startTime;
@@ -62,7 +52,6 @@ void Partida::run()try{{
         std::shared_ptr<Comando> comando_ejecutable;
         for( auto &c: comandos_a_ejecutar){
             c->realizar_accion(mapa);
-        }
 
         mapa.Step(it);
 
@@ -70,7 +59,6 @@ void Partida::run()try{{
             printf("La partida termino\n");
             is_alive = false;
         }
-
         std::shared_ptr<Snapshot> snap = generar_snapshot(it);
         std::shared_ptr<MensajeServer> broadcast = mensajes.snapshot(snap);
         broadcaster.broadcastSnap(broadcast);
@@ -79,7 +67,6 @@ void Partida::run()try{{
         std::chrono::duration<double> duration = t2 - t1;
 		double seconds = duration.count();
 		double rest = rate - seconds;
-        // printf("el rate es de %f y la diferencia de tiempo es de %f\n",rate,seconds);
 		if(rest < 0) {
             
 			double behind = -rest;

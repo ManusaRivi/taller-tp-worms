@@ -80,7 +80,6 @@ void Mapa::Step(int iteracion) {
         }
         idx++;
     }
-    // printf("Se termina de iterar los gusanos\n");
     for (auto projectile : projectiles) {
         if(!projectile){
             continue;
@@ -125,7 +124,6 @@ void Mapa::Step(int iteracion) {
             }
         }
     }
-    // printf("Se termina de iterar los projectiles\n");
     std::pair<bool,uint32_t> manager = turnManager.avanzar_tiempo(iteracion);
     if(manager.first){
         this->detener_worm(manager.second);

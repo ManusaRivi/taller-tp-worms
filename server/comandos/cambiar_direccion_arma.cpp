@@ -5,7 +5,7 @@ CambiarDireccionArma::CambiarDireccionArma(uint8_t direccion, uint32_t id_respon
 
 }
 
-void CambiarDireccionArma::realizar_accion(Mapa* mapa){
+void CambiarDireccionArma::realizar_accion(Mapa& mapa){
 
         int direccion;
 
@@ -16,5 +16,5 @@ void CambiarDireccionArma::realizar_accion(Mapa* mapa){
         direccion = 1;
     }
 
-    mapa->cambiar_direccion(this->get_responsable(),direccion);
+    mapa.cambiar_direccion(this->get_responsable(),direccion);
 }

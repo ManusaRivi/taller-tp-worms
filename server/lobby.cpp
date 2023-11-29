@@ -7,7 +7,7 @@ Lobby::Lobby(MapContainer& mapas):lista_mapas(mapas),id_actual(1){
 
 uint32_t Lobby::crear_partida(std::string nombre, Queue<std::shared_ptr<MensajeServer>>* snapshots,uint16_t id_mapa){
     std::lock_guard<std::mutex> lock(lck);
-    Partida *partida = new Partida(id_actual,nombre,lista_mapas.getMap(id_mapa));
+    Partida *partida = new Partida(id_actual,nombre,lista_mapas.getMap(id_mapa).second);
     
     partida->add_queue(snapshots);
     uint32_t id_actuali = this->id_actual;
@@ -36,10 +36,11 @@ std::map<uint32_t,std::string> Lobby::listar_mapas(Queue<std::shared_ptr<Mensaje
     std::lock_guard<std::mutex> lock(lck);
     // MapContainer mapContainer;
     std::map<uint32_t,std::string> lista;
+    
 
     for (auto it = lista_mapas.begin(); it != lista_mapas.end(); ++it) {
         // Accede a cada par clave-valor en el mapa aquí
-        std::string nombre = it->second->GetName();
+        std::string nombre = it->second.first;
         // std::cout << "Un nombre de mapa es -> " << nombre << std::endl;
         // Realiza las operaciones que desees con el mapa
         lista.insert({it->first, nombre});

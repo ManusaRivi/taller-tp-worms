@@ -13,7 +13,7 @@ class ComandoMovimiento:public Comando{
 
 
 
-    void realizar_accion(Mapa* mapa) override;
+    void realizar_accion(Mapa& mapa) override;
 
 
 };

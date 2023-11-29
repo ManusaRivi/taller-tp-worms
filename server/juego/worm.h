@@ -123,6 +123,8 @@ public:
     uint8_t get_vida();
 
     void cambiar_direccion(uint8_t dir);
+
+    ~Worm();
 };
 
 #endif

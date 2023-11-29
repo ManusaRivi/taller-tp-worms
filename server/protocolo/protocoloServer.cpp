@@ -66,6 +66,7 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id)try{{
         case(CODIGO_SETEAR_TIMER):{
             uint32_t time = recibir_4_bytes();
             comando = factory.comando_setear_timer(id,time);
+            break;
         }
     }
     return comando;

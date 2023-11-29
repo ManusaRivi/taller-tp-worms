@@ -7,7 +7,7 @@ EmpezarPartida::EmpezarPartida():tipo_de_comando(COMANDO::CMD_EMPEZAR_PARTIDA){
 }
 
 
-void EmpezarPartida::realizar_accion(Mapa* mapa){
+void EmpezarPartida::realizar_accion(Mapa& mapa){
 }
 
 

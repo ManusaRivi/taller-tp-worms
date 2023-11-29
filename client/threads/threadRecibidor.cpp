@@ -6,7 +6,7 @@ Recibidor::Recibidor(Socket &peer, Queue<std::shared_ptr<MensajeCliente>> &accio
 }
 
 
-void Recibidor::run(){
+void Recibidor::run()try{{
     is_alive = true;
     ClienteProtocolo ptcl(skt);
     while(is_alive){
@@ -16,6 +16,8 @@ void Recibidor::run(){
         }
         snapshots_a_render.push(sn);
     }
+}}catch(const std::exception& e){
+    is_alive = false;
 }
 
 void Recibidor::kill(){

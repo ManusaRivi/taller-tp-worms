@@ -6,7 +6,7 @@
 
 using Clock = std::chrono::steady_clock;
 
-Partida::Partida(uint32_t id, std::string nombre, Mapa *mapa_):mapa(mapa_),id_partida(id),nombre_partida(nombre){
+Partida::Partida(uint32_t id, std::string nombre,std::string archivo_yaml):mapa(archivo_yaml),id_partida(id),nombre_partida(nombre){
     posibles_id_gusanos.push_back(0);
     posibles_id_gusanos.push_back(1);
 }
@@ -52,9 +52,11 @@ void Partida::run()try{{
         std::shared_ptr<Comando> comando_ejecutable;
         for( auto &c: comandos_a_ejecutar){
             c->realizar_accion(mapa);
-        }
-        mapa->Step(it);
-        if(mapa->checkOnePlayerRemains()) {
+
+        mapa.Step(it);
+
+        if(mapa.checkOnePlayerRemains()) {
+            printf("La partida termino\n");
             is_alive = false;
         }
         std::shared_ptr<Snapshot> snap = generar_snapshot(it);
@@ -86,18 +88,20 @@ void Partida::run()try{{
 
 std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
     std::vector<WormWrapper> vector_gusanos;
-    mapa->get_gusanos(vector_gusanos);
+    mapa.get_gusanos(vector_gusanos);
     std::vector<ProjectileWrapper> vector_proyectiles;
-    mapa->get_projectiles(vector_proyectiles);
+    mapa.get_projectiles(vector_proyectiles);
     std::vector<ExplosionWrapper> vector_explosiones;
-    mapa->get_explosions(vector_explosiones);
+    mapa.get_explosions(vector_explosiones);
     uint32_t tiempo_del_turno = iteraccion % static_cast<int>(FRAME_RATE * TIEMPO_POR_TURNO);
-    uint32_t gusano_jugando_actualmente = mapa->gusano_actual();
+    uint32_t gusano_jugando_actualmente = mapa.gusano_actual();
     std::vector<ProjectileWrapper> cementerio_projectiles;
-    mapa->get_cementerio_proyectiles(cementerio_projectiles);
+    mapa.get_cementerio_proyectiles(cementerio_projectiles);
     std::vector<ExplosionWrapper> cementerio_explosiones;
-    mapa->get_cementerio_explosiones(cementerio_explosiones);
+    mapa.get_cementerio_explosiones(cementerio_explosiones);
 
+    // Snapshot snap(mapa.get_gusanos());
+    // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa.gusano_actual());
     std::shared_ptr<SnapshotPartida> snap = std::make_shared<SnapshotPartida>(vector_gusanos,
                                                                             vector_proyectiles,
                                                                             vector_explosiones,
@@ -122,19 +126,22 @@ Queue<std::shared_ptr<Comando>>& Partida::get_queue(){
 
 
 void Partida::enviar_primer_snapshot(){
-    std::map<uint32_t, std::vector<uint32_t>> id_gusanos_por_player = mapa->repartir_ids(broadcaster.cantidad_jugadores());
+    std::map<uint32_t, std::vector<uint32_t>> id_gusanos_por_player = mapa.repartir_ids(broadcaster.cantidad_jugadores());
+    // Snapshot snap(mapa.get_gusanos(), mapa.get_vigas());
     std::vector<WormWrapper> worms;
-    mapa->get_gusanos(worms);
+    mapa.get_gusanos(worms);
     std::vector<std::vector<float>> beams;
-    mapa->get_vigas(beams);
-    std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(worms, beams, mapa->gusano_actual());
+    mapa.get_vigas(beams);
+    std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(worms, beams, mapa.gusano_actual());
+    //snap.add_condiciones_partida(0,mapa.gusano_actual());
+    // std::vector<float> tamanio_mapa = mapa.get_size();
     broadcaster.informar_primer_snapshot(id_gusanos_por_player, snap);
 }
 
 
 uint32_t Partida::proximo_turno(uint32_t turno_actual){
     turno_actual++;
-    if(turno_actual == mapa->gusanos_totales()){
+    if(turno_actual == mapa.gusanos_totales()){
         return 0;
     }
     else{

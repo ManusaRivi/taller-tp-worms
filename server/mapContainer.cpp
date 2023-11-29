@@ -7,9 +7,7 @@ MapContainer::MapContainer() : mapas() {
 }
 
 MapContainer::~MapContainer() {
-    for (auto it = mapas.begin(); it != mapas.end(); ++it) {
-        delete it->second; // Elimina cada objeto Mapa
-    }
+
     mapas.clear(); // Limpia el contenedor
 }
 
@@ -27,10 +25,13 @@ void MapContainer::getMaps() {
 
                 try {
                     // Crea una instancia de la clase Mapa
-                    Mapa* mapa = new Mapa(archivoYAML); // ACA HAY QUE INICIALIZAR EL MAPA CON TODOS LOS DATOS
+                    // Mapa* mapa = new Mapa(archivoYAML); // ACA HAY QUE INICIALIZAR EL MAPA CON TODOS LOS DATOS
 
                     // Agrega el mapa al MapContainer utilizando el nombre del archivo como ID
-                    this->addMap(id, mapa);
+                    YAML::Node map = YAML::LoadFile(archivoYAML);
+
+                    std::string nombre = map["nombre"].as<std::string>();
+                    mapas[id] = std::pair<std::string,std::string>(nombre,archivoYAML);
                     id++;
                     // std::cout << "Ya me cargue un mapa\n";
 
@@ -44,10 +45,10 @@ void MapContainer::getMaps() {
     }
 }
 
-Mapa* MapContainer::getMap(uint32_t id) {
+std::pair<std::string,std::string> MapContainer::getMap(uint32_t id) {
     return mapas[id];
 }
 
-void MapContainer::addMap(uint32_t id, Mapa* mapa) {
-    this->mapas[id] = mapa;
+std::map<uint32_t, std::pair<std::string,std::string>> MapContainer::get_maps(){
+    return this->mapas;
 }

@@ -261,25 +261,12 @@ int Game::run() try {
 					backspace_press = false;
 				}
 			} else if(event.type == SDL_MOUSEMOTION) {
-    			int border_threshold = 100;
-
-    			int vertical_threshold = border_threshold * renderer.GetOutputHeight() / renderer.GetOutputWidth();
-
-    			if (event.motion.x < border_threshold) {
-    			    camara.x += event.motion.xrel;
-    			}
-
-    			else if (event.motion.x > renderer.GetOutputWidth() - border_threshold) {
-    			    camara.x += event.motion.xrel;
-    			}
-
-    			if (event.motion.y < vertical_threshold) {
-    			    camara.y += event.motion.yrel;
-    			}
-
-    			else if (event.motion.y > renderer.GetOutputHeight() - vertical_threshold) {
-    			    camara.y += event.motion.yrel;
-    			}
+    			if (event.motion.state & SDL_BUTTON(SDL_BUTTON_RIGHT)) {
+					float mov_x = event.motion.xrel/2;
+					float mov_y = event.motion.yrel/2;
+    				camara.x += mov_x;
+    				camara.y += mov_y;
+				}
 			}
         }
         

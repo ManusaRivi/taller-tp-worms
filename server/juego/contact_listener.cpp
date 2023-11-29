@@ -10,6 +10,8 @@ CollisionType ContactListener::getCollisionType(Colisionable* bodyA, Colisionabl
     if (tipoA == bodyType::PROJECTILE && tipoB == bodyType::BEAM) return CollisionType::PROYECTIL_VIGA;
     if (tipoA == bodyType::WATER && tipoB == bodyType::WORM) return CollisionType::WORM_WATER;
     if (tipoA == bodyType::WORM && tipoB == bodyType::WATER) return CollisionType::WATER_WORM;
+    if (tipoA == bodyType::WATER && tipoB == bodyType::PROJECTILE) return CollisionType::WATER_PROJECTILE;
+    if (tipoA == bodyType::PROJECTILE && tipoB == bodyType::WATER) return CollisionType::PROJECTILE_WATER;
     return CollisionType::VIGA_PROYECTIL;
 }
 
@@ -42,7 +44,7 @@ void ContactListener::BeginContact(b2Contact* contact) {
                 grenade->bounce();
             }
         }
-            break;
+        break;
         case WORM_PROYECTIL:
         {
             Projectile* projectile = static_cast<Projectile*>(bodyB);
@@ -54,7 +56,7 @@ void ContactListener::BeginContact(b2Contact* contact) {
                 grenade->bounce();
             }
         }
-            break;
+        break;
         case PROYECTIL_VIGA:
         {
             Projectile* projectile = static_cast<Projectile*>(bodyA);
@@ -66,7 +68,7 @@ void ContactListener::BeginContact(b2Contact* contact) {
                 grenade->bounce();
             }
         }
-            break;
+        break;
         case VIGA_PROYECTIL:
         {
             Projectile* projectile = static_cast<Projectile*>(bodyB);
@@ -78,17 +80,43 @@ void ContactListener::BeginContact(b2Contact* contact) {
                 grenade->bounce();
             }
         }
+        break;
         case WATER_WORM:
         {
             Worm* worm = static_cast<Worm*>(bodyA);
             worm->startWaterContact();
         }
+        break;
         case WORM_WATER:
         {
             Worm* worm = static_cast<Worm*>(bodyB);
             worm->startWaterContact();
         }
-            break;
+        break;
+        case WATER_PROJECTILE:
+        {
+            Projectile* projectile = static_cast<Projectile*>(bodyB);
+            if (!projectile->isGrenade()) {
+                projectile->SetExplosion();
+            }
+            else {
+                Grenade* grenade = static_cast<Grenade*>(projectile);
+                grenade->bounce();
+            }
+        }
+        break;
+        case PROJECTILE_WATER:
+        {
+            Projectile* projectile = static_cast<Projectile*>(bodyA);
+            if (!projectile->isGrenade()) {
+                projectile->SetExplosion();
+            }
+            else {
+                Grenade* grenade = static_cast<Grenade*>(projectile);
+                grenade->bounce();
+            }
+        }
+        break;
     }
 }
 
@@ -117,5 +145,7 @@ void ContactListener::EndContact(b2Contact* contact) {
         case VIGA_PROYECTIL: break;
         case WATER_WORM: break;
         case WORM_WATER: break;
+        case WATER_PROJECTILE: break;
+        case PROJECTILE_WATER: break;
     }
 }

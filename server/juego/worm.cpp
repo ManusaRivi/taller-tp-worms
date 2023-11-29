@@ -184,6 +184,7 @@ void Worm::usar_arma(std::vector<Projectile*>& projectiles, uint32_t& entity_id)
     b2Vec2 position = body->GetPosition();
     float angle;
     if (tipo == ATAQUE_AEREO) {
+        status = WormStates::AIR_ATTACK_SHOOTING;
         sounds.push(SoundTypes::AIR_STRIKE);
         position = b2Vec2 (x_target, y_target);
         angle = 1.5f * b2_pi;
@@ -202,6 +203,7 @@ void Worm::usar_arma(std::vector<Projectile*>& projectiles, uint32_t& entity_id)
                 sounds.push(SoundTypes::WORM_BAZOOKA_SHOUT);
             }
             if (tipo == BATE) {
+                status = WormStates::BATE_SHOOTING;
                 sounds.push(SoundTypes::BAT_ATTACK);
             }
             else {

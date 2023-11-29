@@ -171,6 +171,7 @@ void Worm::usar_arma(std::vector<Projectile*>& projectiles, uint32_t& entity_id)
     }
     Armas tipo = armaActual->obtenerTipo();
     if (tipo == TELETRANSPORTACION) {
+        sounds.push(SoundTypes::TELEPORT);
         body->SetTransform(b2Vec2 (x_target, y_target), body->GetAngle());
         return;
     }

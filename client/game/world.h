@@ -34,6 +34,7 @@ class World {
     std::map<int, ExplosionCliente> explosions; 
     std::vector<int> sonidos;
     int _id_camera;
+    uint32_t _id_actual_turn;
     float camera_x;
     float camera_y;
     int proy_it;
@@ -66,6 +67,10 @@ class World {
     std::map<int, std::shared_ptr<Worm>> get_worms();
 
     void update_camera(int id_camera);
+
+    void update_turn(uint32_t id_actual_turn);
+
+    uint32_t get_turn();
 
     void add_worm(std::shared_ptr<Worm> worm, int id);
 

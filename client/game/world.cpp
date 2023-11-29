@@ -30,6 +30,14 @@ void World::update_camera(int id_camera) {
     _id_camera = id_camera;
 }
 
+void World::update_turn(uint32_t id_actual_turn) {
+    _id_actual_turn = id_actual_turn;
+}
+
+uint32_t World::get_turn() {
+    return _id_actual_turn;
+} 
+
 void World::update_worm(const int& id, std::shared_ptr<Worm> worm) {
     worms.at(id)->update(std::move(worm));
 }

@@ -44,6 +44,12 @@ void SnapshotCliente::apply_to_world(World& world) {
         sonidos.pop_back();
     }
 }
+
+bool SnapshotCliente::turn_change(World& world) {
+    return id_turno_actual == world.get_turn();
+}
+
+
 /*
 void SnapshotCliente::present(int& it_inc,
                         Renderer& renderer,

@@ -6,6 +6,8 @@ void Bate::iniciarCarga() {}
 
 void Bate::cargar() {}
 
+bool Bate::estaCargando() { return false; }
+
 void Bate::Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) {
     WormQuery wormQuery;
     b2AABB aabb;

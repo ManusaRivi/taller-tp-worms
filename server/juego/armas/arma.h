@@ -12,15 +12,12 @@
 class Arma
 {
 protected:
-    bool cargando;
     Armas tipo;
 public:
     Arma() {};
     virtual void iniciarCarga() = 0;
     virtual void cargar() = 0;
-    bool estaCargando() {
-        return cargando;
-    }
+    virtual bool estaCargando() = 0;
     Armas obtenerTipo() {
         return tipo;
     }

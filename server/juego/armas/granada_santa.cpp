@@ -16,6 +16,8 @@ void GranadaSanta::cargar() {
         nivel_carga++;
 }
 
+bool GranadaSanta::estaCargando() { return cargando; }
+
 void GranadaSanta::Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) {
     if (ammo == 0) return;
     --ammo;

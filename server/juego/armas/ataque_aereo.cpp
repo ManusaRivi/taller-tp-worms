@@ -10,6 +10,8 @@ void AtaqueAereo::iniciarCarga() {}
 
 void AtaqueAereo::cargar() {}
 
+bool AtaqueAereo::estaCargando() { return false; }
+
 void AtaqueAereo::Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) {
     for (auto i = 0; i < rocket_num; ++i) {
         Rocket* rocket = new Rocket (world, ProjectileType::AIR_MISSILE, x_pos, y_pos + ROCKET_ALTITUDE + ROCKET_GAP * i, angle, DOWNWARD_IMPULSE, dmg, radius, 0);

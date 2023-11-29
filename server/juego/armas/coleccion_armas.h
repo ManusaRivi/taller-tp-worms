@@ -13,6 +13,7 @@
 #include "dinamita.h"
 #include "bate.h"
 #include "ataque_aereo.h"
+#include "teleporter.h"
 
 #include <map>
 #include <memory>

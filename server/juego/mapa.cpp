@@ -319,6 +319,12 @@ void Mapa::set_grenade_time(uint32_t id, int seconds) {
     if (id != turnManager.get_player_actual()) return;
     worms[id]->set_grenade_timer(seconds);
 }
+
+void Mapa::set_target(uint32_t id, float x, float y) {
+    if (turnManager.acaba_de_cambiar_turno()) return;
+    if (id != turnManager.get_player_actual()) return;
+    worms[id]->set_target(x, y);
+}
 // std::vector<float> Mapa::get_size(){
 //     this->world.
 // }
@@ -359,13 +365,6 @@ void Mapa::cambiar_direccion(uint32_t id, uint8_t dir){
         return;
     }
     worms[turnManager.get_gusano_actual()]->cambiar_direccion(dir);
-}
-
-std::vector<ProjectileWrapper> Mapa::get_cementerio_proyectiles(){
-    return this->cementerio_proyectiles;
-}
-std::vector<ExplosionWrapper> Mapa::get_cementerio_explosiones(){
-    return this->cementerio_explosiones;
 }
 
 bool Mapa::checkOnePlayerRemains() {

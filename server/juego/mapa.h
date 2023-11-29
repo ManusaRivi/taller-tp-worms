@@ -95,6 +95,8 @@ public:
 
     void set_grenade_time(uint32_t idx, int seconds);
 
+    void set_target(uint32_t idx, float x, float y);
+
     void detener_worm(uint32_t id);
 
     void detener_angulo(uint32_t id);

@@ -78,6 +78,7 @@ void Worm::Stop() {
 void Worm::JumpForward() {
     if (this->isAirborne()) return;
     if (this->isMoving()) Stop();
+    status = WormStates::JUMP;
     jumpSteps = FORWARD_JUMP_STEPS;
     float impulse = body->GetMass() * FORWARD_JUMP_IMPULSE_MULTIPLIER;
     body->ApplyLinearImpulse(b2Vec2(0, impulse), body->GetWorldCenter(), true);
@@ -98,6 +99,7 @@ void Worm::JumpForward() {
 void Worm::JumpBackward() {
     if (this->isAirborne()) return;
     if (this->isMoving()) Stop();
+    status = WormStates::BACKFLIP;
     jumpSteps = BACKWARD_JUMP_STEPS;
     float impulse = body->GetMass() * BACKWARD_JUMP_IMPULSE_MULTIPLIER;
     body->ApplyLinearImpulse(b2Vec2(0, impulse), body->GetWorldCenter(), true);
@@ -116,6 +118,7 @@ void Worm::JumpBackward() {
 }
 
 void Worm::startGroundContact() {
+    status = WormStates::IDLE;
     sounds.push(SoundTypes::GROUND_CONTACT);
     airborne = false;
     b2Vec2 position = body->GetPosition();
@@ -132,6 +135,9 @@ void Worm::startGroundContact() {
 }
 
 void Worm::endGroundContact() {
+    if (jumpSteps == 0) {
+        status = WormStates::FALL;
+    }
     airborne = true;
     b2Vec2 position = body->GetPosition();
     initialHeight = position.y;

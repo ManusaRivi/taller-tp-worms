@@ -113,7 +113,6 @@ std::string MainWindow::generarNombreAleatorio() {
 }
 
 void MainWindow::exportarMapa() {
-
     QString nombre = this->ui->nombreMapa->text();
     std::string nombre_mapa = nombre.toStdString();
 
@@ -127,9 +126,7 @@ void MainWindow::exportarMapa() {
     emitter << YAML::BeginMap;
     emitter << YAML::Key << "nombre";
     emitter << YAML::Value << nombre_mapa;
-    emitter << YAML::EndMap;
 
-    emitter << YAML::BeginMap;
     emitter << YAML::Key << "vigas";
     emitter << YAML::Value;
     emitter << YAML::BeginSeq;
@@ -152,10 +149,9 @@ void MainWindow::exportarMapa() {
         emitter << YAML::Key << "angulo" << YAML::Value << angulo;
         emitter << YAML::EndMap;
     }
+
     emitter << YAML::EndSeq;
-    emitter << YAML::EndMap;
-    
-    emitter <<YAML::BeginMap;
+
     emitter << YAML::Key << "gusanos";
     emitter << YAML::Value;
     emitter << YAML::BeginSeq;
@@ -169,12 +165,14 @@ void MainWindow::exportarMapa() {
         emitter << YAML::Key << "direccion" << YAML::Value << 0;
         emitter << YAML::EndMap;
     }
+
     emitter << YAML::EndSeq;
     emitter << YAML::EndMap;
-    
+
     std::ofstream file(PROJECT_SOURCE_DIR "/server/mapas/" + nombre_mapa + ".yaml");
     file << emitter.c_str();
 }
+
 
 void MainWindow::limpiarMapa() {
     for (QGraphicsPixmapItem* worm : this->worms) {

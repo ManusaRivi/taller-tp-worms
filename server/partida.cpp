@@ -52,7 +52,7 @@ void Partida::run()try{{
         std::shared_ptr<Comando> comando_ejecutable;
         for( auto &c: comandos_a_ejecutar){
             c->realizar_accion(mapa);
-
+        }
         mapa.Step(it);
 
         if(mapa.checkOnePlayerRemains()) {

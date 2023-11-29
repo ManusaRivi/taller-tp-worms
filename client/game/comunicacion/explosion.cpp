@@ -19,6 +19,9 @@ void ExplosionCliente::present(int& it_inc, SDL2pp::Renderer& renderer,
 	int src_x = 0;
 	int src_y = 100 * iteration;
 
+    float pos_rel_x = x - camera_x;
+    float pos_rel_y = map_height - y - camera_y;
+
     //Obtengo la textura
     std::string texture_name = "Explosion";
 	Texture& texture = texture_manager.get_texture(texture_name);
@@ -30,8 +33,8 @@ void ExplosionCliente::present(int& it_inc, SDL2pp::Renderer& renderer,
 	renderer.Copy(
 				texture,
 				Rect(src_x, src_y, 100, 100), // El sprite
-				Rect(static_cast<int>((x - radio_explosion) * x_scale),
-					static_cast<int>((x - radio_explosion) * y_scale),
+				Rect(static_cast<int>((pos_rel_x - radio_explosion) * x_scale),
+					static_cast<int>((pos_rel_y - radio_explosion) * y_scale),
 					radio_explosion*2 * x_scale, radio_explosion*2 * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,

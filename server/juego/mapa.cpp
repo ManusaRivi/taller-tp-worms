@@ -319,6 +319,12 @@ void Mapa::set_grenade_time(uint32_t id, int seconds) {
     if (id != turnManager.get_player_actual()) return;
     worms[id]->set_grenade_timer(seconds);
 }
+
+void Mapa::set_target(uint32_t id, float x, float y) {
+    if (turnManager.acaba_de_cambiar_turno()) return;
+    if (id != turnManager.get_player_actual()) return;
+    worms[id]->set_target(x, y);
+}
 // std::vector<float> Mapa::get_size(){
 //     this->world.
 // }

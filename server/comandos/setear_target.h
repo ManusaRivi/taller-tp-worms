@@ -10,7 +10,7 @@ class SetearTarget:public Comando{
     
     SetearTarget(float x, float y, uint32_t id_responsable);
 
-    void realizar_accion(Mapa* mapa) override;
+    void realizar_accion(Mapa& mapa) override;
 
 
 };

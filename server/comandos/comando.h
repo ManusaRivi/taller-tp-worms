@@ -51,7 +51,7 @@ class Comando{
     Comando(uint32_t id);
 
 
-    virtual void realizar_accion(Mapa* mapa) = 0;
+    virtual void realizar_accion(Mapa& mapa) = 0;
 
     uint32_t get_responsable();
 

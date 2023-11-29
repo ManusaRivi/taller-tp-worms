@@ -10,6 +10,6 @@ class Saltar:public Comando{
     Saltar(uint8_t direccion,uint32_t id_responsable);
 
 
-    void realizar_accion(Mapa* mapa) override;
+    void realizar_accion(Mapa& mapa) override;
 
 };

@@ -8,6 +8,11 @@
 #include "mortero.h"
 #include "granada_verde.h"
 #include "granada_roja.h"
+#include "banana.h"
+#include "granada_santa.h"
+#include "dinamita.h"
+#include "bate.h"
+#include "ataque_aereo.h"
 
 #include <map>
 #include <memory>

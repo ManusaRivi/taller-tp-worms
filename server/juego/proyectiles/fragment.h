@@ -27,7 +27,8 @@ private:
         return r;
     }
 public:
-    Fragment(b2World& world, float x_pos, float y_pos, int dmg, int radius);
+    Fragment(b2World& world, ProjectileType type, float x_pos, float y_pos, int dmg, int radius);
+    virtual bool isGrenade() override;
     virtual void explotar() override;
 };
 

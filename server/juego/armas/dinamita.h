@@ -1,23 +1,24 @@
-#ifndef GRANADA_VERDE_H
-#define GRANADA_VERDE_H
+#ifndef DINAMITA_H
+#define DINAMITA_H
 
 #include "granada_arma.h"
 #include "../proyectiles/grenade.h"
 
-class GranadaVerde : public GranadaArma {
+#define DYNAMITE_IMPULSE 0.05f
+
+class Dinamita : public GranadaArma
+{
 private:
     b2World& world;
+    int ammo;
     const int dmg;
     const int radius;
-    bool cargando;
-    int nivel_carga;
 public:
-    GranadaVerde(b2World& world, int dmg, int radius);
+    Dinamita(b2World& world, int ammo, int dmg, int radius);
     virtual void iniciarCarga() override;
     virtual void cargar() override;
     virtual bool estaCargando() override;
     virtual void Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) override;
-    virtual ~GranadaVerde() {}
 };
 
 #endif

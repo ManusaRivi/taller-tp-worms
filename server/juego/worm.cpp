@@ -29,6 +29,7 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     fixtureGusano.shape = &gusanoBox;
     fixtureGusano.density = WORM_DENSITY;
     fixtureGusano.friction = WORM_FRICTION;
+    fixtureGusano.restitution = WORM_RESTITUTION;
     fixtureGusano.filter.categoryBits = CollisionCategories::WORM_COLL;
     fixtureGusano.filter.maskBits = (CollisionCategories::BOUNDARY_COLL | CollisionCategories::PROJECTILE_COLL);
     fixtureGusano.filter.maskBits &= ~CollisionCategories::WORM_COLL;
@@ -115,6 +116,7 @@ void Worm::JumpBackward() {
 }
 
 void Worm::startGroundContact() {
+    sounds.push(SoundTypes::GROUND_CONTACT);
     airborne = false;
     b2Vec2 position = body->GetPosition();
     finalHeight = position.y;
@@ -140,6 +142,7 @@ bool Worm::isMoving() {
 }
 
 void Worm::startWaterContact() {
+    sounds.push(SoundTypes::SPLASH);
     this->hitPoints = 0;
 }
 
@@ -148,6 +151,7 @@ bool Worm::isAirborne() {
 }
 
 void Worm::takeDamage(int damage) {
+    sounds.push(SoundTypes::HURT_WORM);
     hitPoints -= damage;
 }
 
@@ -161,27 +165,55 @@ float Worm::GetAngle() {
     return body->GetAngle();
 }
 
-Projectile* Worm::usar_arma() {
+void Worm::usar_arma(std::vector<Projectile*>& projectiles, uint32_t& entity_id) {
     if(!armaActual || this->isDead()){
-        return nullptr;
+        return;
     }
     b2Vec2 position = body->GetPosition();
     float angle;
-    if(this->facingDirection == LEFT){
-        if(this->aiming_angle() < 0){
-            angle =  (- this->aiming_angle()) + 3.14;
-        }
-        else{
-            angle = this->aiming_angle() + 1.57;
-        }
-        
+    Armas tipo = armaActual->obtenerTipo();
+    if (tipo == ATAQUE_AEREO) {
+        sounds.push(SoundTypes::AIR_STRIKE);
+        position = b2Vec2 (x_target, y_target);
+        angle = 1.5f * b2_pi;
     }
-    else{
-        angle = this->aiming_angle();
+    else {
+        if (tipo == DINAMITA) {
+            if (this->facingDirection == RIGHT) {
+                angle = 0;
+            }
+            else {
+                angle = b2_pi;
+            }
+        }
+        else {
+            if (tipo == BAZOOKA || tipo == MORTERO) {
+                sounds.push(SoundTypes::WORM_BAZOOKA_SHOUT);
+            }
+            if (tipo == BATE) {
+                sounds.push(SoundTypes::BAT_ATTACK);
+            }
+            else {
+                sounds.push(SoundTypes::WORM_GRENADE_SHOUT);
+            }
+            if(this->facingDirection == LEFT){
+                if(this->aiming_angle() < 0){
+                    angle =  (- this->aiming_angle()) + 3.14;
+                }
+                else{
+                    angle = this->aiming_angle() + 1.57;
+                }
+            }
+            else{
+                angle = this->aiming_angle();
+            }
+        }
     }
+    
+    
     printf("El angulo con el que se estada apuntando es : %f\n",this->aiming_angle());
     printf("el angulo con el que se dispara es %f\n",angle);
-    return armaActual->Shoot(position.x, position.y, angle);
+    armaActual->Shoot(projectiles, entity_id, position.x, position.y, angle);
 }
 
 int Worm::get_facing_direction(){
@@ -224,6 +256,7 @@ void Worm::cambiar_arma(uint8_t id_arma){
         break;
     
     case Armas::BATE:
+        sounds.push(SoundTypes::BAT_EQUIP);
         status = WormStates::BATE_AIMING;
         break;
     
@@ -299,6 +332,11 @@ void Worm::incrementar_angulo_en(float inc){
     angulo_disparo +=inc;
 }
 
+void Worm::set_target(float x, float y) {
+    this->x_target = x;
+    this->y_target = y;
+}
+
 void Worm::set_grenade_timer(int seconds) {
     GranadaArma* arma = dynamic_cast<GranadaArma*>(armaActual);
     if (!arma) return;
@@ -352,6 +390,7 @@ bool Worm::isDead() {
 }
 
 void Worm::kill() {
+    sounds.push(SoundTypes::WORM_DEATH_CRY);
     this->hitPoints = 0;
     //delete this->coleccionArmas;
 }

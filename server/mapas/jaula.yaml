@@ -1,0 +1,27 @@
+nombre: jaula
+---
+vigas:
+  - tipo: corta
+    pos_x: 33
+    pos_y: -165
+    angulo: 0
+  - tipo: corta
+    pos_x: 180
+    pos_y: -161
+    angulo: 0
+  - tipo: larga
+    pos_x: 46
+    pos_y: -21
+    angulo: 0
+  - tipo: larga
+    pos_x: 47
+    pos_y: -185
+    angulo: 0
+---
+gusanos:
+  - pos_x: 73
+    pos_y: -63
+    direccion: 0
+  - pos_x: 116
+    pos_y: -64
+    direccion: 0

@@ -58,39 +58,42 @@ void MainWindow::agregarGusano() {
 }
 
 void MainWindow::agregarViga() {
-
-    QGraphicsPixmapItem* viga = new QGraphicsPixmapItem(QPixmap(":/imagenes/Beam.png"));
+    QPixmap vigaPixmap(":/imagenes/Beam.png");
 
     QString rotacion = this->ui->lineEdit->text();
+    qreal angulo = rotacion.toFloat();
 
-    qreal anchoOriginal = viga->boundingRect().width();
-    qreal altoOriginal = viga->boundingRect().height();
+    qreal anchoOriginal = vigaPixmap.width();
+    qreal altoOriginal = vigaPixmap.height();
 
     qreal anchoMitad = anchoOriginal / 2;
 
-    QPixmap mitadVigaPixmap = QPixmap(":/imagenes/Beam.png").copy(0, 0, anchoMitad, altoOriginal);
-    QGraphicsPixmapItem* mitadViga = new QGraphicsPixmapItem(mitadVigaPixmap);
+    vigaPixmap = vigaPixmap.copy(0, 0, anchoMitad, altoOriginal);
+    vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
 
-    mitadViga->setRotation(rotacion.toFloat());
+    QGraphicsPixmapItem* mitadViga = new QGraphicsPixmapItem(vigaPixmap);
     mitadViga->setPos(0, 0);
 
     this->vigas.push_back(mitadViga);
     this->scene->addItem(mitadViga);
-
-    delete viga;
 }
 
-void MainWindow::agregarVigaLarga() {
 
-    QGraphicsPixmapItem* viga = new QGraphicsPixmapItem(QPixmap(":/imagenes/Beam.png"));
+void MainWindow::agregarVigaLarga() {
+    QPixmap vigaPixmap(":/imagenes/Beam.png");
 
     QString rotacion = this->ui->lineEdit->text();
+    qreal angulo = rotacion.toFloat();
+
+    vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
+
+    QGraphicsPixmapItem* viga = new QGraphicsPixmapItem(vigaPixmap);
+    viga->setPos(0, 0);
 
     this->vigas.push_back(viga);
     this->scene->addItem(viga);
-    viga->setRotation(rotacion.toFloat());
-    viga->setPos(0, 0);
 }
+
 
 std::string MainWindow::generarNombreAleatorio() {
     const std::string letras = "abcdefghijklmnopqrstuvwxyz";

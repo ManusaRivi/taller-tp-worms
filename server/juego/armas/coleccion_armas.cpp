@@ -12,6 +12,7 @@ ColeccionArmas::ColeccionArmas(b2World& world) : world(world)
     armas[Armas::DINAMITA] = new Dinamita(world, config.dynamite_ammo, config.dynamite_dmg, config.dynamite_radius);
     armas[Armas::BATE] = new Bate(world, config.bat_dmg);
     armas[Armas::ATAQUE_AEREO] = new AtaqueAereo(world, config.airstrike_rockets, config.airstrike_ammo, config.airstrike_dmg, config.airstrike_radius);
+    armas[Armas::TELETRANSPORTACION] = new Teleporter();
 }
 
 Arma* ColeccionArmas::SeleccionarArma(uint8_t id_arma)

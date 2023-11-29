@@ -8,7 +8,7 @@
 #include "../world.h"
 #include "worm.h"
 #include "beam.h"
-#include "explosiones.h"
+#include "explosion.h"
 #include "../Proyectiles/projectile_generator.h"
 
 #include <memory>
@@ -24,7 +24,7 @@ class SnapshotCliente {
     uint32_t id_turno_actual;
     std::vector<std::unique_ptr<ProjectileClient>> projectiles;
     std::vector<int> sonidos;
-    std::vector<ExplosionesCliente> explosiones;
+    std::vector<ExplosionCliente> explosiones;
  
     public:
     //Constructor
@@ -41,7 +41,7 @@ class SnapshotCliente {
 
     void add_sound(int sound_code);
 
-    void add_explosion(ExplosionesCliente explosion);
+    void add_explosion(ExplosionCliente explosion);
 
 /*
     void present(int& it_inc,

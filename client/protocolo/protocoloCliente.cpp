@@ -193,10 +193,11 @@ void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
         uint8_t estado = recibir_1_byte();
         float angulo_disparo = (recibir_4_bytes_float() - 1.57)*180/3.14;
         uint8_t vida = recibir_1_byte();
+        uint32_t equipo = recibir_4_bytes();
 
         // printf("id= %d, x= %f, y= %f  angulo = %f  dir = %u estado = %u disparo = %f\n\n", id_gusano,pos_x,pos_y,angulo,direccion,estado,angulo_disparo);
         std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(estado, direccion == 0, angulo, angulo_disparo);
-        std::shared_ptr<Worm> worm = std::make_shared<Worm>(pos_x, pos_y, vida, std::move(state));
+        std::shared_ptr<Worm> worm = std::make_shared<Worm>(pos_x, pos_y, vida, equipo, std::move(state));
         snap->add_worm(worm, id_gusano);
     }
     snap->agregar_turno_actual(turno_player_actual);
@@ -229,7 +230,7 @@ void ClienteProtocolo::recibir_explosiones(std::shared_ptr<SnapshotCliente> snap
         float y = recibir_4_bytes_float();
         float radio = recibir_4_bytes_float();
         printf("Se recibio una explosion de datos %u   %f    %f    %f\n",id,x,y,radio);
-        snap->add_explosion(ExplosionesCliente(id,x,y,radio));
+        snap->add_explosion(ExplosionCliente(id,x,y,radio));
     }
 }
 
@@ -280,4 +281,17 @@ void ClienteProtocolo::enviar_cambio_direccion_apuntado(uint8_t dir){
     uint8_t cd = CODIGO_CAMBIAR_DIRECCION_APUNTADO;
     enviar_1_byte(cd);
     enviar_1_byte(dir);
+}
+
+void ClienteProtocolo::enviar_timer(uint32_t time){
+    uint8_t cd = CODIGO_SETEAR_TIMER;
+    enviar_1_byte(cd);
+    enviar_4_bytes(time);
+}
+
+void ClienteProtocolo::enviar_target(float x, float y){
+    uint8_t cd = CODIGO_SETEAR_TARGET;
+    enviar_1_byte(cd);
+    enviar_4_bytes_float(x);
+    enviar_4_bytes_float(y);
 }

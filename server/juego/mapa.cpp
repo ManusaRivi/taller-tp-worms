@@ -116,7 +116,7 @@ void Mapa::Step(int iteracion) {
             delete projectile;
         }
         else {
-            if (projectile->isGrenade()) {
+            if (!projectile->isGrenade()) {
                 projectile->updateAngle();
             }
             else {
@@ -212,7 +212,7 @@ void Mapa::get_gusanos(std::vector<WormWrapper>& worm_vector){
     for(auto worm: this->worms){
         std::vector<float> posicion = worm->GetPosition();
         // printf("la posicion del gusano que se envia es %f   %f\n",posicion[0],posicion[1]);
-        worm_vector.push_back(WormWrapper(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo(), worm->aiming_angle(), worm->get_vida()));
+        worm_vector.push_back(WormWrapper(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo(), worm->aiming_angle(), worm->get_vida(), turnManager.get_equipo(worm->get_id()));
     }
 }
 
@@ -359,4 +359,15 @@ void Mapa::cambiar_direccion(uint32_t id, uint8_t dir){
         return;
     }
     worms[turnManager.get_gusano_actual()]->cambiar_direccion(dir);
+}
+
+std::vector<ProjectileWrapper> Mapa::get_cementerio_proyectiles(){
+    return this->cementerio_proyectiles;
+}
+std::vector<ExplosionWrapper> Mapa::get_cementerio_explosiones(){
+    return this->cementerio_explosiones;
+}
+
+bool Mapa::checkOnePlayerRemains() {
+    return this->turnManager.checkOnePlayerRemains();
 }

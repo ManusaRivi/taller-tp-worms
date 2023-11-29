@@ -9,6 +9,9 @@
 #include <QList>
 #include <vector>
 #include <QRectF>
+#include <string>
+#include <random>
+#include <ctime>
 
 #include "graphicsscene.h"
 
@@ -30,6 +33,7 @@ public:
     void cambiarFondo();
     void exitApplication();
     qreal obtenerAnguloInclinacion(QGraphicsPixmapItem* item);
+    std::string generarNombreAleatorio();
 
 private:
     Ui::MainWindow *ui;

@@ -57,6 +57,16 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id)try{{
             comando = factory.comando_cambia_direccion_arma(id,dir);
             break;
         }
+        case (CODIGO_SETEAR_TARGET):{
+            float x = recibir_4_bytes_float();
+            float y = recibir_4_bytes_float();
+            comando = factory.comando_setear_target(id,x,y);
+            break;
+        }
+        case(CODIGO_SETEAR_TIMER):{
+            uint32_t time = recibir_4_bytes();
+            comando = factory.comando_setear_timer(id,time);
+        }
     }
     return comando;
 
@@ -219,6 +229,7 @@ void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper> worms)try{{
         uint8_t estado = c.get_estado();
         float angulo_disparo = c.get_angulo_disparo() + 1.57;
         uint8_t vida = c.get_vida();
+        uint32_t equipo = c.get_equipo();
 
         enviar_4_bytes(id);
         enviar_4_bytes_float(posicion[0]);
@@ -229,6 +240,7 @@ void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper> worms)try{{
         enviar_1_byte(estado);
         enviar_4_bytes_float(angulo_disparo);
         enviar_1_byte(vida);
+        enviar_4_bytes(equipo);
 
     }
 }}catch(const ClosedSocket& e){

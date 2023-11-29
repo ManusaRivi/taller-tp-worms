@@ -4,9 +4,9 @@
 enum ProjectileType {
     ROCKET,
     MORTAR,
-    GREEN_GRANADE,
-    HOLY_GRANADE,
-    RED_GRANADE,
+    GREEN_GRENADE,
+    HOLY_GRENADE,
+    RED_GRENADE,
     BANANA_GRENADE,
     DYNAMITE,
     AIR_MISSILE,

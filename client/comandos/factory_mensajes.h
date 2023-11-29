@@ -23,6 +23,8 @@ class FactoryMensaje{
     std::shared_ptr<MensajeAccionJugador> detener_movimiento();
     std::shared_ptr<MensajeAccionJugador> detener_angulo();
     std::shared_ptr<MensajeAccionJugador> cambiar_direccion_arma(uint8_t dir);
+    std::shared_ptr<MensajeAccionJugador> setear_timer(uint32_t time);
+    std::shared_ptr<MensajeAccionJugador> setear_target(float x, float y);
 
 
 };

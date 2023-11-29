@@ -19,17 +19,24 @@ void SnapshotCliente::add_sound(int sound) {
     sonidos.push_back(sound);
 }
 
-void SnapshotCliente::add_explosion(ExplosionesCliente explosion){
+void SnapshotCliente::add_explosion(ExplosionCliente explosion){
     explosiones.push_back(explosion);
 }
 
 void SnapshotCliente::apply_to_world(World& world) {
+    // Actualizo camara
     world.update_camera(_id_camera);
+    // Actualizo gusanos
     for (const auto& pair: worms) {
         world.update_worm(pair.first, std::move(pair.second));
     }
+    // Actualizo proyectiles
     for(auto &c:projectiles){
         world.add_projectile(std::move(c));
+    }
+    // Actualizo explosiones
+    for (auto& e: explosiones) {
+        world.add_explosion(e);
     }
 
     while (!sonidos.empty()) {

@@ -11,7 +11,7 @@ class Fragment: public ProjectileClient {
 
     Fragment(float& pos_x, float& pos_y, float& angle, uint32_t id);
 
-    void present(SDL2pp::Renderer& renderer,
+    void present(int& it, SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,
                     float& map_height,
                     float& x_scale, float& y_scale,

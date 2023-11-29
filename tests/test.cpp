@@ -25,7 +25,7 @@ TEST(Test_se_envian_snapshot,TEST_SE_ENVIA_POR_SNAPSHOT_UN_GUSANO )
     ClienteProtocolo clte_protocolo(skt);
     ServerProtocolo svr_protocolo(skt);
     //(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo(), worm->aiming_angle())
-    WormWrapper worm_1({{0.5,1.2},1,0,0,1.2,0, 100});
+    WormWrapper worm_1({{0.5,1.2},1,0,0,1.2,0, 100, 0});
     std::vector<WormWrapper> worms({worm_1});
     svr_protocolo.enviar_gusanos(worms);
     
@@ -42,8 +42,8 @@ TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_POR_SNAPSHOT_DOS_GUSANOS){
     ClienteProtocolo clte_protocolo(skt);
     ServerProtocolo svr_protocolo(skt);
     //(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo(), worm->aiming_angle())
-    WormWrapper worm_1({{0.5,1.2},1,0,0,1.2,0, 100});
-    WormWrapper worm_2({{0.5,1.2},1,12,1,34,54, 100});
+    WormWrapper worm_1({{0.5,1.2},1,0,0,1.2,0, 100, 0});
+    WormWrapper worm_2({{0.5,1.2},1,12,1,34,54, 100, 1});
     std::vector<WormWrapper> worms({worm_1,worm_2});
     svr_protocolo.enviar_gusanos(worms);
     
@@ -67,10 +67,10 @@ TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_UN_HANDSHAKE){
     //
     std::pair<uint32_t,std::vector<uint32_t>> id_gusanos_por_player({0,{0,1,2,3}});
     // std::vector<float> position, uint8_t dir, uint8_t status, uint32_t id_, float angulo_, float angulo_disparo_
-    WormWrapper worm_1({{0.5,1.2}, 1, 0, 0, 1.2, 0, 100});
-    WormWrapper worm_2({{13.15,18.6}, 1, 12, 1, 0.58, 0.1, 100});
-    WormWrapper worm_3({{12.5,7.5}, 1, 12, 2, 1.2, 1.5, 100});
-    WormWrapper worm_4({{15,16.7}, 1, 12, 3, 0, 1.4, 100});
+    WormWrapper worm_1({{0.5,1.2}, 1, 0, 0, 1.2, 0, 100, 0});
+    WormWrapper worm_2({{13.15,18.6}, 1, 12, 1, 0.58, 0.1, 100, 1});
+    WormWrapper worm_3({{12.5,7.5}, 1, 12, 2, 1.2, 1.5, 100, 0});
+    WormWrapper worm_4({{15,16.7}, 1, 12, 3, 0, 1.4, 100, 1});
     std::vector<WormWrapper> worms({worm_1,worm_2,worm_3,worm_4});
     std::vector<float> viga_1({10, 15.7, 3, 6});
     std::vector<float> viga_2({10, 15.7, 3, 6});

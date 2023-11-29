@@ -9,6 +9,7 @@
 #include "comunicacion/beam.h"
 #include "camara.h"
 #include "comunicacion/projectile.h"
+#include "comunicacion/explosion.h"
 #include "Sonidos/sound_manager.h"
 
 #define BACKGROUND_WIDTH 576
@@ -29,9 +30,11 @@ class World {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
     std::vector<Beam> beams;
-    std::vector<std::unique_ptr<ProjectileClient>> projectiles;
+    std::map<int, std::unique_ptr<ProjectileClient>> projectiles;
+    std::map<int, ExplosionCliente> explosions; 
     std::vector<int> sonidos;
     int _id_camera;
+    int proy_it;
     float _map_width;
     float _map_height;
 
@@ -71,6 +74,12 @@ class World {
     void add_beam(Beam beam);
 
     void add_projectile(std::unique_ptr<ProjectileClient> projectile);
+
+    std::vector<int> get_projectile_ids();
+
+    void add_explosion(ExplosionCliente explosion);
+
+    bool checkOnePlayerRemains();
 
     void present(int& it_inc,
                         Renderer& renderer,

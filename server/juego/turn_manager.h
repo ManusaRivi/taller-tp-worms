@@ -31,5 +31,7 @@ class TurnManager{
     bool acaba_de_cambiar_turno();
     void deleteWorm(int idx);
     uint32_t getNextWorm(uint32_t id_player) const;
+    uint32_t get_equipo(uint32_t id);
+    bool checkOnePlayerRemains();
 
 };

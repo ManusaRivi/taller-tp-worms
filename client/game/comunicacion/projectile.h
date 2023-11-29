@@ -28,11 +28,19 @@ class ProjectileClient {
     public:
     ProjectileClient(const std::string texture, float& pos_x, float& pos_y, float& angle, uint32_t id_);
 
-    virtual void present(SDL2pp::Renderer& renderer,
+    virtual void present(int& it,
+                    SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,
                     float& map_height,
                     float& x_scale, float& y_scale,
                     float& camera_x, float& camera_y);
+    
+    int get_id();
+
+    float get_x();
+    float get_y();
+
+    void update(ProjectileClient other);
     
     //Destructor virtual
     virtual ~ProjectileClient() {}

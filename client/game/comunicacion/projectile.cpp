@@ -3,7 +3,25 @@ using namespace SDL2pp;
 ProjectileClient::ProjectileClient(const std::string texture, float& pos_x, float& pos_y, float& angle, uint32_t id_):
                         texture_name(texture), _pos_x(pos_x), _pos_y(pos_y), _angle(angle), id(id_) {}
 
-void ProjectileClient::present(Renderer& renderer, TextureManager& texture_manager,
+int ProjectileClient::get_id() {
+    return id;
+}
+
+float ProjectileClient::get_x() {
+    return _pos_x;
+}
+
+float ProjectileClient::get_y() {
+    return _pos_y;
+}
+
+void ProjectileClient::update(ProjectileClient other) {
+    this->_pos_x = other._pos_x;
+    this->_pos_x = other._pos_y;
+    this->_angle = other._angle;
+}
+
+void ProjectileClient::present(int& it, Renderer& renderer, TextureManager& texture_manager,
                     float& map_height,
                     float& x_scale, float& y_scale,
                     float& camera_x, float& camera_y) {

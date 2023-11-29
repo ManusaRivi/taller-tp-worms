@@ -9,9 +9,12 @@
 #include "comando_detener_angulo.h"
 #include "comando_cambiar_angulo.h"
 #include "comando_cambiar_direccion_arma.h"
+#include "comando_setear_timer.h"
+#include "comando_setear_target.h"
 
-struct FactoryComandos{
+class FactoryComandos{
 
+    public:
     FactoryComandos();
 
     std::shared_ptr<ComandoMoverCliente> accion_mover(uint8_t dir);
@@ -31,6 +34,12 @@ struct FactoryComandos{
     std::shared_ptr<CambiarAnguloCliente> accion_cambiar_angulo(uint8_t dir);
 
     std::shared_ptr<CambiarDireccionArmaCliente> accion_cambiar_direccion_arma(uint8_t dir);
+
+    std::shared_ptr<SetearTimerCliente> accion_setear_timer(uint32_t time);
+
+    std::shared_ptr<SetearTargetCliente> accion_setear_target(float x, float y);
+
+
 
 
 };

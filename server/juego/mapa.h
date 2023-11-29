@@ -104,7 +104,12 @@ public:
     uint32_t gusano_actual();
 
     void cambiar_direccion(uint32_t id,uint8_t dir);
+  
+    std::vector<ProjectileWrapper> get_cementerio_proyectiles();
+  
+    std::vector<ExplosionWrapper> get_cementerio_explosiones();
 
+    bool checkOnePlayerRemains();
     ~Mapa();
 };
 

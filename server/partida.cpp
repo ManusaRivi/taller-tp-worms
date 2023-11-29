@@ -65,14 +65,15 @@ void Partida::run()try{{
         }
 
         mapa->Step(it);
-        // printf("Termina de hacerse el step\n");
+
+        if(mapa->checkOnePlayerRemains()) {
+            printf("La partida termino\n");
+            is_alive = false;
+        }
+
         std::shared_ptr<Snapshot> snap = generar_snapshot(it);
-        // printf("Se termina de generar el snapshot\n");
         std::shared_ptr<MensajeServer> broadcast = mensajes.snapshot(snap);
         broadcaster.broadcastSnap(broadcast);
-        // printf("Se termina de broadcastear el mensaje\n");
-        
-
 
         auto t2 = std::chrono::high_resolution_clock::now(); 
         std::chrono::duration<double> duration = t2 - t1;

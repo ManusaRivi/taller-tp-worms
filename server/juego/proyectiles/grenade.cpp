@@ -1,15 +1,9 @@
 #include "grenade.h"
 
-Grenade::Grenade(b2World& world, ProjectileType type, float x_pos, float y_pos,
-                float angle, float power, int dmg, int radius, int fragments,
-                float restitution, int seconds) :
-                world(world), timer(GrenadeTimer (seconds))
+Grenade::Grenade(b2World& world, ProjectileType type, uint32_t id, float x_pos, float y_pos,
+                int dmg, int radius, int fragments, float angle, float power, float restitution, int timer) :
+        Projectile(world, type, id, x_pos, y_pos, dmg, radius, fragments), timer(GrenadeTimer (timer))
 {
-    this->type = type;
-    this->fragments = fragments;
-    this->dmg = dmg;
-    this->radius = radius;
-
     b2Vec2 positionOffset (GRENADE_POSITION_OFFSET * cos(angle), GRENADE_POSITION_OFFSET * sin(angle));
     b2Vec2 position (x_pos, y_pos);
     b2Vec2 finalPos = positionOffset + position;

@@ -12,13 +12,14 @@
 class Projectile : public Colisionable 
 {
 protected:
+    b2World& world;
     b2Body* body;
     ProjectileType type;
-    bool exploded = false;
-    int fragments;
+    uint32_t id;
     int dmg;
     int radius;
-    uint32_t id;
+    int fragments;
+    bool exploded = false;
     void applyBlastImpulse(b2Body* body, b2Vec2 blastCenter, b2Vec2 applyPoint, float blastPower)
     {
         b2Vec2 blastDir = applyPoint - blastCenter;
@@ -33,7 +34,8 @@ protected:
 
 public:
     std::queue<SoundTypes> sounds;
-    Projectile() {};
+    Projectile(b2World& world, ProjectileType type, uint32_t id, float x_pos, float y_pos, int dmg, int radius, int fragments) :
+                world(world), type(type), id(id), dmg(dmg), radius(radius), fragments(fragments) {};
     virtual bodyType identificar() override {
         return bodyType::PROJECTILE;
     }
@@ -66,15 +68,11 @@ public:
         sounds.push(SoundTypes::EXPLOSION);
     }
     virtual void explotar() = 0;
-    virtual ~Projectile() {
-        body->GetWorld()->DestroyBody(body);
-    }
-    virtual uint32_t get_id(){
+    uint32_t get_id(){
         return this->id;
     }
-
-    virtual void insertar_id(uint32_t id_recibido){
-        this->id = id_recibido;
+    virtual ~Projectile() {
+        body->GetWorld()->DestroyBody(body);
     }
 };
 

@@ -138,7 +138,7 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap)try{{
     throw ClosedSocket();
 }
 
-void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string> partidas/*std::string map*/)try{{
+void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string>& partidas/*std::string map*/)try{{
     // printf("Se estan por enviar las partidas\n");
     //uint8_t cmd = CODIGO_LISTAR_PARTIDA;
     //enviar_1_byte(cmd);
@@ -148,7 +148,7 @@ void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string> partidas/*s
 }
 
 
-void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string> lista)try{{
+void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string>& lista)try{{
     uint16_t cantidad_mapas = lista.size();
     enviar_2_byte(cantidad_mapas);
     for (auto i = lista.begin(); i != lista.end(); i++){
@@ -165,7 +165,7 @@ void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string> lista)try{{
 }
 
 
-void ServerProtocolo::enviar_mapas(std::map<uint32_t,std::string> mapas)try{{
+void ServerProtocolo::enviar_mapas(std::map<uint32_t,std::string>& mapas)try{{
     enviar_lista(mapas);
 }}catch(const ClosedSocket& e){
     throw ClosedSocket();
@@ -219,7 +219,7 @@ std::shared_ptr<MensajeServer> ServerProtocolo::recibir_id_gusanos()try{{
 
 
 
-void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper> worms)try{{
+void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper>& worms)try{{
     uint8_t cant_players = worms.size();  
     enviar_2_byte(cant_players);
     for (auto &c: worms){
@@ -249,7 +249,7 @@ void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper> worms)try{{
 }
 
 
-void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>> vigas)try{{
+void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>>& vigas)try{{
 
     uint16_t cantidad_vigas = vigas.size();
     enviar_2_byte(cantidad_vigas);
@@ -266,7 +266,7 @@ void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>> vigas)try{{
 
 
 
-void ServerProtocolo::enviar_proyectlies(std::vector<ProjectileWrapper> proyectiles)try{{
+void ServerProtocolo::enviar_proyectlies(std::vector<ProjectileWrapper>& proyectiles)try{{
     uint16_t cantidad = proyectiles.size();
     enviar_2_byte(cantidad);
     for(auto c : proyectiles){
@@ -288,7 +288,7 @@ void ServerProtocolo::enviar_proyectlies(std::vector<ProjectileWrapper> proyecti
 }
 
 
-void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper> explosiones)try{{
+void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper>& explosiones)try{{
     uint16_t cantidad = explosiones.size();
     enviar_2_byte(cantidad);
     for(auto c : explosiones){

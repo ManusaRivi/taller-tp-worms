@@ -17,26 +17,26 @@ SnapshotPartida::SnapshotPartida(std::vector<WormWrapper> worms_,
                                                             }
 
 
-    std::vector<WormWrapper> SnapshotPartida::get_worms(){
+    std::vector<WormWrapper>& SnapshotPartida::get_worms(){
         return this->worms;
     }
-    std::vector<ProjectileWrapper> SnapshotPartida::get_proyectiles(){
+    std::vector<ProjectileWrapper>& SnapshotPartida::get_proyectiles(){
         return this->proyectiles;
     }
 
-     std::vector<ExplosionWrapper> SnapshotPartida::get_explosiones(){
+     std::vector<ExplosionWrapper>& SnapshotPartida::get_explosiones(){
         return this->explosiones;
      }
-    float SnapshotPartida::get_tiempo_actual(){
+    float& SnapshotPartida::get_tiempo_actual(){
         return this->tiempo_actual;
     }
-    uint32_t SnapshotPartida::get_gusano_actual(){
+    uint32_t& SnapshotPartida::get_gusano_actual(){
         return this->gusano_actual;
     }
 
-    std::vector<ExplosionWrapper> SnapshotPartida::get_cementerio_explosiones(){
+    std::vector<ExplosionWrapper>& SnapshotPartida::get_cementerio_explosiones(){
         return this->cementerio_explosiones;
     }
-    std::vector<ProjectileWrapper> SnapshotPartida::get_cementerio_proyectiles(){
+    std::vector<ProjectileWrapper>& SnapshotPartida::get_cementerio_proyectiles(){
         return this->cementerio_proyectiles;
     }

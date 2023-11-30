@@ -43,13 +43,14 @@ class Partida:public Thread{
 
     bool partida_accesible();
 
+    bool terminada();
+
     
 
     
     private:
     void enviar_primer_snapshot();
 
-    uint32_t proximo_turno(uint32_t turno_actual);
 
 };
 

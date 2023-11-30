@@ -5,6 +5,6 @@ MensajeUnirsePartida::MensajeUnirsePartida(uint32_t id_part):MensajeServer(COMAN
 }
 
 
-uint32_t MensajeUnirsePartida::get_id_partida(){
+uint32_t& MensajeUnirsePartida::get_id_partida(){
     return this->id_partida;
 }

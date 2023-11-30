@@ -7,11 +7,10 @@
 int main(int argc, char* argv[]) {
 
     const char* name = "1626";
-    BroadCaster broadcaster;
     Queue<std::shared_ptr<Comando>> acciones_a_realizar;
     MapContainer mapas;
     Lobby lobby(mapas);
-    Aceptador skt(name,broadcaster,acciones_a_realizar,lobby);
+    Aceptador skt(name,acciones_a_realizar,lobby);
     printf("Se abre un server con puerto : %s\n",name);
     skt.start();
 

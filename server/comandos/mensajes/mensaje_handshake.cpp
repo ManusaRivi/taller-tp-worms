@@ -5,9 +5,9 @@ MensajeHandshakeServer::MensajeHandshakeServer(std::shared_ptr<Snapshot> snap_,s
 }
 
 
-    std::shared_ptr<Snapshot> MensajeHandshakeServer::get_snap(){
+    std::shared_ptr<Snapshot>& MensajeHandshakeServer::get_snap(){
         return this->snap;
     }
-    std::pair<uint32_t,std::vector<uint32_t>> MensajeHandshakeServer::get_gusanos_por_player_(){
+    std::pair<uint32_t,std::vector<uint32_t>>& MensajeHandshakeServer::get_gusanos_por_player_(){
         return this->gusanos_por_player;
     }

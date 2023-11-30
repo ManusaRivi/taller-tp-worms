@@ -1,8 +1,7 @@
 #include "threadAceptador.h"
 #include <unistd.h>
 
-Aceptador::Aceptador(const char* hostname, BroadCaster &caster, Queue<std::shared_ptr<Comando>> &accion,Lobby &lobby_):aceptador(hostname), 
-                                                                                                                    broadcaster(caster),
+Aceptador::Aceptador(const char* hostname, Queue<std::shared_ptr<Comando>> &accion,Lobby &lobby_):aceptador(hostname), 
                                                                                                                     acciones_a_realizar(accion),
                                                                                                                     lobby(lobby_){
     // std::cout << "Se crea el aceptador" << std::endl;
@@ -17,13 +16,10 @@ void Aceptador::run() try{{
     while(keep_talking){
         Socket client_skt = this->aceptador.accept();
         // std::cout << "Se acepto un socket" << std::endl;
-        Queue<std::shared_ptr<MensajeServer>> *queue_enviador = new Queue<std::shared_ptr<MensajeServer>>;
-
 
         
-        Cliente *clte = new Cliente(client_skt,queue_enviador,acciones_a_realizar,lobby);
+        Cliente *clte = new Cliente(client_skt,acciones_a_realizar,lobby);
         clte->start();
-        //broadcaster.add_queue(queue_enviador);
         reap_dead();
         clientes.push_back(clte);
         }

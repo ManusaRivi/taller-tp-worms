@@ -16,12 +16,11 @@ class Aceptador:public Thread{
     std::list<Cliente*> clientes;
     std::atomic<bool> is_alive;
     std::atomic<bool> keep_talking;
-    BroadCaster &broadcaster;
     Queue<std::shared_ptr<Comando>> &acciones_a_realizar;
     Lobby &lobby;
 
     public:
-    Aceptador(const char *host_name, BroadCaster &caster, Queue<std::shared_ptr<Comando>> &acciones,Lobby &lobby);
+    Aceptador(const char *host_name, Queue<std::shared_ptr<Comando>> &acciones,Lobby &lobby);
     void run() override;
     void shutdown();
 

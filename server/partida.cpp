@@ -58,6 +58,7 @@ void Partida::run()try{{
         if(mapa.checkOnePlayerRemains()) {
             printf("La partida termino\n");
             is_alive = false;
+            partida_terminada = true;
         }
         std::shared_ptr<Snapshot> snap = generar_snapshot(it);
         std::shared_ptr<MensajeServer> broadcast = mensajes.snapshot(snap);
@@ -141,15 +142,7 @@ void Partida::enviar_primer_snapshot(){
 }
 
 
-uint32_t Partida::proximo_turno(uint32_t turno_actual){
-    turno_actual++;
-    if(turno_actual == mapa.gusanos_totales()){
-        return 0;
-    }
-    else{
-        return turno_actual;
-    }
-}
+
 
 void Partida::remover_player(Queue<std::shared_ptr<MensajeServer>>* snapshots){
     broadcaster.remover_player(snapshots);
@@ -162,4 +155,8 @@ void Partida::kill(){
 
 bool Partida::partida_accesible(){
     return !partida_empezada;
+}
+
+bool Partida::terminada(){
+    return partida_terminada;
 }

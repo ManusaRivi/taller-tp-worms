@@ -5,6 +5,6 @@ MensajeEstadoUnirse::MensajeEstadoUnirse(uint8_t estado_):MensajeServer(COMANDO:
 
 }
 
-uint8_t MensajeEstadoUnirse::get_state(){
+uint8_t& MensajeEstadoUnirse::get_state(){
     return this->estado;
 }

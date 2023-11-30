@@ -7,5 +7,5 @@ class MensajeEstadoUnirse:public MensajeServer{
 
     public:
     MensajeEstadoUnirse(uint8_t state);
-    uint8_t get_state();
+    uint8_t& get_state();
 };

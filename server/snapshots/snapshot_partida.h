@@ -23,13 +23,13 @@ class SnapshotPartida:public Snapshot{
                 std::vector<ProjectileWrapper> cementerio_proyectiles_
                 );
 
-    std::vector<WormWrapper> get_worms() override;
-    std::vector<ProjectileWrapper> get_proyectiles();
-    std::vector<ExplosionWrapper> get_explosiones();
-    float get_tiempo_actual(); 
-    uint32_t get_gusano_actual();
-    std::vector<ExplosionWrapper> get_cementerio_explosiones();
-    std::vector<ProjectileWrapper> get_cementerio_proyectiles();
+    std::vector<WormWrapper>& get_worms() override;
+    std::vector<ProjectileWrapper>& get_proyectiles();
+    std::vector<ExplosionWrapper>& get_explosiones();
+    float& get_tiempo_actual(); 
+    uint32_t& get_gusano_actual();
+    std::vector<ExplosionWrapper>& get_cementerio_explosiones();
+    std::vector<ProjectileWrapper>& get_cementerio_proyectiles();
 
 
 };

@@ -133,12 +133,13 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap)try{{
     enviar_gusanos(snapshot->get_worms());
     enviar_proyectiles(snapshot->get_proyectiles());
     enviar_explosiones(snapshot->get_explosiones());
+    enviar_sonidos(snapshot->get_sonidos());
 
 }}catch(const ClosedSocket& e){
     throw ClosedSocket();
 }
 
-void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string> partidas/*std::string map*/)try{{
+void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string>& partidas/*std::string map*/)try{{
     // printf("Se estan por enviar las partidas\n");
     //uint8_t cmd = CODIGO_LISTAR_PARTIDA;
     //enviar_1_byte(cmd);
@@ -148,7 +149,7 @@ void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string> partidas/*s
 }
 
 
-void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string> lista)try{{
+void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string>& lista)try{{
     uint16_t cantidad_mapas = lista.size();
     enviar_2_byte(cantidad_mapas);
     for (auto i = lista.begin(); i != lista.end(); i++){
@@ -182,7 +183,7 @@ void ServerProtocolo::check_partida_empezada()try{{
 
 
 
-void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player,std::shared_ptr<Snapshot> snap)try{{
+void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>>& gusanos_por_player, std::shared_ptr<Snapshot> snap)try{{
     std::shared_ptr<SnapshotHandshake> snapshot = std::dynamic_pointer_cast<SnapshotHandshake>(snap);
     uint8_t cmd = CODIGO_HANDSHAKE_EMPEZAR_PARTIDA;
     uint16_t cantidad_gusanos = gusanos_por_player.second.size();
@@ -219,7 +220,7 @@ std::shared_ptr<MensajeServer> ServerProtocolo::recibir_id_gusanos()try{{
 
 
 
-void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper> worms)try{{
+void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper>& worms)try{{
     uint8_t cant_players = worms.size();  
     enviar_2_byte(cant_players);
     for (auto &c: worms){
@@ -249,7 +250,7 @@ void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper> worms)try{{
 }
 
 
-void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>> vigas)try{{
+void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>>& vigas)try{{
 
     uint16_t cantidad_vigas = vigas.size();
     enviar_2_byte(cantidad_vigas);
@@ -266,7 +267,7 @@ void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>> vigas)try{{
 
 
 
-void ServerProtocolo::enviar_proyectiles(std::vector<ProjectileWrapper> proyectiles)try{{
+void ServerProtocolo::enviar_proyectiles(std::vector<ProjectileWrapper>& proyectiles)try{{
     uint16_t cantidad = proyectiles.size();
     enviar_2_byte(cantidad);
     for(auto c : proyectiles){
@@ -288,7 +289,7 @@ void ServerProtocolo::enviar_proyectiles(std::vector<ProjectileWrapper> proyecti
 }
 
 
-void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper> explosiones)try{{
+void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper>& explosiones)try{{
     uint16_t cantidad = explosiones.size();
     enviar_2_byte(cantidad);
     for(auto c : explosiones){
@@ -307,7 +308,7 @@ void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper> explosion
     throw ClosedSocket();
 }
 
-void ServerProtocolo::enviar_sonidos(std::vector<SoundTypes> sonidos)try{
+void ServerProtocolo::enviar_sonidos(std::vector<SoundTypes>& sonidos)try{
     uint16_t cantidad = sonidos.size();
     enviar_2_byte(cantidad);
     for (uint8_t sonido : sonidos) {

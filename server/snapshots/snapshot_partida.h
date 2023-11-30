@@ -12,16 +12,17 @@ class SnapshotPartida:public Snapshot{
     uint32_t gusano_actual;
     std::vector<ExplosionWrapper> cementerio_explosiones;
     std::vector<ProjectileWrapper> cementerio_proyectiles;
-
+    std::vector<SoundTypes> sonidos;
 
     public:
     SnapshotPartida(std::vector<WormWrapper> worms_, 
-                std::vector<ProjectileWrapper> proyectiles_,
-                std::vector<ExplosionWrapper> explosiones_, 
-                float tiempo_actual_, uint32_t gusano_actual_,
-                std::vector<ExplosionWrapper> cementerio_explosiones_,
-                std::vector<ProjectileWrapper> cementerio_proyectiles_
-                );
+                    std::vector<ProjectileWrapper> proyectiles_,
+                    std::vector<ExplosionWrapper> explosiones_, 
+                    float tiempo_actual_, uint32_t gusano_actual_,
+                    std::vector<ExplosionWrapper> cementerio_explosiones_,
+                    std::vector<ProjectileWrapper> cementerio_proyectiles_,
+                    std::vector<SoundTypes> sonidos
+                    );
 
     std::vector<WormWrapper> get_worms() override;
     std::vector<ProjectileWrapper> get_proyectiles();
@@ -30,7 +31,7 @@ class SnapshotPartida:public Snapshot{
     uint32_t get_gusano_actual();
     std::vector<ExplosionWrapper> get_cementerio_explosiones();
     std::vector<ProjectileWrapper> get_cementerio_proyectiles();
-
+    std::vector<SoundTypes> get_sonidos();
 
 };
 

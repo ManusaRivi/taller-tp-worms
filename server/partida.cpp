@@ -99,6 +99,8 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
     mapa.get_cementerio_proyectiles(cementerio_projectiles);
     std::vector<ExplosionWrapper> cementerio_explosiones;
     mapa.get_cementerio_explosiones(cementerio_explosiones);
+    std::vector<SoundTypes> sonidos;
+    mapa.get_sounds(sonidos);
 
     // Snapshot snap(mapa.get_gusanos());
     // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa.gusano_actual());
@@ -108,7 +110,8 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
                                                                             tiempo_del_turno,
                                                                             gusano_jugando_actualmente,
                                                                             cementerio_explosiones,
-                                                                            cementerio_projectiles);
+                                                                            cementerio_projectiles,
+                                                                            sonidos);
     return snap;
 }
 

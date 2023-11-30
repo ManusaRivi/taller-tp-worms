@@ -50,7 +50,7 @@ void Mapa::Load_Map_File(std::string filepath) {
 
 void Mapa::Step(int iteracion) {
     int idx = 0;
-    bool terminar_espera = true;
+    // bool terminar_espera = true;
     for (auto worm : worms) {
         while(!worm->sounds.empty()) {
             SoundTypes sound = worm->sounds.front();
@@ -75,14 +75,14 @@ void Mapa::Step(int iteracion) {
         if (worm->esta_cargando_arma()) {
             worm->cargar_arma();
         }
-        if (!worm->esta_quieto()) {
+        /* if (!worm->esta_quieto()) {
             terminar_espera = false;
-        }
+        } */
         idx++;
     }
-    if (!projectiles.empty()) {
+    /* if (!projectiles.empty()) {
         terminar_espera = false;
-    }
+    } */
     for (auto projectile : projectiles) {
         if(!projectile){
             continue;
@@ -126,9 +126,9 @@ void Mapa::Step(int iteracion) {
             }
         }
     }
-    if (terminar_espera) {
+    /* if (terminar_espera) {
         turnManager.terminar_espera();
-    }
+    } */
     std::pair<bool,uint32_t> manager = turnManager.avanzar_tiempo(iteracion);
     if(manager.first){
         this->detener_worm(manager.second);
@@ -143,36 +143,36 @@ void Mapa::Step(int iteracion) {
  * */
 
 void Mapa::MoveWorm(uint32_t id, int dir) {
-    GameStates status = turnManager.get_state();
-    if (status == WAITING) return;
+    /* GameStates status = turnManager.get_state();
+    if (status == WAITING) return; */
     if(id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->StartMovement(dir);
 }
 
 void Mapa::StopWorm(uint32_t id) {
-    GameStates status = turnManager.get_state();
-    if (status == WAITING) return;
+    /* GameStates status = turnManager.get_state();
+    if (status == WAITING) return; */
     if(id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->Stop();
 }
 
 void Mapa::JumpWormForward(uint32_t id) {
-    GameStates status = turnManager.get_state();
-    if (status == WAITING) return;
+    /* GameStates status = turnManager.get_state();
+    if (status == WAITING) return; */
     if(id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->JumpForward();
 }
 
 void Mapa::JumpWormBackward(uint32_t id) {
-    GameStates status = turnManager.get_state();
-    if (status == WAITING) return;
+    /* GameStates status = turnManager.get_state();
+    if (status == WAITING) return; */
     if(id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->JumpBackward();
 }
 
 void Mapa::cambiar_direccion(uint32_t id, uint8_t dir){
-    GameStates status = turnManager.get_state();
-    if (status == WAITING) return;
+    /* GameStates status = turnManager.get_state();
+    if (status == WAITING) return; */
     if(id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->cambiar_direccion(dir);
 }
@@ -185,54 +185,54 @@ void Mapa::cambiar_direccion(uint32_t id, uint8_t dir){
  * */
 
 void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){
-    GameStates status = turnManager.get_state();
-    if (status == BONUS_TURN || status == WAITING) return;
+    // GameStates status = turnManager.get_state();
+    // if (status == BONUS_TURN || status == WAITING) return;
     if(id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->cambiar_arma(tipo_arma);
     printf("Se llega a cambiar de arma\n");
 }
 
 void Mapa::apuntar_para(uint32_t id, int dir){
-    GameStates status = turnManager.get_state();
-    if (status == BONUS_TURN || status == WAITING) return;
+    // GameStates status = turnManager.get_state();
+    // if (status == BONUS_TURN || status == WAITING) return;
     if(id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->esta_apuntando_para(dir);
 }
 
 void Mapa::cargar_arma(uint32_t id) {
-    GameStates status = turnManager.get_state();
-    if (status == BONUS_TURN || status == WAITING) return;
+    // GameStates status = turnManager.get_state();
+    // if (status == BONUS_TURN || status == WAITING) return;
     if (id != turnManager.get_player_actual()) return;
     worms[id]->iniciar_carga();
     printf("Se empieza a cargar el arma\n");
 }
 
 void Mapa::usar_arma(uint32_t id) {
-    GameStates status = turnManager.get_state();
-    if (status == BONUS_TURN || status == WAITING) return;
+    // GameStates status = turnManager.get_state();
+    // if (status == BONUS_TURN || status == WAITING) return;
     if(id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->usar_arma(projectiles, this->identificador_entidades);
-    turnManager.activar_bonus_turn();
+    // turnManager.activar_bonus_turn();
     printf("Se dispara el arma\n");
 }
 
 void Mapa::set_grenade_time(uint32_t id, int seconds) {
-    GameStates status = turnManager.get_state();
-    if (status == BONUS_TURN || status == WAITING) return;
+    // GameStates status = turnManager.get_state();
+    // if (status == BONUS_TURN || status == WAITING) return;
     if (id != turnManager.get_player_actual()) return;
     worms[id]->set_grenade_timer(seconds);
 }
 
 void Mapa::set_target(uint32_t id, float x, float y) {
-    GameStates status = turnManager.get_state();
-    if (status == BONUS_TURN || status == WAITING) return;
+    // GameStates status = turnManager.get_state();
+    // if (status == BONUS_TURN || status == WAITING) return;
     if (id != turnManager.get_player_actual()) return;
     worms[id]->set_target(x, y);
 }
 
 void Mapa::detener_angulo(uint32_t id){
-    GameStates status = turnManager.get_state();
-    if (status == BONUS_TURN || status == WAITING) return;
+    // GameStates status = turnManager.get_state();
+    // if (status == BONUS_TURN || status == WAITING) return;
     if(id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->parar_angulo();
 }

@@ -306,3 +306,10 @@ void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper> explosion
 }}catch(const ClosedSocket& e){
     throw ClosedSocket();
 }
+
+
+void ServerProtocolo::enviar_estado_unirse(uint8_t estado){
+    uint8_t cd = CODIGO_ESTADO_UNIRSE_PARTIDA;
+    enviar_1_byte(cd);
+    enviar_1_byte(estado);
+}

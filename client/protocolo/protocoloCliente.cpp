@@ -295,3 +295,17 @@ void ClienteProtocolo::enviar_target(float x, float y){
     enviar_4_bytes_float(x);
     enviar_4_bytes_float(y);
 }
+
+bool ClienteProtocolo::recibir_confirmacion_union(){
+    uint8_t cd = recibir_1_byte();
+    if(cd != CODIGO_ESTADO_UNIRSE_PARTIDA){
+        return false;
+    }
+    uint8_t estado = recibir_1_byte();
+    if(estado){
+        return true;
+    }
+    else{
+        return false;
+    }
+}

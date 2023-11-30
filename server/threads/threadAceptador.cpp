@@ -13,8 +13,8 @@ void Aceptador::run() try{{
 
 
    // Sacar el id y poner dentro de la partida
-
-    while(true){
+    is_alive = keep_talking = true;
+    while(keep_talking){
         Socket client_skt = this->aceptador.accept();
         // std::cout << "Se acepto un socket" << std::endl;
         Queue<std::shared_ptr<MensajeServer>> *queue_enviador = new Queue<std::shared_ptr<MensajeServer>>;
@@ -24,6 +24,7 @@ void Aceptador::run() try{{
         Cliente *clte = new Cliente(client_skt,queue_enviador,acciones_a_realizar,lobby);
         clte->start();
         //broadcaster.add_queue(queue_enviador);
+        reap_dead();
         clientes.push_back(clte);
         }
 
@@ -56,7 +57,7 @@ void Aceptador::kill() {
 }
 
 void Aceptador::shutdown(){
-    this->is_open = false;
+    this->keep_talking = false;
     aceptador.shutdown(2);
     aceptador.close();
 }

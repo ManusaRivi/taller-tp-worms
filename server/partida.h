@@ -23,6 +23,8 @@ class Partida:public Thread{
     std::map<uint32_t,uint32_t> id_player_por_gusano;
     std::mutex lck;
     std::atomic<bool> is_alive;
+    std::atomic<bool> partida_empezada;
+    std::atomic<bool> partida_terminada;
     FactoryMensajesServer mensajes;
 
 
@@ -38,6 +40,8 @@ class Partida:public Thread{
     void remover_player(Queue<std::shared_ptr<MensajeServer>>* snapshots);
     
     void kill();
+
+    bool partida_accesible();
 
     
 

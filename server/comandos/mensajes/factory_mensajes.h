@@ -8,6 +8,7 @@
 #include "mensaje_listar_partidas.h"
 #include "mensaje_snapshot.h"
 #include "mensaje_unirse_partida.h"
+#include "mensaje_estado_unirse_partida.h"
 
 
 class FactoryMensajesServer{
@@ -25,6 +26,7 @@ class FactoryMensajesServer{
     std::shared_ptr<MensajeUnirsePartida> unirse_partida(uint32_t id_partida);
     std::shared_ptr<MensajeListarMapas> listar_mapas_recibidor();
     std::shared_ptr<MensajeListarPartidas> listar_partidas_recibidor();
+    std::shared_ptr<MensajeEstadoUnirse> estado_unirse_partida(uint8_t estado);
 
 };
 

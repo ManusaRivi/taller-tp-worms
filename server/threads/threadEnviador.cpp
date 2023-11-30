@@ -42,6 +42,11 @@ void Enviador::run()try{{
             }
             ptcl.enviar_mapas(listar->get_lista());
         }
+        if(msg->get_tipo() == COMANDO::CMD_ESTADO_UNIRSE){
+            //  MensajeEstadoUnirse
+            std::shared_ptr<MensajeEstadoUnirse> estado = std::dynamic_pointer_cast<MensajeEstadoUnirse>(msg);
+            ptcl.enviar_estado_unirse(estado->get_state());
+        }
         
     }
 }}catch(const ClosedSocket& e){

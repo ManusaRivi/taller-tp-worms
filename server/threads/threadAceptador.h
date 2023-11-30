@@ -14,7 +14,8 @@ class Aceptador:public Thread{
     private:
     Socket aceptador;
     std::list<Cliente*> clientes;
-    bool is_open;
+    std::atomic<bool> is_alive;
+    std::atomic<bool> keep_talking;
     BroadCaster &broadcaster;
     Queue<std::shared_ptr<Comando>> &acciones_a_realizar;
     Lobby &lobby;

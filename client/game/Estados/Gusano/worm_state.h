@@ -7,8 +7,8 @@
 #include <vector>
 #include "../../Texturas/texture_manager.h"
 
-#define WORM_WIDTH 1.2
-#define WORM_HEIGHT 1.2
+#define WORM_WIDTH 2.3
+#define WORM_HEIGHT 2.3
 
 #define NUM_COLORES 5
 

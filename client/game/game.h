@@ -45,6 +45,8 @@ class Game {
 
     int run();
     void drawGameOverScreen(Renderer& renderer);
+    void get_mouse_position(int& mouse_rel_x, int& mouse_rel_y, float& scale_x,
+                            float& scale_y, World& world, float& mouse_x, float& mouse_y);
 
 };
 

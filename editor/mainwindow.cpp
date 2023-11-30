@@ -4,7 +4,6 @@
 
 #include <fstream>
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -144,8 +143,8 @@ void MainWindow::exportarMapa() {
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
-        emitter << YAML::Key << "pos_x" << YAML::Value << posicion.x();
-        emitter << YAML::Key << "pos_y" << YAML::Value << posicion.y();
+        emitter << YAML::Key << "pos_x" << YAML::Value << posicion.x()/138*6;
+        emitter << YAML::Key << "pos_y" << YAML::Value << -1*posicion.y()/22;
         emitter << YAML::Key << "angulo" << YAML::Value << angulo;
         emitter << YAML::EndMap;
     }

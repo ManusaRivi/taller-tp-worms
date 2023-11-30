@@ -1,7 +1,7 @@
 #ifndef _PROTOCOLO_SERVER
 #define _PROTOCOLO_SERVER
 
-#include "../../server/snapshot.h"
+#include "../snapshots/snapshot.h"
 
 #include "../juego/worm.h"
 #include "../comandos/mensaje.h"

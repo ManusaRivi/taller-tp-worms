@@ -2,7 +2,7 @@
 
 #define _TESTING
 
-#include "../server/snapshot.h"
+#include "../server/snapshots/snapshot.h"
 #include "../client/protocolo/protocoloCliente.h"
 #include "../server/protocolo/protocoloServer.h"
 #include "../client/game/comunicacion/snapshot.h"

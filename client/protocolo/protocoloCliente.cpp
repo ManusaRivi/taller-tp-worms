@@ -142,11 +142,11 @@ void ClienteProtocolo::enviar_handshake(uint32_t id_player, std::vector<uint32_t
 }
 
 std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
-    std::shared_ptr<SnapshotCliente> snap= std::make_shared<SnapshotCliente>(0);
+    std::shared_ptr<SnapshotCliente> snap = std::make_shared<SnapshotCliente>(0);
     recibir_gusanos(snap);
     recibir_projectiles(snap);
     recibir_explosiones(snap);
-
+    recibir_sonidos(snap);
     /*
     int tamano = 6;
     float posx = 1.5;
@@ -231,6 +231,14 @@ void ClienteProtocolo::recibir_explosiones(std::shared_ptr<SnapshotCliente> snap
         float radio = recibir_4_bytes_float();
         printf("Se recibio una explosion de datos %u   %f    %f    %f\n",id,x,y,radio);
         snap->add_explosion(ExplosionCliente(id,x,y,radio));
+    }
+}
+
+void ClienteProtocolo::recibir_sonidos(std::shared_ptr<SnapshotCliente> snap) {
+    uint16_t cantidad = recibir_2_bytes();
+    for (auto i = 0; i < cantidad; ++i) {
+        uint8_t sonido = recibir_1_byte();
+        snap->add_sound(sonido);
     }
 }
 

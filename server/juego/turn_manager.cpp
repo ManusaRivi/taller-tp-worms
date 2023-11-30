@@ -101,9 +101,31 @@ bool TurnManager::checkOnePlayerRemains() {
 }
 
 std::pair<bool,uint32_t> TurnManager::avanzar_tiempo(uint32_t iteracion){
+    /* Nuevo funcionamiento (completar) */
+    if (state == WAITING) {
+        // no hacer nada
+    }
+    if (state == BONUS_TURN) {
+        if (bonus_turn_timer == FRAME_RATE * 3) {
+            state = WAITING;
+        }
+        else {
+            bonus_turn_timer++;
+        }
+    }
+    if (state == TURN) {
+        if (turn_timer == FRAME_RATE * 60) {
+            // cambiar de turno
+            turn_timer = 0;
+        }
+        else {
+            turn_timer++;
+        }
+    }
+    /* Viejo funcionamiento */
     std::pair<bool,uint32_t> par;
     if (acaba_de_pasar_turno){
-        if((iteracion % static_cast<int>(FRAME_RATE*TIEMPO_POR_TURNO)) == 0 && iteracion > 0){
+        if((iteracion % static_cast<int>(FRAME_RATE * MAX_SEGUNDOS_POR_TURNO)) == 0 && iteracion > 0){
             printf("acaba de terminar los 5 segunods apra actualizar fisicas en la iteracion = %d\n",iteracion);
             // printf("Pasaron 5 segundos desde el turno anterior y se debe para al gusano %u\n",gusano_turno_anterior);
             acaba_de_pasar_turno = false;
@@ -113,7 +135,7 @@ std::pair<bool,uint32_t> TurnManager::avanzar_tiempo(uint32_t iteracion){
         }
     }
     else{
-        if ((iteracion % static_cast<int>(FRAME_RATE * TIEMPO_POR_TURNO)) == 0 && iteracion > 0) {
+        if ((iteracion % static_cast<int>(FRAME_RATE * MAX_SEGUNDOS_POR_TURNO)) == 0 && iteracion > 0) {
             printf("acaba de terminar el turno en la iteracion %d\n",iteracion);
             par.first = true;
             gusano_turno_anterior = this->id_gusano_actual;
@@ -154,4 +176,21 @@ bool TurnManager::acaba_de_cambiar_turno(){
 
 uint32_t TurnManager::get_equipo(uint32_t id) {
     return id_player_por_gusano[id];
+}
+
+GameStates TurnManager::get_state() { return state; }
+
+void TurnManager::activar_bonus_turn() {
+    if (state == TURN) {
+        state = BONUS_TURN;
+        bonus_turn_timer = 0;
+    }
+}
+
+void TurnManager::terminar_espera() {
+    if (state == WAITING) {
+        // cambio de turno
+        state = TURN;
+        turn_timer = 0;
+    }
 }

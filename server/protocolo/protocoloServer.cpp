@@ -131,7 +131,7 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap)try{{
     enviar_1_byte(cmd);
     enviar_4_bytes(snapshot->get_gusano_actual());
     enviar_gusanos(snapshot->get_worms());
-    enviar_proyectlies(snapshot->get_proyectiles());
+    enviar_proyectiles(snapshot->get_proyectiles());
     enviar_explosiones(snapshot->get_explosiones());
 
 }}catch(const ClosedSocket& e){
@@ -266,7 +266,7 @@ void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>> vigas)try{{
 
 
 
-void ServerProtocolo::enviar_proyectlies(std::vector<ProjectileWrapper> proyectiles)try{{
+void ServerProtocolo::enviar_proyectiles(std::vector<ProjectileWrapper> proyectiles)try{{
     uint16_t cantidad = proyectiles.size();
     enviar_2_byte(cantidad);
     for(auto c : proyectiles){
@@ -304,5 +304,15 @@ void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper> explosion
 
     }
 }}catch(const ClosedSocket& e){
+    throw ClosedSocket();
+}
+
+void ServerProtocolo::enviar_sonidos(std::vector<SoundTypes> sonidos)try{
+    uint16_t cantidad = sonidos.size();
+    enviar_2_byte(cantidad);
+    for (uint8_t sonido : sonidos) {
+        enviar_1_byte(sonido);
+    }
+} catch (const ClosedSocket& e) {
     throw ClosedSocket();
 }

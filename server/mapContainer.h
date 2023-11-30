@@ -15,7 +15,7 @@ namespace fs = std::filesystem;
 
 class MapContainer {
     private:
-    std::map<uint32_t, Mapa*> mapas;
+    std::map<uint32_t, std::pair<std::string,std::string>> mapas;
     std::string root;
 
     public:
@@ -23,12 +23,16 @@ class MapContainer {
     ~MapContainer();
     void getMaps();
     void addMap(uint32_t id, Mapa*);
-    Mapa* getMap(uint32_t id);
-    std::map<uint32_t, Mapa*>::iterator begin() {
+        
+
+    std::pair<std::string,std::string> getMap(uint32_t id);
+
+    std::map<uint32_t, std::pair<std::string,std::string>> get_maps();
+    std::map<uint32_t, std::pair<std::string,std::string>>::iterator begin() {
         return mapas.begin();
     }
 
-    std::map<uint32_t, Mapa*>::iterator end() {
+    std::map<uint32_t, std::pair<std::string,std::string>>::iterator end() {
         return mapas.end();
     }
 };

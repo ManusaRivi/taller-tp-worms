@@ -6,10 +6,11 @@
 #include "../../common/queue.h"
 #include "../protocolo/protocoloServer.h"
 #include "../lobby.h"
+#include "../comandos/mensajes/factory_mensajes.h"
 
 
 struct Lobby;
-struct Recibidor:public Thread{
+class Recibidor:public Thread{
 
 
     Socket &skt;
@@ -21,7 +22,8 @@ struct Recibidor:public Thread{
     Lobby &lobby;
     uint8_t id_gusano;
     std::vector<uint32_t> id_gusanos;
-
+    FactoryMensajesServer mensajes;
+    public:
     Recibidor(Socket &peer, Queue<std::shared_ptr<Comando>> &acciones,Queue<std::shared_ptr<MensajeServer>>* snapshots,Lobby &lobby);
 
     void run() override;

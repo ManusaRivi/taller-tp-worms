@@ -44,3 +44,6 @@ void Enviador::run()try{{
 catch(const ClosedQueue& err){
     is_alive = false;
 }
+catch(const std::exception& e){
+    is_alive = false;
+}

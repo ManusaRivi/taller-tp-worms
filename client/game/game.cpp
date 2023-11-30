@@ -79,14 +79,24 @@ int Game::run() try {
 	bool down_press = false;
 	bool return_press = false;
 	bool backspace_press = false;
-	bool has_selected_weapon = false;
-	bool is_aiming = false;
 	bool is_charging_power = false;
+
+	bool has_selected_weapon = false;
 
 	Camara camara = {0.0f, 0.0f};
 
     // Loop principal
 	while (is_active) {
+
+		// Obtengo el tamaño actual de la ventana
+    	int window_width = renderer.GetOutputWidth();
+		int window_height = renderer.GetOutputHeight();
+
+		//Obtengo la escala:
+    	float x_scale = window_width / CAMERA_WIDTH;
+		float y_scale = window_height / CAMERA_HEIGHT;
+
+
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			if (event.type == SDL_QUIT) {
@@ -96,7 +106,7 @@ int Game::run() try {
 				if (tecla == SDLK_ESCAPE){
 					return 0;
 				} else if (tecla == SDLK_RIGHT && !right_press) {
-					if (is_aiming) {
+					if (has_selected_weapon) {
 						// Quiere mirar a la derecha mientras apunta
 						// Enviar por protocolo "mirar a la derecha apuntando" (es cambiar el 
 						// lado para el cual mira si antes miraba a la izquierda)
@@ -108,7 +118,7 @@ int Game::run() try {
 						acciones.push(msg);
 					}
 				} else if (tecla == SDLK_LEFT && !left_press) {
-					if (is_aiming) {
+					if (has_selected_weapon) {
 						// Quiere mirar a la izquierda mientras apunta
 						// Enviar por protocolo "mirar a la izquierda apuntando" (es cambiar el 
 						// lado para el cual mira si antes miraba a la derecha)
@@ -119,58 +129,80 @@ int Game::run() try {
 						std::shared_ptr<MensajeCliente> msg = mensajes.moverse(GAME_MOVE_LEFT);
 						acciones.push(msg);
 					}
-				} else if (tecla == SDLK_RETURN && !is_aiming && !return_press){
+				} else if (tecla == SDLK_RETURN && !has_selected_weapon && !return_press){
 					// Quiere saltar hacia adelante
 					return_press = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.saltar(GAME_JUMP_FORWARD);
 					acciones.push(msg);
 					// Enviar por protocolo comando "saltar adelante"
-				} else if (tecla == SDLK_BACKSPACE && !is_aiming && !backspace_press){
+				} else if (tecla == SDLK_BACKSPACE && !has_selected_weapon && !backspace_press){
 					// Quere saltar hacia atras
 					backspace_press = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.saltar(GAME_JUMP_BACKWARDS);
 					acciones.push(msg);
 					// Enviar por protocolo comando "saltar atras"
-				} else if (tecla == SDLK_1 && !has_selected_weapon) {
-					// Selecciono la Bazooka
-					// ToDo: Desarrollar para cuenta regresiva
-					has_selected_weapon = true;
-					is_aiming = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::BAZOOKA);
-					acciones.push(msg);
+				} else if (tecla == SDLK_1) {
+					if (has_selected_weapon) {
+						std::shared_ptr<MensajeCliente> msg = mensajes.setear_timer(1);
+						acciones.push(msg);
+					} else {
+						// Selecciono la Bazooka
+						// ToDo: Desarrollar para cuenta regresiva
+						has_selected_weapon = true;
+						std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::BAZOOKA);
+						acciones.push(msg);
 					// Enviar comando "saco bazooka" por protocolo
-				} else if (tecla == SDLK_2 && !has_selected_weapon) {
-					// Selecciono el Bate
-					// ToDo: Desarrollar para cuenta regresiva
-					has_selected_weapon = true;
-					is_aiming = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::BATE);
-					acciones.push(msg);
-					// Enviar comando "saco bate" por protocolo
-				} else if (tecla == SDLK_3 && !has_selected_weapon) {
-					// Selecciono Teletransportacion
-					// ToDo: Desarrollar para cuenta regresiva
-					has_selected_weapon = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::TELETRANSPORTACION);
-					acciones.push(msg);
-					// Enviar comando "saco teletransportador" por protocolo
-				} else if (tecla == SDLK_4 && !has_selected_weapon) {
-					// Selecciono la Dinamita
-					// ToDo: Desarrollar para cuenta regresiva
-					has_selected_weapon = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::DINAMITA);
-					acciones.push(msg);
-					// Enviar comando "saco dinamita" por protocolo
-				} else if (tecla == SDLK_5 && !has_selected_weapon) {
-					// Selecciono el Ataque Aereo
-					// ToDo: Desarrollar para cuenta regresiva
-					has_selected_weapon = true;
-					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::ATAQUE_AEREO);
-					acciones.push(msg);
-					// Enviar comando "saco ataque aereo" por protocolo
+					}
+				} else if (tecla == SDLK_2) {
+					if (has_selected_weapon) {
+						std::shared_ptr<MensajeCliente> msg = mensajes.setear_timer(2);
+						acciones.push(msg);
+					} else {
+						// Selecciono el Bate
+						// ToDo: Desarrollar para cuenta regresiva
+						has_selected_weapon = true;
+						std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::BATE);
+						acciones.push(msg);
+						// Enviar comando "saco bate" por protocolo
+					}
+				} else if (tecla == SDLK_3) {
+					if (has_selected_weapon) {
+						std::shared_ptr<MensajeCliente> msg = mensajes.setear_timer(3);
+						acciones.push(msg);
+					} else {
+						// Selecciono Teletransportacion
+						// ToDo: Desarrollar para cuenta regresiva
+						has_selected_weapon = true;
+						std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::TELETRANSPORTACION);
+						acciones.push(msg);
+						// Enviar comando "saco teletransportador" por protocolo
+					}
+				} else if (tecla == SDLK_4) {
+					if (has_selected_weapon) {
+						std::shared_ptr<MensajeCliente> msg = mensajes.setear_timer(4);
+						acciones.push(msg);
+					} else {
+						// Selecciono la Dinamita
+						// ToDo: Desarrollar para cuenta regresiva
+						has_selected_weapon = true;
+						std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::DINAMITA);
+						acciones.push(msg);
+						// Enviar comando "saco dinamita" por protocolo
+					}
+				} else if (tecla == SDLK_5) {
+					if (has_selected_weapon) {
+						std::shared_ptr<MensajeCliente> msg = mensajes.setear_timer(5);
+						acciones.push(msg);
+					} else {
+						// Selecciono el Ataque Aereo
+						// ToDo: Desarrollar para cuenta regresiva
+						has_selected_weapon = true;
+						std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::ATAQUE_AEREO);
+						acciones.push(msg);
+						// Enviar comando "saco ataque aereo" por protocolo
+					}
 				} else if (tecla == SDLK_6 && !has_selected_weapon) {
 					// Selecciono la Granada santa
-					is_aiming = true;
 					has_selected_weapon = true;
 					// printf("Se manda una granada santa\n");
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::GRANADA_SANTA);
@@ -178,14 +210,12 @@ int Game::run() try {
 					// Enviar comando "saco granada santa" por protocolo
 				} else if (tecla == SDLK_7 && !has_selected_weapon) {
 					// Selecciono la Granada verde
-					is_aiming = true;
 					has_selected_weapon = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::GRANADA_VERDE);
 					acciones.push(msg);
 					// Enviar comando "saco granada verde" por protocolo
 				} else if (tecla == SDLK_8 && !has_selected_weapon) {
 					// Selecciono la Banana
-					is_aiming = true;
 					has_selected_weapon = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::BANANA);
 					acciones.push(msg);
@@ -193,24 +223,22 @@ int Game::run() try {
 				} else if (tecla == SDLK_9 && !has_selected_weapon) {
 					// Selecciono la Granada roja
 					has_selected_weapon = true;
-					is_aiming = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::GRANADA_ROJA);
 					acciones.push(msg);
 					// Enviar comando "saco granada roja" por protocolo
 				} else if (tecla == SDLK_0 && !has_selected_weapon) {
 					// Selecciono el mortero
 					has_selected_weapon = true;
-					is_aiming = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::MORTERO);
 					acciones.push(msg);
 					// Enviar comando "saco mortero" por protocolo
-				} else if (tecla == SDLK_UP && !up_press && is_aiming) {
+				} else if (tecla == SDLK_UP && !up_press && has_selected_weapon) {
 					// Comienza a presionar arriba mientras esta apuntando
 					up_press = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_angulo(ANGULO_ARRIBA);
 					acciones.push(msg);
 					// Enviar por protocolo que empezo a aumentar el angulo
-				} else if (tecla == SDLK_DOWN && !down_press && is_aiming) {
+				} else if (tecla == SDLK_DOWN && !down_press && has_selected_weapon) {
 					// Comienza a presionar abajo mientras esta apuntando
 					down_press = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_angulo(ANGULO_ABAJO);
@@ -230,11 +258,11 @@ int Game::run() try {
 				SDL_Keycode tecla = event.key.keysym.sym;
 				camara.x = 0;
 				camara.y = 0;
-				if (tecla == SDLK_RIGHT && !is_aiming) {
+				if (tecla == SDLK_RIGHT && !has_selected_weapon) {
 					right_press = false;
 					std::shared_ptr<MensajeCliente> msg = mensajes.detener_movimiento();
 					acciones.push(msg);
-				} else if (tecla == SDLK_LEFT && !is_aiming) {
+				} else if (tecla == SDLK_LEFT && !has_selected_weapon) {
 					left_press = false;
 					std::shared_ptr<MensajeCliente> msg = mensajes.detener_movimiento();
 					acciones.push(msg);
@@ -253,7 +281,6 @@ int Game::run() try {
 					std::shared_ptr<MensajeCliente> msg = mensajes.disparar();
 					acciones.push(msg);
 					// Enviar por protocolo que disparó (que dejo de cargar el poder)
-					is_aiming = false;
 					has_selected_weapon = false;
 				} else if (tecla == SDLK_RETURN) {
 					return_press = false;
@@ -269,14 +296,6 @@ int Game::run() try {
 				}
 			}
         }
-        
-		// Obtengo el tamaño actual de la ventana
-    	int window_width = renderer.GetOutputWidth();
-		int window_height = renderer.GetOutputHeight();
-
-		//Obtengo la escala:
-    	float x_scale = window_width / CAMERA_WIDTH;
-		float y_scale = window_height / CAMERA_HEIGHT;
 
         // Limpio la pantalla
 		renderer.Clear();
@@ -286,6 +305,9 @@ int Game::run() try {
 		if (snap->get_tipo_comando() == COMANDO::CMD_ENVIAR_SNAPSHOT){
 			std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(snap);
 			std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
+			if (snapshot->turn_change((*world))) {
+				has_selected_weapon = false;
+			}
 			snapshot->apply_to_world((*world));
 			(*world).present(it_inc, renderer, texture_manager, sound_manager, mixer, x_scale, y_scale, camara);
 			//snapshot->present(it_inc, renderer, texture_manager, window_width, window_height, x_scale, y_scale);

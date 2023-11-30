@@ -9,11 +9,11 @@ CambiarAngulo::CambiarAngulo(uint8_t dir, uint32_t id_responsable):Comando(id_re
 }
 
 
-void CambiarAngulo::realizar_accion(Mapa* mapa){
+void CambiarAngulo::realizar_accion(Mapa& mapa){
     if(direccion == ARRIBA){
-        mapa->apuntar_para(this->get_responsable(),1);
+        mapa.apuntar_para(this->get_responsable(),1);
     }
     else{
-        mapa->apuntar_para(this->get_responsable(),0);
+        mapa.apuntar_para(this->get_responsable(),0);
     }
 }

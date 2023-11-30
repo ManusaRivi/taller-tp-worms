@@ -34,6 +34,9 @@ class World {
     std::map<int, ExplosionCliente> explosions; 
     std::vector<int> sonidos;
     int _id_camera;
+    uint32_t _id_actual_turn;
+    float camera_x;
+    float camera_y;
     int proy_it;
     float _map_width;
     float _map_height;
@@ -65,6 +68,10 @@ class World {
 
     void update_camera(int id_camera);
 
+    void update_turn(uint32_t id_actual_turn);
+
+    uint32_t get_turn();
+
     void add_worm(std::shared_ptr<Worm> worm, int id);
 
     void add_sound(int sound_code);
@@ -90,7 +97,8 @@ class World {
                         float& y_scale,
                         Camara& camara);
 
-    // Metodos unicamente para testear
+    float get_camera_x();
+    float get_camera_y();
 
 };
 

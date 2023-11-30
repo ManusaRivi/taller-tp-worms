@@ -58,3 +58,18 @@ std::shared_ptr<MensajeAccionJugador> FactoryMensaje::cambiar_direccion_arma(uin
     std::shared_ptr<MensajeAccionJugador> msg = make_shared<MensajeAccionJugador>(cmd);
     return msg;
 }
+
+std::shared_ptr<MensajeAccionJugador> FactoryMensaje::setear_timer(uint32_t time){
+    std::shared_ptr<ComandoCliente> cmd = factory.accion_setear_timer(time);
+    std::shared_ptr<MensajeAccionJugador> msg = make_shared<MensajeAccionJugador>(cmd);
+    return msg;
+}
+
+std::shared_ptr<MensajeAccionJugador> FactoryMensaje::setear_target(float x, float y){
+    std::shared_ptr<ComandoCliente> cmd = factory.accion_setear_target(x,y);
+    std::shared_ptr<MensajeAccionJugador> msg = make_shared<MensajeAccionJugador>(cmd);
+    return msg;
+}
+
+
+

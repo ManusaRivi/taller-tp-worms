@@ -2,6 +2,7 @@
 #define ARMA_H
 
 #include "../proyectiles/projectile.h"
+#include "../../common/armas.h"
 
 #define BASELINE_POWER 0.5f
 #define MAX_POWER 2.0f
@@ -11,15 +12,16 @@
 class Arma
 {
 protected:
-    bool cargando;
+    Armas tipo;
 public:
     Arma() {};
     virtual void iniciarCarga() = 0;
     virtual void cargar() = 0;
-    bool estaCargando() {
-        return cargando;
+    virtual bool estaCargando() = 0;
+    Armas obtenerTipo() {
+        return tipo;
     }
-    virtual Projectile* Shoot(float x_pos, float y_pos, float angle) = 0;
+    virtual void Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) = 0;
     virtual ~Arma() {}
 };
 

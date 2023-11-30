@@ -14,7 +14,7 @@ class Partida:public Thread{
 
     private:
     Queue<std::shared_ptr<Comando>> acciones_a_realizar;
-    Mapa* mapa;
+    Mapa mapa;
     BroadCaster broadcaster;
     uint32_t id_partida;
     std::string nombre_partida;
@@ -27,7 +27,7 @@ class Partida:public Thread{
 
 
     public:
-    Partida(uint32_t id_partida, std::string nombre, Mapa* mapa);
+    Partida(uint32_t id_partida, std::string nombre, std::string archivo_yaml);
     void run() override;
     std::string get_nombre();
     void add_queue(Queue<std::shared_ptr<MensajeServer>>* snapshots);

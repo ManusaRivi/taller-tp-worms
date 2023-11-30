@@ -1,8 +1,11 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
+#include <queue>
+
 #include "../../../libs/box2d/include/box2d/box2d.h"
 #include "../../../../common/projectile_types.h"
+#include "../../../../common/sound_types.h"
 #include "../collision_categories.h"
 #include "../colisionable.h"
 
@@ -29,6 +32,7 @@ protected:
     }
 
 public:
+    std::queue<SoundTypes> sounds;
     Projectile() {};
     virtual bodyType identificar() override {
         return bodyType::PROJECTILE;
@@ -36,6 +40,7 @@ public:
     ProjectileType getType() {
         return type;
     }
+    virtual bool isGrenade() = 0;
     bool hasExploded() {
         return exploded;
     }
@@ -58,6 +63,7 @@ public:
     }
     void SetExplosion() {
         exploded = true;
+        sounds.push(SoundTypes::EXPLOSION);
     }
     virtual void explotar() = 0;
     virtual ~Projectile() {

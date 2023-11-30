@@ -1,9 +1,11 @@
 #include "grenade.h"
 
-Grenade::Grenade(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius, int fragments, int seconds) :
+Grenade::Grenade(b2World& world, ProjectileType type, float x_pos, float y_pos,
+                float angle, float power, int dmg, int radius, int fragments,
+                float restitution, int seconds) :
                 world(world), timer(GrenadeTimer (seconds))
 {
-    type = ProjectileType::GREEN_GRENADE;
+    this->type = type;
     this->fragments = fragments;
     this->dmg = dmg;
     this->radius = radius;
@@ -26,7 +28,7 @@ Grenade::Grenade(b2World& world, float x_pos, float y_pos, float angle, float po
     b2FixtureDef fixtureGrenade;
     fixtureGrenade.shape = &grenadeBox;
     fixtureGrenade.density = GRENADE_DENSITY;
-    fixtureGrenade.restitution = GRENADE_RESTITUTION;
+    fixtureGrenade.restitution = restitution;
     fixtureGrenade.filter.categoryBits = CollisionCategories::PROJECTILE_COLL;
     fixtureGrenade.filter.maskBits = (CollisionCategories::BOUNDARY_COLL | CollisionCategories::WORM_COLL);
 
@@ -38,7 +40,25 @@ Grenade::Grenade(b2World& world, float x_pos, float y_pos, float angle, float po
 }
 
 void Grenade::advance_time() {
-    if (timer.advance_time()) this->explotar();
+    if (this->type == ProjectileType::HOLY_GRENADE) {
+        if (timer.is_about_to_explode()) {
+            this->sounds.push(SoundTypes::HOLY_GRANADE_CHOIR);
+        }
+    }
+    if (timer.advance_time()) this->SetExplosion();
+}
+
+void Grenade::bounce() {
+    if(this->type == ProjectileType::BANANA_GRENADE) {
+        this->sounds.push(SoundTypes::BANANA_BOUNCE);
+    }
+    else {
+        this->sounds.push(SoundTypes::GRENADE_BOUNCE);
+    }
+}
+
+bool Grenade::isGrenade() {
+    return true;
 }
 
 void Grenade::explotar()

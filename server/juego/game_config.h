@@ -21,7 +21,21 @@ private:
                     green_grenade_radius(config["radio_granada_verde"].as<int>()),
                     red_grenade_ammo(config["ammo_granada_roja"].as<int>()),
                     red_grenade_dmg(config["dmg_granada_roja"].as<int>()),
-                    red_grenade_radius(config["radio_granada_roja"].as<int>()) {}
+                    red_grenade_radius(config["radio_granada_roja"].as<int>()),
+                    banana_ammo(config["ammo_banana"].as<int>()),
+                    banana_dmg(config["dmg_banana"].as<int>()),
+                    banana_radius(config["radio_banana"].as<int>()),
+                    holy_grenade_ammo(config["ammo_santa"].as<int>()),
+                    holy_grenade_dmg(config["dmg_santa"].as<int>()),
+                    holy_grenade_radius(config["radio_santa"].as<int>()),
+                    dynamite_ammo(config["ammo_dinamita"].as<int>()),
+                    dynamite_dmg(config["dmg_dinamita"].as<int>()),
+                    dynamite_radius(config["radio_dinamita"].as<int>()),
+                    bat_dmg(config["dmg_bate"].as<int>()),
+                    airstrike_rockets(config["num_misiles"].as<int>()),
+                    airstrike_ammo(config["ammo_misiles"].as<int>()),
+                    airstrike_dmg(config["dmg_misil"].as<int>()),
+                    airstrike_radius(config["radio_misil"].as<int>()) {}
     GameConfig(const GameConfig&) = delete;
     GameConfig& operator=(const GameConfig&) = delete;
 public:
@@ -44,6 +58,25 @@ public:
     const int red_grenade_ammo;
     const int red_grenade_dmg;
     const int red_grenade_radius;
+
+    const int banana_ammo;
+    const int banana_dmg;
+    const int banana_radius;
+
+    const int holy_grenade_ammo;
+    const int holy_grenade_dmg;
+    const int holy_grenade_radius;
+
+    const int dynamite_ammo;
+    const int dynamite_dmg;
+    const int dynamite_radius;
+
+    const int bat_dmg;
+
+    const int airstrike_rockets;
+    const int airstrike_ammo;
+    const int airstrike_dmg;
+    const int airstrike_radius;
 
     static GameConfig& getInstance()
     {

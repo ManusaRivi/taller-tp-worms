@@ -3,7 +3,7 @@
 
 using namespace SDL2pp;
 
-World::World(float map_width, float map_height): 
+World::World(float map_width, float map_height): camera_x(0), camera_y(0),
             proy_it(0), _map_width(map_width), _map_height(map_height) {}
 
 void World::add_worm(std::shared_ptr<Worm> worm, int id) {
@@ -29,6 +29,14 @@ void World::add_explosion(ExplosionCliente explosion) {
 void World::update_camera(int id_camera) {
     _id_camera = id_camera;
 }
+
+void World::update_turn(uint32_t id_actual_turn) {
+    _id_actual_turn = id_actual_turn;
+}
+
+uint32_t World::get_turn() {
+    return _id_actual_turn;
+} 
 
 void World::update_worm(const int& id, std::shared_ptr<Worm> worm) {
     worms.at(id)->update(std::move(worm));
@@ -144,8 +152,8 @@ void World::present(int& it_inc,
         pos_foco_y = it_exp->second.get_y();
     }
 
-    float camera_x = pos_foco_x - (window_width / (2 * x_scale)) + camara.x;
-    float camera_y = _map_height - (pos_foco_y + (window_height / (2 * y_scale))) + camara.y;
+    camera_x = pos_foco_x - (window_width / (2 * x_scale)) + camara.x;
+    camera_y = _map_height - (pos_foco_y + (window_height / (2 * y_scale))) + camara.y;
 
     if (camera_x < 0) camera_x = 0;
     if (camera_x > _map_width - (window_width / x_scale)) camera_x = _map_width - (window_width / x_scale);
@@ -201,6 +209,13 @@ void World::present(int& it_inc,
     renderer.Present();
 }
 
+float World::get_camera_x() {
+    return camera_x;
+}
+
+float World::get_camera_y() {
+    return camera_y;
+}
 
 std::vector<Beam> World::get_beams(){
     return this->beams;

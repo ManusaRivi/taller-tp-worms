@@ -282,3 +282,16 @@ void ClienteProtocolo::enviar_cambio_direccion_apuntado(uint8_t dir){
     enviar_1_byte(cd);
     enviar_1_byte(dir);
 }
+
+void ClienteProtocolo::enviar_timer(uint32_t time){
+    uint8_t cd = CODIGO_SETEAR_TIMER;
+    enviar_1_byte(cd);
+    enviar_4_bytes(time);
+}
+
+void ClienteProtocolo::enviar_target(float x, float y){
+    uint8_t cd = CODIGO_SETEAR_TARGET;
+    enviar_1_byte(cd);
+    enviar_4_bytes_float(x);
+    enviar_4_bytes_float(y);
+}

@@ -13,6 +13,7 @@ void Protocolo::enviar_1_byte(uint8_t num){
 
 void Protocolo::enviar_2_byte(uint16_t num){
     bool was_closed = false;
+    // uint16_t transf = htons(num);
     std::vector<uint8_t> buf(2,0);
     memcpy(buf.data(),&num,2);
     skt.sendall(buf.data(),2,&was_closed);

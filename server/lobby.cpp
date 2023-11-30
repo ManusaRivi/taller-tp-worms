@@ -7,7 +7,7 @@ Lobby::Lobby(MapContainer& mapas):lista_mapas(mapas),id_actual(1){
 
 uint32_t Lobby::crear_partida(std::string nombre, Queue<std::shared_ptr<MensajeServer>>* snapshots,uint16_t id_mapa){
     std::lock_guard<std::mutex> lock(lck);
-    Partida *partida = new Partida(id_actual,nombre,lista_mapas.getMap(id_mapa));
+    Partida *partida = new Partida(id_actual,nombre,lista_mapas.getMap(id_mapa).second);
     
     partida->add_queue(snapshots);
     uint32_t id_actuali = this->id_actual;
@@ -20,7 +20,7 @@ uint32_t Lobby::crear_partida(std::string nombre, Queue<std::shared_ptr<MensajeS
 
 
 
-void Lobby::listar_partidas(Queue<std::shared_ptr<MensajeServer>>* snapshots){
+std::map<uint32_t,std::string> Lobby::listar_partidas(Queue<std::shared_ptr<MensajeServer>>* snapshots){
     std::lock_guard<std::mutex> lock(lck);
     std::map<uint32_t,std::string> lista;
     for (auto i = lista_partidas.begin(); i != lista_partidas.end(); i++){
@@ -28,24 +28,25 @@ void Lobby::listar_partidas(Queue<std::shared_ptr<MensajeServer>>* snapshots){
         // std::cout << "El nombre de la partida es : " << nombre << std::endl;
         lista.insert({i->first,nombre});
     }
-    std::shared_ptr<MensajeServer> msg = mensajes.listar_partidas(lista);
-    snapshots->push(msg);
+    // std::shared_ptr<MensajeServer> msg = mensajes.listar_partidas(lista);
+    return lista;
 }
 
-void Lobby::listar_mapas(Queue<std::shared_ptr<MensajeServer>>* cliente){
+std::map<uint32_t,std::string> Lobby::listar_mapas(Queue<std::shared_ptr<MensajeServer>>* cliente){
     std::lock_guard<std::mutex> lock(lck);
     // MapContainer mapContainer;
     std::map<uint32_t,std::string> lista;
+    
 
     for (auto it = lista_mapas.begin(); it != lista_mapas.end(); ++it) {
         // Accede a cada par clave-valor en el mapa aquí
-        std::string nombre = it->second->GetName();
+        std::string nombre = it->second.first;
         // std::cout << "Un nombre de mapa es -> " << nombre << std::endl;
         // Realiza las operaciones que desees con el mapa
         lista.insert({it->first, nombre});
     }
-    std::shared_ptr<MensajeListarMapas> msg = mensajes.listar_mapas(lista);
-    cliente->push(msg);
+    // std::shared_ptr<MensajeListarMapas> msg = mensajes.listar_mapas(lista);
+    return lista;
 }
 
 Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t id_pedido){

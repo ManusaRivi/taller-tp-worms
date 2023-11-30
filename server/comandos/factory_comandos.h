@@ -13,6 +13,8 @@
 #include "cargar_arma.h"
 #include "cambiar_direccion_arma.h"
 #include "mensajes/mensaje.h"
+#include "setear_target.h"
+#include "setear_timer.h"
 
 
 class EmpezarPartida;
@@ -37,7 +39,8 @@ class FactoryComandos{
     std::shared_ptr<DetenerAngulo> comando_detener_angulo(uint32_t id);
     std::shared_ptr<CambiarArma> comando_cambiar_arma(uint32_t id, uint8_t tipo_arma);
     std::shared_ptr<CambiarDireccionArma> comando_cambia_direccion_arma(uint32_t id, uint8_t dir);
-    
+    std::shared_ptr<SetearTarget> comando_setear_target(uint32_t id, float x, float y);
+    std::shared_ptr<SetearTimer> comando_setear_timer(uint32_t id, uint32_t time);
 
     ~FactoryComandos();
 

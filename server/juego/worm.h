@@ -10,7 +10,7 @@
 #include "./colisionable.h"
 
 #include <vector>
-#include <iostream>
+#include <queue>
 
 enum directions {
     RIGHT = 0,
@@ -25,6 +25,7 @@ enum directions {
 
 #define WORM_DENSITY 0.2f
 #define WORM_FRICTION 0.8f
+#define WORM_RESTITUTION 0.5f
 
 #define MOVING_SPEED 0.335f
 
@@ -50,6 +51,8 @@ private:
     uint8_t hitPoints;
     float initialHeight;
     float finalHeight;
+    float x_target;
+    float y_target;
 
 public:
     int jumpSteps;
@@ -59,6 +62,7 @@ public:
     float angulo_disparo;
     bool esta_apuntando_para_arriba;
     bool apuntando;
+    std::queue<SoundTypes> sounds;
 
     Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id);
     virtual bodyType identificar() override;
@@ -78,7 +82,7 @@ public:
     bool isDead();
     void kill();
     
-    Projectile* usar_arma();
+    void usar_arma(std::vector<Projectile*>& projectiles, uint32_t& entity_id);
 
     int get_facing_direction();
 
@@ -102,6 +106,8 @@ public:
 
     void incrementar_angulo_en(float inc);
 
+    void set_target(float x, float y);
+
     void set_grenade_timer(int seconds);
 
     bool esta_apuntando();
@@ -117,6 +123,8 @@ public:
     uint8_t get_vida();
 
     void cambiar_direccion(uint8_t dir);
+
+    ~Worm();
 };
 
 #endif

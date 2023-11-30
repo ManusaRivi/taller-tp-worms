@@ -13,7 +13,7 @@
 
 #define MIN_X_IMPULSE -0.1f
 #define MAX_X_IMPULSE 0.1f
-#define Y_IMPULSE 0.3f
+#define Y_IMPULSE 0.05f
 
 #define FRAG_BLAST_POWER 1.0
 
@@ -27,7 +27,8 @@ private:
         return r;
     }
 public:
-    Fragment(b2World& world, float x_pos, float y_pos, int dmg, int radius);
+    Fragment(b2World& world, ProjectileType type, float x_pos, float y_pos, int dmg, int radius);
+    virtual bool isGrenade() override;
     virtual void explotar() override;
 };
 

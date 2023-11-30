@@ -19,7 +19,8 @@ class Rocket : public Projectile
 private:
     b2World& world;
 public:
-    Rocket(b2World& world, float x_pos, float y_pos, float angle, float power, int dmg, int radius, int fragments);
+    Rocket(b2World& world, ProjectileType type, float x_pos, float y_pos, float angle, float power, int dmg, int radius, int fragments);
+    virtual bool isGrenade() override;
     virtual void explotar() override;
 };
 

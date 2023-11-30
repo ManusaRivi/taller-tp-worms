@@ -93,7 +93,7 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
     mapa.get_projectiles(vector_proyectiles);
     std::vector<ExplosionWrapper> vector_explosiones;
     mapa.get_explosions(vector_explosiones);
-    uint32_t tiempo_del_turno = iteraccion % static_cast<int>(FRAME_RATE * TIEMPO_POR_TURNO);
+    uint32_t tiempo_del_turno = iteraccion % static_cast<int>(FRAME_RATE * MAX_SEGUNDOS_POR_TURNO); // ESTO SERA EL TURN_TIMER!!!
     uint32_t gusano_jugando_actualmente = mapa.gusano_actual();
     std::vector<ProjectileWrapper> cementerio_projectiles;
     mapa.get_cementerio_proyectiles(cementerio_projectiles);

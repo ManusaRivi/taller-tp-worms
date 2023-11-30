@@ -214,7 +214,8 @@ void Worm::usar_arma(std::vector<Projectile*>& projectiles, uint32_t& entity_id)
                     angle =  (- this->aiming_angle()) + 3.14;
                 }
                 else{
-                    angle = this->aiming_angle() + 1.57;
+                    angle = 3.14f - this->aiming_angle();
+                    
                 }
             }
             else{
@@ -339,7 +340,12 @@ void Worm::incrementar_angulo_en(float inc){
     if(!esta_apuntando_para_arriba){
         inc = -inc;
     }
-    if(angulo_disparo + inc < -1.57 || angulo_disparo + inc > 1.57){
+    if(angulo_disparo + inc < -1.57){
+        angulo_disparo = -1.57f;
+        return;
+    }
+    else if (angulo_disparo + inc > 1.57){
+        angulo_disparo = 1.57f;
         return;
     }
     angulo_disparo +=inc;

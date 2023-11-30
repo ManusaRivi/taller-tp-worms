@@ -102,7 +102,7 @@ bool TurnManager::checkOnePlayerRemains() {
 
 std::pair<bool,uint32_t> TurnManager::avanzar_tiempo(uint32_t iteracion){
     /* Nuevo funcionamiento (completar) */
-    if (state == WAITING) {
+    /* if (state == WAITING) {
         // no hacer nada
     }
     if (state == BONUS_TURN) {
@@ -121,7 +121,7 @@ std::pair<bool,uint32_t> TurnManager::avanzar_tiempo(uint32_t iteracion){
         else {
             turn_timer++;
         }
-    }
+    } */
     /* Viejo funcionamiento */
     std::pair<bool,uint32_t> par;
     if (acaba_de_pasar_turno){

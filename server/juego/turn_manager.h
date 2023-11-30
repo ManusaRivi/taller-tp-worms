@@ -24,7 +24,7 @@ class TurnManager{
     uint32_t gusano_turno_anterior;
     int cantidad_players;
 
-    GameStates status;
+    GameStates state;
 
     uint8_t turn_timer;
     uint8_t bonus_turn_timer;

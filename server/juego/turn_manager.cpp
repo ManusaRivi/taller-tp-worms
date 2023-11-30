@@ -102,18 +102,18 @@ bool TurnManager::checkOnePlayerRemains() {
 
 std::pair<bool,uint32_t> TurnManager::avanzar_tiempo(uint32_t iteracion){
     /* Nuevo funcionamiento (completar) */
-    if (status == WAITING) {
+    if (state == WAITING) {
         // no hacer nada
     }
-    if (status == BONUS_TURN) {
+    if (state == BONUS_TURN) {
         if (bonus_turn_timer == FRAME_RATE * 3) {
-            status = WAITING;
+            state = WAITING;
         }
         else {
             bonus_turn_timer++;
         }
     }
-    if (status == TURN) {
+    if (state == TURN) {
         if (turn_timer == FRAME_RATE * 60) {
             // cambiar de turno
             turn_timer = 0;
@@ -178,17 +178,19 @@ uint32_t TurnManager::get_equipo(uint32_t id) {
     return id_player_por_gusano[id];
 }
 
+GameStates TurnManager::get_state() { return state; }
+
 void TurnManager::activar_bonus_turn() {
-    if (status == TURN) {
-        status = BONUS_TURN;
+    if (state == TURN) {
+        state = BONUS_TURN;
         bonus_turn_timer = 0;
     }
 }
 
 void TurnManager::terminar_espera() {
-    if (status == WAITING) {
+    if (state == WAITING) {
         // cambio de turno
-        status = TURN;
+        state = TURN;
         turn_timer = 0;
     }
 }

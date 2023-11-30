@@ -56,20 +56,44 @@ public:
     * indice en el vector gusanos del gusano a mover.
     * Si dir es 0, se mueve a la derecha. Si es 1, a la izquierda.
     * */
-    void MoveWorm(uint32_t idx, int dir);
+    void MoveWorm(uint32_t id, int dir);
     /*
     * Setea la velocidad en x del gusano cuyo indice es idx a 0.
     * Mantiene la velocidad en y, para que si esta cayendo y se detiene,
     * siga cayendo con la misma velocidad hacia abajo.
     * */
-    void StopWorm(uint32_t idx);
-    void JumpWormForward(uint32_t idx);
-    void JumpWormBackward(uint32_t idx);
+    void StopWorm(uint32_t id);
+    void JumpWormForward(uint32_t id);
+    void JumpWormBackward(uint32_t id);
+
+    void cambiar_direccion(uint32_t id, uint8_t dir);
+
+    void cambiar_arma(uint32_t id, uint8_t tipo);
+
+    void apuntar_para(uint32_t id,int);
+
+    void cargar_arma(uint32_t id);
+
+    void usar_arma(uint32_t id);
+
+    void set_grenade_time(uint32_t id, int seconds);
+
+    void set_target(uint32_t id, float x, float y);
+
+    void detener_worm(uint32_t id);
+
+    void detener_angulo(uint32_t id);
+
+    std::map<uint32_t, std::vector<uint32_t>> repartir_ids(uint32_t cantidad_jugadores);
+
+    bool checkOnePlayerRemains();
+    
+    uint32_t gusano_actual();
 
     std::string GetName();
 
-    WormWrapper devolver_gusano(int idx);
     void get_vigas(std::vector<std::vector<float>>& beam_vector);
+
     uint16_t gusanos_totales();
 
     void get_gusanos(std::vector<WormWrapper>& worm_vector);
@@ -84,34 +108,6 @@ public:
 
     void get_sounds(std::vector<SoundTypes>& sound_vector);
 
-    void cambiar_arma(uint32_t id, uint8_t tipo);
-
-    void apuntar_para(uint32_t id,int);
-    // std::vector<float> get_size();
-
-    void cargar_arma(uint32_t idx);
-
-    void usar_arma(uint32_t idx);
-
-    void set_grenade_time(uint32_t idx, int seconds);
-
-    void set_target(uint32_t idx, float x, float y);
-
-    void detener_worm(uint32_t id);
-
-    void detener_angulo(uint32_t id);
-
-    std::map<uint32_t, std::vector<uint32_t>> repartir_ids(uint32_t cantidad_jugadores);
-
-    uint32_t gusano_actual();
-
-    void cambiar_direccion(uint32_t id,uint8_t dir);
-  
-    std::vector<ProjectileWrapper> get_cementerio_proyectiles();
-  
-    std::vector<ExplosionWrapper> get_cementerio_explosiones();
-
-    bool checkOnePlayerRemains();
     ~Mapa();
 };
 

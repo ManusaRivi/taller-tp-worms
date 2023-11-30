@@ -82,6 +82,7 @@ int Game::run() try {
 	bool is_charging_power = false;
 
 	bool has_selected_weapon = false;
+	bool mouse_weapon = false;
 
 	Camara camara = {0.0f, 0.0f};
 
@@ -173,6 +174,7 @@ int Game::run() try {
 						// Selecciono Teletransportacion
 						// ToDo: Desarrollar para cuenta regresiva
 						has_selected_weapon = true;
+						mouse_weapon = true;
 						std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::TELETRANSPORTACION);
 						acciones.push(msg);
 						// Enviar comando "saco teletransportador" por protocolo
@@ -197,6 +199,7 @@ int Game::run() try {
 						// Selecciono el Ataque Aereo
 						// ToDo: Desarrollar para cuenta regresiva
 						has_selected_weapon = true;
+						mouse_weapon = true;
 						std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::ATAQUE_AEREO);
 						acciones.push(msg);
 						// Enviar comando "saco ataque aereo" por protocolo
@@ -294,6 +297,17 @@ int Game::run() try {
     				camara.x += mov_x;
     				camara.y += mov_y;
 				}
+			} else if (event.type == SDL_MOUSEBUTTONDOWN) {
+				SDL_MouseButtonEvent mouse_event = event.button;
+				if (mouse_event.button == SDL_BUTTON_LEFT && has_selected_weapon && mouse_weapon) {
+					int mouse_rel_x = mouse_event.x;
+					int mouse_rel_y = mouse_event.y;
+					float mouse_x = 0.0;
+					float mouse_y = 0.0;
+					get_mouse_position(mouse_rel_x, mouse_rel_y, x_scale, y_scale, (*world), mouse_x, mouse_y);
+					std::shared_ptr<MensajeCliente> msg = mensajes.setear_target(mouse_x, mouse_y);
+					acciones.push(msg);
+				}
 			}
         }
 
@@ -350,6 +364,14 @@ int Game::run() try {
 	std::cerr << e.what() << std::endl;
 	return 1;
 }
+
+void Game::get_mouse_position(int& mouse_rel_x, int& mouse_rel_y, float& scale_x,
+                            float& scale_y, World& world, float& mouse_x, float& mouse_y) {
+	
+	mouse_x = (mouse_rel_x / scale_x) + world.get_camera_x();
+	mouse_y = world.get_map_height() - ((mouse_rel_y / scale_y) + world.get_camera_y());
+}
+
 
 void Game::drawGameOverScreen(Renderer& renderer) {
 

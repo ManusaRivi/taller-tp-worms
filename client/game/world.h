@@ -99,6 +99,7 @@ class World {
 
     float get_camera_x();
     float get_camera_y();
+    float get_map_height();
 
 };
 

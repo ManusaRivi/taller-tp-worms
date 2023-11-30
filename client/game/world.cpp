@@ -217,6 +217,10 @@ float World::get_camera_y() {
     return camera_y;
 }
 
+float World::get_map_height() {
+    return _map_height;
+}
+
 std::vector<Beam> World::get_beams(){
     return this->beams;
 }

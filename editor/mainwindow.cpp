@@ -62,6 +62,8 @@ void MainWindow::agregarViga() {
     QString rotacion = this->ui->lineEdit->text();
     qreal angulo = rotacion.toFloat();
 
+    this->angulos.push_back(angulo);
+
     qreal anchoOriginal = vigaPixmap.width();
     qreal altoOriginal = vigaPixmap.height();
 
@@ -83,6 +85,8 @@ void MainWindow::agregarVigaLarga() {
 
     QString rotacion = this->ui->lineEdit->text();
     qreal angulo = rotacion.toFloat();
+
+    this->angulos.push_back(angulo);
 
     vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
 
@@ -130,11 +134,12 @@ void MainWindow::exportarMapa() {
     emitter << YAML::Value;
     emitter << YAML::BeginSeq;
 
+    size_t i = 0;
     for (QGraphicsPixmapItem* viga : this->vigas) {
-        QPointF posicion = viga->scenePos();
-        qreal angulo = obtenerAnguloInclinacion(viga);
 
+        QPointF posicion = viga->scenePos();
         QRectF boundingRect = viga->boundingRect();
+
         if(boundingRect.width() > 100) {
             tipo = "larga";
         } else {
@@ -145,8 +150,9 @@ void MainWindow::exportarMapa() {
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
         emitter << YAML::Key << "pos_x" << YAML::Value << abs(posicion.x()/138*6);
         emitter << YAML::Key << "pos_y" << YAML::Value << abs(-1*posicion.y()/22);
-        emitter << YAML::Key << "angulo" << YAML::Value << angulo;
+        emitter << YAML::Key << "angulo" << YAML::Value << this->angulos[i];
         emitter << YAML::EndMap;
+        i++;
     }
 
     emitter << YAML::EndSeq;
@@ -189,10 +195,6 @@ void MainWindow::limpiarMapa() {
 void MainWindow::cambiarFondo() {
     this->currentBackgroundIndex = (this->currentBackgroundIndex + 1) % this->backgrounds.size();
     this->scene->setBackgroundBrush(QBrush(QPixmap(this->backgrounds[this->currentBackgroundIndex])));
-}
-
-qreal MainWindow::obtenerAnguloInclinacion(QGraphicsPixmapItem* item) {
-    return item->rotation();
 }
 
 void MainWindow::exitApplication() {

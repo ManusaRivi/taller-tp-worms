@@ -3,8 +3,14 @@
 #include <vector>
 #include <algorithm>
 
-#define TIEMPO_POR_TURNO 30.0f
+#define MAX_SEGUNDOS_POR_TURNO 60
 #define FRAME_RATE 30.0f
+
+enum GameStates {
+    TURN,
+    BONUS_TURN,
+    WAITING
+};
 
 class TurnManager{
 
@@ -17,6 +23,11 @@ class TurnManager{
 
     uint32_t gusano_turno_anterior;
     int cantidad_players;
+
+    GameStates status;
+
+    uint8_t turn_timer;
+    uint8_t bonus_turn_timer;
 
     bool acaba_de_pasar_turno;
 
@@ -33,5 +44,7 @@ class TurnManager{
     uint32_t getNextWorm(uint32_t id_player) const;
     uint32_t get_equipo(uint32_t id);
     bool checkOnePlayerRemains();
-
+    GameStates get_state();
+    void activar_bonus_turn();
+    void terminar_espera();
 };

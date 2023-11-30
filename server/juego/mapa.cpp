@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <iostream>
 
-Mapa::Mapa(std::string map_filepath) : world(b2Vec2(0.0f, -10.0f)), contactListener(ContactListener()) {
+Mapa::Mapa(std::string map_filepath) : world(b2Vec2(0.0f, -10.0f)), contactListener(ContactListener()),identificador_entidades(0) {
     world.SetContactListener(&contactListener);
     Load_Map_File(map_filepath);
 }
@@ -28,7 +28,7 @@ void Mapa::Load_Map_File(std::string filepath) {
         float y_pos = beam["pos_y"].as<float>();
         float angle = beam["angulo"].as<float>();
         
-        vigas.push_back(new BeamServer (world, size, x_pos, y_pos, angle));
+        vigas.push_back(std::make_shared< BeamServer> (world, size, x_pos, y_pos, angle));
     }
 
     GameConfig& config = GameConfig::getInstance();
@@ -41,7 +41,7 @@ void Mapa::Load_Map_File(std::string filepath) {
         float y_pos = worm["pos_y"].as<float>();
         int dir = worm["direccion"].as<int>();
         // printf("La posicion del gusano es : %f   %f\n",x_pos,y_pos);
-        worms.push_back(new Worm (world, config.puntos_de_vida, dir, x_pos, y_pos, id++));
+        worms.push_back(std::make_shared< Worm> (world, config.puntos_de_vida, dir, x_pos, y_pos, id++));
     }
     turnManager.cargar_cantidad_gusanos(worms.size());
 
@@ -102,24 +102,23 @@ void Mapa::Step(int iteracion) {
             if (frag_amount > 0) {
                 GameConfig& config = GameConfig::getInstance();
                 for (auto i = 0; i < frag_amount; ++i) {
-                    Fragment* fragmento = new Fragment (world, ProjectileType::FRAGMENT, position.x, position.y, config.frag_dmg, config.frag_radius);
+                    std::shared_ptr<Fragment> fragmento = std::make_shared<Fragment> (world, ProjectileType::FRAGMENT, position.x, position.y, config.frag_dmg, config.frag_radius);
                     fragmento->insertar_id(this->identificador_entidades);
                     projectiles.push_back(fragmento);
                     this->identificador_entidades++;
                 }
             }
 
-            std::vector<Projectile*>::iterator it = std::find(projectiles.begin(), projectiles.end(), projectile);
+            std::vector<std::shared_ptr<Projectile>>::iterator it = std::find(projectiles.begin(), projectiles.end(), projectile);
             if (it != projectiles.end())
                 projectiles.erase(it);
-            delete projectile;
         }
         else {
             if (!projectile->isGrenade()) {
                 projectile->updateAngle();
             }
             else {
-                Grenade* grenade = static_cast<Grenade*>(projectile);
+                std::shared_ptr<Grenade> grenade = std::dynamic_pointer_cast<Grenade>(projectile);
                 grenade->advance_time();
             }
         }
@@ -185,12 +184,12 @@ std::string Mapa::GetName() {
 }
 
 Mapa::~Mapa() {
-    for (auto worm : worms) {
-        delete worm;
-    }
-    for (auto viga: vigas) {
-        delete viga;
-    }
+    // for (auto worm : worms) {
+    //     delete worm;
+    // }
+    // for (auto viga: vigas) {
+    //     delete viga;
+    // }
 
     delete water;
 }

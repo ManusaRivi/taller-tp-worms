@@ -9,7 +9,7 @@ public:
     virtual void iniciarCarga() override {}
     virtual void cargar() override {}
     virtual bool estaCargando() override { return false; }
-    virtual void Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) override {}
+    virtual void Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) override {}
 };
 
 #endif

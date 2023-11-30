@@ -8,6 +8,6 @@ class MensajeListarPartidas:public MensajeServer{
     public:
     MensajeListarPartidas(std::map<uint32_t,std::string> lista_);
     MensajeListarPartidas();
-    std::map<uint32_t,std::string> get_lista();
+    std::map<uint32_t,std::string>& get_lista();
 
 };

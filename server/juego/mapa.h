@@ -33,9 +33,9 @@ private:
     const int32 velocityIterations = 6;
     const int32 positionIterations = 2;
 
-    std::vector<BeamServer*> vigas;
-    std::vector<Worm*> worms;
-    std::vector<Projectile*> projectiles;
+    std::vector<std::shared_ptr<BeamServer>> vigas;
+    std::vector<std::shared_ptr<Worm>> worms;
+    std::vector<std::shared_ptr<Projectile>> projectiles;
     std::queue<ExplosionWrapper> explosions;
     std::queue<SoundTypes> sounds;
     Water* water;

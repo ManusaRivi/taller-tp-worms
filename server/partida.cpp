@@ -18,14 +18,14 @@ double now() {
 void Partida::run()try{{
 
     is_alive = true;
-    bool partida_iniciada = false;
-    while(!partida_iniciada){
+    partida_empezada = false;
+    while(!partida_empezada){
         std::shared_ptr<Comando> comando = acciones_a_realizar.pop();
         if(comando->get_comando() == COMANDO::CMD_EMPEZAR_PARTIDA){
             std::shared_ptr<MensajeServer> msg = mensajes.empezar_partida();
             broadcaster.broadcastSnap(msg);
             enviar_primer_snapshot();
-            partida_iniciada = true;
+            partida_empezada = true;
         }
     }
     if(!is_alive){
@@ -58,6 +58,7 @@ void Partida::run()try{{
         if(mapa.checkOnePlayerRemains()) {
             printf("La partida termino\n");
             is_alive = false;
+            partida_terminada = true;
         }
         std::shared_ptr<Snapshot> snap = generar_snapshot(it);
         std::shared_ptr<MensajeServer> broadcast = mensajes.snapshot(snap);
@@ -84,6 +85,8 @@ void Partida::run()try{{
     }
 }}catch(const ClosedQueue& e){
         is_alive = false;
+        partida_terminada = true;
+
 }
 
 std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
@@ -142,15 +145,7 @@ void Partida::enviar_primer_snapshot(){
 }
 
 
-uint32_t Partida::proximo_turno(uint32_t turno_actual){
-    turno_actual++;
-    if(turno_actual == mapa.gusanos_totales()){
-        return 0;
-    }
-    else{
-        return turno_actual;
-    }
-}
+
 
 void Partida::remover_player(Queue<std::shared_ptr<MensajeServer>>* snapshots){
     broadcaster.remover_player(snapshots);
@@ -159,4 +154,12 @@ void Partida::remover_player(Queue<std::shared_ptr<MensajeServer>>* snapshots){
 void Partida::kill(){
     acciones_a_realizar.close();
     is_alive = false;
+}
+
+bool Partida::partida_accesible(){
+    return !partida_empezada;
+}
+
+bool Partida::terminada(){
+    return partida_terminada;
 }

@@ -166,7 +166,7 @@ void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string>& lista)try{{
 }
 
 
-void ServerProtocolo::enviar_mapas(std::map<uint32_t,std::string> mapas)try{{
+void ServerProtocolo::enviar_mapas(std::map<uint32_t,std::string>& mapas)try{{
     enviar_lista(mapas);
 }}catch(const ClosedSocket& e){
     throw ClosedSocket();
@@ -316,4 +316,10 @@ void ServerProtocolo::enviar_sonidos(std::vector<SoundTypes>& sonidos)try{
     }
 } catch (const ClosedSocket& e) {
     throw ClosedSocket();
+}
+
+void ServerProtocolo::enviar_estado_unirse(uint8_t estado){
+    uint8_t cd = CODIGO_ESTADO_UNIRSE_PARTIDA;
+    enviar_1_byte(cd);
+    enviar_1_byte(estado);
 }

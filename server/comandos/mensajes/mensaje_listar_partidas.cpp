@@ -11,6 +11,6 @@ MensajeListarPartidas::MensajeListarPartidas():MensajeServer(COMANDO::CMD_LISTAR
 }
 
 
-std::map<uint32_t,std::string> MensajeListarPartidas::get_lista(){
+std::map<uint32_t,std::string>& MensajeListarPartidas::get_lista(){
     return this->lista;
 }

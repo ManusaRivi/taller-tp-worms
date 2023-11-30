@@ -13,7 +13,7 @@ class Colisionable
 public:
     Colisionable() {}
     virtual bodyType identificar() = 0;
-    virtual ~Colisionable() {}
+    virtual ~Colisionable() = default;
 };
 
 #endif

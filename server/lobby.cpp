@@ -5,7 +5,7 @@ Lobby::Lobby(MapContainer& mapas):lista_mapas(mapas),id_actual(1){
 
 }
 
-uint32_t Lobby::crear_partida(std::string nombre, Queue<std::shared_ptr<MensajeServer>>* snapshots,uint16_t id_mapa){
+uint32_t Lobby::crear_partida(std::string& nombre, Queue<std::shared_ptr<MensajeServer>>* snapshots,uint16_t& id_mapa){
     std::lock_guard<std::mutex> lock(lck);
     Partida *partida = new Partida(id_actual,nombre,lista_mapas.getMap(id_mapa).second);
     
@@ -49,7 +49,7 @@ std::map<uint32_t,std::string> Lobby::listar_mapas(Queue<std::shared_ptr<Mensaje
     return lista;
 }
 
-Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t id_pedido){
+Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t& id_pedido){
     return lista_partidas.at(id_pedido)->get_queue();
 }
 
@@ -58,14 +58,21 @@ Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t id_pedido){
 //     lista_partidas.at(id)->start();
 // }
 
-void Lobby::unirse_a_partida(uint32_t id_partida, Queue<std::shared_ptr<MensajeServer>>* snapshots){
+bool Lobby::unirse_a_partida(uint32_t& id_partida, Queue<std::shared_ptr<MensajeServer>>* snapshots){
     std::lock_guard<std::mutex> lock(lck);
     // printf("Se pide unirse un player\n");
-    lista_partidas.at(id_partida)->add_queue(snapshots);
+    if(lista_partidas.at(id_partida)->partida_accesible()){
+        lista_partidas.at(id_partida)->add_queue(snapshots);
+        return true;
+    }
+    else{
+        return false;
+    }
+    
 
 }
 
-void Lobby::desconectarse_partida(uint32_t id,Queue<std::shared_ptr<MensajeServer>>* snapshots){
+void Lobby::desconectarse_partida(uint32_t& id,Queue<std::shared_ptr<MensajeServer>>* snapshots){
     std::lock_guard<std::mutex> lock(lck);
     if(this->lista_partidas.find(id) != this->lista_partidas.end()){
         this->lista_partidas.at(id)->remover_player(snapshots);
@@ -83,5 +90,17 @@ void Lobby::kill(){
         it->second->join();
         delete it->second;
         it = lista_partidas.erase(it);
+    }
+}
+
+void Lobby::reap_dead(){
+    std::lock_guard<std::mutex> lock(lck);
+    auto it = lista_partidas.begin();
+    while (it != lista_partidas.end()){
+        if(it->second->terminada()){
+            it->second->join();
+            delete it->second;
+            it = lista_partidas.erase(it);
+        }
     }
 }

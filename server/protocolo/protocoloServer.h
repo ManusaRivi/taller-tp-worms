@@ -1,7 +1,7 @@
 #ifndef _PROTOCOLO_SERVER
 #define _PROTOCOLO_SERVER
 
-#include "../../server/snapshot.h"
+#include "../snapshots/snapshot.h"
 
 #include "../juego/worm.h"
 #include "../comandos/mensaje.h"
@@ -28,10 +28,10 @@ class ServerProtocolo:public Protocolo{
     void partida_empezada();
     void check_partida_empezada();
     void enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>>& gusanos_por_player, std::shared_ptr<Snapshot> snap);
-    void enviar_mapas(std::map<uint32_t,std::string> lista_mapas);
-
+    void enviar_mapas(std::map<uint32_t,std::string>& lista_mapas);
     std::shared_ptr<MensajeServer> recibir_id_gusanos();
     void enviar_gusanos(std::vector<WormWrapper>& worms);
+    void enviar_estado_unirse(uint8_t estado);
     private:
     void enviar_vigas(std::vector<std::vector<float>>& vigas);
     void enviar_lista(std::map<uint32_t,std::string>& lista);

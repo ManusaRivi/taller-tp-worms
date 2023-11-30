@@ -32,7 +32,6 @@ public:
     void limpiarMapa();
     void cambiarFondo();
     void exitApplication();
-    qreal obtenerAnguloInclinacion(QGraphicsPixmapItem* item);
     std::string generarNombreAleatorio();
 
 private:
@@ -42,6 +41,7 @@ private:
     int currentBackgroundIndex;
     std::vector<QGraphicsPixmapItem*> worms;
     std::vector<QGraphicsPixmapItem*> vigas;
+    std::vector<float> angulos;
 };
 
 #endif // MAINWINDOW_H

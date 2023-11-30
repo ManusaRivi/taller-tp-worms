@@ -13,7 +13,7 @@
 
 #define MIN_X_IMPULSE -0.1f
 #define MAX_X_IMPULSE 0.1f
-#define Y_IMPULSE 0.3f
+#define Y_IMPULSE 0.05f
 
 #define FRAG_BLAST_POWER 1.0
 

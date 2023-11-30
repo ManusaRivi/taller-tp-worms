@@ -46,6 +46,8 @@ class ClienteProtocolo:public Protocolo{
     void enviar_timer(uint32_t time);
     void enviar_target(float x, float y);
 
+    bool recibir_confirmacion_union();
+
     
     private:
     

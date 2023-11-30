@@ -5,6 +5,6 @@ MensajeSnapshotServer::MensajeSnapshotServer(std::shared_ptr<Snapshot> snap_):Me
 }
 
 
-std::shared_ptr<Snapshot> MensajeSnapshotServer::get_snap(){
+std::shared_ptr<Snapshot>& MensajeSnapshotServer::get_snap(){
     return this->snap;
 }

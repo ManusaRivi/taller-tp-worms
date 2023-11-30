@@ -7,5 +7,5 @@ class MensajeHandshakeRecibir:public MensajeServer{
 
     public:
     MensajeHandshakeRecibir(std::pair<uint32_t,std::vector<uint32_t>> id_gusanos_);
-    std::pair<uint32_t,std::vector<uint32_t>> get_pair();
+    std::pair<uint32_t,std::vector<uint32_t>>& get_pair();
 };

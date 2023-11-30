@@ -8,7 +8,7 @@ class MensajeListarMapas:public MensajeServer{
     public:
     MensajeListarMapas(std::map<uint32_t,std::string> lista_);
     MensajeListarMapas();
-    std::map<uint32_t,std::string> get_lista();
+    std::map<uint32_t,std::string>& get_lista();
 
 
 

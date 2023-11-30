@@ -5,9 +5,9 @@ MensajeCrearPartida::MensajeCrearPartida(std::string partida, uint16_t id_mapa_)
 }
 
 
-    std::string MensajeCrearPartida::get_nombre_partida(){
+    std::string& MensajeCrearPartida::get_nombre_partida(){
         return this->nombre_partida;
     }
-    uint16_t MensajeCrearPartida::get_id_mapa(){
+    uint16_t& MensajeCrearPartida::get_id_mapa(){
         return this->id_mapa;
     }

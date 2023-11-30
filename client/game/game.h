@@ -4,9 +4,9 @@
 // Frame rate, 33 para 30FPS
 #define FRAME_RATE 16
 
-// Tamaño de la camara (7.11, 4)
-#define CAMERA_WIDTH 16
-#define CAMERA_HEIGHT 9
+// Tamaño de la camara (16, 9)
+#define CAMERA_WIDTH 32
+#define CAMERA_HEIGHT 18
 
 #define GAME_MIX_FORMAT 0x00008010
 
@@ -45,6 +45,8 @@ class Game {
 
     int run();
     void drawGameOverScreen(Renderer& renderer);
+    void get_mouse_position(int& mouse_rel_x, int& mouse_rel_y, float& scale_x,
+                            float& scale_y, World& world, float& mouse_x, float& mouse_y);
 
 };
 

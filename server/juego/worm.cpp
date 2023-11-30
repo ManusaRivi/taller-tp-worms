@@ -6,7 +6,7 @@ union BodyUserData {
 };
 
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
-            coleccionArmas(new ColeccionArmas(world)),armaActual(nullptr), moving(false) ,facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
+            coleccionArmas(std::make_unique<ColeccionArmas>(world)),armaActual(nullptr), moving(false) ,facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
             finalHeight(0.0f), jumpSteps(0), id(id_), status(WormStates::IDLE), angulo_disparo(0.0f), apuntando(false)
 {
     b2BodyDef gusanoDef;
@@ -171,7 +171,7 @@ float Worm::GetAngle() {
     return body->GetAngle();
 }
 
-void Worm::usar_arma(std::vector<Projectile*>& projectiles, uint32_t& entity_id) {
+void Worm::usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id) {
     if(!armaActual || this->isDead()){
         return;
     }
@@ -214,7 +214,8 @@ void Worm::usar_arma(std::vector<Projectile*>& projectiles, uint32_t& entity_id)
                     angle =  (- this->aiming_angle()) + 3.14;
                 }
                 else{
-                    angle = this->aiming_angle() + 1.57;
+                    angle = 3.14f - this->aiming_angle();
+                    
                 }
             }
             else{
@@ -344,7 +345,12 @@ void Worm::incrementar_angulo_en(float inc){
     if(!esta_apuntando_para_arriba){
         inc = -inc;
     }
-    if(angulo_disparo + inc < -1.57 || angulo_disparo + inc > 1.57){
+    if(angulo_disparo + inc < -1.57){
+        angulo_disparo = -1.57f;
+        return;
+    }
+    else if (angulo_disparo + inc > 1.57){
+        angulo_disparo = 1.57f;
         return;
     }
     angulo_disparo +=inc;
@@ -356,7 +362,7 @@ void Worm::set_target(float x, float y) {
 }
 
 void Worm::set_grenade_timer(int seconds) {
-    GranadaArma* arma = dynamic_cast<GranadaArma*>(armaActual);
+    std::shared_ptr<GranadaArma> arma = std::dynamic_pointer_cast<GranadaArma>(armaActual);
     if (!arma) return;
     arma->SetTime(seconds);
 }
@@ -414,6 +420,5 @@ void Worm::kill() {
 }
 
 Worm::~Worm(){
-    delete coleccionArmas;
 }
 

@@ -39,8 +39,8 @@ void Grave::present(int& it_inc,
 	renderer.Copy(
 				texture,
 				Rect(src_x, src_y, 60, 60), // El sprite
-				Rect(static_cast<int>((pos_x - WORM_WIDTH /2 - (0.85*WORM_WIDTH)) * x_scale),
-					static_cast<int>((pos_y - WORM_HEIGHT /2 + (0.28*WORM_HEIGHT)) * y_scale),
+				Rect(static_cast<int>((pos_x - WORM_WIDTH / 2) * x_scale),
+					static_cast<int>((pos_y - WORM_HEIGHT / 2) * y_scale),
 					WORM_WIDTH * x_scale, WORM_HEIGHT * y_scale), // Donde lo grafico
 				worm_angle,        // Angulo
 				NullOpt,

@@ -55,6 +55,8 @@ class SnapshotCliente {
 
     void apply_to_world(World& world);
 
+    bool turn_change(World& world);
+
     void agregar_turno_actual(uint32_t id);
 
     void imprimir_posiciones();

@@ -14,8 +14,8 @@ class MensajeHandshakeServer:public MensajeServer{
 
     public:
     MensajeHandshakeServer(std::shared_ptr<Snapshot> snap_,std::pair<uint32_t,std::vector<uint32_t>> gusanos_por_player_);
-    std::shared_ptr<Snapshot> get_snap();
-    std::pair<uint32_t,std::vector<uint32_t>> get_gusanos_por_player_();
+    std::shared_ptr<Snapshot>& get_snap();
+    std::pair<uint32_t,std::vector<uint32_t>>& get_gusanos_por_player_();
 
 };
 

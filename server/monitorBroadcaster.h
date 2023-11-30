@@ -1,7 +1,7 @@
 #ifndef _Broadcaster
 #define _Broadcaster
 #include "../../common/queue.h"
-#include "snapshot.h"
+#include "snapshots/snapshot.h"
 #include <list>
 #include "comandos/mensajes/factory_mensajes.h"
 

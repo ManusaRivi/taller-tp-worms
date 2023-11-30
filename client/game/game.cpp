@@ -44,6 +44,7 @@ int Game::run() try {
 	SDLTTF ttf;
 	// Inicializo SDL_mixer
     SDL2pp::Mixer mixer(MIX_DEFAULT_FREQUENCY, GAME_MIX_FORMAT, 2, 1024);
+	Mix_Volume(-1, MIX_MAX_VOLUME * 0.6);
 
     // Creo la ventana: 
     // Dimensiones: 854x480, redimensionable
@@ -82,6 +83,7 @@ int Game::run() try {
 	bool is_charging_power = false;
 
 	bool has_selected_weapon = false;
+	bool mouse_weapon = false;
 
 	Camara camara = {0.0f, 0.0f};
 
@@ -173,6 +175,7 @@ int Game::run() try {
 						// Selecciono Teletransportacion
 						// ToDo: Desarrollar para cuenta regresiva
 						has_selected_weapon = true;
+						mouse_weapon = true;
 						std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::TELETRANSPORTACION);
 						acciones.push(msg);
 						// Enviar comando "saco teletransportador" por protocolo
@@ -197,6 +200,7 @@ int Game::run() try {
 						// Selecciono el Ataque Aereo
 						// ToDo: Desarrollar para cuenta regresiva
 						has_selected_weapon = true;
+						mouse_weapon = true;
 						std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::ATAQUE_AEREO);
 						acciones.push(msg);
 						// Enviar comando "saco ataque aereo" por protocolo
@@ -294,6 +298,17 @@ int Game::run() try {
     				camara.x += mov_x;
     				camara.y += mov_y;
 				}
+			} else if (event.type == SDL_MOUSEBUTTONDOWN) {
+				SDL_MouseButtonEvent mouse_event = event.button;
+				if (mouse_event.button == SDL_BUTTON_LEFT && has_selected_weapon && mouse_weapon) {
+					int mouse_rel_x = mouse_event.x;
+					int mouse_rel_y = mouse_event.y;
+					float mouse_x = 0.0;
+					float mouse_y = 0.0;
+					get_mouse_position(mouse_rel_x, mouse_rel_y, x_scale, y_scale, (*world), mouse_x, mouse_y);
+					std::shared_ptr<MensajeCliente> msg = mensajes.setear_target(mouse_x, mouse_y);
+					acciones.push(msg);
+				}
 			}
         }
 
@@ -305,6 +320,10 @@ int Game::run() try {
 		if (snap->get_tipo_comando() == COMANDO::CMD_ENVIAR_SNAPSHOT){
 			std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(snap);
 			std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
+			if (snapshot->turn_change((*world))) {
+				has_selected_weapon = false;
+				mouse_weapon = false;
+			}
 			snapshot->apply_to_world((*world));
 			(*world).present(it_inc, renderer, texture_manager, sound_manager, mixer, x_scale, y_scale, camara);
 			//snapshot->present(it_inc, renderer, texture_manager, window_width, window_height, x_scale, y_scale);
@@ -347,6 +366,14 @@ int Game::run() try {
 	std::cerr << e.what() << std::endl;
 	return 1;
 }
+
+void Game::get_mouse_position(int& mouse_rel_x, int& mouse_rel_y, float& scale_x,
+                            float& scale_y, World& world, float& mouse_x, float& mouse_y) {
+	
+	mouse_x = (mouse_rel_x / scale_x) + world.get_camera_x();
+	mouse_y = world.get_map_height() - ((mouse_rel_y / scale_y) + world.get_camera_y());
+}
+
 
 void Game::drawGameOverScreen(Renderer& renderer) {
 

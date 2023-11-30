@@ -29,6 +29,6 @@ bodyType BeamServer::identificar() {
 }
 
 std::vector<float> BeamServer::get_pos(){
-     std::vector<float> viga({body->GetPosition().x,body->GetPosition().y,body->GetAngle(),this->len});
+     std::vector<float> viga({body->GetPosition().x,body->GetPosition().y,body->GetAngle(),2 * this->len});
      return viga;
 }

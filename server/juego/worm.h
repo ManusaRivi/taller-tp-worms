@@ -43,8 +43,8 @@ class ColeccionArmas;
 class Worm : public Colisionable {
 private:
     b2Body* body;
-    ColeccionArmas* coleccionArmas;
-    Arma* armaActual;
+    std::unique_ptr<ColeccionArmas> coleccionArmas;
+    std::shared_ptr<Arma> armaActual;
     bool moving;
     int facingDirection;
     bool airborne;
@@ -82,7 +82,7 @@ public:
     bool isDead();
     void kill();
     
-    void usar_arma(std::vector<Projectile*>& projectiles, uint32_t& entity_id);
+    void usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id);
 
     int get_facing_direction();
 

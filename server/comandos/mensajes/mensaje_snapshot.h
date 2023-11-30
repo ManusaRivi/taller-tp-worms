@@ -14,7 +14,7 @@ class MensajeSnapshotServer:public MensajeServer{
     public:
     MensajeSnapshotServer(std::shared_ptr<Snapshot> snap_);
 
-    std::shared_ptr<Snapshot> get_snap();
+    std::shared_ptr<Snapshot>& get_snap();
 
 
 };

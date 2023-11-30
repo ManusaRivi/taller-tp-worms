@@ -30,7 +30,6 @@ class SnapshotPartida:public Snapshot{
     std::vector<ExplosionWrapper>& get_cementerio_explosiones();
     std::vector<ProjectileWrapper>& get_cementerio_proyectiles();
     std::vector<SoundTypes>& get_sonidos();
-
 };
 
 #endif

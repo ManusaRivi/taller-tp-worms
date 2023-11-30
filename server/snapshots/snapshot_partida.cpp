@@ -1,7 +1,7 @@
 #include "snapshot_partida.h"
 
 
-SnapshotPartida::SnapshotPartida(std::vector<WormWrapper> worms_, 
+SnapshotPartida::SnapshotPartida(std::vector<WormWrapper> worms_,
                                 std::vector<ProjectileWrapper> proyectiles_,
                                 std::vector<ExplosionWrapper> explosiones_, 
                                 float tiempo_actual_, uint32_t gusano_actual_,

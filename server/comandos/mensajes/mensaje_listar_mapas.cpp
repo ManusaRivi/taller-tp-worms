@@ -9,6 +9,6 @@ MensajeListarMapas::MensajeListarMapas():MensajeServer(COMANDO::CMD_LISTAR_MAPAS
 
 }
 
-std::map<uint32_t,std::string> MensajeListarMapas::get_lista(){
+std::map<uint32_t,std::string>& MensajeListarMapas::get_lista(){
     return this->lista;
 }

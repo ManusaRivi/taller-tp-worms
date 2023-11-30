@@ -4,7 +4,6 @@
 
 #include <fstream>
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -58,39 +57,46 @@ void MainWindow::agregarGusano() {
 }
 
 void MainWindow::agregarViga() {
-
-    QGraphicsPixmapItem* viga = new QGraphicsPixmapItem(QPixmap(":/imagenes/Beam.png"));
+    QPixmap vigaPixmap(":/imagenes/Beam.png");
 
     QString rotacion = this->ui->lineEdit->text();
+    qreal angulo = rotacion.toFloat();
 
-    qreal anchoOriginal = viga->boundingRect().width();
-    qreal altoOriginal = viga->boundingRect().height();
+    this->angulos.push_back(angulo);
+
+    qreal anchoOriginal = vigaPixmap.width();
+    qreal altoOriginal = vigaPixmap.height();
 
     qreal anchoMitad = anchoOriginal / 2;
 
-    QPixmap mitadVigaPixmap = QPixmap(":/imagenes/Beam.png").copy(0, 0, anchoMitad, altoOriginal);
-    QGraphicsPixmapItem* mitadViga = new QGraphicsPixmapItem(mitadVigaPixmap);
+    vigaPixmap = vigaPixmap.copy(0, 0, anchoMitad, altoOriginal);
+    vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
 
-    mitadViga->setRotation(rotacion.toFloat());
+    QGraphicsPixmapItem* mitadViga = new QGraphicsPixmapItem(vigaPixmap);
     mitadViga->setPos(0, 0);
 
     this->vigas.push_back(mitadViga);
     this->scene->addItem(mitadViga);
-
-    delete viga;
 }
 
-void MainWindow::agregarVigaLarga() {
 
-    QGraphicsPixmapItem* viga = new QGraphicsPixmapItem(QPixmap(":/imagenes/Beam.png"));
+void MainWindow::agregarVigaLarga() {
+    QPixmap vigaPixmap(":/imagenes/Beam.png");
 
     QString rotacion = this->ui->lineEdit->text();
+    qreal angulo = rotacion.toFloat();
+
+    this->angulos.push_back(angulo);
+
+    vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
+
+    QGraphicsPixmapItem* viga = new QGraphicsPixmapItem(vigaPixmap);
+    viga->setPos(0, 0);
 
     this->vigas.push_back(viga);
     this->scene->addItem(viga);
-    viga->setRotation(rotacion.toFloat());
-    viga->setPos(0, 0);
 }
+
 
 std::string MainWindow::generarNombreAleatorio() {
     const std::string letras = "abcdefghijklmnopqrstuvwxyz";
@@ -110,7 +116,6 @@ std::string MainWindow::generarNombreAleatorio() {
 }
 
 void MainWindow::exportarMapa() {
-
     QString nombre = this->ui->nombreMapa->text();
     std::string nombre_mapa = nombre.toStdString();
 
@@ -124,18 +129,17 @@ void MainWindow::exportarMapa() {
     emitter << YAML::BeginMap;
     emitter << YAML::Key << "nombre";
     emitter << YAML::Value << nombre_mapa;
-    emitter << YAML::EndMap;
 
-    emitter << YAML::BeginMap;
     emitter << YAML::Key << "vigas";
     emitter << YAML::Value;
     emitter << YAML::BeginSeq;
 
+    size_t i = 0;
     for (QGraphicsPixmapItem* viga : this->vigas) {
-        QPointF posicion = viga->scenePos();
-        qreal angulo = obtenerAnguloInclinacion(viga);
 
+        QPointF posicion = viga->scenePos();
         QRectF boundingRect = viga->boundingRect();
+
         if(boundingRect.width() > 100) {
             tipo = "larga";
         } else {
@@ -144,15 +148,15 @@ void MainWindow::exportarMapa() {
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
-        emitter << YAML::Key << "pos_x" << YAML::Value << posicion.x();
-        emitter << YAML::Key << "pos_y" << YAML::Value << posicion.y();
-        emitter << YAML::Key << "angulo" << YAML::Value << angulo;
+        emitter << YAML::Key << "pos_x" << YAML::Value << abs(posicion.x()/138*6);
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(-1*posicion.y()/22);
+        emitter << YAML::Key << "angulo" << YAML::Value << this->angulos[i];
         emitter << YAML::EndMap;
+        i++;
     }
+
     emitter << YAML::EndSeq;
-    emitter << YAML::EndMap;
-    
-    emitter <<YAML::BeginMap;
+
     emitter << YAML::Key << "gusanos";
     emitter << YAML::Value;
     emitter << YAML::BeginSeq;
@@ -161,17 +165,19 @@ void MainWindow::exportarMapa() {
         QPointF posicion = worm->scenePos();
 
         emitter << YAML::BeginMap;
-        emitter << YAML::Key << "pos_x" << YAML::Value << posicion.x();
-        emitter << YAML::Key << "pos_y" << YAML::Value << posicion.y();
+        emitter << YAML::Key << "pos_x" << YAML::Value << abs(posicion.x()/138*6);
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(posicion.y()/22);
         emitter << YAML::Key << "direccion" << YAML::Value << 0;
         emitter << YAML::EndMap;
     }
+
     emitter << YAML::EndSeq;
     emitter << YAML::EndMap;
-    
+
     std::ofstream file(PROJECT_SOURCE_DIR "/server/mapas/" + nombre_mapa + ".yaml");
     file << emitter.c_str();
 }
+
 
 void MainWindow::limpiarMapa() {
     for (QGraphicsPixmapItem* worm : this->worms) {
@@ -189,10 +195,6 @@ void MainWindow::limpiarMapa() {
 void MainWindow::cambiarFondo() {
     this->currentBackgroundIndex = (this->currentBackgroundIndex + 1) % this->backgrounds.size();
     this->scene->setBackgroundBrush(QBrush(QPixmap(this->backgrounds[this->currentBackgroundIndex])));
-}
-
-qreal MainWindow::obtenerAnguloInclinacion(QGraphicsPixmapItem* item) {
-    return item->rotation();
 }
 
 void MainWindow::exitApplication() {

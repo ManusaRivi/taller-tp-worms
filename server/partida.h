@@ -23,6 +23,8 @@ class Partida:public Thread{
     std::map<uint32_t,uint32_t> id_player_por_gusano;
     std::mutex lck;
     std::atomic<bool> is_alive;
+    std::atomic<bool> partida_empezada;
+    std::atomic<bool> partida_terminada;
     FactoryMensajesServer mensajes;
 
 
@@ -39,13 +41,16 @@ class Partida:public Thread{
     
     void kill();
 
+    bool partida_accesible();
+
+    bool terminada();
+
     
 
     
     private:
     void enviar_primer_snapshot();
 
-    uint32_t proximo_turno(uint32_t turno_actual);
 
 };
 

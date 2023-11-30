@@ -24,10 +24,10 @@ class ColeccionArmas
 {
 private:
     b2World& world;
-    std::map<int, Arma*> armas;
+    std::map<int, std::shared_ptr<Arma>> armas;
 public:
     ColeccionArmas(b2World& world);
-    Arma* SeleccionarArma(uint8_t id_arma);
+    std::shared_ptr<Arma> SeleccionarArma(uint8_t id_arma);
     ~ColeccionArmas();
 };
 

@@ -7,6 +7,6 @@ class MensajeUnirsePartida:public MensajeServer{
     public:
     MensajeUnirsePartida(uint32_t id_partida);
 
-    uint32_t get_id_partida();
+    uint32_t& get_id_partida();
 
 };

@@ -1,11 +1,11 @@
 #include "Cliente.h"
 
 
-Cliente::Cliente(Socket &peer, Queue<std::shared_ptr<MensajeServer>>* caster, Queue<std::shared_ptr<Comando>> &acciones,Lobby &lobby_):skt(std::move(peer)),
-                                                                                                                                        snapshots_a_enviar(caster),
-                                                                                                                                        lobby(lobby_){
+Cliente::Cliente(Socket &peer, Queue<std::shared_ptr<Comando>> &acciones,Lobby &lobby_):skt(std::move(peer)),
+                                                                                        snapshots_a_enviar(new Queue<std::shared_ptr<MensajeServer>>),
+                                                                                        lobby(lobby_){
 
-    this->recibidor = new Recibidor(skt, acciones,caster,lobby);
+    this->recibidor = new Recibidor(skt, acciones,snapshots_a_enviar,lobby);
     this->enviador = new Enviador(skt, snapshots_a_enviar );
 
 }

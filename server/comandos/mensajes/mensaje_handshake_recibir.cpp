@@ -6,6 +6,6 @@ MensajeHandshakeRecibir::MensajeHandshakeRecibir(std::pair<uint32_t,std::vector<
 
 
 
-std::pair<uint32_t,std::vector<uint32_t>> MensajeHandshakeRecibir::get_pair(){
+std::pair<uint32_t,std::vector<uint32_t>>& MensajeHandshakeRecibir::get_pair(){
     return this->id_gusanos;
 }

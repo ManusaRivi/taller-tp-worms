@@ -3,6 +3,7 @@
 
 #include "../proyectiles/projectile.h"
 #include "../../common/armas.h"
+#include <memory>
 
 #define BASELINE_POWER 0.5f
 #define MAX_POWER 2.0f
@@ -21,7 +22,7 @@ public:
     Armas obtenerTipo() {
         return tipo;
     }
-    virtual void Shoot(std::vector<Projectile*>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) = 0;
+    virtual void Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) = 0;
     virtual ~Arma() {}
 };
 

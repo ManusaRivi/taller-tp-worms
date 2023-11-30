@@ -15,6 +15,7 @@ void Protocolo::enviar_2_byte(uint16_t num){
     bool was_closed = false;
     // uint16_t transf = htons(num);
     std::vector<uint8_t> buf(2,0);
+    num = htons(num);
     memcpy(buf.data(),&num,2);
     skt.sendall(buf.data(),2,&was_closed);
     if(was_closed) throw ClosedSocket();
@@ -22,12 +23,9 @@ void Protocolo::enviar_2_byte(uint16_t num){
 
 std::string Protocolo::recibir_string(){
     bool was_closed = false;
-    uint16_t len_string;
-    skt.recvall(&len_string,SIZE_DOS,&was_closed);
-    if(was_closed) throw ClosedSocket();
-    uint16_t len = ntohs(len_string);
-    std::vector<uint8_t> str(len,0);
-    skt.recvall(str.data(),len,&was_closed);
+    uint16_t len_string = recibir_2_bytes();
+    std::vector<uint8_t> str(len_string,0);
+    skt.recvall(str.data(),len_string,&was_closed);
     std::string mensaje(str.begin(), str.end());
     return mensaje;
 }
@@ -35,8 +33,7 @@ std::string Protocolo::recibir_string(){
 void Protocolo::enviar_string(std::string nombre){
     bool was_closed = false;
     uint16_t len_name = nombre.length();
-    uint16_t transform = htons(len_name);
-    enviar_2_byte(transform);
+    enviar_2_byte(len_name);
     skt.sendall(nombre.data(),len_name,&was_closed);
     if(was_closed) throw ClosedSocket();
 }
@@ -68,6 +65,7 @@ uint16_t Protocolo::recibir_2_bytes(){
     if(was_closed) throw ClosedSocket();
     uint16_t num;
     memcpy(&num,buf.data(),2);
+    num = ntohs(num);
     //num = ntohs(num);
     return num;
 }
@@ -77,7 +75,7 @@ uint8_t Protocolo::recibir_1_byte(){
     std::vector<uint8_t> buf(1,0);
     skt.recvall(buf.data(),1, &was_closed);
     if(was_closed) throw ClosedSocket();
-    uint16_t num;
+    uint8_t num;
     memcpy(&num,buf.data(),1);
     //num = ntohs(num);
     return num;

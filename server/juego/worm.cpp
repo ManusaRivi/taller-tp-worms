@@ -335,6 +335,11 @@ bool Worm::esta_apuntando(){
     return apuntando;
 }
 
+bool Worm::esta_quieto() {
+    b2Vec2 velocity = body->GetLinearVelocity();
+    return (velocity.x == 0 && velocity.y == 0);
+}
+
 void Worm::incrementar_angulo_en(float inc){
     if(!esta_apuntando_para_arriba){
         inc = -inc;

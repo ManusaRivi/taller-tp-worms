@@ -104,6 +104,8 @@ public:
 
     bool apuntando_para_arriba(bool dir);
 
+    bool esta_quieto();
+
     void incrementar_angulo_en(float inc);
 
     void set_target(float x, float y);

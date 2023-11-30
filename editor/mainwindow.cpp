@@ -143,8 +143,8 @@ void MainWindow::exportarMapa() {
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
-        emitter << YAML::Key << "pos_x" << YAML::Value << posicion.x()/138*6;
-        emitter << YAML::Key << "pos_y" << YAML::Value << -1*posicion.y()/22;
+        emitter << YAML::Key << "pos_x" << YAML::Value << abs(posicion.x()/138*6);
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(-1*posicion.y()/22);
         emitter << YAML::Key << "angulo" << YAML::Value << angulo;
         emitter << YAML::EndMap;
     }
@@ -159,8 +159,8 @@ void MainWindow::exportarMapa() {
         QPointF posicion = worm->scenePos();
 
         emitter << YAML::BeginMap;
-        emitter << YAML::Key << "pos_x" << YAML::Value << posicion.x();
-        emitter << YAML::Key << "pos_y" << YAML::Value << posicion.y();
+        emitter << YAML::Key << "pos_x" << YAML::Value << abs(posicion.x()/138*6);
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(posicion.y()/22);
         emitter << YAML::Key << "direccion" << YAML::Value << 0;
         emitter << YAML::EndMap;
     }

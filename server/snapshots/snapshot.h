@@ -12,13 +12,15 @@ enum tipo_snapshot{
 };
 
 class Snapshot{
-
+    protected:
+    std::vector<WormWrapper> worms;
     uint8_t tipo_snapshot;
+    uint32_t gusano_actual;
     public:
-    Snapshot(uint8_t tipo) : tipo_snapshot(tipo) {}
+    Snapshot(uint8_t tipo, std::vector<WormWrapper> worms, uint32_t gusano_actual) : tipo_snapshot(tipo), worms(worms), gusano_actual(gusano_actual) {}
     uint8_t get_tipo_snapshot();
 
-    virtual std::vector<WormWrapper> get_worms() = 0;
+    virtual std::vector<WormWrapper>& get_worms() { return this->worms; }
     virtual ~Snapshot() = default;
 
 };

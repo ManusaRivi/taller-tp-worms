@@ -15,7 +15,7 @@ class Snapshot{
 
     uint8_t tipo_snapshot;
     public:
-    Snapshot(uint8_t tipo);
+    Snapshot(uint8_t tipo) : tipo_snapshot(tipo) {}
     uint8_t get_tipo_snapshot();
 
     virtual std::vector<WormWrapper> get_worms() = 0;

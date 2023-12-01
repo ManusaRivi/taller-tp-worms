@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <iostream>
 
-Mapa::Mapa(std::string map_filepath) : world(b2Vec2(0.0f, -10.0f)), contactListener(ContactListener()),identificador_entidades(0) {
+Mapa::Mapa(std::string map_filepath) : world(b2Vec2(0.0f, -10.0f)), contactListener(ContactListener()), water(Water(world)), identificador_entidades(0) {
     world.SetContactListener(&contactListener);
     Load_Map_File(map_filepath);
 }
@@ -45,40 +45,45 @@ void Mapa::Load_Map_File(std::string filepath) {
     }
     turnManager.cargar_cantidad_gusanos(worms.size());
 
-    this->water = new Water(world);
+    // this->water = Water(world);
 }
 
 void Mapa::Step(int iteracion) {
     int idx = 0;
     bool terminar_espera = true;
-    for (auto worm : worms) {
-        while(!worm->sounds.empty()) {
-            SoundTypes sound = worm->sounds.front();
-            sounds.push(sound);
-            worm->sounds.pop();
-        }
-        if (worm->isDead()) {
-            worm->kill();
+    auto it = worms.begin();
+    while (it != worms.end()) {
+        if ((*it)->isDead() && (*it)->get_status() != WormStates::DEAD) {
+            (*it)->kill();
             this->turnManager.deleteWorm(idx);
-            worms.erase(worms.begin() + idx);
+            // it = worms.erase(it);
+            idx++;
+            it++;
+            continue;
         }
-        if (worm->jumpSteps > 0) {
-            if (worm->jumpSteps == 1) worm->Stop();
-            worm->jumpSteps--;
+        while(!(*it)->sounds.empty()) {
+            SoundTypes sound = (*it)->sounds.front();
+            sounds.push(sound);
+            (*it)->sounds.pop();
         }
-        if (worm->isMoving()) {
-            worm->Move();
+        if ((*it)->jumpSteps > 0) {
+            if ((*it)->jumpSteps == 1) (*it)->Stop();
+            (*it)->jumpSteps--;
         }
-        if (worm->esta_apuntando()){
-            worm->incrementar_angulo_en(0.1);
+        if ((*it)->isMoving()) {
+            (*it)->Move();
         }
-        if (worm->esta_cargando_arma()) {
-            worm->cargar_arma();
+        if ((*it)->esta_apuntando()){
+            (*it)->incrementar_angulo_en(0.1);
         }
-        if (!worm->esta_quieto()) {
+        if ((*it)->esta_cargando_arma()) {
+            (*it)->cargar_arma();
+        }
+        if (!(*it)->esta_quieto()) {
             terminar_espera = false;
         }
         idx++;
+        it++;
     }
     if (!projectiles.empty()) {
         terminar_espera = false;
@@ -97,8 +102,7 @@ void Mapa::Step(int iteracion) {
             b2Vec2 position = projectile->getPosition();
             // Se añade el proyectil que exploto a la lista de proyectiles pasados
             cementerio_proyectiles.push_back(ProjectileWrapper(position.x,position.y,projectile->getAngle()+ 1.57,projectile->getType(),projectile->get_id()));
-            explosions.push(ExplosionWrapper (position.x, position.y, projectile->getRadius(),this->identificador_entidades));
-            this->identificador_entidades++;
+            explosions.push(ExplosionWrapper (position.x, position.y, projectile->getRadius(),this->identificador_entidades++));
             sounds.push(SoundTypes::EXPLOSION);
 
             int frag_amount = projectile->getFragCount();

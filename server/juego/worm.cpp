@@ -336,6 +336,7 @@ bool Worm::esta_apuntando(){
 }
 
 bool Worm::esta_quieto() {
+    if (status == WormStates::DEAD) return true;
     b2Vec2 velocity = body->GetLinearVelocity();
     return (velocity.x == 0 && velocity.y == 0);
 }
@@ -415,10 +416,13 @@ bool Worm::isDead() {
 
 void Worm::kill() {
     sounds.push(SoundTypes::WORM_DEATH_CRY);
+    body->GetWorld()->DestroyBody(body);
+    status = WormStates::DEAD;
     this->hitPoints = 0;
     //delete this->coleccionArmas;
 }
 
 Worm::~Worm(){
+    printf("Se destruye el gusano\n");
 }
 

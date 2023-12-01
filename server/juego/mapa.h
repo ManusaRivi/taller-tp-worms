@@ -38,7 +38,7 @@ private:
     std::vector<std::shared_ptr<Projectile>> projectiles;
     std::queue<ExplosionWrapper> explosions;
     std::queue<SoundTypes> sounds;
-    Water* water;
+    Water water;
     std::vector<ProjectileWrapper> cementerio_proyectiles;
     std::vector<ExplosionWrapper> cementerio_explosiones;
 

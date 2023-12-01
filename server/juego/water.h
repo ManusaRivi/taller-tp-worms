@@ -14,7 +14,7 @@ private:
 public:
     Water(b2World& world);
     ~Water();
-    virtual bodyType identificar() override;
+    // virtual bodyType identificar() override;
 };
 
 #endif

@@ -10,9 +10,12 @@ enum bodyType {
 
 class Colisionable
 {
+    bodyType body;
 public:
-    Colisionable() {}
-    virtual bodyType identificar() = 0;
+    Colisionable(bodyType body_):body(body_) {}
+    bodyType identificar(){
+        return this->body;
+    }
     virtual ~Colisionable() = default;
 };
 

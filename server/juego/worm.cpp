@@ -6,7 +6,7 @@ union BodyUserData {
 };
 
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
-            coleccionArmas(std::make_unique<ColeccionArmas>(world)),armaActual(nullptr), moving(false) ,facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
+            Colisionable(bodyType::WORM),coleccionArmas(std::make_unique<ColeccionArmas>(world)),armaActual(nullptr), moving(false) ,facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
             finalHeight(0.0f), jumpSteps(0), id(id_), status(WormStates::IDLE), angulo_disparo(0.0f), apuntando(false)
 {
     b2BodyDef gusanoDef;
@@ -40,9 +40,9 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     // printf("luego de crearle las fixtures la posicion del gusano es %f   %f\n", body->GetPosition().x, body->GetPosition().y);
 }
 
-bodyType Worm::identificar() {
-    return bodyType::WORM;
-}
+// bodyType Worm::identificar() {
+//     return bodyType::WORM;
+// }
 
 void Worm::StartMovement(int dir) {
     if (this->isAirborne()) return;

@@ -223,6 +223,7 @@ std::shared_ptr<MensajeServer> ServerProtocolo::recibir_id_gusanos()try{{
 void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper>& worms)try{{
     uint8_t cant_players = worms.size();  
     enviar_2_byte(cant_players);
+    // printf("La cantidad de gusanops que se envian es %u\n",cant_players);
     for (auto &c: worms){
         uint32_t id = c.get_id();
         std::vector<float> posicion = c.get_position();
@@ -270,6 +271,7 @@ void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>>& vigas)try{{
 void ServerProtocolo::enviar_proyectiles(std::vector<ProjectileWrapper>& proyectiles)try{{
     uint16_t cantidad = proyectiles.size();
     enviar_2_byte(cantidad);
+    // printf("La cantidad de proyectiles que se envian es %u\n",cantidad);
     for(auto c : proyectiles){
         uint32_t id = c.get_id();
         float x = c.get_x();
@@ -292,6 +294,7 @@ void ServerProtocolo::enviar_proyectiles(std::vector<ProjectileWrapper>& proyect
 void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper>& explosiones)try{{
     uint16_t cantidad = explosiones.size();
     enviar_2_byte(cantidad);
+    // printf("La cantidad de explosiones que se envian es %u\n",cantidad);
     for(auto c : explosiones){
         uint32_t id = c.get_id();
         float x = c.get_x();

@@ -65,7 +65,7 @@ public:
     std::queue<SoundTypes> sounds;
 
     Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id);
-    virtual bodyType identificar() override;
+    // virtual bodyType identificar() override;
     void StartMovement(int dir);
     void Move();
     void Stop();

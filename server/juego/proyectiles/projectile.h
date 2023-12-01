@@ -35,10 +35,10 @@ protected:
 public:
     std::queue<SoundTypes> sounds;
     Projectile(b2World& world, ProjectileType type, uint32_t id, float x_pos, float y_pos, int dmg, int radius, int fragments) :
-                world(world), type(type), id(id), dmg(dmg), radius(radius), fragments(fragments) {};
-    virtual bodyType identificar() override {
-        return bodyType::PROJECTILE;
-    }
+                Colisionable(bodyType::PROJECTILE),world(world), type(type), id(id), dmg(dmg), radius(radius), fragments(fragments) {};
+    // virtual bodyType identificar() override {
+    //     return bodyType::PROJECTILE;
+    // }
     ProjectileType getType() {
         return type;
     }

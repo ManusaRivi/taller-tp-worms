@@ -287,7 +287,10 @@ void Mapa::get_gusanos(std::vector<WormWrapper>& worm_vector){
     for(auto worm: this->worms){
         std::vector<float> posicion = worm->GetPosition();
         // printf("la posicion del gusano que se envia es %f   %f\n",posicion[0],posicion[1]);
-        worm_vector.push_back(WormWrapper(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo(), worm->aiming_angle(), worm->get_vida(), turnManager.get_equipo(worm->get_id())));
+        worm_vector.push_back(WormWrapper(posicion, worm->get_facing_direction(),
+                                            worm->get_status(), worm->get_id(),
+                                            worm->get_angulo(), worm->get_aiming_angle(),
+                                            worm->get_vida(), turnManager.get_equipo(worm->get_id())));
     }
 }
 

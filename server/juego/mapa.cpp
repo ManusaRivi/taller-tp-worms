@@ -105,10 +105,8 @@ void Mapa::Step(int iteracion) {
             if (frag_amount > 0) {
                 GameConfig& config = GameConfig::getInstance();
                 for (auto i = 0; i < frag_amount; ++i) {
-                    std::shared_ptr<Fragment> fragmento = std::make_shared<Fragment> (world, ProjectileType::FRAGMENT, position.x, position.y, config.frag_dmg, config.frag_radius);
-                    fragmento->insertar_id(this->identificador_entidades);
-                    projectiles.push_back(fragmento);
-                    this->identificador_entidades++;
+                    projectiles.push_back(std::make_shared<Fragment> (world, ProjectileType::FRAGMENT, this->identificador_entidades++,
+                                                                        position.x, position.y, config.frag_dmg, config.frag_radius, 0));
                 }
             }
 

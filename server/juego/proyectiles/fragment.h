@@ -19,7 +19,6 @@
 
 class Fragment : public Projectile {
 private:
-    b2World& world;
     inline float RandomFloat(float lo, float hi) {
         float r = (float)(rand() & (RAND_LIMIT));
         r /= RAND_LIMIT;
@@ -27,7 +26,7 @@ private:
         return r;
     }
 public:
-    Fragment(b2World& world, ProjectileType type, float x_pos, float y_pos, int dmg, int radius);
+    Fragment(b2World& world, ProjectileType type, uint32_t id, float x_pos, float y_pos, int dmg, int radius, int fragments);
     virtual bool isGrenade() override;
     virtual void explotar() override;
 };

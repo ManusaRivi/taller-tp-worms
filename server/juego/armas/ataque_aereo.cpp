@@ -14,9 +14,8 @@ bool AtaqueAereo::estaCargando() { return false; }
 
 void AtaqueAereo::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) {
     for (auto i = 0; i < rocket_num; ++i) {
-        std::shared_ptr<Rocket> rocket = std::make_shared<Rocket>(world, ProjectileType::AIR_MISSILE, x_pos, y_pos + ROCKET_ALTITUDE + ROCKET_GAP * i, angle, DOWNWARD_IMPULSE, dmg, radius, 0);
-        rocket->insertar_id(entity_id);
-        projectiles.push_back(rocket);
-        entity_id++;
+        projectiles.push_back(std::make_shared<Rocket>(world, ProjectileType::AIR_MISSILE, entity_id++,
+                                                        x_pos, y_pos + ROCKET_ALTITUDE + (ROCKET_GAP * i),
+                                                        dmg, radius, 0, angle, DOWNWARD_IMPULSE));
     }
 }

@@ -8,9 +8,9 @@ private:
     int seconds;
     int ticks;
 public:
-    GrenadeTimer(int seconds) : seconds(seconds) {}
+    GrenadeTimer(int seconds) : seconds(seconds), ticks(0) {}
     bool is_about_to_explode() {
-        return (ticks == (seconds * TICKS_PER_SECOND - 10));
+        return (ticks == (seconds * TICKS_PER_SECOND - 30));
     }
     bool advance_time() {
         ++ticks;

@@ -107,8 +107,6 @@ public:
     void get_cementerio_explosiones(std::vector<ExplosionWrapper>& explosion_vector);
 
     void get_sounds(std::vector<SoundTypes>& sound_vector);
-
-    ~Mapa();
 };
 
 #endif

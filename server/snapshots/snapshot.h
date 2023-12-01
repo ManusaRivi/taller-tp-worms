@@ -13,8 +13,8 @@ enum tipo_snapshot{
 
 class Snapshot{
     protected:
-    std::vector<WormWrapper> worms;
     uint8_t tipo_snapshot;
+    std::vector<WormWrapper> worms;
     uint32_t gusano_actual;
     public:
     Snapshot(uint8_t tipo, std::vector<WormWrapper> worms, uint32_t gusano_actual) : tipo_snapshot(tipo), worms(worms), gusano_actual(gusano_actual) {}

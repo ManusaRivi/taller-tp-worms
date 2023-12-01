@@ -75,9 +75,9 @@ void Partida::run()try{{
         	t1 += std::chrono::duration_cast<std::chrono::high_resolution_clock::duration>
                                                         (std::chrono::duration<double>(lost));
             it+=int(lost/rate);
-        } else {
-			std::this_thread::sleep_for(std::chrono::duration<double>(rest));
-		}
+        } 
+		std::this_thread::sleep_for(std::chrono::duration<double>(rest));
+
 
         it++;
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
@@ -104,6 +104,8 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
     mapa.get_cementerio_explosiones(cementerio_explosiones);
     std::vector<SoundTypes> sonidos;
     mapa.get_sounds(sonidos);
+    std::pair<bool,uint8_t> timer_if_holding_grenade;
+
 
     // Snapshot snap(mapa.get_gusanos());
     // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa.gusano_actual());

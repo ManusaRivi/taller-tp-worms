@@ -2,7 +2,7 @@
 
 
 
-TurnManager::TurnManager():acaba_de_pasar_turno(false){
+TurnManager::TurnManager():state(TURN),turn_timer(0),bonus_turn_timer(0),acaba_de_pasar_turno(false){
 
 }
 
@@ -20,10 +20,14 @@ std::map<uint32_t, std::vector<uint32_t>> TurnManager::repartir_turnos(uint32_t 
         }
         id_player_por_gusano.insert({i,i%cantidad_players});
     }
-    uint32_t turno_gusano = rand() % this->cantidad_gusanos;
-    uint32_t player_actual = id_player_por_gusano[turno_gusano];
 
-    this->id_gusano_actual = turno_gusano;
+
+    randomizar_queue_player();
+
+    uint32_t player_actual = rand() % this->cantidad_players;
+    uint32_t gusano_actual = queue_siguiente_gusano_por_player[player_actual].pop();
+
+    this->id_gusano_actual = gusano_actual;
     this->id_player_actual = player_actual;
     return this->id_gusanos_por_player;
 }
@@ -100,66 +104,69 @@ bool TurnManager::checkOnePlayerRemains() {
     return sonTodosIguales;
 }
 
-std::pair<bool,uint32_t> TurnManager::avanzar_tiempo(uint32_t iteracion){
+void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr<Worm>>& vectorWorms){
     /* Nuevo funcionamiento (completar) */
-    /* if (state == WAITING) {
-        // no hacer nada
+    if (state == WAITING) {
+        return;
     }
     if (state == BONUS_TURN) {
         if (bonus_turn_timer == FRAME_RATE * 3) {
+            printf("El tiempo bonus termina\n");
             state = WAITING;
         }
         else {
             bonus_turn_timer++;
         }
+        return;
     }
     if (state == TURN) {
         if (turn_timer == FRAME_RATE * 60) {
-            // cambiar de turno
+            turno_siguiente_player(vectorWorms);
             turn_timer = 0;
         }
         else {
             turn_timer++;
         }
-    } */
+    } 
     /* Viejo funcionamiento */
-    std::pair<bool,uint32_t> par;
-    if (acaba_de_pasar_turno){
-        if((iteracion % static_cast<int>(FRAME_RATE * MAX_SEGUNDOS_POR_TURNO)) == 0 && iteracion > 0){
-            printf("acaba de terminar los 5 segunods apra actualizar fisicas en la iteracion = %d\n",iteracion);
-            // printf("Pasaron 5 segundos desde el turno anterior y se debe para al gusano %u\n",gusano_turno_anterior);
-            acaba_de_pasar_turno = false;
-            par.first = true;
-            par.second = gusano_turno_anterior;
-            return par;
-        }
-    }
-    else{
-        if ((iteracion % static_cast<int>(FRAME_RATE * MAX_SEGUNDOS_POR_TURNO)) == 0 && iteracion > 0) {
-            printf("acaba de terminar el turno en la iteracion %d\n",iteracion);
-            par.first = true;
-            gusano_turno_anterior = this->id_gusano_actual;
+    // std::pair<bool,uint32_t> par;
+    // if (acaba_de_pasar_turno){
+    //     if((iteracion % static_cast<int>(FRAME_RATE * MAX_SEGUNDOS_POR_TURNO)) == 0 && iteracion > 0){
+    //         turno_siguiente_player(vectorWorms);
+    //         printf("acaba de terminar los 5 segunods apra actualizar fisicas en la iteracion = %d\n",iteracion);
+    //         // printf("Pasaron 5 segundos desde el turno anterior y se debe para al gusano %u\n",gusano_turno_anterior);
+    //         acaba_de_pasar_turno = false;
+    //         par.first = true;
+    //         par.second = gusano_turno_anterior;
+    //         return par;
+    //     }
+    // }
+    // else{
+    //     if ((iteracion % static_cast<int>(FRAME_RATE * MAX_SEGUNDOS_POR_TURNO)) == 0 && iteracion > 0) {
+    //         printf("acaba de terminar el turno en la iteracion %d\n",iteracion);
+    //         par.first = true;
+    //         gusano_turno_anterior = this->id_gusano_actual;
         
 
-            if(this->id_gusano_actual +1 == cantidad_gusanos){
-            this->id_gusano_actual = 0;
+    //         if(this->id_gusano_actual +1 == cantidad_gusanos){
+    //         this->id_gusano_actual = 0;
             
-            }
-            else{
-                this->id_gusano_actual++;
-            }
-            // printf("Se pasa de turno del gusano_id = %u   al gusano id %u\n",gusano_turno_anterior,this->id_gusano_actual);
-            this->id_player_actual = id_player_por_gusano[this->id_gusano_actual];
-            acaba_de_pasar_turno = true;
-            par.second = gusano_turno_anterior;
-            return par;
-        }
-        else{
-            par.first = false;
-        }
-    }
+    //         }
+    //         else{
+    //             this->id_gusano_actual++;
+    //         }
+    //         // printf("Se pasa de turno del gusano_id = %u   al gusano id %u\n",gusano_turno_anterior,this->id_gusano_actual);
+    //         this->id_player_actual = id_player_por_gusano[this->id_gusano_actual];
+    //         acaba_de_pasar_turno = true;
+    //         par.second = gusano_turno_anterior;
+    //         return par;
+    //     }
+    //     else{
+    //         par.first = false;
+    //     }
+    // }
     
-    return par;
+    return;
 }
 
 uint32_t TurnManager::get_gusano_actual(){
@@ -182,15 +189,78 @@ GameStates TurnManager::get_state() { return state; }
 
 void TurnManager::activar_bonus_turn() {
     if (state == TURN) {
+        printf("Se activa el bonus turn\n");
         state = BONUS_TURN;
         bonus_turn_timer = 0;
     }
 }
 
-void TurnManager::terminar_espera() {
+void TurnManager::terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorms) {
     if (state == WAITING) {
-        // cambio de turno
+        printf("El tiempo de espera termina\n");
         state = TURN;
         turn_timer = 0;
+        turno_siguiente_player(vectorWorms);
     }
+}
+
+void TurnManager::randomizar_queue_player(){
+    for (auto&c: id_gusanos_por_player){
+        std::vector<uint32_t> copia_vector = c.second;
+        auto rd = std::random_device {}; 
+        auto rng = std::default_random_engine { rd() };
+        std::shuffle(std::begin(copia_vector), std::end(copia_vector), rng);
+        for (auto&w : copia_vector){
+            printf("Se le entrega al player %u: el gusano %u\n",c.first,w);
+            queue_siguiente_gusano_por_player[c.first].push(w);
+        }
+    }
+}
+
+
+void TurnManager::turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vectorWorms){
+    printf("El turno era del player %u con el gusano %u\n",this->id_player_actual,this->id_gusano_actual);
+    uint32_t turno_actual = this->id_player_actual;
+    if(gusano_esta_vivo(vectorWorms)){
+        queue_siguiente_gusano_por_player[this->id_player_actual].try_push(this->id_gusano_actual);
+    }
+    if(turno_actual +1 == static_cast<uint32_t>(this->cantidad_players)){
+        turno_actual = 0;
+    }else{
+        turno_actual++;
+    }
+    uint32_t id_gusano_siguiente;
+    // uint32_t cantidad_vueltas;
+    for(uint32_t i = 0; i < static_cast<uint32_t>(this->cantidad_players);i++){
+        if(queue_siguiente_gusano_por_player[(turno_actual + i)%cantidad_players].try_pop(id_gusano_siguiente)){
+            turno_actual = turno_actual + i;
+            break;
+        }
+
+    }
+    if (id_gusano_siguiente > cantidad_gusanos){
+        this->id_gusano_actual = 0;
+    }
+    else{
+        this->id_gusano_actual = id_gusano_siguiente;
+    }
+
+    this->id_player_actual = turno_actual;
+    printf("Y es lo entrego a %u con el gusano %u\n",this->id_player_actual,this->id_gusano_actual);
+
+}
+
+bool TurnManager::gusano_esta_vivo(std::vector<std::shared_ptr<Worm>>& vectorWorms){
+    uint32_t gusano_actual = this->id_gusano_actual;
+    for (auto c: vectorWorms){
+        if(c->get_id() == gusano_actual){
+            if(c->isDead()){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+    }
+    return false;
 }

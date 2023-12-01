@@ -2,6 +2,11 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <memory>
+#include <random>
+#include "worm.h"
+#include "../../common/queue.h"
+
 
 #define MAX_SEGUNDOS_POR_TURNO 60
 #define FRAME_RATE 30.0f
@@ -16,6 +21,7 @@ class TurnManager{
 
     std::map<uint32_t,std::vector<uint32_t>> id_gusanos_por_player;
     std::map<uint32_t,uint32_t> id_player_por_gusano;
+    std::map<uint32_t, Queue<uint32_t>> queue_siguiente_gusano_por_player;
 
     uint32_t cantidad_gusanos;
     uint32_t id_player_actual;
@@ -35,7 +41,7 @@ class TurnManager{
     TurnManager();
     void cargar_cantidad_gusanos(uint32_t cantidad_gusanos);
     std::map<uint32_t, std::vector<uint32_t>> repartir_turnos(uint32_t cantidad_players);
-    std::pair<bool,uint32_t> avanzar_tiempo(uint32_t iteracion);
+    void avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr<Worm>>& vectorWorms);
 
     uint32_t get_player_actual();
     uint32_t get_gusano_actual();
@@ -46,5 +52,9 @@ class TurnManager{
     bool checkOnePlayerRemains();
     GameStates get_state();
     void activar_bonus_turn();
-    void terminar_espera();
+    void terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorms);
+    private:
+    void randomizar_queue_player();
+    void turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vectorWorms);
+    bool gusano_esta_vivo(std::vector<std::shared_ptr<Worm>>& vectorWorms);
 };

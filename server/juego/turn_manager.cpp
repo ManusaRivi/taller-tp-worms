@@ -24,8 +24,8 @@ std::map<uint32_t, std::vector<uint32_t>> TurnManager::repartir_turnos(uint32_t 
 
     randomizar_queue_player();
 
-    uint32_t gusano_actual = rand() % this->cantidad_gusanos;
-    uint32_t player_actual = id_player_por_gusano[gusano_actual];
+    uint32_t player_actual = rand() % this->cantidad_players;
+    uint32_t gusano_actual = queue_siguiente_gusano_por_player[player_actual].pop();
 
     this->id_gusano_actual = gusano_actual;
     this->id_player_actual = player_actual;
@@ -122,14 +122,7 @@ void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr
     }
     if (state == TURN) {
         if (turn_timer == FRAME_RATE * 60) {
-            if (static_cast<int>(this->id_player_actual + 1) == cantidad_players){
-                this->id_player_actual = 0;
-            }
-            else{
-                this->id_player_actual++;
-            }
-            this->id_gusano_actual = getNextWorm(this->id_player_actual);
-            turn_timer = 0;
+            turno_siguiente_player(vectorWorms);
         }
         else {
             turn_timer++;
@@ -170,13 +163,7 @@ void TurnManager::terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorm
         printf("El tiempo de espera termina\n");
         state = TURN;
         turn_timer = 0;
-        if (static_cast<int>(this->id_player_actual + 1) == cantidad_players){
-            this->id_player_actual = 0;
-        }
-        else{
-            this->id_player_actual++;
-        }
-        this->id_gusano_actual = getNextWorm(this->id_player_actual);
+        turno_siguiente_player(vectorWorms);
     }
 }
 
@@ -215,7 +202,7 @@ void TurnManager::turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vec
         }
         else{
             if(queue_siguiente_gusano_por_player[(turno_actual + i)%cantidad_players].try_pop(id_gusano_siguiente)){
-             turno_actual = turno_actual + i;
+                turno_actual = turno_actual + i;
                 break;
             }else{ // El player no tiene ningun gusano, se elimina de la lista
                 queue_siguiente_gusano_por_player.erase(turno_actual + i);

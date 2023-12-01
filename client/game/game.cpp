@@ -45,7 +45,7 @@ int Game::run() try {
 	// Inicializo SDL_mixer
     SDL2pp::Mixer mixer(MIX_DEFAULT_FREQUENCY, GAME_MIX_FORMAT, 2, 1024);
 	Mix_Volume(-1, MIX_MAX_VOLUME * 0.6);
-
+	Mix_AllocateChannels(30);
     // Creo la ventana: 
     // Dimensiones: 854x480, redimensionable
     // Titulo: Worms

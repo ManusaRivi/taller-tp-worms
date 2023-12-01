@@ -224,7 +224,7 @@ void Worm::usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint
         }
     }
     
-    
+    apuntando = false;
     printf("El angulo con el que se estada apuntando es : %f\n",this->aiming_angle());
     printf("el angulo con el que se dispara es %f\n",angle);
     armaActual->Shoot(projectiles, entity_id, position.x, position.y, angle);
@@ -297,7 +297,6 @@ void Worm::cambiar_arma(uint8_t id_arma){
     default:
         break;
     }
-
     armaActual = coleccionArmas->SeleccionarArma(id_arma);
 }
 
@@ -342,6 +341,7 @@ bool Worm::esta_quieto() {
 }
 
 void Worm::incrementar_angulo_en(float inc){
+    printf("Se incrementa el angulo\n");
     if(!esta_apuntando_para_arriba){
         inc = -inc;
     }

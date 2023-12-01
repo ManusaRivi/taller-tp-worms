@@ -26,6 +26,7 @@ class TurnManager{
     uint32_t cantidad_gusanos;
     uint32_t id_player_actual;
     uint32_t id_gusano_actual;
+    std::vector<uint32_t> players_eliminados;
 
     uint32_t gusano_turno_anterior;
     int cantidad_players;

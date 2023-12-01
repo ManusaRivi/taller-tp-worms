@@ -184,12 +184,15 @@ void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){
     if (status == BONUS_TURN || status == WAITING) return;
     if(id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->cambiar_arma(tipo_arma);
-    printf("Se llega a cambiar de arma\n");
+    printf("Se llega a cambiar de arma al id %u\n",tipo_arma);
 }
 
 void Mapa::apuntar_para(uint32_t id, int dir){
     GameStates status = turnManager.get_state();
+    printf("el status del worm es : %i\n",status);
+    printf("El id es %u   y el player actual es %u\n",id,turnManager.get_player_actual());
     if (status == BONUS_TURN || status == WAITING) return;
+    
     if(id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->esta_apuntando_para(dir);
 }
@@ -208,6 +211,7 @@ void Mapa::usar_arma(uint32_t id) {
     if(id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->usar_arma(projectiles, this->identificador_entidades);
     turnManager.activar_bonus_turn();
+    worms[turnManager.get_gusano_actual()]->Stop();
     printf("Se dispara el arma\n");
 }
 

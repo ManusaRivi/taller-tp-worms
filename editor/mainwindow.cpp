@@ -145,7 +145,7 @@ void MainWindow::exportarMapa() {
         QPointF posicion = viga->scenePos();
         QRectF boundingRect = viga->boundingRect();
 
-        if(boundingRect.width() > 100) {
+        if(boundingRect.width() > 100 || boundingRect.height() > 100) {
             tipo = "larga";
             largo = 138;
             scale = 6;

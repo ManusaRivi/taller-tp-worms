@@ -18,6 +18,7 @@ BeamServer::BeamServer(b2World& world, int type, float x_pos, float y_pos, float
     fixtureViga.shape = &vigaBox;
     fixtureViga.density = BEAM_DENSITY;
     fixtureViga.friction = BEAM_FRICTION;
+    fixtureViga.restitutionThreshold = BEAM_RESTITUTION_THRESHOLD;
     fixtureViga.filter.categoryBits = CollisionCategories::BOUNDARY_COLL;
     fixtureViga.filter.maskBits = (CollisionCategories::WORM_COLL | CollisionCategories::PROJECTILE_COLL);
 

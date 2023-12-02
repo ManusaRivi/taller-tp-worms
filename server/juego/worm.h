@@ -26,6 +26,7 @@ enum directions {
 #define WORM_DENSITY 0.2f
 #define WORM_FRICTION 0.8f
 #define WORM_RESTITUTION 0.5f
+#define WORM_RESTITUTION_THRESHOLD 3.5f
 
 #define MOVING_SPEED 0.7f
 
@@ -52,6 +53,7 @@ private:
     float angulo_disparo;
     uint8_t hitPoints;
     /* info tecnica */
+    int numBeamContacts;
     float initialHeight;
     float finalHeight;
     bool airborne;

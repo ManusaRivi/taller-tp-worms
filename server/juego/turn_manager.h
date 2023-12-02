@@ -54,8 +54,10 @@ class TurnManager{
     GameStates get_state();
     void activar_bonus_turn();
     void terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorms);
+    void pasar_turno_si_muerto(int idx,std::vector<std::shared_ptr<Worm>>& vectorWorms);
     private:
     void randomizar_queue_player();
     void turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vectorWorms);
-    bool gusano_esta_vivo(std::vector<std::shared_ptr<Worm>>& vectorWorms);
+    bool gusano_esta_vivo(uint32_t id,std::vector<std::shared_ptr<Worm>>& vectorWorms);
+    void detener_gusano_actual(std::vector<std::shared_ptr<Worm>>& vectorWorms);
 };

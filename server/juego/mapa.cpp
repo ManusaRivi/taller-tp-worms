@@ -55,7 +55,7 @@ void Mapa::Step(int iteracion) {
     while (it != worms.end()) {
         if ((*it)->isDead() && (*it)->get_status() != WormStates::DEAD) {
             (*it)->kill();
-            this->turnManager.deleteWorm(idx);
+            this->turnManager.pasar_turno_si_muerto(idx,worms);
             // it = worms.erase(it);
             idx++;
             it++;

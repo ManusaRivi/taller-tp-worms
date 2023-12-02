@@ -2,9 +2,7 @@
 
 using namespace SDL2pp;
 
-Beam::Beam(int& tamano, float& pos_x, float& pos_y, float& angulo_): _tamano(tamano), _pos_x(pos_x), _pos_y(pos_y),angulo(angulo_) {
-    std::cout << "Tengo angulo" << angulo << "\n";
-}
+Beam::Beam(int& tamano, float& pos_x, float& pos_y, float& angulo_): _tamano(tamano), _pos_x(pos_x), _pos_y(pos_y),angulo(angulo_) {}
 
 void Beam::present(Renderer& renderer,
                     TextureManager& texture_manager,
@@ -22,6 +20,8 @@ void Beam::present(Renderer& renderer,
 
     float pos_rel_x = _pos_x - camera_x;
     float pos_rel_y = map_height - _pos_y - camera_y;
+
+    std::cout << "Tengo angulo" << angulo << "\n";
 
     // Grafico la viga
     texture.SetAlphaMod(255); // El sprite es totalmente opaco

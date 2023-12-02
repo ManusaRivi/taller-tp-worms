@@ -180,7 +180,7 @@ std::vector<std::vector<float>> ClienteProtocolo::recibir_vigas(){
           
         float x = recibir_4_bytes_float();
         float y = recibir_4_bytes_float();
-        float angulo = recibir_4_bytes_float();
+        float angulo = recibir_4_bytes_float() * 180 / 3.14;
         float largo = recibir_4_bytes_float();
 
 

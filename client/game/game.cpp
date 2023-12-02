@@ -321,8 +321,8 @@ int Game::run() try {
 			std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(snap);
 			std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
 			if (snapshot->turn_change((*world))) {
-				has_selected_weapon = false;
-				mouse_weapon = false;
+				//has_selected_weapon = false;
+				//mouse_weapon = false;
 			}
 			snapshot->apply_to_world((*world));
 			(*world).present(it_inc, renderer, texture_manager, sound_manager, mixer, x_scale, y_scale, camara);

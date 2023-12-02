@@ -41,6 +41,21 @@ class World {
     float _map_width;
     float _map_height;
 
+    int weapon_power;
+
+    bool has_tp;
+    float tp_x;
+    float tp_y;
+
+    bool has_air_attack;
+    float air_attack_x;
+    float air_attack_y;
+
+    bool has_timer;
+    int timer;
+
+    std::map<int, int> ammo;
+
     void present_background(Renderer& Renderer,
                         TextureManager& texture_manager,
                         float& x_scale,
@@ -100,6 +115,16 @@ class World {
     float get_camera_x();
     float get_camera_y();
     float get_map_height();
+
+    void set_weapon_power(int& power);
+
+    void set_tp(bool& _has_tp, float& pos_x, float& pos_y);
+
+    void set_air_attack(bool& _has_air_attack, float& pos_x, float& pos_y);
+
+    void set_timer(bool& _has_timer, int& _timer);
+
+    void set_ammo(const int& weapon, const int& _ammo);
 
 };
 

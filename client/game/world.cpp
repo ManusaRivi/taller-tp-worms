@@ -4,7 +4,13 @@
 using namespace SDL2pp;
 
 World::World(float map_width, float map_height): camera_x(0), camera_y(0),
-            proy_it(0), _map_width(map_width), _map_height(map_height) {}
+            proy_it(0), _map_width(map_width), _map_height(map_height) {
+    
+    for (int i= 0; i < 10; i++) {
+        ammo[i] = 0;
+    }
+
+}
 
 void World::add_worm(std::shared_ptr<Worm> worm, int id) {
     worms.emplace(id, worm);
@@ -241,4 +247,28 @@ bool World::checkOnePlayerRemains() {
     }
 
     return pertenecen_al_mismo_equipo;
+}
+
+void World::set_weapon_power(int& power) {
+    weapon_power = power;
+}
+
+void World::set_tp(bool& _has_tp, float& pos_x, float& pos_y) {
+    has_tp = _has_tp;
+    tp_x = pos_x;
+    tp_y = pos_y;
+}
+
+void World::set_air_attack(bool& _has_air_attack, float& pos_x, float& pos_y) {
+    has_air_attack = _has_air_attack;
+    air_attack_x = pos_x;
+    air_attack_y = pos_y;
+}
+void World::set_timer(bool& _has_timer, int& _timer) {
+    has_timer = _has_timer;
+    timer = _timer;
+}
+
+void World::set_ammo(const int& weapon, const int& _ammo) {
+    ammo[weapon] = _ammo;
 }

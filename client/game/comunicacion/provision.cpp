@@ -32,7 +32,7 @@ void ProvisionClient::present(Renderer& renderer,
     std::string texture_name("Provision");
 	Texture& texture = texture_manager.get_texture(texture_name);
 
-    int largo_sprite = 1;
+    int largo_sprite = 10;
 
     float pos_rel_x = _pos_x - camera_x;
     float pos_rel_y = map_height - _pos_y - camera_y;

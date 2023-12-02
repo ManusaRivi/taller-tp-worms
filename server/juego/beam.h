@@ -5,6 +5,7 @@
 #include "./collision_categories.h"
 #include "./colisionable.h"
 #include <vector>
+#include <stdio.h>
 
 enum beamSize {
     SMALL,

@@ -4,6 +4,8 @@
 
 #include <fstream>
 
+#define OFFSET_CAMARA 500
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -53,7 +55,7 @@ void MainWindow::agregarGusano() {
 
     this->worms.push_back(worm);
     this->scene->addItem(worm);
-    worm->setPos(500, 500);
+    worm->setPos(OFFSET_CAMARA, OFFSET_CAMARA);
 }
 
 void MainWindow::agregarViga() {
@@ -73,7 +75,7 @@ void MainWindow::agregarViga() {
     vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
 
     QGraphicsPixmapItem* mitadViga = new QGraphicsPixmapItem(vigaPixmap);
-    mitadViga->setPos(500, 500);
+    mitadViga->setPos(OFFSET_CAMARA, OFFSET_CAMARA);
 
     this->vigas.push_back(mitadViga);
     this->scene->addItem(mitadViga);
@@ -91,7 +93,7 @@ void MainWindow::agregarVigaLarga() {
     vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
 
     QGraphicsPixmapItem* viga = new QGraphicsPixmapItem(vigaPixmap);
-    viga->setPos(500, 500);
+    viga->setPos(OFFSET_CAMARA, OFFSET_CAMARA);
 
     this->vigas.push_back(viga);
     this->scene->addItem(viga);
@@ -158,7 +160,7 @@ void MainWindow::exportarMapa() {
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
         emitter << YAML::Key << "pos_x" << YAML::Value << (posicion.x() + largo/2) / largo * scale - offset;
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * 500 - posicion.y() + 138/2) / 20;
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y() + 138/2) / 20;
         emitter << YAML::Key << "angulo" << YAML::Value << this->angulos[i];
         emitter << YAML::EndMap;
         i++;
@@ -176,7 +178,7 @@ void MainWindow::exportarMapa() {
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "pos_x" << YAML::Value << abs((posicion.x() + boundingRect.width()/2)/138*6);
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * 500 - posicion.y() + boundingRect.height())/20;
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y() + boundingRect.height())/20;
         emitter << YAML::Key << "direccion" << YAML::Value << 0;
         emitter << YAML::EndMap;
     }

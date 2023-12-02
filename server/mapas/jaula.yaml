@@ -1,0 +1,29 @@
+nombre: jaula
+vigas:
+  - tipo: larga
+    pos_x: 24.739130434782609
+    pos_y: 25.449999999999999
+    angulo: 0
+  - tipo: larga
+    pos_x: 24.60869565217391
+    pos_y: 33.5
+    angulo: 0
+  - tipo: larga
+    pos_x: 24.478260869565219
+    pos_y: 32.450000000000003
+    angulo: 90
+  - tipo: larga
+    pos_x: 30
+    pos_y: 32.399999999999999
+    angulo: 90
+  - tipo: corta
+    pos_x: 22.864130434782609
+    pos_y: 25.449999999999999
+    angulo: 90
+gusanos:
+  - pos_x: 23.282608695652176
+    pos_y: 29.75
+    direccion: 0
+  - pos_x: 25.891304347826086
+    pos_y: 29.800000000000001
+    direccion: 0

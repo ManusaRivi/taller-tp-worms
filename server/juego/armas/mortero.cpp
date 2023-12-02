@@ -1,7 +1,7 @@
 #include "mortero.h"
 
 Mortero::Mortero(b2World& world, int ammo, int fragments, int dmg, int radius) : 
-                 world(world), ammo(ammo), fragments(fragments), dmg(dmg), radius(radius)
+                 world(world), ammo(ammo), fragments(fragments), dmg(dmg), radius(radius),nivel_carga(0)
 {
     cargando = false;
     tipo = Armas::MORTERO;

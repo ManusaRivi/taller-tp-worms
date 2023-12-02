@@ -1,7 +1,7 @@
 #include "beam.h"
 
 BeamServer::BeamServer(b2World& world, int type, float x_pos, float y_pos, float angle):Colisionable(bodyType::BEAM) {
-    float transforamtion = angle/180;
+    float transforamtion = (angle*3.14)/180;
     b2BodyDef vigaDef;
     vigaDef.position.Set(x_pos, y_pos);
     vigaDef.angle = transforamtion;

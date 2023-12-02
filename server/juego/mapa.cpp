@@ -101,7 +101,6 @@ void Mapa::Step(int iteracion) {
             projectile->explotar();
             b2Vec2 position = projectile->getPosition();
             // Se añade el proyectil que exploto a la lista de proyectiles pasados
-            cementerio_proyectiles.push_back(ProjectileWrapper(position.x,position.y,projectile->getAngle()+ 1.57,projectile->getType(),projectile->get_id()));
             explosions.push(ExplosionWrapper (position.x, position.y, projectile->getRadius(),this->identificador_entidades++));
             sounds.push(SoundTypes::EXPLOSION);
 
@@ -188,13 +187,13 @@ void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){
     if (status == BONUS_TURN || status == WAITING) return;
     if(id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->cambiar_arma(tipo_arma);
-    printf("Se llega a cambiar de arma al id %u\n",tipo_arma);
+    // printf("Se llega a cambiar de arma al id %u\n",tipo_arma);
 }
 
 void Mapa::apuntar_para(uint32_t id, int dir){
     GameStates status = turnManager.get_state();
-    printf("el status del worm es : %i\n",status);
-    printf("El id es %u   y el player actual es %u\n",id,turnManager.get_player_actual());
+    // printf("el status del worm es : %i\n",status);
+    // printf("El id es %u   y el player actual es %u\n",id,turnManager.get_player_actual());
     if (status == BONUS_TURN || status == WAITING) return;
     
     if(id != turnManager.get_player_actual()) return;
@@ -305,30 +304,18 @@ void Mapa::get_projectiles(std::vector<ProjectileWrapper>& projectile_vector) {
         float angle = projectile->getAngle();
         
         angle += 1.57;
-        printf("los angulos que se devuelven son %f\n",angle);
+        // printf("los angulos que se devuelven son %f\n",angle);
         projectile_vector.push_back(ProjectileWrapper(position.x, position.y, angle, projectile->getType(),projectile->get_id()));
     }
 }
 
 void Mapa::get_explosions(std::vector<ExplosionWrapper>& explosion_vector) {
     while (!explosions.empty()) {
-        cementerio_explosiones.push_back(explosions.front());
         explosion_vector.push_back(explosions.front());
         explosions.pop();
     }
 }
 
-void Mapa::get_cementerio_proyectiles(std::vector<ProjectileWrapper>& projectile_vector){
-    for (auto projectile : cementerio_proyectiles) {
-        projectile_vector.push_back(projectile);
-    }
-}
-
-void Mapa::get_cementerio_explosiones(std::vector<ExplosionWrapper>& explosion_vector){
-    for (auto explosion : cementerio_explosiones) {
-        explosion_vector.push_back(explosion);
-    }
-}
 
 void Mapa::get_sounds(std::vector<SoundTypes>& sound_vector) {
     while (!sounds.empty()) {

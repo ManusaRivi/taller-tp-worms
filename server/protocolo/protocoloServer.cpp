@@ -261,6 +261,8 @@ void ServerProtocolo::enviar_proyectiles(std::vector<ProjectileWrapper>& proyect
         enviar_4_bytes_float(angle);
         enviar_1_byte(tipo);
 
+        // printf("El proyectil que se manda es de %f    %f    %f    tipo = %u",x,y,angle,tipo);
+
     }
 }
 

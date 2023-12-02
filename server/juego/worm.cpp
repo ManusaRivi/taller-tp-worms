@@ -301,7 +301,6 @@ void Worm::cargar_arma(){
         printf("no tiene un arma\n");
         return;
     }
-    printf("tiene arma\n");
     this->armaActual->cargar();
 }
 

@@ -185,7 +185,7 @@ void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
     uint32_t turno_player_actual = recibir_4_bytes();
     snap->actulizar_camara(turno_player_actual);
     uint16_t cantidad_gusanos = recibir_2_bytes();
-    printf("La cantidad de gusanos recibida es %u\n",cantidad_gusanos);
+    // printf("La cantidad de gusanos recibida es %u\n",cantidad_gusanos);
     // printf("La cantidad de gusanos que se reciben es %u",cantidad_gusanos);
     for(uint16_t i = 0; i < cantidad_gusanos; i++){
         uint32_t id_gusano = recibir_4_bytes();
@@ -222,7 +222,7 @@ void ClienteProtocolo::recibir_projectiles(std::shared_ptr<SnapshotCliente> snap
                                                                         x,
                                                                         y,
                                                                         angulo,id);
-        // printf("Los datos que llegan son  %u  %f    %f   %f\n",id,x,y,angulo);
+        // printf("Los datos que llegan son  %u  %f    %f   %f de tipo = %u\n",id,x,y,angulo,tipo);
         snap->add_projectile(std::move(projectile));
     }
 }

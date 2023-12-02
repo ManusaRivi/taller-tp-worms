@@ -39,8 +39,6 @@ private:
     std::queue<ExplosionWrapper> explosions;
     std::queue<SoundTypes> sounds;
     Water water;
-    std::vector<ProjectileWrapper> cementerio_proyectiles;
-    std::vector<ExplosionWrapper> cementerio_explosiones;
 
     std::string nombre;
     TurnManager turnManager;
@@ -101,10 +99,6 @@ public:
     void get_projectiles(std::vector<ProjectileWrapper>& projectile_vector);
 
     void get_explosions(std::vector<ExplosionWrapper>& explosion_vector);
-
-    void get_cementerio_proyectiles(std::vector<ProjectileWrapper>& projectile_vector);
-
-    void get_cementerio_explosiones(std::vector<ExplosionWrapper>& explosion_vector);
 
     void get_sounds(std::vector<SoundTypes>& sound_vector);
 };

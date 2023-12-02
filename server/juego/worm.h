@@ -27,7 +27,7 @@ enum directions {
 #define WORM_FRICTION 0.8f
 #define WORM_RESTITUTION 0.5f
 
-#define MOVING_SPEED 0.335f
+#define MOVING_SPEED 0.7f
 
 #define FORWARD_JUMP_STEPS 38
 #define BACKWARD_JUMP_STEPS 58

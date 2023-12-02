@@ -183,6 +183,7 @@ void TurnManager::randomizar_queue_player(){
 
 
 void TurnManager::turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vectorWorms){
+    printf("Es el turno de %u  con gusano  %u", this->id_player_actual, id_gusano_actual);
     uint32_t turno_actual = this->id_player_actual;
     if(gusano_esta_vivo(this->id_gusano_actual,vectorWorms)){ // Si el gusano esta vivo lo agrego a la queue (sera el ultimo gusano)
         queue_siguiente_gusano_por_player[this->id_player_actual].try_push(this->id_gusano_actual);

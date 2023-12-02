@@ -24,8 +24,8 @@ std::map<uint32_t, std::vector<uint32_t>> TurnManager::repartir_turnos(uint32_t 
 
     randomizar_queue_player();
 
-    uint32_t gusano_actual = rand() % this->cantidad_gusanos;
-    uint32_t player_actual = id_player_por_gusano[gusano_actual];
+    uint32_t player_actual = rand() % this->cantidad_players;
+    uint32_t gusano_actual = queue_siguiente_gusano_por_player[player_actual].pop();
 
     this->id_gusano_actual = gusano_actual;
     this->id_player_actual = player_actual;
@@ -113,6 +113,7 @@ void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr
     if (state == BONUS_TURN) {
         if (bonus_turn_timer == FRAME_RATE * 3) {
             printf("El tiempo bonus termina\n");
+            detener_gusano_actual(vectorWorms);
             state = WAITING;
         }
         else {
@@ -122,14 +123,7 @@ void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr
     }
     if (state == TURN) {
         if (turn_timer == FRAME_RATE * 60) {
-            if (static_cast<int>(this->id_player_actual + 1) == cantidad_players){
-                this->id_player_actual = 0;
-            }
-            else{
-                this->id_player_actual++;
-            }
-            this->id_gusano_actual = getNextWorm(this->id_player_actual);
-            turn_timer = 0;
+            turno_siguiente_player(vectorWorms);
         }
         else {
             turn_timer++;
@@ -170,13 +164,7 @@ void TurnManager::terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorm
         printf("El tiempo de espera termina\n");
         state = TURN;
         turn_timer = 0;
-        if (static_cast<int>(this->id_player_actual + 1) == cantidad_players){
-            this->id_player_actual = 0;
-        }
-        else{
-            this->id_player_actual++;
-        }
-        this->id_gusano_actual = getNextWorm(this->id_player_actual);
+        turno_siguiente_player(vectorWorms);
     }
 }
 
@@ -196,7 +184,7 @@ void TurnManager::randomizar_queue_player(){
 
 void TurnManager::turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vectorWorms){
     uint32_t turno_actual = this->id_player_actual;
-    if(gusano_esta_vivo(vectorWorms)){ // Si el gusano esta vivo lo agrego a la queue (sera el ultimo gusano)
+    if(gusano_esta_vivo(this->id_gusano_actual,vectorWorms)){ // Si el gusano esta vivo lo agrego a la queue (sera el ultimo gusano)
         queue_siguiente_gusano_por_player[this->id_player_actual].try_push(this->id_gusano_actual);
     }
     else{
@@ -209,22 +197,35 @@ void TurnManager::turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vec
     }
     uint32_t id_gusano_siguiente;
     // uint32_t cantidad_vueltas;
+    bool se_encontro_player = false;
     for(uint32_t i = 0; i < static_cast<uint32_t>(this->cantidad_players);i++){ // Si todos los gusanos de un player estan muertos busco al siguiente player
-        if(std::find(players_eliminados.begin(), players_eliminados.end(), (turno_actual+i)%cantidad_players) != players_eliminados.end()){
+        uint32_t id_jugador = (turno_actual + i) %cantidad_players; // Este es el id del jugador que estoy intentando
+        if(std::find(players_eliminados.begin(), players_eliminados.end(), id_jugador) != players_eliminados.end()){
            continue; //  (turno_actual+i)%cantidad_players) devuelve un numero entre 0 y cantidad_players, iterando desde el player actual hasta el anterior
         }
         else{
-            if(queue_siguiente_gusano_por_player[(turno_actual + i)%cantidad_players].try_pop(id_gusano_siguiente)){
-             turno_actual = turno_actual + i;
-                break;
-            }else{ // El player no tiene ningun gusano, se elimina de la lista
-                queue_siguiente_gusano_por_player.erase(turno_actual + i);
+            while(queue_siguiente_gusano_por_player[id_jugador].try_pop(id_gusano_siguiente)){
+                if(gusano_esta_vivo(id_gusano_siguiente,vectorWorms)){
+                    turno_actual = id_jugador;
+                    se_encontro_player = true;
+                    break;
+                }else{
+                    id_player_por_gusano.erase(id_gusano_siguiente);
+                    continue;
+                }
+
             }
-        }
-
-
+            if(!se_encontro_player){ // Quiere decir que este player se qudo sin gusano par jugar
+                queue_siguiente_gusano_por_player.erase(id_jugador);
+                continue;
+            }else{
+                break;
+            }
+                
+            }
     }
-    if (id_gusano_siguiente > cantidad_gusanos){ // Buscar la forma de saber si todos los gusanos de un player estan muertos, eliminar ese players
+
+    if (!se_encontro_player){ // Buscar la forma de saber si todos los gusanos de un player estan muertos, eliminar ese players
         this->id_gusano_actual = 0;
     }
     else{
@@ -236,8 +237,8 @@ void TurnManager::turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vec
 
 }
 
-bool TurnManager::gusano_esta_vivo(std::vector<std::shared_ptr<Worm>>& vectorWorms){
-    uint32_t gusano_actual = this->id_gusano_actual;
+bool TurnManager::gusano_esta_vivo(uint32_t id,std::vector<std::shared_ptr<Worm>>& vectorWorms){
+    uint32_t gusano_actual = id;
     for (auto c: vectorWorms){
         if(c->get_id() == gusano_actual){
             if(c->isDead()){
@@ -249,4 +250,24 @@ bool TurnManager::gusano_esta_vivo(std::vector<std::shared_ptr<Worm>>& vectorWor
         }
     }
     return false;
+}
+
+
+void TurnManager::detener_gusano_actual(std::vector<std::shared_ptr<Worm>>& vectorWorms){
+    for (auto c: vectorWorms){
+        if(c->get_id() == this->id_gusano_actual){
+            if(c->isDead()){
+                return;
+            }
+            else{
+                c->detener_acciones();
+            }
+        }
+    }
+}
+
+void TurnManager::pasar_turno_si_muerto(int idx, std::vector<std::shared_ptr<Worm>>& vectorWorms){
+    if(idx == static_cast<int>(id_gusano_actual)){
+        turno_siguiente_player(vectorWorms);
+    }
 }

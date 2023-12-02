@@ -1,6 +1,6 @@
 #include "water.h"
 
-Water::Water(b2World& world) {
+Water::Water(b2World& world):Colisionable(bodyType::WATER) {
     b2BodyDef waterDef;
     waterDef.position.Set(0, 0);
     waterDef.userData.pointer = reinterpret_cast<uintptr_t> (this);
@@ -18,8 +18,8 @@ Water::Water(b2World& world) {
     this->body->CreateFixture(&fixtureWater);
 }
 
-bodyType Water::identificar() {
-    return bodyType::WATER;
-}
+// bodyType Water::identificar() {
+//     return bodyType::WATER;
+// }
 
 Water::~Water() {}

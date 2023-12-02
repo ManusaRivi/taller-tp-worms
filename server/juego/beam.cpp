@@ -1,6 +1,6 @@
 #include "beam.h"
 
-BeamServer::BeamServer(b2World& world, int type, float x_pos, float y_pos, float angle) {
+BeamServer::BeamServer(b2World& world, int type, float x_pos, float y_pos, float angle):Colisionable(bodyType::BEAM) {
     b2BodyDef vigaDef;
     vigaDef.position.Set(x_pos, y_pos);
     vigaDef.angle = angle;
@@ -24,9 +24,9 @@ BeamServer::BeamServer(b2World& world, int type, float x_pos, float y_pos, float
     this->body->CreateFixture(&fixtureViga);
 }
 
-bodyType BeamServer::identificar() {
-    return bodyType::BEAM;
-}
+// bodyType BeamServer::identificar() {
+//     return bodyType::BEAM;
+// }
 
 std::vector<float> BeamServer::get_pos(){
      std::vector<float> viga({body->GetPosition().x,body->GetPosition().y,body->GetAngle(),2 * this->len});

@@ -45,11 +45,13 @@ class Partida:public Thread{
 
     bool terminada();
 
+
     
 
     
     private:
     void enviar_primer_snapshot();
+    void comenzar_partida();
 
 
 };

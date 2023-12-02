@@ -22,10 +22,7 @@ void Partida::run()try{{
     while(!partida_empezada){
         std::shared_ptr<Comando> comando = acciones_a_realizar.pop();
         if(comando->get_comando() == COMANDO::CMD_EMPEZAR_PARTIDA){
-            std::shared_ptr<MensajeServer> msg = mensajes.empezar_partida();
-            broadcaster.broadcastSnap(msg);
-            enviar_primer_snapshot();
-            partida_empezada = true;
+            comenzar_partida();
         }
     }
     if(!is_alive){
@@ -125,6 +122,7 @@ std::string Partida::get_nombre(){
 }
 
 void Partida::add_queue(Queue<std::shared_ptr<MensajeServer>>* snapshots){
+    std::lock_guard<std::mutex> lock(lck);
     broadcaster.add_queue(snapshots);
 }
 
@@ -164,4 +162,12 @@ bool Partida::partida_accesible(){
 
 bool Partida::terminada(){
     return partida_terminada;
+}
+
+void Partida::comenzar_partida(){
+    std::lock_guard<std::mutex> lock(lck);
+    std::shared_ptr<MensajeServer> msg = mensajes.empezar_partida();
+    broadcaster.broadcastSnap(msg);
+    enviar_primer_snapshot();
+    partida_empezada = true;
 }

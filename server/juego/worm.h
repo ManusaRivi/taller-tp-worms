@@ -45,66 +45,81 @@ private:
     b2Body* body;
     std::unique_ptr<ColeccionArmas> coleccionArmas;
     std::shared_ptr<Arma> armaActual;
-    bool moving;
+    /* info de snapshot */
     int facingDirection;
-    bool airborne;
+    uint8_t status;
+    uint32_t id;
+    float angulo_disparo;
     uint8_t hitPoints;
+    /* info tecnica */
     float initialHeight;
     float finalHeight;
+    bool airborne;
+    bool moving;
+    bool esta_apuntando_para_arriba;
+    bool apuntando;
     float x_target;
     float y_target;
 
 public:
     int jumpSteps;
-    uint32_t id;
-    uint8_t status;
-    float angulo;
-    float angulo_disparo;
-    bool esta_apuntando_para_arriba;
-    bool apuntando;
     std::queue<SoundTypes> sounds;
 
     Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id);
-    virtual bodyType identificar() override;
+
+    /* Movimiento */
+
     void StartMovement(int dir);
+
     void Move();
+
     void Stop();
+
     void JumpForward();
+
     void JumpBackward();
+
+    void cambiar_direccion(uint8_t dir);
+
+    /* Eventos */
+
     void startGroundContact();
+
     void endGroundContact();
-    bool isMoving();
+
     void startWaterContact();
-    bool isAirborne();
+
     void takeDamage(int damage);
-    std::vector<float> GetPosition();
-    float GetAngle();
-    bool isDead();
+
     void kill();
-    
-    void usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id);
 
-    int get_facing_direction();
+    void detener_acciones();
 
-    uint32_t get_id();
+    /* Queries */
 
-    uint8_t get_status();
+    bool isMoving();
 
-    float get_angulo();
+    bool isAirborne();
+
+    bool isDead();
+
+    bool esta_apuntando();
+
+    bool esta_cargando_arma();
+
+    bool esta_quieto();
+
+    /* Combate */
 
     void cambiar_arma(uint8_t tipo_arma);
 
     void iniciar_carga();
 
     void cargar_arma();
-
-    bool esta_cargando_arma();
+    
+    void usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id);
 
     void esta_apuntando_para(bool dir);
-
-    bool apuntando_para_arriba(bool dir);
-
-    bool esta_quieto();
 
     void incrementar_angulo_en(float inc);
 
@@ -112,19 +127,23 @@ public:
 
     void set_grenade_timer(int seconds);
 
-    bool esta_apuntando();
-
-    void cambiar_angulo();
-
-    void detener_acciones();
-
-    float aiming_angle();
-
     void parar_angulo();
 
-    uint8_t get_vida();
+    /* Getters */
 
-    void cambiar_direccion(uint8_t dir);
+    std::vector<float> GetPosition();
+
+    int get_facing_direction();
+
+    uint8_t get_status();
+
+    uint32_t get_id();
+
+    float get_angulo();
+
+    float get_aiming_angle();
+
+    uint8_t get_vida();
 
     ~Worm();
 };

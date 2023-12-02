@@ -90,6 +90,8 @@ public:
 
     std::string GetName();
 
+    std::vector<std::pair<uint8_t,std::vector<float>>> esta_usando_armas_especiales();
+
     void get_vigas(std::vector<std::vector<float>>& beam_vector);
 
     uint16_t gusanos_totales();
@@ -101,6 +103,8 @@ public:
     void get_explosions(std::vector<ExplosionWrapper>& explosion_vector);
 
     void get_sounds(std::vector<SoundTypes>& sound_vector);
+
+    
 };
 
 #endif

@@ -56,6 +56,7 @@ class ClienteProtocolo:public Protocolo{
     void recibir_projectiles(std::shared_ptr<SnapshotCliente> snap);
     void recibir_explosiones(std::shared_ptr<SnapshotCliente> snap);
     void recibir_sonidos(std::shared_ptr<SnapshotCliente> snap);
+    void recibir_datos_especiales(std::shared_ptr<SnapshotCliente> snap);
 
 
     

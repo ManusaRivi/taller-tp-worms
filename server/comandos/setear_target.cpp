@@ -8,4 +8,5 @@ SetearTarget::SetearTarget(float x_, float y_, uint32_t id_responsable):Comando(
 
 
 void SetearTarget::realizar_accion(Mapa& mapa){
+    mapa.set_target(this->get_responsable(),x,y);
 }

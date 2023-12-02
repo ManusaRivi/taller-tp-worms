@@ -110,6 +110,9 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_handshake(){
         id_gusanos.push_back(id_gus);
         // printf("Se recibe id de gusano = %u \n", id_gus);
     }
+    uint32_t turno_player_actual = recibir_4_bytes();
+    snap->actulizar_camara(turno_player_actual);
+    snap->agregar_turno_actual(turno_player_actual);
     recibir_gusanos(snap);
     std::map<int, std::shared_ptr<Worm>> worms = snap->get_worms();
     std::shared_ptr<World> world = std::make_shared<World>(100,100);
@@ -144,6 +147,10 @@ void ClienteProtocolo::enviar_handshake(uint32_t id_player, std::vector<uint32_t
 std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     // printf("Se llega hasta aca\n");
     std::shared_ptr<SnapshotCliente> snap = std::make_shared<SnapshotCliente>(0);
+    uint32_t turno_player_actual = recibir_4_bytes();
+    snap->actulizar_camara(turno_player_actual);
+    snap->agregar_turno_actual(turno_player_actual);
+    recibir_datos_especiales(snap);
     recibir_gusanos(snap);
     recibir_projectiles(snap);
     recibir_explosiones(snap);
@@ -182,8 +189,8 @@ std::vector<std::vector<float>> ClienteProtocolo::recibir_vigas(){
 }
 
 void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
-    uint32_t turno_player_actual = recibir_4_bytes();
-    snap->actulizar_camara(turno_player_actual);
+
+    
     uint16_t cantidad_gusanos = recibir_2_bytes();
     // printf("La cantidad de gusanos recibida es %u\n",cantidad_gusanos);
     // printf("La cantidad de gusanos que se reciben es %u",cantidad_gusanos);
@@ -205,7 +212,7 @@ void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
         std::shared_ptr<Worm> worm = std::make_shared<Worm>(pos_x, pos_y, vida, equipo, std::move(state));
         snap->add_worm(worm, id_gusano);
     }
-    snap->agregar_turno_actual(turno_player_actual);
+    
 }
 
 void ClienteProtocolo::recibir_projectiles(std::shared_ptr<SnapshotCliente> snap){
@@ -324,4 +331,23 @@ bool ClienteProtocolo::recibir_confirmacion_union(){
     else{
         return false;
     }
+}
+
+void ClienteProtocolo::recibir_datos_especiales(std::shared_ptr<SnapshotCliente> snap){
+    uint8_t has_tp = recibir_1_byte();
+    float tp_pos_x = recibir_4_bytes_float();
+    float tp_pos_y = recibir_4_bytes_float();
+
+    // printf("Se recibe un has tp de %u   %f    %f\n",has_tp,tp_pos_x,tp_pos_y);
+
+    uint8_t has_ataque_aereo = recibir_1_byte();
+    float ataque_pos_x = recibir_4_bytes_float();
+    float ataque_pos_y = recibir_4_bytes_float();
+
+    //  printf("Se recibe un ataque de %u   %f    %f\n",has_ataque_aereo,ataque_pos_x,ataque_pos_y);
+
+    uint8_t has_timer = recibir_1_byte();
+    uint32_t timer = recibir_4_bytes();
+
+    //  printf("Se recibe un timer de %u   %u   \n",has_timer,timer);
 }

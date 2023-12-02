@@ -231,7 +231,7 @@ void Mapa::set_target(uint32_t id, float x, float y) {
     GameStates status = turnManager.get_state();
     if (status == BONUS_TURN || status == WAITING) return;
     if (id != turnManager.get_player_actual()) return;
-    worms[id]->set_target(x, y);
+    worms[turnManager.get_gusano_actual()]->set_target(x, y);
 }
 
 void Mapa::detener_angulo(uint32_t id){
@@ -322,4 +322,30 @@ void Mapa::get_sounds(std::vector<SoundTypes>& sound_vector) {
         sound_vector.push_back(sounds.front());
         sounds.pop();
     }
+}
+
+
+std::vector<std::pair<uint8_t,std::vector<float>>> Mapa::esta_usando_armas_especiales(){
+    std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales;
+    if(worms[this->turnManager.get_gusano_actual()]->using_teleportacion()){
+        std::vector<float> posicion = worms[this->turnManager.get_gusano_actual()]->posicion_marcada();
+        armas_especiales.push_back(std::pair<uint8_t,std::vector<float>>({0x01,posicion}));
+    }
+    else{
+        armas_especiales.push_back(std::pair<uint8_t,std::vector<float>>({0x00,{0,0}}));
+    }
+    if(worms[this->turnManager.get_gusano_actual()]->using_ataque_aereo()){
+        std::vector<float> posicion = worms[this->turnManager.get_gusano_actual()]->posicion_marcada();
+        armas_especiales.push_back(std::pair<uint8_t,std::vector<float>>({0x01,posicion}));
+    }
+    else{
+        armas_especiales.push_back(std::pair<uint8_t,std::vector<float>>({0x00,{0,0}}));
+    }
+    if(worms[this->turnManager.get_gusano_actual()]->using_timer()){
+        armas_especiales.push_back(std::pair<uint8_t,std::vector<float>>({0x01, {worms[this->turnManager.get_gusano_actual()]->get_timer()}}));
+    }
+    else{
+        armas_especiales.push_back(std::pair<uint8_t,std::vector<float>>({0x00,{0}}));
+    }
+    return armas_especiales;
 }

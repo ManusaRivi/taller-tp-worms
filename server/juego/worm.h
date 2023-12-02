@@ -60,6 +60,9 @@ private:
     bool apuntando;
     float x_target;
     float y_target;
+    float dead_posiiton_x;
+    float dead_position_y;
+    float dead_position_angle;
 
 public:
     int jumpSteps;
@@ -129,6 +132,16 @@ public:
 
     void parar_angulo();
 
+    bool using_teleportacion();
+
+    bool using_ataque_aereo();
+
+    bool using_timer();
+
+    float get_timer();
+
+    std::vector<float> posicion_marcada();
+
     /* Getters */
 
     std::vector<float> GetPosition();
@@ -144,6 +157,8 @@ public:
     float get_aiming_angle();
 
     uint8_t get_vida();
+
+
 
     ~Worm();
 };

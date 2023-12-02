@@ -9,7 +9,7 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
             Colisionable(bodyType::WORM), coleccionArmas(std::make_unique<ColeccionArmas>(world)),
             armaActual(nullptr), facingDirection(direction), status(WormStates::IDLE), id(id_),
             angulo_disparo(0.0f), hitPoints(hitPoints), initialHeight(0.0f), finalHeight(0.0f),
-            airborne(false), moving(false), apuntando(false), jumpSteps(0)
+            airborne(false), moving(false), apuntando(false), x_target(0),y_target(0), jumpSteps(0)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -175,10 +175,16 @@ void Worm::startWaterContact() {
 void Worm::takeDamage(int damage) {
     sounds.push(SoundTypes::HURT_WORM);
     hitPoints -= damage;
+    if(hitPoints <= 0){
+        hitPoints = 0;
+    }
 }
 
 void Worm::kill() {
     sounds.push(SoundTypes::WORM_DEATH_CRY);
+    dead_posiiton_x = body->GetPosition().x;
+    dead_position_y = body->GetPosition().y;
+    dead_position_angle = body->GetAngle();
     body->GetWorld()->DestroyBody(body);
     status = WormStates::DEAD;
     this->hitPoints = 0;
@@ -407,6 +413,9 @@ void Worm::parar_angulo(){
  * */
 
 std::vector<float> Worm::GetPosition() {
+    if(status == WormStates::DEAD){
+        return std::vector<float>({dead_posiiton_x,dead_position_y});
+    }
     b2Vec2 position = body->GetPosition();
     // printf("Al pedire la posicion se devuelve %f   %f\n",position.x,position.y);
     return std::vector<float> ({position.x, position.y});
@@ -425,6 +434,9 @@ uint32_t Worm::get_id(){
 }
 
 float Worm::get_angulo(){
+    if(status == WormStates::DEAD){
+        return dead_position_angle;
+    }
     return this->body->GetAngle();
 }
 
@@ -435,6 +447,71 @@ float Worm::get_aiming_angle(){
 uint8_t Worm::get_vida() {
     return hitPoints;
 }
+
+bool Worm::using_teleportacion(){
+    if(!this->armaActual){
+        return false;
+    }
+    return (this->armaActual->obtenerTipo() == Armas::TELETRANSPORTACION);
+}
+
+bool Worm::using_ataque_aereo(){
+    if(!this->armaActual){
+        return false;
+    }
+    return (this->armaActual->obtenerTipo() == Armas::ATAQUE_AEREO);
+}
+
+std::vector<float> Worm::posicion_marcada(){
+    if(!this->armaActual){
+        return std::vector<float>({0,0});
+    }
+    else{
+        return std::vector<float>({x_target,y_target});
+    }
+}
+
+bool Worm::using_timer(){
+    if(!this->armaActual)return false;
+    Armas tipo = this->armaActual->obtenerTipo();
+    bool esta_usando_timer = false;
+    switch(tipo){
+        case(Armas::DINAMITA):{
+            esta_usando_timer = true;
+            break;
+        }
+        case(Armas::GRANADA_ROJA):{
+            esta_usando_timer = true;
+            break;
+        }
+        case(Armas::BANANA):{
+            esta_usando_timer = true;
+            break;
+        }
+        case(Armas::GRANADA_SANTA):{
+            esta_usando_timer = true;
+            break;
+        }
+        case(Armas::GRANADA_VERDE):{
+            esta_usando_timer = true;
+            break;
+        }
+        default:{
+            esta_usando_timer = false;
+            break;
+        }
+    }
+    return esta_usando_timer;
+}
+
+float Worm::get_timer(){
+    if(!armaActual){
+        return 0;
+    }
+    std::shared_ptr<GranadaArma> granada = std::dynamic_pointer_cast<GranadaArma>(this->armaActual);
+    return granada->get_timer();
+}
+
 
 Worm::~Worm(){
     printf("Se destruye el gusano\n");

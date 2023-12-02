@@ -98,7 +98,7 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
     std::vector<SoundTypes> sonidos;
     mapa.get_sounds(sonidos);
     std::pair<bool,uint8_t> timer_if_holding_grenade;
-
+    std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales = mapa.esta_usando_armas_especiales();
 
     // Snapshot snap(mapa.get_gusanos());
     // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa.gusano_actual());
@@ -107,7 +107,8 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
                                                                             vector_explosiones,
                                                                             tiempo_del_turno,
                                                                             gusano_jugando_actualmente,
-                                                                            sonidos);
+                                                                            sonidos,
+                                                                            armas_especiales);
     return snap;
 }
 

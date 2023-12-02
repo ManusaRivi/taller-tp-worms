@@ -126,6 +126,7 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap){
     uint8_t cmd = CODIGO_SNAPSHOT;
     enviar_1_byte(cmd);
     enviar_4_bytes(snapshot->get_gusano_actual());
+    enviar_datos_especiales(snapshot->get_armas_especiales());
     enviar_gusanos(snapshot->get_worms());
     enviar_proyectiles(snapshot->get_proyectiles());
     enviar_explosiones(snapshot->get_explosiones());
@@ -297,4 +298,21 @@ void ServerProtocolo::enviar_estado_unirse(uint8_t estado){
     uint8_t cd = CODIGO_ESTADO_UNIRSE_PARTIDA;
     enviar_1_byte(cd);
     enviar_1_byte(estado);
+}
+
+void ServerProtocolo::enviar_datos_especiales(std::vector<std::pair<uint8_t,std::vector<float>>>& datos){
+    auto& [has_tp, pos_tp] = datos[0];
+    auto& [has_ataque_aereo, pos_ataque] = datos[1];
+    auto& [has_timer, timer] = datos[2];
+
+
+    enviar_1_byte(has_tp); 
+    enviar_4_bytes_float(pos_tp[0]); 
+    enviar_4_bytes_float(pos_tp[1]); // { 0 Si no tiene/1 si, x pos, y pos}
+    enviar_1_byte(has_ataque_aereo); 
+    enviar_4_bytes_float(pos_ataque[0]);
+    enviar_4_bytes_float(pos_ataque[1]);
+    enviar_1_byte(has_timer);
+    enviar_4_bytes(timer[0]);
+
 }

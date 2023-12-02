@@ -5,12 +5,14 @@ SnapshotPartida::SnapshotPartida(std::vector<WormWrapper> worms_,
                                 std::vector<ProjectileWrapper> proyectiles_,
                                 std::vector<ExplosionWrapper> explosiones_, 
                                 float tiempo_actual_, uint32_t gusano_actual_,
-                                std::vector<SoundTypes> sonidos) :
+                                std::vector<SoundTypes> sonidos,
+                                std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales_) :
                 Snapshot(tipo_snapshot::TIPO_PARTIDA, worms_, gusano_actual_),
                 proyectiles(proyectiles_),
                 explosiones(explosiones_),
                 tiempo_actual(tiempo_actual_),
-                sonidos(sonidos) {}
+                sonidos(sonidos),
+                armas_especiales(armas_especiales_) {}
 
 float SnapshotPartida::get_tiempo_actual(){
     return this->tiempo_actual;
@@ -30,4 +32,8 @@ std::vector<ExplosionWrapper>& SnapshotPartida::get_explosiones(){
 
 std::vector<SoundTypes>& SnapshotPartida::get_sonidos() {
     return this->sonidos;
+}
+
+std::vector<std::pair<uint8_t,std::vector<float>>>& SnapshotPartida::get_armas_especiales(){
+    return this->armas_especiales;
 }

@@ -112,7 +112,7 @@ void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr
         return;
     }
     if (state == BONUS_TURN) {
-        if (bonus_turn_timer == FRAME_RATE * 3) {
+        if (bonus_turn_timer == FRAME_RATE * BONUS_SECONDS) {
             printf("El tiempo bonus termina\n");
             detener_gusano_actual(vectorWorms);
             state = WAITING;
@@ -123,11 +123,11 @@ void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr
         return;
     }
     if (state == TURN) {
-        if (turn_timer == FRAME_RATE * 60) {
+        turn_timer++;
+        if (turn_timer == FRAME_RATE * MAX_SEGUNDOS_POR_TURNO) {
+            detener_gusano_actual(vectorWorms);
             turno_siguiente_player(vectorWorms);
-        }
-        else {
-            turn_timer++;
+            turn_timer = 0;
         }
     } 
     

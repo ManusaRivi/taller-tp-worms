@@ -9,6 +9,7 @@
 
 
 #define MAX_SEGUNDOS_POR_TURNO 60
+#define BONUS_SECONDS 3
 #define FRAME_RATE 30.0f
 
 enum GameStates {

@@ -126,7 +126,9 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap){
     uint8_t cmd = CODIGO_SNAPSHOT;
     enviar_1_byte(cmd);
     enviar_4_bytes(snapshot->get_gusano_actual());
+    enviar_carga_actual(snapshot->get_carga_actual());
     enviar_datos_especiales(snapshot->get_armas_especiales());
+    enviar_municiones(snapshot->get_municion_armas());
     enviar_gusanos(snapshot->get_worms());
     enviar_proyectiles(snapshot->get_proyectiles());
     enviar_explosiones(snapshot->get_explosiones());
@@ -315,4 +317,17 @@ void ServerProtocolo::enviar_datos_especiales(std::vector<std::pair<uint8_t,std:
     enviar_1_byte(has_timer);
     enviar_4_bytes(timer[0]);
 
+}
+
+
+void ServerProtocolo::enviar_municiones(std::vector<std::pair<int,int>>& municion_armas){
+    enviar_2_byte(municion_armas.size());
+    for (auto c: municion_armas){
+        enviar_1_byte(c.first);
+        enviar_2_byte(c.second);
+    }
+}
+
+void ServerProtocolo::enviar_carga_actual(uint16_t& carga){
+    enviar_2_byte(carga);
 }

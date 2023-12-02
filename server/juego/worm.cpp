@@ -512,6 +512,16 @@ float Worm::get_timer(){
     return granada->get_timer();
 }
 
+std::vector<std::pair<int,int>> Worm::get_municiones(){
+    return this->coleccionArmas->obtener_municion_armas();
+}
+
+uint16_t Worm::get_carga_actual(){
+    if(!armaActual) return 0;
+    if(armaActual->obtenerTipo()== Armas::TELETRANSPORTACION) return 0;
+    return armaActual->get_carga();
+}
+
 
 Worm::~Worm(){
     printf("Se destruye el gusano\n");

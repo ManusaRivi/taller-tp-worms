@@ -158,6 +158,10 @@ public:
 
     uint8_t get_vida();
 
+    std::vector<std::pair<int,int>> get_municiones();
+
+    uint16_t get_carga_actual();
+
 
 
     ~Worm();

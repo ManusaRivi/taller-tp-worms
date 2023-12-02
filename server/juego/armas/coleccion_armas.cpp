@@ -24,3 +24,15 @@ ColeccionArmas::~ColeccionArmas()
 {
     armas.clear();
 }
+
+
+std::vector<std::pair<int,int>> ColeccionArmas::obtener_municion_armas(){
+    std::vector<std::pair<int,int>> municiones;
+    for(auto c: armas){
+        std::pair<int,int> par;
+        par.first = c.first;
+        par.second = c.second->get_ammo();
+        municiones.push_back(par);
+    }
+    return municiones;
+}

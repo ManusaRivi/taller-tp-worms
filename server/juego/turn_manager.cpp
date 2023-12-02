@@ -2,7 +2,7 @@
 
 
 
-TurnManager::TurnManager():state(TURN),turn_timer(0),bonus_turn_timer(0),acaba_de_pasar_turno(false){
+TurnManager::TurnManager():state(TURN),turn_timer(0),bonus_turn_timer(0),waiting_timer(0),acaba_de_pasar_turno(false){
 
 }
 
@@ -108,6 +108,7 @@ bool TurnManager::checkOnePlayerRemains() {
 void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr<Worm>>& vectorWorms){
     /* Nuevo funcionamiento (completar) */
     if (state == WAITING) {
+        waiting_timer++;
         return;
     }
     if (state == BONUS_TURN) {
@@ -164,6 +165,7 @@ void TurnManager::terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorm
         printf("El tiempo de espera termina\n");
         state = TURN;
         turn_timer = 0;
+        waiting_timer = 0;
         turno_siguiente_player(vectorWorms);
     }
 }
@@ -270,5 +272,17 @@ void TurnManager::detener_gusano_actual(std::vector<std::shared_ptr<Worm>>& vect
 void TurnManager::pasar_turno_si_muerto(int idx, std::vector<std::shared_ptr<Worm>>& vectorWorms){
     if(idx == static_cast<int>(id_gusano_actual)){
         turno_siguiente_player(vectorWorms);
+    }
+}
+
+uint32_t TurnManager::get_tiempo_actual(){
+    if(state == WAITING){
+        return (waiting_timer)/30;
+    }
+    if(state == WAITING){
+        return (bonus_turn_timer+turn_timer)/30;
+    }
+    else{
+        return turn_timer/30;
     }
 }

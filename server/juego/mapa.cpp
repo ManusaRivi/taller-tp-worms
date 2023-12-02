@@ -325,8 +325,7 @@ void Mapa::get_sounds(std::vector<SoundTypes>& sound_vector) {
 }
 
 
-std::vector<std::pair<uint8_t,std::vector<float>>> Mapa::esta_usando_armas_especiales(){
-    std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales;
+void Mapa::esta_usando_armas_especiales(std::vector<std::pair<uint8_t,std::vector<float>>>& armas_especiales){
     if(worms[this->turnManager.get_gusano_actual()]->using_teleportacion()){
         std::vector<float> posicion = worms[this->turnManager.get_gusano_actual()]->posicion_marcada();
         armas_especiales.push_back(std::pair<uint8_t,std::vector<float>>({0x01,posicion}));
@@ -347,5 +346,16 @@ std::vector<std::pair<uint8_t,std::vector<float>>> Mapa::esta_usando_armas_espec
     else{
         armas_especiales.push_back(std::pair<uint8_t,std::vector<float>>({0x00,{0}}));
     }
-    return armas_especiales;
+}
+
+void Mapa::get_municiones_worm(std::vector<std::pair<int,int>>& municiones){
+    municiones = worms[turnManager.get_gusano_actual()]->get_municiones();
+}
+
+uint32_t Mapa::get_tiempo_turno_actual(){
+    return this->turnManager.get_tiempo_actual();
+}
+
+uint16_t Mapa::get_carga_actual(){
+    return worms[this->turnManager.get_gusano_actual()]->get_carga_actual();
 }

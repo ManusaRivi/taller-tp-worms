@@ -93,12 +93,16 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
     mapa.get_projectiles(vector_proyectiles);
     std::vector<ExplosionWrapper> vector_explosiones;
     mapa.get_explosions(vector_explosiones);
-    uint32_t tiempo_del_turno = iteraccion % static_cast<int>(FRAME_RATE * MAX_SEGUNDOS_POR_TURNO); // ESTO SERA EL TURN_TIMER!!!
+    uint32_t tiempo_del_turno = mapa.get_tiempo_turno_actual(); // ESTO SERA EL TURN_TIMER!!!
     uint32_t gusano_jugando_actualmente = mapa.gusano_actual();
     std::vector<SoundTypes> sonidos;
     mapa.get_sounds(sonidos);
     std::pair<bool,uint8_t> timer_if_holding_grenade;
-    std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales = mapa.esta_usando_armas_especiales();
+    std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales;
+    mapa.esta_usando_armas_especiales(armas_especiales);
+    std::vector<std::pair<int,int>> municion_armas;
+    mapa.get_municiones_worm(municion_armas);
+    uint16_t carga_actual = mapa.get_carga_actual();
 
     // Snapshot snap(mapa.get_gusanos());
     // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa.gusano_actual());
@@ -108,7 +112,9 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
                                                                             tiempo_del_turno,
                                                                             gusano_jugando_actualmente,
                                                                             sonidos,
-                                                                            armas_especiales);
+                                                                            armas_especiales,
+                                                                            municion_armas,
+                                                                            carga_actual);
     return snap;
 }
 

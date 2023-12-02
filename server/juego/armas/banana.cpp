@@ -26,3 +26,11 @@ void Banana::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32
                                                     entity_id++, x_pos, y_pos, dmg, radius,
                                                     0, angle, power, BANANA_RESTITUTION, seconds));
 }
+
+int Banana::get_ammo(){
+    return this->ammo;
+}
+
+int Banana::get_carga() {
+    return this->nivel_carga;
+}

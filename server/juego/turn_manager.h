@@ -33,8 +33,9 @@ class TurnManager{
 
     GameStates state;
 
-    uint8_t turn_timer;
-    uint8_t bonus_turn_timer;
+    uint16_t turn_timer;
+    uint16_t bonus_turn_timer;
+    uint16_t waiting_timer;
 
     bool acaba_de_pasar_turno;
 
@@ -55,6 +56,7 @@ class TurnManager{
     void activar_bonus_turn();
     void terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorms);
     void pasar_turno_si_muerto(int idx,std::vector<std::shared_ptr<Worm>>& vectorWorms);
+    uint32_t get_tiempo_actual();
     private:
     void randomizar_queue_player();
     void turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vectorWorms);

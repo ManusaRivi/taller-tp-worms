@@ -2,7 +2,9 @@
 
 using namespace SDL2pp;
 
-Beam::Beam(int& tamano, float& pos_x, float& pos_y, float& angulo_): _tamano(tamano), _pos_x(pos_x), _pos_y(pos_y),angulo(angulo_) {}
+Beam::Beam(int& tamano, float& pos_x, float& pos_y, float& angulo_): _tamano(tamano), _pos_x(pos_x), _pos_y(pos_y),angulo(angulo_) {
+    std::cout << "Tengo angulo" << angulo << "\n";
+}
 
 void Beam::present(Renderer& renderer,
                     TextureManager& texture_manager,
@@ -29,7 +31,7 @@ void Beam::present(Renderer& renderer,
 				Rect(static_cast<int>((pos_rel_x - _tamano/2) * x_scale),
 					static_cast<int>((pos_rel_y - BEAM_WIDTH / 2) * y_scale),
 					_tamano * x_scale, BEAM_WIDTH * y_scale), // Donde lo grafico
-				angulo,        // Angulo
+				-angulo,        // Angulo
 				NullOpt,
 				SDL_FLIP_NONE        // Flip
 			);

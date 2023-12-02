@@ -334,7 +334,7 @@ bool ClienteProtocolo::recibir_confirmacion_union(){
 }
 
 void ClienteProtocolo::recibir_datos_especiales(std::shared_ptr<SnapshotCliente> snap){
-    uint8_t has_tp = recibir_1_byte();
+    /*uint8_t has_tp = recibir_1_byte();
     float tp_pos_x = recibir_4_bytes_float();
     float tp_pos_y = recibir_4_bytes_float();
 
@@ -347,7 +347,7 @@ void ClienteProtocolo::recibir_datos_especiales(std::shared_ptr<SnapshotCliente>
     //  printf("Se recibe un ataque de %u   %f    %f\n",has_ataque_aereo,ataque_pos_x,ataque_pos_y);
 
     uint8_t has_timer = recibir_1_byte();
-    uint32_t timer = recibir_4_bytes();
+    uint32_t timer = recibir_4_bytes();*/
 
     //  printf("Se recibe un timer de %u   %u   \n",has_timer,timer);
 }

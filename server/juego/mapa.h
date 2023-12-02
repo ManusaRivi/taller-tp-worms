@@ -12,12 +12,16 @@
 #include "../worm_wrapper.h"
 #include "../projectile_wrapper.h"
 #include "../explosion_wrapper.h"
+#include "../provisiones_wrapper.h"
 #include "../../common/sound_types.h"
+#include "../../common/provision_types.h"
 #include "./worm.h"
 #include "./beam.h"
 #include "./proyectiles/projectile.h"
 #include "./proyectiles/fragment.h"
 #include "./proyectiles/grenade.h"
+#include "./provisiones/provision.h"
+#include "./provisiones/vida.h"
 #include "./water.h"
 #include "./contact_listener.h"
 #include "turn_manager.h"
@@ -36,6 +40,7 @@ private:
     std::vector<std::shared_ptr<BeamServer>> vigas;
     std::vector<std::shared_ptr<Worm>> worms;
     std::vector<std::shared_ptr<Projectile>> projectiles;
+    std::vector<std::shared_ptr<Provision>> provisiones;
     std::queue<ExplosionWrapper> explosions;
     std::queue<SoundTypes> sounds;
     Water water;

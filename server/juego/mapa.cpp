@@ -28,7 +28,7 @@ void Mapa::Load_Map_File(std::string filepath) {
         float y_pos = beam["pos_y"].as<float>();
         float angle = beam["angulo"].as<float>();
         
-        vigas.push_back(std::make_shared< BeamServer> (world, size, x_pos, y_pos, angle));
+        vigas.push_back(std::make_shared<BeamServer> (world, size, x_pos, y_pos, angle));
     }
 
     GameConfig& config = GameConfig::getInstance();
@@ -41,11 +41,11 @@ void Mapa::Load_Map_File(std::string filepath) {
         float y_pos = worm["pos_y"].as<float>();
         int dir = worm["direccion"].as<int>();
         // printf("La posicion del gusano es : %f   %f\n",x_pos,y_pos);
-        worms.push_back(std::make_shared< Worm> (world, config.puntos_de_vida, dir, x_pos, y_pos, id++));
+        worms.push_back(std::make_shared<Worm> (world, config.puntos_de_vida, dir, x_pos, y_pos, id++));
     }
     turnManager.cargar_cantidad_gusanos(worms.size());
 
-    // this->water = Water(world);
+    provisiones.push_back(std::make_shared<VidaServer>(world, 20.0, 20.0));
 }
 
 void Mapa::Step(int iteracion) {

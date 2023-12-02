@@ -213,10 +213,12 @@ void Mapa::usar_arma(uint32_t id) {
     GameStates status = turnManager.get_state();
     if (status == BONUS_TURN || status == WAITING) return;
     if(id != turnManager.get_player_actual()) return;
-    worms[turnManager.get_gusano_actual()]->usar_arma(projectiles, this->identificador_entidades);
-    turnManager.activar_bonus_turn();
-    worms[turnManager.get_gusano_actual()]->Stop();
-    printf("Se dispara el arma\n");
+    if(worms[turnManager.get_gusano_actual()]->usar_arma(projectiles, this->identificador_entidades)){
+        turnManager.activar_bonus_turn();
+        worms[turnManager.get_gusano_actual()]->Stop();
+        printf("Se dispara el arma\n");
+    }
+
 }
 
 void Mapa::set_grenade_time(uint32_t id, int seconds) {

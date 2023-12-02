@@ -191,6 +191,7 @@ void Worm::detener_acciones(){
         apuntando = false;
         status = WormStates::IDLE;
         this->Stop();
+        armaActual = nullptr;
     }
 }
 
@@ -304,15 +305,16 @@ void Worm::cargar_arma(){
     this->armaActual->cargar();
 }
 
-void Worm::usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id) {
+bool Worm::usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id) {
     if(!armaActual || this->isDead()){
-        return;
+        printf("Not tiene arma\n");
+        return false;
     }
     Armas tipo = armaActual->obtenerTipo();
     if (tipo == TELETRANSPORTACION) {
         sounds.push(SoundTypes::TELEPORT);
         body->SetTransform(b2Vec2 (x_target, y_target), body->GetAngle());
-        return;
+        return true;
     }
     b2Vec2 position = body->GetPosition();
     float angle;
@@ -358,9 +360,10 @@ void Worm::usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint
     }
     
     apuntando = false;
-    printf("El angulo con el que se estada apuntando es : %f\n",this->get_aiming_angle());
-    printf("el angulo con el que se dispara es %f\n",angle);
     armaActual->Shoot(projectiles, entity_id, position.x, position.y, angle);
+    status = WormStates::IDLE;
+    armaActual = nullptr;
+    return true;
 }
 
 void Worm::esta_apuntando_para(bool id){

@@ -117,7 +117,7 @@ public:
 
     void cargar_arma();
     
-    void usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id);
+    bool usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id);
 
     void esta_apuntando_para(bool dir);
 

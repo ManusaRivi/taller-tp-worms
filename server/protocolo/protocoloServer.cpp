@@ -4,7 +4,7 @@ ServerProtocolo::ServerProtocolo(Socket &socket): Protocolo(socket){
 
 }
 
-std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id)try{{
+std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id){
     std::shared_ptr<Comando> comando;
     uint8_t buf = recibir_1_byte();
     switch(buf){
@@ -72,11 +72,9 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id)try{{
     return comando;
 
 
-}}catch(const ClosedSocket& e){
-    throw ClosedSocket();
 }
 
-std::shared_ptr<MensajeServer> ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id)try{{
+std::shared_ptr<MensajeServer> ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id){
     std::shared_ptr<Comando> comando;
     uint8_t buf;
     skt.recvall(&buf,1,&was_closed);
@@ -121,11 +119,9 @@ std::shared_ptr<MensajeServer> ServerProtocolo::recibir_comando(bool &was_closed
     return nullptr;
     
 
-}}catch(const ClosedSocket& e){
-    throw ClosedSocket();
 }
 
-void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap)try{{
+void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap){
     std::shared_ptr<SnapshotPartida> snapshot = std::dynamic_pointer_cast<SnapshotPartida>(snap);
     uint8_t cmd = CODIGO_SNAPSHOT;
     enviar_1_byte(cmd);
@@ -135,21 +131,16 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap)try{{
     enviar_explosiones(snapshot->get_explosiones());
     enviar_sonidos(snapshot->get_sonidos());
 
-}}catch(const ClosedSocket& e){
-    throw ClosedSocket();
 }
 
-void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string>& partidas/*std::string map*/)try{{
+void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string>& partidas/*std::string map*/){
     // printf("Se estan por enviar las partidas\n");
     //uint8_t cmd = CODIGO_LISTAR_PARTIDA;
     //enviar_1_byte(cmd);
     enviar_lista(partidas);
-}}catch(const ClosedSocket& e){
-    throw ClosedSocket();
 }
 
-
-void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string>& lista)try{{
+void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string>& lista){
     uint16_t cantidad_mapas = lista.size();
     enviar_2_byte(cantidad_mapas);
     for (auto i = lista.begin(); i != lista.end(); i++){
@@ -161,29 +152,22 @@ void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string>& lista)try{{
         enviar_string(nombre);
         
     }
-}}catch(const ClosedSocket& e){
-    throw ClosedSocket();
 }
 
-
-void ServerProtocolo::enviar_mapas(std::map<uint32_t,std::string>& mapas)try{{
+void ServerProtocolo::enviar_mapas(std::map<uint32_t,std::string>& mapas){
     enviar_lista(mapas);
-}}catch(const ClosedSocket& e){
-    throw ClosedSocket();
 }
 
 
-void ServerProtocolo::check_partida_empezada()try{{
+void ServerProtocolo::check_partida_empezada(){
     uint8_t cmd = CODIGO_PARTIDA_POR_COMENZAR;
     enviar_1_byte(cmd);
-}}catch(const ClosedSocket& e){
-    throw ClosedSocket();
 }
 
 
 
 
-void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>>& gusanos_por_player, std::shared_ptr<Snapshot> snap)try{{
+void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>>& gusanos_por_player, std::shared_ptr<Snapshot> snap){
     std::shared_ptr<SnapshotHandshake> snapshot = std::dynamic_pointer_cast<SnapshotHandshake>(snap);
     uint8_t cmd = CODIGO_HANDSHAKE_EMPEZAR_PARTIDA;
     uint16_t cantidad_gusanos = gusanos_por_player.second.size();
@@ -197,14 +181,12 @@ void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>>
     enviar_gusanos(snapshot->get_worms());
     enviar_vigas(snapshot->get_vigas());
     // printf("Se termina de enviar handshake\n");
-}}catch(const ClosedSocket& e){
-    throw ClosedSocket();
 }
 
 
 
 
-std::shared_ptr<MensajeServer> ServerProtocolo::recibir_id_gusanos()try{{
+std::shared_ptr<MensajeServer> ServerProtocolo::recibir_id_gusanos(){
     uint32_t id_player = recibir_4_bytes();
     uint16_t cantidad_gusanos = recibir_2_bytes();
     std::vector<uint32_t> ids_gusanos;
@@ -214,13 +196,11 @@ std::shared_ptr<MensajeServer> ServerProtocolo::recibir_id_gusanos()try{{
     std::pair<uint32_t,std::vector<uint32_t>> par(id_player,ids_gusanos);
     // Mensaje msg(par);
     return mensajes.handshake_recibir(par);
-}}catch(const ClosedSocket& e){
-    throw ClosedSocket();
 }
 
 
 
-void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper>& worms)try{{
+void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper>& worms){
     uint8_t cant_players = worms.size();  
     enviar_2_byte(cant_players);
     // printf("La cantidad de gusanops que se envian es %u\n",cant_players);
@@ -246,12 +226,10 @@ void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper>& worms)try{{
         enviar_4_bytes(equipo);
 
     }
-}}catch(const ClosedSocket& e){
-    throw ClosedSocket();
 }
 
 
-void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>>& vigas)try{{
+void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>>& vigas){
 
     uint16_t cantidad_vigas = vigas.size();
     enviar_2_byte(cantidad_vigas);
@@ -262,13 +240,11 @@ void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>>& vigas)try{{
         enviar_4_bytes_float(viga[2]);
         enviar_4_bytes_float(viga[3]);
     }
-}}catch(const ClosedSocket& e){
-    throw ClosedSocket();
 }
 
 
 
-void ServerProtocolo::enviar_proyectiles(std::vector<ProjectileWrapper>& proyectiles)try{{
+void ServerProtocolo::enviar_proyectiles(std::vector<ProjectileWrapper>& proyectiles){
     uint16_t cantidad = proyectiles.size();
     enviar_2_byte(cantidad);
     // printf("La cantidad de proyectiles que se envian es %u\n",cantidad);
@@ -286,12 +262,10 @@ void ServerProtocolo::enviar_proyectiles(std::vector<ProjectileWrapper>& proyect
         enviar_1_byte(tipo);
 
     }
-}}catch(const ClosedSocket& e){
-    throw ClosedSocket();
 }
 
 
-void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper>& explosiones)try{{
+void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper>& explosiones){
     uint16_t cantidad = explosiones.size();
     enviar_2_byte(cantidad);
     // printf("La cantidad de explosiones que se envian es %u\n",cantidad);
@@ -307,18 +281,14 @@ void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper>& explosio
         enviar_4_bytes_float(radio);
 
     }
-}}catch(const ClosedSocket& e){
-    throw ClosedSocket();
 }
 
-void ServerProtocolo::enviar_sonidos(std::vector<SoundTypes>& sonidos)try{
+void ServerProtocolo::enviar_sonidos(std::vector<SoundTypes>& sonidos){
     uint16_t cantidad = sonidos.size();
     enviar_2_byte(cantidad);
     for (uint8_t sonido : sonidos) {
         enviar_1_byte(sonido);
     }
-} catch (const ClosedSocket& e) {
-    throw ClosedSocket();
 }
 
 void ServerProtocolo::enviar_estado_unirse(uint8_t estado){

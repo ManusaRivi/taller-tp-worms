@@ -159,8 +159,8 @@ void MainWindow::exportarMapa() {
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
-        emitter << YAML::Key << "pos_x" << YAML::Value << (posicion.x() + largo/2) / largo * scale - offset;
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y() + 138/2) / 20;
+        emitter << YAML::Key << "pos_x" << YAML::Value << (posicion.x() + boundingRect.width()/2) / largo * scale - offset;
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y() + boundingRect.height()/2) / 20 - boundingRect.height() / largo * scale * sin(this->angulos[i]);
         emitter << YAML::Key << "angulo" << YAML::Value << this->angulos[i];
         emitter << YAML::EndMap;
         i++;
@@ -178,7 +178,7 @@ void MainWindow::exportarMapa() {
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "pos_x" << YAML::Value << abs((posicion.x() + boundingRect.width()/2)/138*6);
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y() + boundingRect.height())/20;
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y())/20;
         emitter << YAML::Key << "direccion" << YAML::Value << 0;
         emitter << YAML::EndMap;
     }

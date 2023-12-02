@@ -53,7 +53,7 @@ void MainWindow::agregarGusano() {
 
     this->worms.push_back(worm);
     this->scene->addItem(worm);
-    worm->setPos(0, 0);
+    worm->setPos(500, 500);
 }
 
 void MainWindow::agregarViga() {
@@ -73,7 +73,7 @@ void MainWindow::agregarViga() {
     vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
 
     QGraphicsPixmapItem* mitadViga = new QGraphicsPixmapItem(vigaPixmap);
-    mitadViga->setPos(0, 0);
+    mitadViga->setPos(500, 500);
 
     this->vigas.push_back(mitadViga);
     this->scene->addItem(mitadViga);
@@ -91,7 +91,7 @@ void MainWindow::agregarVigaLarga() {
     vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
 
     QGraphicsPixmapItem* viga = new QGraphicsPixmapItem(vigaPixmap);
-    viga->setPos(0, 0);
+    viga->setPos(500, 500);
 
     this->vigas.push_back(viga);
     this->scene->addItem(viga);
@@ -125,6 +125,8 @@ void MainWindow::exportarMapa() {
 
     YAML::Emitter emitter;
     std::string tipo;
+    float largo;
+    float scale;
 
     emitter << YAML::BeginMap;
     emitter << YAML::Key << "nombre";
@@ -142,14 +144,19 @@ void MainWindow::exportarMapa() {
 
         if(boundingRect.width() > 100) {
             tipo = "larga";
+            largo = 138;
+            scale = 6;
+
         } else {
             tipo = "corta";
+            largo = 69;
+            scale = 3;
         }
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
-        emitter << YAML::Key << "pos_x" << YAML::Value << abs(posicion.x()/138*6);
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(-1*posicion.y()/22);
+        emitter << YAML::Key << "pos_x" << YAML::Value << (posicion.x() + largo/2) / largo * scale;
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(-1*(posicion.y() + largo/2) / 23);
         emitter << YAML::Key << "angulo" << YAML::Value << this->angulos[i];
         emitter << YAML::EndMap;
         i++;
@@ -166,7 +173,7 @@ void MainWindow::exportarMapa() {
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "pos_x" << YAML::Value << abs(posicion.x()/138*6);
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(posicion.y()/22);
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(-1*posicion.y()/23) + 5;
         emitter << YAML::Key << "direccion" << YAML::Value << 0;
         emitter << YAML::EndMap;
     }

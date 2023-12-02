@@ -154,6 +154,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     recibir_gusanos(snap);
     recibir_projectiles(snap);
     recibir_explosiones(snap);
+    recibir_provisiones(snap);
     recibir_sonidos(snap);
     
     /*

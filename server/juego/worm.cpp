@@ -30,6 +30,7 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     fixtureGusano.density = WORM_DENSITY;
     fixtureGusano.friction = WORM_FRICTION;
     fixtureGusano.restitution = WORM_RESTITUTION;
+    fixtureGusano.restitutionThreshold = WORM_RESTITUTION_THRESHOLD;
     fixtureGusano.filter.categoryBits = CollisionCategories::WORM_COLL;
     fixtureGusano.filter.maskBits = (CollisionCategories::BOUNDARY_COLL | CollisionCategories::PROJECTILE_COLL);
     fixtureGusano.filter.maskBits &= ~CollisionCategories::WORM_COLL;

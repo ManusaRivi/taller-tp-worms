@@ -7,6 +7,7 @@
 #include <string>
 #include "comunicacion/worm.h"
 #include "comunicacion/beam.h"
+#include "comunicacion/provision.h"
 #include "camara.h"
 #include "comunicacion/projectile.h"
 #include "comunicacion/explosion.h"
@@ -32,6 +33,7 @@ class World {
     std::vector<Beam> beams;
     std::map<int, std::unique_ptr<ProjectileClient>> projectiles;
     std::map<int, ExplosionCliente> explosions; 
+    std::map<int, ProvisionClient> provisiones;
     std::vector<int> sonidos;
     int _id_camera;
     uint32_t _id_actual_turn;

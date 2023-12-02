@@ -15,6 +15,10 @@ void SnapshotCliente::add_projectile(std::unique_ptr<ProjectileClient> proyectil
     projectiles.push_back(std::move(proyectil));
 }
 
+void SnapshotCliente::add_provision(ProvisionClient provision) {
+    provisiones.push_back(provision);
+}
+
 void SnapshotCliente::add_sound(int sound) {
     sonidos.push_back(sound);
 }

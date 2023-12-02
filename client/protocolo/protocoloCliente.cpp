@@ -248,6 +248,18 @@ void ClienteProtocolo::recibir_explosiones(std::shared_ptr<SnapshotCliente> snap
     }
 }
 
+void ClienteProtocolo::recibir_provisiones(std::shared_ptr<SnapshotCliente> snap) {
+    uint16_t cantidad = recibir_2_bytes();
+    
+    for(uint16_t i = 0; i < cantidad; i++){
+
+        uint32_t id = recibir_4_bytes();
+        float x = recibir_4_bytes_float();
+        float y = recibir_4_bytes_float();
+        snap->add_provision(ProvisionClient(x, y, id));
+    }
+}
+
 void ClienteProtocolo::recibir_sonidos(std::shared_ptr<SnapshotCliente> snap) {
     uint16_t cantidad = recibir_2_bytes();
     //  printf("La cantidad de sonidos que se reciben es %u\n",cantidad);

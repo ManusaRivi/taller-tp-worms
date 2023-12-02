@@ -9,6 +9,7 @@
 #include "worm.h"
 #include "beam.h"
 #include "explosion.h"
+#include "provision.h"
 #include "../Proyectiles/projectile_generator.h"
 
 #include <memory>
@@ -25,6 +26,7 @@ class SnapshotCliente {
     std::vector<std::unique_ptr<ProjectileClient>> projectiles;
     std::vector<int> sonidos;
     std::vector<ExplosionCliente> explosiones;
+    std::vector<ProvisionClient> provisiones;
  
     public:
     //Constructor
@@ -38,6 +40,8 @@ class SnapshotCliente {
     void add_beam(Beam beam);
 
     void add_projectile(std::unique_ptr<ProjectileClient> projectil);
+
+    void add_provision(ProvisionClient provision);
 
     void add_sound(int sound_code);
 

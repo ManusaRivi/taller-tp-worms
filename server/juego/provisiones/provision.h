@@ -6,8 +6,8 @@
 #include "../collision_categories.h"
 #include "../colisionable.h"
 
-#define PROVISION_HEIGHT 1
-#define PROVISION_WIDTH 1
+#define PROVISION_HEIGHT_SERVER 1
+#define PROVISION_WIDTH_SERVER  1
 
 class Provision : public Colisionable 
 {
@@ -27,7 +27,7 @@ public:
         this->body = provision;
 
         b2PolygonShape provisionBox;
-        provisionBox.SetAsBox(PROVISION_WIDTH, PROVISION_HEIGHT);
+        provisionBox.SetAsBox(PROVISION_WIDTH_SERVER, PROVISION_HEIGHT_SERVER);
 
 
         b2FixtureDef fixtureProvision;

@@ -70,6 +70,7 @@ TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_POR_SNAPSHOT_DOS_GUSANOS){
     svr_protocolo.enviar_gusanos(worms);
     svr_protocolo.enviar_proyectiles(projectiles);
     svr_protocolo.enviar_explosiones(explosiones);
+    svr_protocolo.enviar_provisiones(provisiones);
     // uint8_t cd;
     // bool was_closed = false;
     // skt.recvall(&cd,1,&was_closed);
@@ -78,6 +79,7 @@ TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_POR_SNAPSHOT_DOS_GUSANOS){
     clte_protocolo.recibir_gusanos(snapshot_cliente);
     clte_protocolo.recibir_projectiles(snapshot_cliente);
     clte_protocolo.recibir_explosiones(snapshot_cliente);
+    clte_protocolo.recibir_provisiones(snapshot_cliente);
 
     // std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(std::move(mensaje));
     // std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();

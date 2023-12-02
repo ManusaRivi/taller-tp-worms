@@ -175,6 +175,11 @@ void World::present(int& it_inc,
 
     //present_water(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
     
+    for (auto& provision : provisiones) {
+        provision.second.present(renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
+    }
+    provisiones.clear();
+
     // Grafico proyectiles
     proy_it += it_inc;
     for (auto& projectil : projectiles) {

@@ -298,7 +298,6 @@ void ServerProtocolo::enviar_provisiones(std::vector<ProvisionWrapper>& provisio
         enviar_4_bytes(id);
         enviar_4_bytes_float(x);
         enviar_4_bytes_float(y);
-
     }
 }
 

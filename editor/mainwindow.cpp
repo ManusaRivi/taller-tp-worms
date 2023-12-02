@@ -127,6 +127,7 @@ void MainWindow::exportarMapa() {
     std::string tipo;
     float largo;
     float scale;
+    float offset;
 
     emitter << YAML::BeginMap;
     emitter << YAML::Key << "nombre";
@@ -146,16 +147,17 @@ void MainWindow::exportarMapa() {
             tipo = "larga";
             largo = 138;
             scale = 6;
-
+            offset = 0;
         } else {
             tipo = "corta";
             largo = 69;
             scale = 3;
+            offset = 0.375;
         }
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
-        emitter << YAML::Key << "pos_x" << YAML::Value << (posicion.x() + largo/2) / largo * scale;
+        emitter << YAML::Key << "pos_x" << YAML::Value << (posicion.x() + largo/2) / largo * scale - offset;
         emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * 500 - posicion.y() + 138/2) / 20;
         emitter << YAML::Key << "angulo" << YAML::Value << this->angulos[i];
         emitter << YAML::EndMap;

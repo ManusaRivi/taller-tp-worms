@@ -21,8 +21,6 @@ void Beam::present(Renderer& renderer,
     float pos_rel_x = _pos_x - camera_x;
     float pos_rel_y = map_height - _pos_y - camera_y;
 
-    std::cout << "Tengo angulo" << angulo << "\n";
-
     // Grafico la viga
     texture.SetAlphaMod(255); // El sprite es totalmente opaco
     renderer.Copy(

@@ -125,6 +125,35 @@ void World::present_hud(Renderer& renderer,
 				NullOpt,
 				SDL_FLIP_NONE        // Flip
 			);
+    
+    present_weapon_power(renderer, texture_manager, x_scale, y_scale);
+}
+
+void World::present_weapon_power(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale) {
+    SDL_Rect power;
+    SDL_Rect border;
+	border.w = renderer.GetOutputWidth()/2 - 1*x_scale;
+	border.h = 1*y_scale;
+	border.x = renderer.GetOutputWidth()/2 + x_scale;
+	border.y = 0;
+
+    power.w = (renderer.GetOutputWidth()/2 - 1*x_scale)* weapon_power / 40 ;
+	power.h = 1*y_scale;
+	power.x = renderer.GetOutputWidth()/2 + x_scale;
+	power.y = 0;
+
+	SDL_Color power_color = {255, 0, 0, 255};
+    SDL_Color border_color = {255, 255, 255, 255};
+
+    SDL_SetRenderDrawColor(renderer.Get(), power_color.r, power_color.g, power_color.b, power_color.a);
+	SDL_RenderFillRect(renderer.Get(), &power);
+
+    // Dibuja el borde
+	SDL_SetRenderDrawColor(renderer.Get(), border_color.r, border_color.g, border_color.b, border_color.a);
+	SDL_RenderDrawRect(renderer.Get(), &border);
 }
 
 void World::present(int& it_inc,

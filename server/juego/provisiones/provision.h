@@ -15,10 +15,11 @@ protected:
     b2World& world;
     b2Body* body;
     ProvisionType type;
+    uint32_t id;
     bool taken = false;
 
 public:
-    Provision(b2World& world, ProvisionType type, float x_pos, float y_pos) : Colisionable(bodyType::PROVISION), world(world), type(type) {
+    Provision(b2World& world, ProvisionType type, uint32_t id, float x_pos, float y_pos) : Colisionable(bodyType::PROVISION), world(world), type(type), id(id) {
         b2BodyDef provisionDef;
         provisionDef.position.Set(x_pos, y_pos);
         provisionDef.userData.pointer = reinterpret_cast<uintptr_t> (this);
@@ -48,6 +49,10 @@ public:
     }
 
     virtual void usar() = 0;
+
+    uint32_t get_id(){
+        return this->id;
+    }
 
     virtual ~Provision() {
         body->GetWorld()->DestroyBody(body);

@@ -11,7 +11,7 @@ class VidaServer : public Provision {
 private:
     b2Body* body;
 public:
-    VidaServer(b2World& world, float x_pos, float y_pos);
+    VidaServer(b2World& world, uint32_t id, float x_pos, float y_pos);
     std::vector<float> get_pos();
     void usar() override;
 };

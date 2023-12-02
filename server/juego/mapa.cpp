@@ -45,7 +45,7 @@ void Mapa::Load_Map_File(std::string filepath) {
     }
     turnManager.cargar_cantidad_gusanos(worms.size());
 
-    provisiones.push_back(std::make_shared<VidaServer>(world, 20.0, 20.0));
+    provisiones.push_back(std::make_shared<VidaServer>(world, 1, 20.0, 20.0));
 }
 
 void Mapa::Step(int iteracion) {
@@ -306,6 +306,17 @@ void Mapa::get_projectiles(std::vector<ProjectileWrapper>& projectile_vector) {
         angle += 1.57;
         // printf("los angulos que se devuelven son %f\n",angle);
         projectile_vector.push_back(ProjectileWrapper(position.x, position.y, angle, projectile->getType(),projectile->get_id()));
+    }
+}
+
+void Mapa::get_provisiones(std::vector<ProvisionWrapper>& provision_vector) {
+    for (auto provision : provisiones) {
+        if(!provision){
+            continue;
+        }
+        b2Vec2 position = provision->getPosition();
+
+        provision_vector.push_back(ProvisionWrapper(position.x, position.y, provision->getType(), provision->get_id()));
     }
 }
 

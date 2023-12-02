@@ -130,6 +130,7 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap){
     enviar_gusanos(snapshot->get_worms());
     enviar_proyectiles(snapshot->get_proyectiles());
     enviar_explosiones(snapshot->get_explosiones());
+    enviar_provisiones(snapshot->get_provisiones());
     enviar_sonidos(snapshot->get_sonidos());
 
 }
@@ -282,6 +283,21 @@ void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper>& explosio
         enviar_4_bytes_float(x);
         enviar_4_bytes_float(y);
         enviar_4_bytes_float(radio);
+
+    }
+}
+
+void ServerProtocolo::enviar_provisiones(std::vector<ProvisionWrapper>& provisiones) {
+    uint16_t cantidad = provisiones.size();
+    enviar_2_byte(cantidad);
+    for(auto c : provisiones){
+        uint32_t id = c.get_id();
+        float x = c.get_x();
+        float y = c.get_y();
+
+        enviar_4_bytes(id);
+        enviar_4_bytes_float(x);
+        enviar_4_bytes_float(y);
 
     }
 }

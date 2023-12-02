@@ -109,6 +109,8 @@ public:
 
     void get_sounds(std::vector<SoundTypes>& sound_vector);
 
+    void get_provisiones(std::vector<ProvisionWrapper>& provision_vector);
+
     
 };
 

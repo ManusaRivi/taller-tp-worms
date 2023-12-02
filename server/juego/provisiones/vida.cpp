@@ -1,6 +1,6 @@
 #include "vida.h"
 
-VidaServer::VidaServer(b2World& world, float x_pos, float y_pos) : Provision(world, ProvisionType::VIDA, x_pos, y_pos) {
+VidaServer::VidaServer(b2World& world, uint32_t id, float x_pos, float y_pos) : Provision(world, ProvisionType::VIDA, id, x_pos, y_pos) {
 
 }
 

@@ -156,7 +156,7 @@ void MainWindow::exportarMapa() {
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
         emitter << YAML::Key << "pos_x" << YAML::Value << (posicion.x() + largo/2) / largo * scale;
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(-1*(posicion.y() + largo/2) / 23);
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * 500 - posicion.y() + 138/2) / 20;
         emitter << YAML::Key << "angulo" << YAML::Value << this->angulos[i];
         emitter << YAML::EndMap;
         i++;
@@ -170,10 +170,11 @@ void MainWindow::exportarMapa() {
 
     for (QGraphicsPixmapItem* worm : this->worms) {
         QPointF posicion = worm->scenePos();
+        QRectF boundingRect = worm->boundingRect();
 
         emitter << YAML::BeginMap;
-        emitter << YAML::Key << "pos_x" << YAML::Value << abs(posicion.x()/138*6);
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(-1*posicion.y()/23) + 5;
+        emitter << YAML::Key << "pos_x" << YAML::Value << abs((posicion.x() + boundingRect.width()/2)/138*6);
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * 500 - posicion.y() + boundingRect.height())/20;
         emitter << YAML::Key << "direccion" << YAML::Value << 0;
         emitter << YAML::EndMap;
     }

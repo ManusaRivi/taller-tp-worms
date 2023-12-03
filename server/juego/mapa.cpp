@@ -45,7 +45,7 @@ void Mapa::Load_Map_File(std::string filepath) {
     }
     turnManager.cargar_cantidad_gusanos(worms.size());
 
-    provisiones.push_back(std::make_shared<VidaServer>(world, 1, 20.0, 20.0));
+    provisiones.push_back(std::make_shared<VidaServer>(world, 1, 10.0, 20.0));
 }
 
 void Mapa::Step(int iteracion) {

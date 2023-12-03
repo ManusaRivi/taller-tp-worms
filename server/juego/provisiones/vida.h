@@ -9,7 +9,6 @@
 
 class VidaServer : public Provision {
 private:
-    b2Body* body;
     int healing;
 public:
     VidaServer(b2World& world, uint32_t id, float x_pos, float y_pos, int healing);

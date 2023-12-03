@@ -1,6 +1,6 @@
 #include "dinamita.h"
 
-Dinamita::Dinamita(b2World& world, int ammo, int dmg, int radius) : world(world), ammo(5),dmg(dmg), radius(radius) { tipo = Armas::DINAMITA; }
+Dinamita::Dinamita(b2World& world, int ammo, int dmg, int radius) : world(world), max_ammo(ammo), ammo(ammo), dmg(dmg), radius(radius) { tipo = Armas::DINAMITA; }
 
 void Dinamita::iniciarCarga() {}
 
@@ -18,11 +18,14 @@ void Dinamita::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, uint
     projectiles.push_back(grenade);
 }
 
+int Dinamita::get_ammo(){
+    return this->ammo;
+}
 
-    int Dinamita::get_ammo(){
-        return this->ammo;
-    }
-    int Dinamita::get_carga() {
-        return 0;
-    }
+int Dinamita::get_carga() {
+    return 0;
+}
 
+void Dinamita::reload() {
+    this->ammo = this->max_ammo;
+}

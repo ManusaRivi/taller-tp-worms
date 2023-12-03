@@ -25,11 +25,10 @@ void Bazooka::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, uint3
                                                     radius, 0, angle, power));
 }
 
+int Bazooka::get_ammo(){
+    return 999;
+}
 
-    int Bazooka::get_ammo(){
-        return 999;
-    }
-    int Bazooka::get_carga() {
-        return this->nivel_carga;
-    }
-
+int Bazooka::get_carga() {
+    return this->nivel_carga;
+}

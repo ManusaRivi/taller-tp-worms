@@ -1,6 +1,6 @@
 #include "banana.h"
 
-Banana::Banana(b2World& world, int ammo, int dmg, int radius) : world(world), ammo(ammo), dmg(dmg), radius(radius), nivel_carga(0) {
+Banana::Banana(b2World& world, int ammo, int dmg, int radius) : world(world), max_ammo(ammo), ammo(ammo), dmg(dmg), radius(radius), nivel_carga(0) {
     cargando = false;
     tipo = Armas::BANANA;
 }
@@ -33,4 +33,8 @@ int Banana::get_ammo(){
 
 int Banana::get_carga() {
     return this->nivel_carga;
+}
+
+void Banana::reload() {
+    this->ammo = this->max_ammo;
 }

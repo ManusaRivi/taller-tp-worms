@@ -7,8 +7,8 @@
 
 #define ROCKET_POSITION_OFFSET 2.0
 
-#define ROCKET_LENGTH 0.5f
-#define ROCKET_WIDTH 0.5f
+#define ROCKET_LENGTH 0.3f
+#define ROCKET_WIDTH 0.3f
 
 #define ROCKET_DENSITY 0.05
 

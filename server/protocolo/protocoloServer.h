@@ -4,7 +4,7 @@
 #include "../snapshots/snapshot.h"
 
 #include "../juego/worm.h"
-#include "../comandos/mensaje.h"
+#include "../comandos/mensajes/mensaje.h"
 #include "../../common/protocolo.h"
 #include "../comandos/factory_comandos.h"
 #include "../comandos/mensajes/factory_mensajes.h"

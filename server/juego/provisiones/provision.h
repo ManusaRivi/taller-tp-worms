@@ -22,6 +22,7 @@ protected:
     b2Body* body;
     ProvisionType type;
     uint32_t id;
+    Worm* interactor;
     bool taken = false;
 
 public:
@@ -48,6 +49,13 @@ public:
         this->body->CreateFixture(&fixtureProvision);
     }
 
+    void activar_provision(Worm* interactor) {
+        this->taken = true;
+        this->interactor = interactor;
+    }
+    
+    virtual void usar() = 0;
+
     ProvisionType getType() {
         return type;
     }
@@ -55,12 +63,6 @@ public:
     b2Vec2 getPosition() {
         return body->GetPosition();
     }
-
-    Provision(const Provision&) = delete;
-
-    Provision& operator=(const Provision&) = delete;
-    
-    virtual void usar(Worm*) = 0;
 
     uint32_t get_id() {
         return this->id;
@@ -70,9 +72,13 @@ public:
         return taken == true ? USADA : NO_USADA;
     }
 
-    bool usada() {
+    bool fue_activada() {
         return taken;
     }
+
+    Provision(const Provision&) = delete;
+
+    Provision& operator=(const Provision&) = delete;
 
     virtual ~Provision() {
         body->GetWorld()->DestroyBody(body);

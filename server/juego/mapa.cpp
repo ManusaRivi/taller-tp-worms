@@ -146,7 +146,8 @@ void Mapa::Step(int iteracion) {
         if (!provision) {
             continue;
         }
-        if (provision->usada()) {
+        if (provision->fue_activada()) {
+            provision->usar();
             std::vector<std::shared_ptr<Provision>>::iterator it = std::find(provisiones.begin(), provisiones.end(), provision);
             if (it != provisiones.end()) {
                 provisiones.erase(it);

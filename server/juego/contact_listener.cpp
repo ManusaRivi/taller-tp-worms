@@ -129,14 +129,14 @@ void ContactListener::BeginContact(b2Contact* contact) {
         {
             Provision* provision = static_cast<Provision*>(bodyA);
             Worm* worm = static_cast<Worm*>(bodyB);
-            provision->usar(worm);
+            provision->activar_provision(worm);
         }
         break;
         case WORM_PROVISION:
         {
             Provision* provision = static_cast<Provision*>(bodyB);
             Worm* worm = static_cast<Worm*>(bodyA);
-            provision->usar(worm);
+            provision->activar_provision(worm);
         }
         break;
         case PROVISION_WATER: break;

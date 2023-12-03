@@ -539,11 +539,6 @@ uint16_t Worm::get_carga_actual(){
     return armaActual->get_carga();
 }
 
-void Worm::sumarVida(int vida) {
-    if (hitPoints <= MAX_VIDA) 
-        hitPoints += vida;
-}
-
 Worm::~Worm(){
     // printf("Se destruye el gusano\n");
 }

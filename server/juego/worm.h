@@ -107,8 +107,6 @@ public:
 
     void detener_acciones();
 
-    void sumarVida(int vida);
-
     /* Queries */
 
     bool isMoving();
@@ -172,8 +170,6 @@ public:
     std::vector<std::pair<int,int>> get_municiones();
 
     uint16_t get_carga_actual();
-
-
 
     ~Worm();
 };

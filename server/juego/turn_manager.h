@@ -55,7 +55,7 @@ class TurnManager{
     bool checkOnePlayerRemains();
     GameStates get_state();
     void activar_bonus_turn();
-    void terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorms);
+    void terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorms, bool& paso_de_turno);
     void pasar_turno_si_muerto(int idx,std::vector<std::shared_ptr<Worm>>& vectorWorms);
     uint32_t get_tiempo_actual();
     private:

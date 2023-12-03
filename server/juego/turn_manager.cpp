@@ -161,12 +161,13 @@ void TurnManager::activar_bonus_turn() {
     }
 }
 
-void TurnManager::terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorms) {
+void TurnManager::terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorms, bool& paso_de_turno) {
     if (state == WAITING) {
         printf("El tiempo de espera termina\n");
         state = TURN;
         turn_timer = 0;
         waiting_timer = 0;
+        paso_de_turno = true;
         turno_siguiente_player(vectorWorms);
     }
 }

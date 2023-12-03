@@ -155,8 +155,12 @@ void Mapa::Step(int iteracion) {
 
     }
     if (terminar_espera) {
-        turnManager.terminar_espera(worms);
-        crear_provisiones();
+        bool paso_de_turno = false;
+        turnManager.terminar_espera(worms,paso_de_turno);
+        if(paso_de_turno){
+            printf("Se crean provisiones\n");
+            crear_provisiones();
+        }
     }
     turnManager.avanzar_tiempo(iteracion, worms);
     world.Step(timeStep, velocityIterations, positionIterations);

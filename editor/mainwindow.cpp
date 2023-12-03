@@ -101,20 +101,17 @@ void MainWindow::agregarVigaLarga() {
 
 
 std::string MainWindow::generarNombreAleatorio() {
-    const std::string letras = "abcdefghijklmnopqrstuvwxyz";
-    const int longitudNombre = 5;
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, letras.size() - 1);
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-    std::string nombreAleatorio;
+    int numeroAleatorio = std::rand() % 1000;
 
-    for (int i = 0; i < longitudNombre; ++i) {
-        nombreAleatorio += letras[dis(gen)];
-    }
+    std::string nombreMapa = "mapa" + std::to_string(numeroAleatorio);
 
-    return nombreAleatorio;
+    std::ostringstream ss;
+    ss << std::setw(4) << std::setfill('0') << numeroAleatorio;
+
+    return "mapa" + ss.str();
 }
 
 void MainWindow::exportarMapa() {

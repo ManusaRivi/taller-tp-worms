@@ -15,7 +15,7 @@ class Recibidor:public Thread{
 
     Socket &skt;
     std::atomic<bool> is_alive;
-    Queue<std::shared_ptr<Comando>> &acciones_a_realizar;
+
     uint32_t id;
     Queue<std::shared_ptr<MensajeServer>>* snapshots;
     uint32_t id_partida;
@@ -24,7 +24,7 @@ class Recibidor:public Thread{
     std::vector<uint32_t> id_gusanos;
     FactoryMensajesServer mensajes;
     public:
-    Recibidor(Socket &peer, Queue<std::shared_ptr<Comando>> &acciones,Queue<std::shared_ptr<MensajeServer>>* snapshots,Lobby &lobby);
+    Recibidor(Socket &peer,Queue<std::shared_ptr<MensajeServer>>* snapshots,Lobby &lobby);
 
     void run() override;
 

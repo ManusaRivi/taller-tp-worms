@@ -1,14 +1,15 @@
 #include "threadAceptador.h"
 #include <unistd.h>
 
-Aceptador::Aceptador(const char* hostname, Queue<std::shared_ptr<Comando>> &accion,Lobby &lobby_):aceptador(hostname), 
-                                                                                                                    acciones_a_realizar(accion),
-                                                                                                                    lobby(lobby_){
+Aceptador::Aceptador(const char* hostname):aceptador(hostname),
+                                            lobby(mapas)
+                                            {
     // std::cout << "Se crea el aceptador" << std::endl;
 }
 
 
 void Aceptador::run() try{{
+
 
 
    // Sacar el id y poner dentro de la partida
@@ -18,7 +19,7 @@ void Aceptador::run() try{{
         // std::cout << "Se acepto un socket" << std::endl;
 
         
-        Cliente *clte = new Cliente(client_skt,acciones_a_realizar,lobby);
+        Cliente *clte = new Cliente(client_skt,lobby);
         clte->start();
         reap_dead();
         clientes.push_back(clte);
@@ -44,6 +45,7 @@ void Aceptador::reap_dead() {
 }
 
 void Aceptador::kill() {
+    
     for (auto& c: clientes) {
         c->kill();
         c->join();
@@ -53,6 +55,7 @@ void Aceptador::kill() {
 }
 
 void Aceptador::shutdown(){
+    lobby.kill();
     this->keep_talking = false;
     aceptador.shutdown(2);
     aceptador.close();

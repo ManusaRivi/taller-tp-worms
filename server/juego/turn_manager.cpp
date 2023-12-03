@@ -93,16 +93,17 @@ void TurnManager::cargar_cantidad_gusanos(uint32_t cant_gusanos){
 
 bool TurnManager::checkOnePlayerRemains() {
     
-    bool sonTodosIguales = true;
-    uint32_t primer_valor = id_player_por_gusano.begin()->second;
+    // bool sonTodosIguales = true;
+    // uint32_t primer_valor = id_player_por_gusano.begin()->second;
 
-    for (const auto& par : id_player_por_gusano) {
-        if (par.second != primer_valor) {
-            sonTodosIguales = false;
-            break;
-        }
-    }
-    return sonTodosIguales;
+    // for (const auto& par : id_player_por_gusano) {
+    //     if (par.second != primer_valor) {
+    //         sonTodosIguales = false;
+    //         break;
+    //     }
+    // }
+    // return sonTodosIguales;
+    return queue_siguiente_gusano_por_player.size() == 1;
 }
 
 void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr<Worm>>& vectorWorms){

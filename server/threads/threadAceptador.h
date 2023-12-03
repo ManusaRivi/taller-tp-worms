@@ -13,14 +13,14 @@ class Aceptador:public Thread{
 
     private:
     Socket aceptador;
+    MapContainer mapas;
     std::list<Cliente*> clientes;
     std::atomic<bool> is_alive;
     std::atomic<bool> keep_talking;
-    Queue<std::shared_ptr<Comando>> &acciones_a_realizar;
-    Lobby &lobby;
+    Lobby lobby;
 
     public:
-    Aceptador(const char *host_name, Queue<std::shared_ptr<Comando>> &acciones,Lobby &lobby);
+    Aceptador(const char *host_name);
     void run() override;
     void shutdown();
 

@@ -6,7 +6,7 @@
 
 using Clock = std::chrono::steady_clock;
 
-Partida::Partida(uint32_t id, std::string nombre,std::string archivo_yaml):mapa(archivo_yaml),id_partida(id),nombre_partida(nombre){
+Partida::Partida(uint32_t id, std::string nombre,std::string archivo_yaml):mapa(archivo_yaml),id_partida(id),nombre_partida(nombre),partida_empezada(false),partida_terminada(false){
     posibles_id_gusanos.push_back(0);
     posibles_id_gusanos.push_back(1);
 }
@@ -138,14 +138,11 @@ Queue<std::shared_ptr<Comando>>& Partida::get_queue(){
 
 void Partida::enviar_primer_snapshot(){
     std::map<uint32_t, std::vector<uint32_t>> id_gusanos_por_player = mapa.repartir_ids(broadcaster.cantidad_jugadores());
-    // Snapshot snap(mapa.get_gusanos(), mapa.get_vigas());
     std::vector<WormWrapper> worms;
     mapa.get_gusanos(worms);
     std::vector<std::vector<float>> beams;
     mapa.get_vigas(beams);
     std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(worms, beams, mapa.gusano_actual());
-    //snap.add_condiciones_partida(0,mapa.gusano_actual());
-    // std::vector<float> tamanio_mapa = mapa.get_size();
     broadcaster.informar_primer_snapshot(id_gusanos_por_player, snap);
 }
 

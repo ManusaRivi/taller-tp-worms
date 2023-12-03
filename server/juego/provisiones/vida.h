@@ -8,8 +8,6 @@
 #include "../worm.h"
 #include <vector>
 
-#define VIDA_EXTRA 10
-
 class VidaServer : public Provision {
 private:
     int healing;

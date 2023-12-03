@@ -2,7 +2,7 @@
 
 
 
-TurnManager::TurnManager():state(TURN),turn_timer(0),bonus_turn_timer(0),acaba_de_pasar_turno(false){
+TurnManager::TurnManager():state(TURN),turn_timer(0),bonus_turn_timer(0),waiting_timer(0),acaba_de_pasar_turno(false){
 
 }
 
@@ -108,10 +108,11 @@ bool TurnManager::checkOnePlayerRemains() {
 void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr<Worm>>& vectorWorms){
     /* Nuevo funcionamiento (completar) */
     if (state == WAITING) {
+        waiting_timer++;
         return;
     }
     if (state == BONUS_TURN) {
-        if (bonus_turn_timer == FRAME_RATE * 3) {
+        if (bonus_turn_timer == FRAME_RATE * BONUS_SECONDS) {
             printf("El tiempo bonus termina\n");
             detener_gusano_actual(vectorWorms);
             state = WAITING;
@@ -122,11 +123,11 @@ void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr
         return;
     }
     if (state == TURN) {
-        if (turn_timer == FRAME_RATE * 60) {
+        turn_timer++;
+        if (turn_timer == FRAME_RATE * MAX_SEGUNDOS_POR_TURNO) {
+            detener_gusano_actual(vectorWorms);
             turno_siguiente_player(vectorWorms);
-        }
-        else {
-            turn_timer++;
+            turn_timer = 0;
         }
     } 
     
@@ -164,6 +165,7 @@ void TurnManager::terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorm
         printf("El tiempo de espera termina\n");
         state = TURN;
         turn_timer = 0;
+        waiting_timer = 0;
         turno_siguiente_player(vectorWorms);
     }
 }
@@ -270,5 +272,17 @@ void TurnManager::detener_gusano_actual(std::vector<std::shared_ptr<Worm>>& vect
 void TurnManager::pasar_turno_si_muerto(int idx, std::vector<std::shared_ptr<Worm>>& vectorWorms){
     if(idx == static_cast<int>(id_gusano_actual)){
         turno_siguiente_player(vectorWorms);
+    }
+}
+
+uint32_t TurnManager::get_tiempo_actual(){
+    if(state == WAITING){
+        return (waiting_timer)/30;
+    }
+    if(state == WAITING){
+        return (bonus_turn_timer+turn_timer)/30;
+    }
+    else{
+        return turn_timer/30;
     }
 }

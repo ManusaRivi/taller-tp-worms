@@ -9,8 +9,8 @@
 #define START_ANGLE 270
 #define INC_ANGLE 11.25f
 
-#define PROJECTILE_WIDTH 1.2
-#define PROJECTILE_HEIGHT 1.2
+#define PROJECTILE_WIDTH 2.3
+#define PROJECTILE_HEIGHT 2.3
 
 /*
  * Representa el proyectil

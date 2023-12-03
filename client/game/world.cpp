@@ -4,7 +4,13 @@
 using namespace SDL2pp;
 
 World::World(float map_width, float map_height): camera_x(0), camera_y(0),
-            proy_it(0), _map_width(map_width), _map_height(map_height) {}
+            proy_it(0), _map_width(map_width), _map_height(map_height) {
+    
+    for (int i= 0; i < 10; i++) {
+        ammo[i] = 0;
+    }
+
+}
 
 void World::add_worm(std::shared_ptr<Worm> worm, int id) {
     worms.emplace(id, worm);
@@ -123,7 +129,143 @@ void World::present_hud(Renderer& renderer,
 				NullOpt,
 				SDL_FLIP_NONE        // Flip
 			);
+    
+    present_weapon_power(renderer, texture_manager, x_scale, y_scale);
+    if (has_timer) present_timer(renderer, texture_manager, x_scale, y_scale);
+    present_ammo(renderer, texture_manager, x_scale, y_scale);
 }
+
+void World::present_weapon_power(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale) {
+    SDL_Rect power;
+    SDL_Rect border;
+	border.w = renderer.GetOutputWidth()/2 - 1*x_scale;
+	border.h = POWER_HEIGHT * y_scale;
+	border.x = renderer.GetOutputWidth()/2 + x_scale;
+	border.y = 0;
+
+    power.w = (renderer.GetOutputWidth()/2 - 1*x_scale)* weapon_power / MAX_POWER ;
+	power.h = 1*y_scale;
+	power.x = renderer.GetOutputWidth()/2 + x_scale;
+	power.y = 0;
+
+	SDL_Color power_color = {255, 0, 0, 255};
+    SDL_Color border_color = {255, 255, 255, 255};
+
+    SDL_SetRenderDrawColor(renderer.Get(), power_color.r, power_color.g, power_color.b, power_color.a);
+	SDL_RenderFillRect(renderer.Get(), &power);
+
+    // Dibuja el borde
+	SDL_SetRenderDrawColor(renderer.Get(), border_color.r, border_color.g, border_color.b, border_color.a);
+	SDL_RenderDrawRect(renderer.Get(), &border);
+}
+
+void World::present_timer(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale) {
+    TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
+    SDL_Color timerColor = {255, 255, 255, 255};
+    std::string time = "Explosion en " + std::to_string(timer) + " segundos";
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, time.c_str(), timerColor);
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer.Get(), textSurface);
+
+    SDL_Rect textRect;
+    textRect.x = renderer.GetOutputWidth()/2 + x_scale;
+    textRect.y = 2*y_scale;
+    textRect.w = (textSurface->w) * 0.04 * x_scale;
+    textRect.h = (textSurface->h) * 0.04 * y_scale;
+
+    SDL_RenderCopy(renderer.Get(), textTexture, nullptr, &textRect);
+
+    SDL_RenderPresent(renderer.Get());
+
+    TTF_CloseFont(font);
+    SDL_DestroyTexture(textTexture);
+
+}
+
+void World::present_sight(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& pos_x,
+                            float& pos_y,
+                            float& x_scale,
+                            float& y_scale,
+                            float& camera_x,
+                            float& camera_y) {
+    // Busco textura
+    std::string texture_name("Sight");
+    Texture& sight_tex = texture_manager.get_texture(texture_name);
+
+    float pos_rel_x = pos_x - camera_x;
+    float pos_rel_y = _map_height - pos_y - camera_y;
+
+    //Grafico
+    sight_tex.SetAlphaMod(255);
+    renderer.Copy(sight_tex,
+				Rect(0, 0, SIGHT_SPRITE_DIAMETER, SIGHT_SPRITE_DIAMETER), // El sprite
+				Rect(static_cast<int>((pos_rel_x - SIGHT_DIAMETER * 0.5) * x_scale),
+                        static_cast<int>((pos_rel_y - SIGHT_DIAMETER * 0.5) * y_scale),
+                        SIGHT_DIAMETER * x_scale, SIGHT_DIAMETER * y_scale), // Donde lo grafico
+				0.0,        // Angulo
+				NullOpt,
+				SDL_FLIP_NONE        // Flip
+			);
+}
+
+void World::present_ammo(Renderer& renderer,
+                         TextureManager& texture_manager,
+                         float& x_scale,
+                         float& y_scale) {
+    TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
+
+    SDL_Color ammoColor = {255, 255, 255, 255};
+    SDL_Color back_color = {0, 0, 0, 255};
+
+    std::vector<SDL_Texture*> textTextures;
+    std::vector<SDL_Rect> textRects;
+    for (int i = 0; i < 10; i++) {
+        std::string time = std::to_string(ammo[i]);
+        SDL_Surface* textSurface = TTF_RenderText_Solid(font, time.c_str(), ammoColor);
+
+        SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer.Get(), textSurface);
+        SDL_FreeSurface(textSurface);
+
+        textTextures.push_back(textTexture);
+
+        SDL_Rect textRect;
+        textRect.w = static_cast<int>(textSurface->w * 0.02 * x_scale);
+        textRect.h = static_cast<int>(textSurface->h * 0.02 * y_scale);
+        textRect.x = static_cast<int>(i * 1.635 * x_scale + 0.1 * x_scale);
+        textRect.y = static_cast<int>(0.1 * y_scale);
+
+        textRects.push_back(textRect);
+    }
+
+    for (size_t i = 0; i < textTextures.size(); i++) {
+        SDL_Rect back;
+        back.w = textRects[i].w;
+        back.h = textRects[i].h;
+        back.x = textRects[i].x;
+        back.y = textRects[i].y;
+
+        SDL_SetRenderDrawColor(renderer.Get(), back_color.r, back_color.g, back_color.b, back_color.a);
+        SDL_RenderFillRect(renderer.Get(), &back);
+
+        SDL_RenderCopy(renderer.Get(), textTextures[i], nullptr, &textRects[i]);
+    }
+
+    // Liberar recursos
+    TTF_CloseFont(font);
+
+    // Limpiar texturas
+    for (SDL_Texture* texture : textTextures) {
+        SDL_DestroyTexture(texture);
+    }
+}
+
 
 void World::present(int& it_inc,
                         Renderer& renderer,
@@ -208,6 +350,10 @@ void World::present(int& it_inc,
     // Grafico HUD
     present_hud(renderer, texture_manager, x_scale, y_scale);
 
+    // Grafico mira
+    if (has_tp) present_sight(renderer, texture_manager, tp_x, tp_y, x_scale, y_scale, camera_x, camera_y);
+    else if (has_air_attack) present_sight(renderer, texture_manager, air_attack_x, air_attack_y, x_scale, y_scale, camera_x, camera_y);
+
     // Reproduzco sonidos
     while (!sonidos.empty()) {
         std::shared_ptr<Chunk> sonido = sound_manager.get_sound(sonidos.back());
@@ -250,4 +396,28 @@ bool World::checkOnePlayerRemains() {
     }
 
     return pertenecen_al_mismo_equipo;
+}
+
+void World::set_weapon_power(int& power) {
+    weapon_power = power;
+}
+
+void World::set_tp(bool& _has_tp, float& pos_x, float& pos_y) {
+    has_tp = _has_tp;
+    tp_x = pos_x;
+    tp_y = pos_y;
+}
+
+void World::set_air_attack(bool& _has_air_attack, float& pos_x, float& pos_y) {
+    has_air_attack = _has_air_attack;
+    air_attack_x = pos_x;
+    air_attack_y = pos_y;
+}
+void World::set_timer(bool& _has_timer, int& _timer) {
+    has_timer = _has_timer;
+    timer = _timer;
+}
+
+void World::set_ammo(const int& weapon, const int& _ammo) {
+    ammo[weapon] = _ammo;
 }

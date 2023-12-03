@@ -14,6 +14,8 @@ class SnapshotPartida:public Snapshot{
     std::vector<ProjectileWrapper> cementerio_proyectiles;
     std::vector<SoundTypes> sonidos;
     std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales;
+    std::vector<std::pair<int,int>> municion_armas;
+    uint16_t carga_actual;
 
     public:
     SnapshotPartida(std::vector<WormWrapper> worms_, 
@@ -22,7 +24,9 @@ class SnapshotPartida:public Snapshot{
                     std::vector<ProvisionWrapper> provisiones_, 
                     float tiempo_actual_, uint32_t gusano_actual_,
                     std::vector<SoundTypes> sonidos,
-                    std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales_
+                    std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales_,
+                    std::vector<std::pair<int,int>> municion_armas,
+                    uint16_t carga_actual
                     );
 
     float get_tiempo_actual(); 
@@ -32,6 +36,8 @@ class SnapshotPartida:public Snapshot{
     std::vector<ProvisionWrapper>& get_provisiones();
     std::vector<SoundTypes>& get_sonidos();
     std::vector<std::pair<uint8_t,std::vector<float>>>& get_armas_especiales();
+    std::vector<std::pair<int,int>>& get_municion_armas();
+    uint16_t& get_carga_actual();
 };
 
 #endif

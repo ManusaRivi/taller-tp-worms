@@ -19,6 +19,8 @@ public:
     virtual void iniciarCarga() = 0;
     virtual void cargar() = 0;
     virtual bool estaCargando() = 0;
+    virtual int get_ammo() = 0;
+    virtual int get_carga() = 0;
     Armas obtenerTipo() {
         return tipo;
     }

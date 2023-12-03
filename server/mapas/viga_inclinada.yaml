@@ -1,0 +1,14 @@
+nombre: viga_inclinada
+vigas:
+  - tipo: larga
+    pos_x: 25.0
+    pos_y: 25.0
+    angulo: 10
+
+gusanos:
+  - pos_x: 24.0
+    pos_y: 27.0
+    direccion: 0
+  - pos_x: 26.0
+    pos_y: 27.0
+    direccion: 0

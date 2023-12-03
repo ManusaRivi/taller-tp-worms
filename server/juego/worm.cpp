@@ -8,8 +8,8 @@ union BodyUserData {
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
             Colisionable(bodyType::WORM), coleccionArmas(std::make_unique<ColeccionArmas>(world)),
             armaActual(nullptr), facingDirection(direction), status(WormStates::IDLE), id(id_),
-            angulo_disparo(0.0f), hitPoints(hitPoints), initialHeight(0.0f), finalHeight(0.0f),
-            airborne(false), moving(false), apuntando(false), x_target(0),y_target(0), jumpSteps(0)
+            angulo_disparo(0.0f), hitPoints(hitPoints), numBeamContacts(0), initialHeight(0.0f), finalHeight(0.0f),
+            airborne(false), moving(false), apuntando(false), x_target(0), y_target(0), jumpSteps(0)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -32,6 +32,7 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     fixtureGusano.density = WORM_DENSITY;
     fixtureGusano.friction = WORM_FRICTION;
     fixtureGusano.restitution = WORM_RESTITUTION;
+    fixtureGusano.restitutionThreshold = WORM_RESTITUTION_THRESHOLD;
     fixtureGusano.filter.categoryBits = CollisionCategories::WORM_COLL;
     fixtureGusano.filter.maskBits = (CollisionCategories::BOUNDARY_COLL | CollisionCategories::PROJECTILE_COLL);
     fixtureGusano.filter.maskBits &= ~CollisionCategories::WORM_COLL;
@@ -48,6 +49,9 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
 
 void Worm::StartMovement(int dir) {
     if (this->isAirborne()) return;
+    if(armaActual){
+        return;
+    }
     facingDirection = dir;
     moving = true;
 }
@@ -142,6 +146,7 @@ void Worm::cambiar_direccion(uint8_t dir){
 /* Metodos que se llaman cuando determinados eventos ocurren */
 
 void Worm::startGroundContact() {
+    ++numBeamContacts;
     status = WormStates::IDLE;
     sounds.push(SoundTypes::GROUND_CONTACT);
     airborne = false;
@@ -159,12 +164,15 @@ void Worm::startGroundContact() {
 }
 
 void Worm::endGroundContact() {
+    --numBeamContacts;
     if (jumpSteps == 0) {
         status = WormStates::FALL;
     }
-    airborne = true;
-    b2Vec2 position = body->GetPosition();
-    initialHeight = position.y;
+    if (numBeamContacts == 0) {
+        airborne = true;
+        b2Vec2 position = body->GetPosition();
+        initialHeight = position.y;
+    }
 }
 
 void Worm::startWaterContact() {
@@ -239,9 +247,7 @@ bool Worm::esta_quieto() {
  * */
 
 void Worm::cambiar_arma(uint8_t id_arma){
-    if (isAirborne() || this->isDead()){
-        return;
-    }
+    if (isAirborne() || this->isDead()) return;
     
     switch (id_arma)
     {
@@ -377,7 +383,7 @@ void Worm::esta_apuntando_para(bool id){
 }
 
 void Worm::incrementar_angulo_en(float inc){
-    printf("Se incrementa el angulo\n");
+    // printf("Se incrementa el angulo\n");
     if(!esta_apuntando_para_arriba){
         inc = -inc;
     }
@@ -405,7 +411,7 @@ void Worm::set_grenade_timer(int seconds) {
 
 void Worm::parar_angulo(){
     apuntando = false;
-    printf("El ultimo angulo de apuntado es %f\n",this->get_aiming_angle());
+    // printf("El ultimo angulo de apuntado es %f\n",this->get_aiming_angle());
 }
 
 /*
@@ -510,6 +516,16 @@ float Worm::get_timer(){
     }
     std::shared_ptr<GranadaArma> granada = std::dynamic_pointer_cast<GranadaArma>(this->armaActual);
     return granada->get_timer();
+}
+
+std::vector<std::pair<int,int>> Worm::get_municiones(){
+    return this->coleccionArmas->obtener_municion_armas();
+}
+
+uint16_t Worm::get_carga_actual(){
+    if(!armaActual) return 0;
+    if(armaActual->obtenerTipo()== Armas::TELETRANSPORTACION) return 0;
+    return armaActual->get_carga();
 }
 
 

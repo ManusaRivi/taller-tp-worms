@@ -5,6 +5,7 @@
 #include "./collision_categories.h"
 #include "./colisionable.h"
 #include <vector>
+#include <stdio.h>
 
 enum beamSize {
     SMALL,
@@ -18,6 +19,7 @@ enum beamSize {
 
 #define BEAM_DENSITY 0.0f
 #define BEAM_FRICTION 0.8f
+#define BEAM_RESTITUTION_THRESHOLD 5.0f
 
 class BeamServer : public Colisionable {
 private:

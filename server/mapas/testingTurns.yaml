@@ -27,15 +27,21 @@ vigas:
     angulo: 0
 
 gusanos:
+  - pos_x: 8
+    pos_y: 10.82
+    direccion: 0
   - pos_x: 10
     pos_y: 10.82
-    direccion: 0
+    direccion: 1
   - pos_x: 11
     pos_y: 10.82
-    direccion: 1
+    direccion: 0
   - pos_x: 12
     pos_y: 10.82
-    direccion: 0
+    direccion: 1
   - pos_x: 13
+    pos_y: 10.82
+    direccion: 1
+  - pos_x: 14
     pos_y: 10.82
     direccion: 1

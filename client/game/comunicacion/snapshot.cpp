@@ -27,9 +27,35 @@ void SnapshotCliente::add_explosion(ExplosionCliente explosion){
     explosiones.push_back(explosion);
 }
 
+void SnapshotCliente::set_weapon_power(int& power) {
+    weapon_power = power;
+}
+
+void SnapshotCliente::set_tp(bool& _has_tp, float& pos_x, float& pos_y) {
+    has_tp = _has_tp;
+    tp_x = pos_x;
+    tp_y = pos_y;
+}
+
+void SnapshotCliente::set_air_attack(bool& _has_air_attack, float& pos_x, float& pos_y) {
+    has_air_attack = _has_air_attack;
+    air_attack_x = pos_x;
+    air_attack_y = pos_y;
+}
+void SnapshotCliente::set_timer(bool& _has_timer, int& _timer) {
+    has_timer = _has_timer;
+    timer = _timer;
+}
+
+void SnapshotCliente::set_ammo(int& weapon, int& _ammo) {
+    ammo[weapon] = _ammo;
+}
+
 void SnapshotCliente::apply_to_world(World& world) {
     // Actualizo camara
     world.update_camera(_id_camera);
+    // Actualizo el turno
+    world.update_turn(id_turno_actual);
     // Actualizo gusanos
     for (const auto& pair: worms) {
         world.update_worm(pair.first, std::move(pair.second));
@@ -46,10 +72,20 @@ void SnapshotCliente::apply_to_world(World& world) {
     for (auto& p: provisiones) {
         world.add_provision(p);
     }
-
+    // Actualizo sonidos
     while (!sonidos.empty()) {
         world.add_sound(sonidos.back());
         sonidos.pop_back();
+    }
+    // Actualizo datos especiales
+    world.set_weapon_power(weapon_power);
+    world.set_tp(has_tp, tp_x, tp_y);
+    world.set_air_attack(has_air_attack, air_attack_x, air_attack_y);
+    world.set_timer(has_timer, timer);
+    
+    // Actualizo municion
+    for (auto& pair: ammo) {
+        world.set_ammo(pair.first, pair.second);
     }
 }
 

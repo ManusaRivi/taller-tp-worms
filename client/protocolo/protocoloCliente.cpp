@@ -150,7 +150,10 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     uint32_t turno_player_actual = recibir_4_bytes();
     snap->actulizar_camara(turno_player_actual);
     snap->agregar_turno_actual(turno_player_actual);
+    int carga_actual_del_arma = recibir_2_bytes();
+    snap->set_weapon_power(carga_actual_del_arma);
     recibir_datos_especiales(snap);
+    recibir_municiones(snap);
     recibir_gusanos(snap);
     recibir_projectiles(snap);
     recibir_explosiones(snap);
@@ -178,7 +181,7 @@ std::vector<std::vector<float>> ClienteProtocolo::recibir_vigas(){
           
         float x = recibir_4_bytes_float();
         float y = recibir_4_bytes_float();
-        float angulo = recibir_4_bytes_float();
+        float angulo = recibir_4_bytes_float() * 180 / 3.14;
         float largo = recibir_4_bytes_float();
 
 
@@ -347,20 +350,36 @@ bool ClienteProtocolo::recibir_confirmacion_union(){
 }
 
 void ClienteProtocolo::recibir_datos_especiales(std::shared_ptr<SnapshotCliente> snap){
-    /*uint8_t has_tp = recibir_1_byte();
+    uint8_t _has_tp = recibir_1_byte();
     float tp_pos_x = recibir_4_bytes_float();
     float tp_pos_y = recibir_4_bytes_float();
 
-    // printf("Se recibe un has tp de %u   %f    %f\n",has_tp,tp_pos_x,tp_pos_y);
+    bool has_tp = _has_tp;
 
-    uint8_t has_ataque_aereo = recibir_1_byte();
+    snap->set_tp(has_tp, tp_pos_x, tp_pos_y);
+
+    uint8_t _has_ataque_aereo = recibir_1_byte();
     float ataque_pos_x = recibir_4_bytes_float();
     float ataque_pos_y = recibir_4_bytes_float();
 
-    //  printf("Se recibe un ataque de %u   %f    %f\n",has_ataque_aereo,ataque_pos_x,ataque_pos_y);
+    bool has_ataque_aereo = _has_ataque_aereo;
 
-    uint8_t has_timer = recibir_1_byte();
-    uint32_t timer = recibir_4_bytes();*/
+    snap->set_air_attack(has_ataque_aereo, ataque_pos_x, ataque_pos_y);
 
-    //  printf("Se recibe un timer de %u   %u   \n",has_timer,timer);
+    uint8_t _has_timer = recibir_1_byte();
+    uint32_t _timer = recibir_4_bytes();
+
+    bool has_timer = _has_timer;
+    int timer = _timer;
+
+    snap->set_timer(has_timer, timer);
+}
+
+void ClienteProtocolo::recibir_municiones(std::shared_ptr<SnapshotCliente> snap){
+    uint16_t cantidad = recibir_2_bytes();
+    for(uint16_t i = 0; i < cantidad; i++){
+        int tipo_arma = recibir_1_byte();
+        int municion = recibir_2_bytes();
+        snap->set_ammo(tipo_arma, municion);
+    }
 }

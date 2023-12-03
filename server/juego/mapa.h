@@ -95,7 +95,7 @@ public:
 
     std::string GetName();
 
-    std::vector<std::pair<uint8_t,std::vector<float>>> esta_usando_armas_especiales();
+    void esta_usando_armas_especiales(std::vector<std::pair<uint8_t,std::vector<float>>>& armas_especiales);
 
     void get_vigas(std::vector<std::vector<float>>& beam_vector);
 
@@ -110,6 +110,12 @@ public:
     void get_sounds(std::vector<SoundTypes>& sound_vector);
 
     void get_provisiones(std::vector<ProvisionWrapper>& provision_vector);
+    
+    void get_municiones_worm(std::vector<std::pair<int,int>>& municiones);
+
+    uint32_t get_tiempo_turno_actual();
+
+    uint16_t get_carga_actual();
 
     
 };

@@ -28,3 +28,13 @@ void Mortero::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, uint3
                                                     entity_id++, x_pos, y_pos, dmg,
                                                     radius, fragments, angle, power));
 }
+
+
+
+    int Mortero::get_ammo(){
+        return this->ammo;
+    }
+    int Mortero::get_carga() {
+        return this->nivel_carga;
+    }
+

@@ -42,6 +42,8 @@ class ServerProtocolo:public Protocolo{
     void enviar_provisiones(std::vector<ProvisionWrapper>& lista);
     void enviar_sonidos(std::vector<SoundTypes>& sonidos);
     void enviar_datos_especiales(std::vector<std::pair<uint8_t,std::vector<float>>>& especiales);
+    void enviar_municiones(std::vector<std::pair<int,int>>& municion_armas);                                
+    void enviar_carga_actual(uint16_t& carga_actual);
     private:
 
 };

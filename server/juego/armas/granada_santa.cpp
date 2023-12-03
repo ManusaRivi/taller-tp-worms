@@ -28,3 +28,12 @@ void GranadaSanta::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, 
                                                     entity_id++, x_pos, y_pos, dmg, radius,
                                                     0, angle, power, GRENADE_BASE_RESTITUTION, seconds));
 }
+
+
+    int GranadaSanta::get_ammo(){
+        return this->ammo;
+    }
+    int GranadaSanta::get_carga() {
+        return this->nivel_carga;
+    }
+

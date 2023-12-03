@@ -66,7 +66,7 @@ TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_POR_SNAPSHOT_DOS_GUSANOS){
     std::vector<ProjectileWrapper> projectiles({proyectlile_1});
     std::vector<ExplosionWrapper> explosiones({explosion_1});
     std::vector<ProvisionWrapper> provisiones({provision_1});
-    std::shared_ptr<Snapshot> snap = std::make_shared<SnapshotPartida>(worms,projectiles,explosiones,provisiones,0,0,std::vector<SoundTypes>(),std::vector<std::pair<uint8_t,std::vector<float>>>());
+    std::shared_ptr<Snapshot> snap = std::make_shared<SnapshotPartida>(worms,projectiles,explosiones,provisiones,0,0,std::vector<SoundTypes>(),std::vector<std::pair<uint8_t,std::vector<float>>>(),std::vector<std::pair<int,int>>(),0);
     svr_protocolo.enviar_gusanos(worms);
     svr_protocolo.enviar_proyectiles(projectiles);
     svr_protocolo.enviar_explosiones(explosiones);

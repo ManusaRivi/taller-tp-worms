@@ -1,0 +1,25 @@
+nombre: jaula_a_mano
+vigas:
+  - tipo: larga
+    pos_x: 24.0
+    pos_y: 25.0
+    angulo: 0
+  - tipo: larga
+    pos_x: 24.0
+    pos_y: 31.0
+    angulo: 0
+  - tipo: larga
+    pos_x: 21.0
+    pos_y: 28.0
+    angulo: 90
+  - tipo: larga
+    pos_x: 27.0
+    pos_y: 28.0
+    angulo: 90
+gusanos:
+  - pos_x: 25.0
+    pos_y: 27.0
+    direccion: 0
+  - pos_x: 23.0
+    pos_y: 27.0
+    direccion: 0

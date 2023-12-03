@@ -90,7 +90,7 @@ void SnapshotCliente::apply_to_world(World& world) {
 }
 
 bool SnapshotCliente::turn_change(World& world) {
-    return id_turno_actual == world.get_turn();
+    return id_turno_actual != world.get_turn();
 }
 
 

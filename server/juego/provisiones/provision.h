@@ -5,6 +5,7 @@
 #include "../../../../common/provision_types.h"
 #include "../collision_categories.h"
 #include "../colisionable.h"
+#include "../worm.h"
 
 #define PROVISION_HEIGHT_SERVER 1
 #define PROVISION_WIDTH_SERVER  1
@@ -38,22 +39,25 @@ public:
 
         this->body->CreateFixture(&fixtureProvision);
     }
+
     ProvisionType getType() {
         return type;
     }
-    virtual bool hasBeenTaken() {
+    
+    bool hasBeenTaken() {
         return taken;
     }
 
-    virtual b2Vec2 getPosition() {
-        return body->GetPosition();
+    std::vector<float> getPosition() {
+        b2Vec2 position = body->GetPosition();
+        return std::vector<float> {position.x, position.y};
     }
-
-    virtual void usar() = 0;
 
     uint32_t get_id(){
         return this->id;
     }
+
+    virtual void usar(Worm* interactor) = 0;
 
     virtual ~Provision() {
         body->GetWorld()->DestroyBody(body);

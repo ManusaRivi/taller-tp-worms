@@ -22,7 +22,9 @@ enum CollisionType {
     WORM_PROVISION,
     PROVISION_WORM,
     PROVISION_VIGA,
-    VIGA_PROVISION
+    VIGA_PROVISION,
+    PROVISION_WATER,
+    WATER_PROVISION
 };
 
 class ContactListener : public b2ContactListener {

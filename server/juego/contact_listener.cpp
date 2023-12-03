@@ -13,9 +13,11 @@ CollisionType ContactListener::getCollisionType(Colisionable* bodyA, Colisionabl
     if (tipoA == bodyType::WATER && tipoB == bodyType::PROJECTILE) return CollisionType::WATER_PROJECTILE;
     if (tipoA == bodyType::PROJECTILE && tipoB == bodyType::WATER) return CollisionType::PROJECTILE_WATER;
     if (tipoA == bodyType::WORM && tipoB == bodyType::PROVISION) return CollisionType::WORM_PROVISION;
-    if (tipoA == bodyType::PROVISION && tipoB == bodyType::WATER) return CollisionType::PROVISION_WORM;
+    if (tipoA == bodyType::PROVISION && tipoB == bodyType::WORM) return CollisionType::PROVISION_WORM;
     if (tipoA == bodyType::PROVISION && tipoB == bodyType::BEAM) return CollisionType::PROVISION_VIGA;
     if (tipoA == bodyType::BEAM && tipoB == bodyType::PROVISION) return CollisionType::VIGA_PROVISION;
+    if (tipoA == bodyType::PROVISION && tipoB == bodyType::WATER) return CollisionType::PROVISION_WATER;
+    if (tipoA == bodyType::WATER && tipoB == bodyType::PROVISION) return CollisionType::WATER_PROVISION;
     return CollisionType::VIGA_PROYECTIL;
 }
 
@@ -143,6 +145,8 @@ void ContactListener::BeginContact(b2Contact* contact) {
 
         }
         break;
+        case PROVISION_WATER: break;
+        case WATER_PROVISION: break;
     }
 }
 
@@ -177,5 +181,7 @@ void ContactListener::EndContact(b2Contact* contact) {
         case PROVISION_WORM: break;
         case PROVISION_VIGA: break;
         case VIGA_PROVISION: break;
+        case PROVISION_WATER: break;
+        case WATER_PROVISION: break;
     }
 }

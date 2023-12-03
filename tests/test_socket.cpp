@@ -20,7 +20,7 @@ int Socket::recvall(void *data, unsigned int sz, bool *was_closed){
 
         // Erase the byte from the buffer
         it = vector.erase(it);
-
+        
         contador++;
     }
     return 1;

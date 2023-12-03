@@ -4,6 +4,7 @@
 #include "../../libs/box2d/include/box2d/box2d.h"
 #include "../../common/projectile_types.h"
 #include "./proyectiles/projectile.h"
+#include "./provisiones/provision.h"
 #include "./colisionable.h"
 #include "./worm.h"
 
@@ -17,7 +18,11 @@ enum CollisionType {
     WATER_WORM,
     WORM_WATER,
     WATER_PROJECTILE,
-    PROJECTILE_WATER
+    PROJECTILE_WATER,
+    WORM_PROVISION,
+    PROVISION_WORM,
+    PROVISION_VIGA,
+    VIGA_PROVISION
 };
 
 class ContactListener : public b2ContactListener {

@@ -19,3 +19,10 @@ void AtaqueAereo::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, u
                                                         dmg, radius, 0, angle, DOWNWARD_IMPULSE));
     }
 }
+
+    int AtaqueAereo::get_ammo(){
+        return this->ammo;
+    }
+    int AtaqueAereo::get_carga() {
+        return 0;
+    }

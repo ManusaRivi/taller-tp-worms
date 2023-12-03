@@ -110,6 +110,9 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_handshake(){
         id_gusanos.push_back(id_gus);
         // printf("Se recibe id de gusano = %u \n", id_gus);
     }
+    uint32_t turno_player_actual = recibir_4_bytes();
+    snap->actulizar_camara(turno_player_actual);
+    snap->agregar_turno_actual(turno_player_actual);
     recibir_gusanos(snap);
     std::map<int, std::shared_ptr<Worm>> worms = snap->get_worms();
     std::shared_ptr<World> world = std::make_shared<World>(100,100);
@@ -142,11 +145,21 @@ void ClienteProtocolo::enviar_handshake(uint32_t id_player, std::vector<uint32_t
 }
 
 std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
+    // printf("Se llega hasta aca\n");
     std::shared_ptr<SnapshotCliente> snap = std::make_shared<SnapshotCliente>(0);
+    uint32_t turno_player_actual = recibir_4_bytes();
+    snap->actulizar_camara(turno_player_actual);
+    snap->agregar_turno_actual(turno_player_actual);
+    int carga_actual_del_arma = recibir_2_bytes();
+    snap->set_weapon_power(carga_actual_del_arma);
+    recibir_datos_especiales(snap);
+    recibir_municiones(snap);
     recibir_gusanos(snap);
     recibir_projectiles(snap);
     recibir_explosiones(snap);
+    recibir_provisiones(snap);
     recibir_sonidos(snap);
+    
     /*
     int tamano = 6;
     float posx = 1.5;
@@ -168,7 +181,7 @@ std::vector<std::vector<float>> ClienteProtocolo::recibir_vigas(){
           
         float x = recibir_4_bytes_float();
         float y = recibir_4_bytes_float();
-        float angulo = recibir_4_bytes_float();
+        float angulo = recibir_4_bytes_float() * 180 / 3.14;
         float largo = recibir_4_bytes_float();
 
 
@@ -180,9 +193,11 @@ std::vector<std::vector<float>> ClienteProtocolo::recibir_vigas(){
 }
 
 void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
-    uint32_t turno_player_actual = recibir_4_bytes();
-    snap->actulizar_camara(turno_player_actual);
+
+    
     uint16_t cantidad_gusanos = recibir_2_bytes();
+    // printf("La cantidad de gusanos recibida es %u\n",cantidad_gusanos);
+    // printf("La cantidad de gusanos que se reciben es %u",cantidad_gusanos);
     for(uint16_t i = 0; i < cantidad_gusanos; i++){
         uint32_t id_gusano = recibir_4_bytes();
         float pos_x = recibir_4_bytes_float();
@@ -192,6 +207,7 @@ void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
         uint8_t direccion = recibir_1_byte();
         uint8_t estado = recibir_1_byte();
         float angulo_disparo = (recibir_4_bytes_float() - 1.57)*180/3.14;
+        // printf("el angulo de dispaor que se recibe es %f", angulo_disparo);
         uint8_t vida = recibir_1_byte();
         uint32_t equipo = recibir_4_bytes();
 
@@ -200,11 +216,12 @@ void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
         std::shared_ptr<Worm> worm = std::make_shared<Worm>(pos_x, pos_y, vida, equipo, std::move(state));
         snap->add_worm(worm, id_gusano);
     }
-    snap->agregar_turno_actual(turno_player_actual);
+    
 }
 
 void ClienteProtocolo::recibir_projectiles(std::shared_ptr<SnapshotCliente> snap){
     uint16_t cantidad = recibir_2_bytes();
+    // printf("La cantidad de proyectiles que se reciben es %u\n",cantidad);
     for(uint16_t i = 0; i < cantidad; i++){
 
         uint32_t id = recibir_4_bytes();
@@ -216,26 +233,40 @@ void ClienteProtocolo::recibir_projectiles(std::shared_ptr<SnapshotCliente> snap
                                                                         x,
                                                                         y,
                                                                         angulo,id);
-        printf("Los datos que llegan son  %u  %f    %f   %f\n",id,x,y,angulo);
+        // printf("Los datos que llegan son  %u  %f    %f   %f de tipo = %u\n",id,x,y,angulo,tipo);
         snap->add_projectile(std::move(projectile));
     }
 }
 
 void ClienteProtocolo::recibir_explosiones(std::shared_ptr<SnapshotCliente> snap){
     uint16_t cantidad = recibir_2_bytes();
+        // printf("La cantidad de explosiones que se reciben es %u\n",cantidad);
     for(uint16_t i = 0; i < cantidad; i++){
 
         uint32_t id = recibir_4_bytes();
         float x = recibir_4_bytes_float();
         float y = recibir_4_bytes_float();
         float radio = recibir_4_bytes_float();
-        printf("Se recibio una explosion de datos %u   %f    %f    %f\n",id,x,y,radio);
+        // printf("Se recibio una explosion de datos %u   %f    %f    %f\n",id,x,y,radio);
         snap->add_explosion(ExplosionCliente(id,x,y,radio));
+    }
+}
+
+void ClienteProtocolo::recibir_provisiones(std::shared_ptr<SnapshotCliente> snap) {
+    uint16_t cantidad = recibir_2_bytes();
+    
+    for(uint16_t i = 0; i < cantidad; i++){
+
+        uint32_t id = recibir_4_bytes();
+        float x = recibir_4_bytes_float();
+        float y = recibir_4_bytes_float();
+        snap->add_provision(ProvisionClient(x, y, id));
     }
 }
 
 void ClienteProtocolo::recibir_sonidos(std::shared_ptr<SnapshotCliente> snap) {
     uint16_t cantidad = recibir_2_bytes();
+    //  printf("La cantidad de sonidos que se reciben es %u\n",cantidad);
     for (auto i = 0; i < cantidad; ++i) {
         uint8_t sonido = recibir_1_byte();
         snap->add_sound(sonido);
@@ -315,5 +346,40 @@ bool ClienteProtocolo::recibir_confirmacion_union(){
     }
     else{
         return false;
+    }
+}
+
+void ClienteProtocolo::recibir_datos_especiales(std::shared_ptr<SnapshotCliente> snap){
+    uint8_t _has_tp = recibir_1_byte();
+    float tp_pos_x = recibir_4_bytes_float();
+    float tp_pos_y = recibir_4_bytes_float();
+
+    bool has_tp = _has_tp;
+
+    snap->set_tp(has_tp, tp_pos_x, tp_pos_y);
+
+    uint8_t _has_ataque_aereo = recibir_1_byte();
+    float ataque_pos_x = recibir_4_bytes_float();
+    float ataque_pos_y = recibir_4_bytes_float();
+
+    bool has_ataque_aereo = _has_ataque_aereo;
+
+    snap->set_air_attack(has_ataque_aereo, ataque_pos_x, ataque_pos_y);
+
+    uint8_t _has_timer = recibir_1_byte();
+    uint32_t _timer = recibir_4_bytes();
+
+    bool has_timer = _has_timer;
+    int timer = _timer;
+
+    snap->set_timer(has_timer, timer);
+}
+
+void ClienteProtocolo::recibir_municiones(std::shared_ptr<SnapshotCliente> snap){
+    uint16_t cantidad = recibir_2_bytes();
+    for(uint16_t i = 0; i < cantidad; i++){
+        int tipo_arma = recibir_1_byte();
+        int municion = recibir_2_bytes();
+        snap->set_ammo(tipo_arma, municion);
     }
 }

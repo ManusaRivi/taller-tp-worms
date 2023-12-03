@@ -29,3 +29,12 @@ void GranadaRoja::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, u
                                                     radius, fragments, angle, power,
                                                     GRENADE_BASE_RESTITUTION, seconds));
 }
+
+
+    int GranadaRoja::get_ammo(){
+        return this->ammo;
+    }
+    int GranadaRoja::get_carga() {
+        return this->nivel_carga;
+    }
+

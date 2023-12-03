@@ -3,6 +3,7 @@
 #include "../worm_wrapper.h"
 #include "../projectile_wrapper.h"
 #include "../explosion_wrapper.h"
+#include "../provisiones_wrapper.h"
 #include "../../common/sound_types.h"
 #include <vector>
 

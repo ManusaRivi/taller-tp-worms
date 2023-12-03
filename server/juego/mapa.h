@@ -12,12 +12,16 @@
 #include "../worm_wrapper.h"
 #include "../projectile_wrapper.h"
 #include "../explosion_wrapper.h"
+#include "../provisiones_wrapper.h"
 #include "../../common/sound_types.h"
+#include "../../common/provision_types.h"
 #include "./worm.h"
 #include "./beam.h"
 #include "./proyectiles/projectile.h"
 #include "./proyectiles/fragment.h"
 #include "./proyectiles/grenade.h"
+#include "./provisiones/provision.h"
+#include "./provisiones/vida.h"
 #include "./water.h"
 #include "./contact_listener.h"
 #include "turn_manager.h"
@@ -36,11 +40,10 @@ private:
     std::vector<std::shared_ptr<BeamServer>> vigas;
     std::vector<std::shared_ptr<Worm>> worms;
     std::vector<std::shared_ptr<Projectile>> projectiles;
+    std::vector<std::shared_ptr<Provision>> provisiones;
     std::queue<ExplosionWrapper> explosions;
     std::queue<SoundTypes> sounds;
-    Water* water;
-    std::vector<ProjectileWrapper> cementerio_proyectiles;
-    std::vector<ExplosionWrapper> cementerio_explosiones;
+    Water water;
 
     std::string nombre;
     TurnManager turnManager;
@@ -92,6 +95,8 @@ public:
 
     std::string GetName();
 
+    void esta_usando_armas_especiales(std::vector<std::pair<uint8_t,std::vector<float>>>& armas_especiales);
+
     void get_vigas(std::vector<std::vector<float>>& beam_vector);
 
     uint16_t gusanos_totales();
@@ -102,11 +107,17 @@ public:
 
     void get_explosions(std::vector<ExplosionWrapper>& explosion_vector);
 
-    void get_cementerio_proyectiles(std::vector<ProjectileWrapper>& projectile_vector);
-
-    void get_cementerio_explosiones(std::vector<ExplosionWrapper>& explosion_vector);
-
     void get_sounds(std::vector<SoundTypes>& sound_vector);
+
+    void get_provisiones(std::vector<ProvisionWrapper>& provision_vector);
+    
+    void get_municiones_worm(std::vector<std::pair<int,int>>& municiones);
+
+    uint32_t get_tiempo_turno_actual();
+
+    uint16_t get_carga_actual();
+
+    
 };
 
 #endif

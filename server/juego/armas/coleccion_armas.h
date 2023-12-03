@@ -28,6 +28,7 @@ private:
 public:
     ColeccionArmas(b2World& world);
     std::shared_ptr<Arma> SeleccionarArma(uint8_t id_arma);
+    std::vector<std::pair<int,int>> obtener_municion_armas();
     ~ColeccionArmas();
 };
 

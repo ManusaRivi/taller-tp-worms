@@ -12,6 +12,8 @@
 #include <string>
 #include <random>
 #include <ctime>
+#include <iomanip>
+#include <iomanip>
 
 #include "graphicsscene.h"
 

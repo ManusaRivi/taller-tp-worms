@@ -12,6 +12,10 @@ public:
     void SetTime(int seconds) {
         this->seconds = seconds;
     }
+
+    float get_timer(){
+        return this->seconds;
+    }
 };
 
 #endif

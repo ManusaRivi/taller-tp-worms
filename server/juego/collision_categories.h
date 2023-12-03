@@ -5,7 +5,8 @@ enum CollisionCategories {
     BOUNDARY_COLL = 0x0001,
     WORM_COLL = 0x0002,
     PROJECTILE_COLL = 0x0004,
-    WATER_COLL = 0x0005
+    WATER_COLL = 0x0005,
+    PROVISION_COLL = 0x0006
 };
 
 #endif

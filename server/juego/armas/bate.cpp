@@ -31,3 +31,11 @@ void Bate::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t
         worm->takeDamage(dmg);
     }
 }
+
+    int Bate::get_ammo(){
+        return 1;
+    }
+    int Bate::get_carga() {
+        return 0;
+    }
+

@@ -22,10 +22,7 @@ void Partida::run()try{{
     while(!partida_empezada){
         std::shared_ptr<Comando> comando = acciones_a_realizar.pop();
         if(comando->get_comando() == COMANDO::CMD_EMPEZAR_PARTIDA){
-            std::shared_ptr<MensajeServer> msg = mensajes.empezar_partida();
-            broadcaster.broadcastSnap(msg);
-            enviar_primer_snapshot();
-            partida_empezada = true;
+            comenzar_partida();
         }
     }
     if(!is_alive){
@@ -75,9 +72,9 @@ void Partida::run()try{{
         	t1 += std::chrono::duration_cast<std::chrono::high_resolution_clock::duration>
                                                         (std::chrono::duration<double>(lost));
             it+=int(lost/rate);
-        } else {
-			std::this_thread::sleep_for(std::chrono::duration<double>(rest));
-		}
+        } 
+		std::this_thread::sleep_for(std::chrono::duration<double>(rest));
+
 
         it++;
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
@@ -96,25 +93,32 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
     mapa.get_projectiles(vector_proyectiles);
     std::vector<ExplosionWrapper> vector_explosiones;
     mapa.get_explosions(vector_explosiones);
-    uint32_t tiempo_del_turno = iteraccion % static_cast<int>(FRAME_RATE * MAX_SEGUNDOS_POR_TURNO); // ESTO SERA EL TURN_TIMER!!!
+    uint32_t tiempo_del_turno = mapa.get_tiempo_turno_actual(); // ESTO SERA EL TURN_TIMER!!!
     uint32_t gusano_jugando_actualmente = mapa.gusano_actual();
-    std::vector<ProjectileWrapper> cementerio_projectiles;
-    mapa.get_cementerio_proyectiles(cementerio_projectiles);
-    std::vector<ExplosionWrapper> cementerio_explosiones;
-    mapa.get_cementerio_explosiones(cementerio_explosiones);
     std::vector<SoundTypes> sonidos;
     mapa.get_sounds(sonidos);
+    std::pair<bool,uint8_t> timer_if_holding_grenade;
+    std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales;
+    mapa.esta_usando_armas_especiales(armas_especiales);
+    std::vector<std::pair<int,int>> municion_armas;
+    mapa.get_municiones_worm(municion_armas);
+    uint16_t carga_actual = mapa.get_carga_actual();
 
+    std::vector<ProvisionWrapper> vector_provisiones;
+    mapa.get_provisiones(vector_provisiones);
+    
     // Snapshot snap(mapa.get_gusanos());
     // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa.gusano_actual());
     std::shared_ptr<SnapshotPartida> snap = std::make_shared<SnapshotPartida>(vector_gusanos,
                                                                             vector_proyectiles,
                                                                             vector_explosiones,
+                                                                            vector_provisiones,
                                                                             tiempo_del_turno,
                                                                             gusano_jugando_actualmente,
-                                                                            cementerio_explosiones,
-                                                                            cementerio_projectiles,
-                                                                            sonidos);
+                                                                            sonidos,
+                                                                            armas_especiales,
+                                                                            municion_armas,
+                                                                            carga_actual);
     return snap;
 }
 
@@ -123,6 +127,7 @@ std::string Partida::get_nombre(){
 }
 
 void Partida::add_queue(Queue<std::shared_ptr<MensajeServer>>* snapshots){
+    std::lock_guard<std::mutex> lock(lck);
     broadcaster.add_queue(snapshots);
 }
 
@@ -162,4 +167,12 @@ bool Partida::partida_accesible(){
 
 bool Partida::terminada(){
     return partida_terminada;
+}
+
+void Partida::comenzar_partida(){
+    std::lock_guard<std::mutex> lock(lck);
+    std::shared_ptr<MensajeServer> msg = mensajes.empezar_partida();
+    broadcaster.broadcastSnap(msg);
+    enviar_primer_snapshot();
+    partida_empezada = true;
 }

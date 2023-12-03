@@ -69,6 +69,10 @@
 - nombre: HUDWeapons
   ruta: /client/game/Texturas/data/sprites/HUDWeapons.png
 
+# Mira
+- nombre: Sight
+  ruta: /client/game/Texturas/data/sprites/sight.png
+
 # Fondo
 - nombre: Background
   ruta: /client/game/Texturas/data/sprites/Background.png
@@ -76,7 +80,11 @@
 # Agua
 - nombre: Agua
   ruta: /client/game/Texturas/data/sprites/agua2.png
-  
+
+# Provision
+- nombre: Provision
+  ruta: /client/game/Texturas/data/sprites/wcrate1.png
+
 # Proyectiles
 - nombre: Missile
   ruta: /client/game/Texturas/data/sprites/Missile.png

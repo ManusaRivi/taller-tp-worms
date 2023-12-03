@@ -1,0 +1,21 @@
+nombre: limite
+vigas:
+  - tipo: corta
+    pos_x: 22.864130434782609
+    pos_y: 25.5
+    angulo: 0
+  - tipo: larga
+    pos_x: 27.782608695652172
+    pos_y: 26.149999999999999
+    angulo: 0
+  - tipo: larga
+    pos_x: 18.739130434782609
+    pos_y: 24.949999999999999
+    angulo: 0
+gusanos:
+  - pos_x: 22.195652173913047
+    pos_y: 27.100000000000001
+    direccion: 0
+  - pos_x: 30.282608695652172
+    pos_y: 27.949999999999999
+    direccion: 0

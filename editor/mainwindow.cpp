@@ -4,6 +4,8 @@
 
 #include <fstream>
 
+#define OFFSET_CAMARA 500
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -53,7 +55,7 @@ void MainWindow::agregarGusano() {
 
     this->worms.push_back(worm);
     this->scene->addItem(worm);
-    worm->setPos(0, 0);
+    worm->setPos(OFFSET_CAMARA, OFFSET_CAMARA);
 }
 
 void MainWindow::agregarViga() {
@@ -73,7 +75,7 @@ void MainWindow::agregarViga() {
     vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
 
     QGraphicsPixmapItem* mitadViga = new QGraphicsPixmapItem(vigaPixmap);
-    mitadViga->setPos(0, 0);
+    mitadViga->setPos(OFFSET_CAMARA, OFFSET_CAMARA);
 
     this->vigas.push_back(mitadViga);
     this->scene->addItem(mitadViga);
@@ -91,7 +93,7 @@ void MainWindow::agregarVigaLarga() {
     vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
 
     QGraphicsPixmapItem* viga = new QGraphicsPixmapItem(vigaPixmap);
-    viga->setPos(0, 0);
+    viga->setPos(OFFSET_CAMARA, OFFSET_CAMARA);
 
     this->vigas.push_back(viga);
     this->scene->addItem(viga);
@@ -99,20 +101,17 @@ void MainWindow::agregarVigaLarga() {
 
 
 std::string MainWindow::generarNombreAleatorio() {
-    const std::string letras = "abcdefghijklmnopqrstuvwxyz";
-    const int longitudNombre = 5;
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, letras.size() - 1);
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-    std::string nombreAleatorio;
+    int numeroAleatorio = std::rand() % 1000;
 
-    for (int i = 0; i < longitudNombre; ++i) {
-        nombreAleatorio += letras[dis(gen)];
-    }
+    std::string nombreMapa = "mapa" + std::to_string(numeroAleatorio);
 
-    return nombreAleatorio;
+    std::ostringstream ss;
+    ss << std::setw(4) << std::setfill('0') << numeroAleatorio;
+
+    return "mapa" + ss.str();
 }
 
 void MainWindow::exportarMapa() {
@@ -125,6 +124,9 @@ void MainWindow::exportarMapa() {
 
     YAML::Emitter emitter;
     std::string tipo;
+    float largo;
+    float scale;
+    float offset;
 
     emitter << YAML::BeginMap;
     emitter << YAML::Key << "nombre";
@@ -140,17 +142,23 @@ void MainWindow::exportarMapa() {
         QPointF posicion = viga->scenePos();
         QRectF boundingRect = viga->boundingRect();
 
-        if(boundingRect.width() > 100) {
+        if(boundingRect.width() > 100 || boundingRect.height() > 100) {
             tipo = "larga";
+            largo = 138;
+            scale = 6;
+            offset = 0;
         } else {
             tipo = "corta";
+            largo = 69;
+            scale = 3;
+            offset = 0.375;
         }
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
-        emitter << YAML::Key << "pos_x" << YAML::Value << abs(posicion.x()/138*6);
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(-1*posicion.y()/22);
-        emitter << YAML::Key << "angulo" << YAML::Value << this->angulos[i];
+        emitter << YAML::Key << "pos_x" << YAML::Value << (posicion.x() + boundingRect.width()/2) / largo * scale - offset;
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y() + boundingRect.height()/2) / 23 - boundingRect.height() / largo * scale * sin(this->angulos[i]);
+        emitter << YAML::Key << "angulo" << YAML::Value << 180 - this->angulos[i];
         emitter << YAML::EndMap;
         i++;
     }
@@ -163,10 +171,11 @@ void MainWindow::exportarMapa() {
 
     for (QGraphicsPixmapItem* worm : this->worms) {
         QPointF posicion = worm->scenePos();
+        QRectF boundingRect = worm->boundingRect();
 
         emitter << YAML::BeginMap;
-        emitter << YAML::Key << "pos_x" << YAML::Value << abs(posicion.x()/138*6);
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(posicion.y()/22);
+        emitter << YAML::Key << "pos_x" << YAML::Value << abs((posicion.x() + boundingRect.width()/2)/138*6);
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y())/23;
         emitter << YAML::Key << "direccion" << YAML::Value << 0;
         emitter << YAML::EndMap;
     }

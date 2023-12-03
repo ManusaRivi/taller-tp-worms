@@ -6,8 +6,10 @@ union BodyUserData {
 };
 
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
-            coleccionArmas(std::make_unique<ColeccionArmas>(world)),armaActual(nullptr), moving(false) ,facingDirection(direction), airborne(false), hitPoints(hitPoints), initialHeight(0.0f),
-            finalHeight(0.0f), jumpSteps(0), id(id_), status(WormStates::IDLE), angulo_disparo(0.0f), apuntando(false)
+            Colisionable(bodyType::WORM), coleccionArmas(std::make_unique<ColeccionArmas>(world)),
+            armaActual(nullptr), facingDirection(direction), status(WormStates::IDLE), id(id_),
+            angulo_disparo(0.0f), hitPoints(hitPoints), numBeamContacts(0), initialHeight(0.0f), finalHeight(0.0f),
+            airborne(false), moving(false), apuntando(false), x_target(0), y_target(0), jumpSteps(0)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -41,12 +43,15 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     // printf("luego de crearle las fixtures la posicion del gusano es %f   %f\n", body->GetPosition().x, body->GetPosition().y);
 }
 
-bodyType Worm::identificar() {
-    return bodyType::WORM;
-}
+/*
+ * Metodos de MOVIMIENTO del gusano.
+ * */
 
 void Worm::StartMovement(int dir) {
     if (this->isAirborne()) return;
+    if(armaActual){
+        return;
+    }
     facingDirection = dir;
     moving = true;
 }
@@ -118,7 +123,30 @@ void Worm::JumpBackward() {
     //state = WormStates::BACKFLIP;
 }
 
+void Worm::cambiar_direccion(uint8_t dir){
+    if(this->isDead()){
+        return;
+    }
+    switch (dir)
+    {
+    case (RIGHT):
+        {
+            // printf("Se recibe comando cambiar_direccion a derecha\n");
+            this->facingDirection = RIGHT;
+            break;
+        }
+    case (LEFT):{
+        // printf("Se recibe comando cambiar direccino a izquerda\n");
+        this->facingDirection = LEFT;
+        break;
+    }
+    }
+}
+
+/* Metodos que se llaman cuando determinados eventos ocurren */
+
 void Worm::startGroundContact() {
+    ++numBeamContacts;
     status = WormStates::IDLE;
     sounds.push(SoundTypes::GROUND_CONTACT);
     airborne = false;
@@ -136,16 +164,15 @@ void Worm::startGroundContact() {
 }
 
 void Worm::endGroundContact() {
+    --numBeamContacts;
     if (jumpSteps == 0) {
         status = WormStates::FALL;
     }
-    airborne = true;
-    b2Vec2 position = body->GetPosition();
-    initialHeight = position.y;
-}
-
-bool Worm::isMoving() {
-    return moving;
+    if (numBeamContacts == 0) {
+        airborne = true;
+        b2Vec2 position = body->GetPosition();
+        initialHeight = position.y;
+    }
 }
 
 void Worm::startWaterContact() {
@@ -153,104 +180,74 @@ void Worm::startWaterContact() {
     this->hitPoints = 0;
 }
 
+void Worm::takeDamage(int damage) {
+    sounds.push(SoundTypes::HURT_WORM);
+    hitPoints -= damage;
+    if(hitPoints <= 0){
+        hitPoints = 0;
+    }
+}
+
+void Worm::kill() {
+    sounds.push(SoundTypes::WORM_DEATH_CRY);
+    dead_posiiton_x = body->GetPosition().x;
+    dead_position_y = body->GetPosition().y;
+    dead_position_angle = body->GetAngle();
+    body->GetWorld()->DestroyBody(body);
+    status = WormStates::DEAD;
+    this->hitPoints = 0;
+    //delete this->coleccionArmas;
+}
+
+void Worm::detener_acciones(){
+    if(!airborne){
+        angulo_disparo = 0;
+        apuntando = false;
+        status = WormStates::IDLE;
+        this->Stop();
+        armaActual = nullptr;
+    }
+}
+
+/*
+ * Metodos para obtener informacion sobre el estado actual del gusano.
+ * */
+
+bool Worm::isMoving() {
+    return moving;
+}
+
 bool Worm::isAirborne() {
     return airborne;
 }
 
-void Worm::takeDamage(int damage) {
-    sounds.push(SoundTypes::HURT_WORM);
-    hitPoints -= damage;
+bool Worm::isDead() {
+    return (this->hitPoints <= 0) ? true : false;
 }
 
-std::vector<float> Worm::GetPosition() {
-    b2Vec2 position = body->GetPosition();
-    // printf("Al pedire la posicion se devuelve %f   %f\n",position.x,position.y);
-    return std::vector<float> ({position.x, position.y});
+bool Worm::esta_apuntando(){
+    return apuntando;
 }
 
-float Worm::GetAngle() {
-    return body->GetAngle();
-}
-
-void Worm::usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id) {
-    if(!armaActual || this->isDead()){
-        return;
+bool Worm::esta_cargando_arma() {
+    if(!this->armaActual || this->isDead()){
+        return false;
     }
-    Armas tipo = armaActual->obtenerTipo();
-    if (tipo == TELETRANSPORTACION) {
-        sounds.push(SoundTypes::TELEPORT);
-        body->SetTransform(b2Vec2 (x_target, y_target), body->GetAngle());
-        return;
-    }
-    b2Vec2 position = body->GetPosition();
-    float angle;
-    if (tipo == ATAQUE_AEREO) {
-        status = WormStates::AIR_ATTACK_SHOOTING;
-        sounds.push(SoundTypes::AIR_STRIKE);
-        position = b2Vec2 (x_target, y_target);
-        angle = 1.5f * b2_pi;
-    }
-    else {
-        if (tipo == DINAMITA) {
-            if (this->facingDirection == RIGHT) {
-                angle = 0;
-            }
-            else {
-                angle = b2_pi;
-            }
-        }
-        else {
-            if (tipo == BAZOOKA || tipo == MORTERO) {
-                sounds.push(SoundTypes::WORM_BAZOOKA_SHOUT);
-            }
-            if (tipo == BATE) {
-                status = WormStates::BATE_SHOOTING;
-                sounds.push(SoundTypes::BAT_ATTACK);
-            }
-            else {
-                sounds.push(SoundTypes::WORM_GRENADE_SHOUT);
-            }
-            if(this->facingDirection == LEFT){
-                if(this->aiming_angle() < 0){
-                    angle =  (- this->aiming_angle()) + 3.14;
-                }
-                else{
-                    angle = 3.14f - this->aiming_angle();
-                    
-                }
-            }
-            else{
-                angle = this->aiming_angle();
-            }
-        }
-    }
-    
-    
-    printf("El angulo con el que se estada apuntando es : %f\n",this->aiming_angle());
-    printf("el angulo con el que se dispara es %f\n",angle);
-    armaActual->Shoot(projectiles, entity_id, position.x, position.y, angle);
+    return this->armaActual->estaCargando();
 }
 
-int Worm::get_facing_direction(){
-    return this->facingDirection;
+bool Worm::esta_quieto() {
+    if (status == WormStates::DEAD) return true;
+    b2Vec2 velocity = body->GetLinearVelocity();
+    return (velocity.x == 0 && velocity.y == 0);
 }
 
-uint32_t Worm::get_id(){
-    return this->id;
-}
-
-float Worm::get_angulo(){
-    return this->body->GetAngle();
-}
-
-uint8_t Worm::get_status(){
-    return this->status;
-}
+/*
+ * Metodos de combate de gusano.
+ * */
 
 void Worm::cambiar_arma(uint8_t id_arma){
-    if (isAirborne() || this->isDead()){
-        return;
-    }
+    if (isAirborne() || this->isDead()) return;
     
     switch (id_arma)
     {
@@ -298,7 +295,6 @@ void Worm::cambiar_arma(uint8_t id_arma){
     default:
         break;
     }
-
     armaActual = coleccionArmas->SeleccionarArma(id_arma);
 }
 
@@ -317,32 +313,77 @@ void Worm::cargar_arma(){
         printf("no tiene un arma\n");
         return;
     }
-    printf("tiene arma\n");
     this->armaActual->cargar();
 }
 
-bool Worm::esta_cargando_arma() {
-    if(!this->armaActual || this->isDead()){
+bool Worm::usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id) {
+    if(!armaActual || this->isDead()){
+        printf("Not tiene arma\n");
         return false;
     }
-    return this->armaActual->estaCargando();
+    Armas tipo = armaActual->obtenerTipo();
+    if (tipo == TELETRANSPORTACION) {
+        sounds.push(SoundTypes::TELEPORT);
+        body->SetTransform(b2Vec2 (x_target, y_target), body->GetAngle());
+        return true;
+    }
+    b2Vec2 position = body->GetPosition();
+    float angle;
+    if (tipo == ATAQUE_AEREO) {
+        status = WormStates::AIR_ATTACK_SHOOTING;
+        sounds.push(SoundTypes::AIR_STRIKE);
+        position = b2Vec2 (x_target, y_target);
+        angle = 1.5f * b2_pi;
+    }
+    else {
+        if (tipo == DINAMITA) {
+            if (this->facingDirection == RIGHT) {
+                angle = 0;
+            }
+            else {
+                angle = b2_pi;
+            }
+        }
+        else {
+            if (tipo == BAZOOKA || tipo == MORTERO) {
+                sounds.push(SoundTypes::WORM_BAZOOKA_SHOUT);
+            }
+            if (tipo == BATE) {
+                status = WormStates::BATE_SHOOTING;
+                sounds.push(SoundTypes::BAT_ATTACK);
+            }
+            else {
+                sounds.push(SoundTypes::WORM_GRENADE_SHOUT);
+            }
+            if(this->facingDirection == LEFT){
+                if(this->get_aiming_angle() < 0){
+                    angle =  (- this->get_aiming_angle()) + 3.14;
+                }
+                else{
+                    angle = 3.14f - this->get_aiming_angle();
+                    
+                }
+            }
+            else{
+                angle = this->get_aiming_angle();
+            }
+        }
+    }
+    
+    apuntando = false;
+    armaActual->Shoot(projectiles, entity_id, position.x, position.y, angle);
+    status = WormStates::IDLE;
+    armaActual = nullptr;
+    return true;
 }
 
 void Worm::esta_apuntando_para(bool id){
     apuntando = true;
-    this->esta_apuntando_para_arriba= id;
-}
-
-bool Worm::esta_apuntando(){
-    return apuntando;
-}
-
-bool Worm::esta_quieto() {
-    b2Vec2 velocity = body->GetLinearVelocity();
-    return (velocity.x == 0 && velocity.y == 0);
+    this->esta_apuntando_para_arriba = id;
 }
 
 void Worm::incrementar_angulo_en(float inc){
+    // printf("Se incrementa el angulo\n");
     if(!esta_apuntando_para_arriba){
         inc = -inc;
     }
@@ -368,58 +409,127 @@ void Worm::set_grenade_timer(int seconds) {
     arma->SetTime(seconds);
 }
 
-void Worm::detener_acciones(){
-    if(!airborne){
-        angulo_disparo = 0;
-        apuntando = false;
-        status = WormStates::IDLE;
-        this->Stop();
-    }
-}
-
-float Worm::aiming_angle(){
-    return angulo_disparo;
-}
-
 void Worm::parar_angulo(){
     apuntando = false;
-    printf("El ultimo angulo de apuntado es %f\n",this->aiming_angle());
+    // printf("El ultimo angulo de apuntado es %f\n",this->get_aiming_angle());
+}
+
+/*
+ * Funciones GETTER para comunicar informacion del gusano.
+ * */
+
+std::vector<float> Worm::GetPosition() {
+    if(status == WormStates::DEAD){
+        return std::vector<float>({dead_posiiton_x,dead_position_y});
+    }
+    b2Vec2 position = body->GetPosition();
+    // printf("Al pedire la posicion se devuelve %f   %f\n",position.x,position.y);
+    return std::vector<float> ({position.x, position.y});
+}
+
+int Worm::get_facing_direction(){
+    return this->facingDirection;
+}
+
+uint8_t Worm::get_status(){
+    return this->status;
+}
+
+uint32_t Worm::get_id(){
+    return this->id;
+}
+
+float Worm::get_angulo(){
+    if(status == WormStates::DEAD){
+        return dead_position_angle;
+    }
+    return this->body->GetAngle();
+}
+
+float Worm::get_aiming_angle(){
+    return angulo_disparo;
 }
 
 uint8_t Worm::get_vida() {
     return hitPoints;
 }
 
-void Worm::cambiar_direccion(uint8_t dir){
-    if(this->isDead()){
-        return;
+bool Worm::using_teleportacion(){
+    if(!this->armaActual){
+        return false;
     }
-    switch (dir)
-    {
-    case (RIGHT):
-        {
-            // printf("Se recibe comando cambiar_direccion a derecha\n");
-            this->facingDirection = RIGHT;
+    return (this->armaActual->obtenerTipo() == Armas::TELETRANSPORTACION);
+}
+
+bool Worm::using_ataque_aereo(){
+    if(!this->armaActual){
+        return false;
+    }
+    return (this->armaActual->obtenerTipo() == Armas::ATAQUE_AEREO);
+}
+
+std::vector<float> Worm::posicion_marcada(){
+    if(!this->armaActual){
+        return std::vector<float>({0,0});
+    }
+    else{
+        return std::vector<float>({x_target,y_target});
+    }
+}
+
+bool Worm::using_timer(){
+    if(!this->armaActual)return false;
+    Armas tipo = this->armaActual->obtenerTipo();
+    bool esta_usando_timer = false;
+    switch(tipo){
+        case(Armas::DINAMITA):{
+            esta_usando_timer = true;
             break;
         }
-    case (LEFT):{
-        // printf("Se recibe comando cambiar direccino a izquerda\n");
-        this->facingDirection = LEFT;
-        break;
+        case(Armas::GRANADA_ROJA):{
+            esta_usando_timer = true;
+            break;
+        }
+        case(Armas::BANANA):{
+            esta_usando_timer = true;
+            break;
+        }
+        case(Armas::GRANADA_SANTA):{
+            esta_usando_timer = true;
+            break;
+        }
+        case(Armas::GRANADA_VERDE):{
+            esta_usando_timer = true;
+            break;
+        }
+        default:{
+            esta_usando_timer = false;
+            break;
+        }
     }
-    }
+    return esta_usando_timer;
 }
 
-bool Worm::isDead() {
-    return (this->hitPoints <= 0) ? true : false;
+float Worm::get_timer(){
+    if(!armaActual){
+        return 0;
+    }
+    std::shared_ptr<GranadaArma> granada = std::dynamic_pointer_cast<GranadaArma>(this->armaActual);
+    return granada->get_timer();
 }
 
-void Worm::kill() {
-    sounds.push(SoundTypes::WORM_DEATH_CRY);
-    this->hitPoints = 0;
-    //delete this->coleccionArmas;
+std::vector<std::pair<int,int>> Worm::get_municiones(){
+    return this->coleccionArmas->obtener_municion_armas();
 }
+
+uint16_t Worm::get_carga_actual(){
+    if(!armaActual) return 0;
+    if(armaActual->obtenerTipo()== Armas::TELETRANSPORTACION) return 0;
+    return armaActual->get_carga();
+}
+
 
 Worm::~Worm(){
+    printf("Se destruye el gusano\n");
 }
 

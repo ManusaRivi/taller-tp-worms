@@ -1,7 +1,7 @@
 #include "mortero.h"
 
 Mortero::Mortero(b2World& world, int ammo, int fragments, int dmg, int radius) : 
-                 world(world), ammo(ammo), fragments(fragments), dmg(dmg), radius(radius)
+                 world(world), ammo(ammo), fragments(fragments), dmg(dmg), radius(radius),nivel_carga(0)
 {
     cargando = false;
     tipo = Armas::MORTERO;
@@ -28,3 +28,13 @@ void Mortero::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, uint3
                                                     entity_id++, x_pos, y_pos, dmg,
                                                     radius, fragments, angle, power));
 }
+
+
+
+    int Mortero::get_ammo(){
+        return this->ammo;
+    }
+    int Mortero::get_carga() {
+        return this->nivel_carga;
+    }
+

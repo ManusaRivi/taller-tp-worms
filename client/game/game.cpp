@@ -45,7 +45,7 @@ int Game::run() try {
 	// Inicializo SDL_mixer
     SDL2pp::Mixer mixer(MIX_DEFAULT_FREQUENCY, GAME_MIX_FORMAT, 2, 1024);
 	Mix_Volume(-1, MIX_MAX_VOLUME * 0.6);
-
+	Mix_AllocateChannels(30);
     // Creo la ventana: 
     // Dimensiones: 854x480, redimensionable
     // Titulo: Worms
@@ -321,8 +321,8 @@ int Game::run() try {
 			std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(snap);
 			std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
 			if (snapshot->turn_change((*world))) {
-				has_selected_weapon = false;
-				mouse_weapon = false;
+				//has_selected_weapon = false;
+				//mouse_weapon = false;
 			}
 			snapshot->apply_to_world((*world));
 			(*world).present(it_inc, renderer, texture_manager, sound_manager, mixer, x_scale, y_scale, camara);

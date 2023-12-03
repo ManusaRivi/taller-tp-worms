@@ -1,7 +1,7 @@
 #include "granada_santa.h"
 
 GranadaSanta::GranadaSanta(b2World& world, int ammo, int dmg, int radius) :
-                        world(world), ammo(ammo), dmg(dmg), radius(radius), nivel_carga(0)
+                        world(world), max_ammo(ammo), ammo(ammo), dmg(dmg), radius(radius), nivel_carga(0)
 {
     cargando = false;
     tipo = Armas::GRANADA_SANTA;
@@ -29,11 +29,14 @@ void GranadaSanta::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, 
                                                     0, angle, power, GRENADE_BASE_RESTITUTION, seconds));
 }
 
+int GranadaSanta::get_ammo(){
+    return this->ammo;
+}
 
-    int GranadaSanta::get_ammo(){
-        return this->ammo;
-    }
-    int GranadaSanta::get_carga() {
-        return this->nivel_carga;
-    }
+int GranadaSanta::get_carga() {
+    return this->nivel_carga;
+}
 
+void GranadaSanta::reload() {
+    this->ammo = this->max_ammo;
+}

@@ -16,6 +16,7 @@ public:
     virtual int get_carga(){
         return 0;
     }
+    virtual void reload() override {}
 };
 
 

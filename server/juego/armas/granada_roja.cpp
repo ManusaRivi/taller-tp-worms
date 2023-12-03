@@ -1,7 +1,7 @@
 #include "granada_roja.h"
 
 GranadaRoja::GranadaRoja(b2World& world, int ammo, int fragments, int dmg, int radius) :
-                        world(world), ammo(ammo), fragments(fragments), dmg(dmg), radius(radius), nivel_carga(0)
+                        world(world), max_ammo(ammo), ammo(ammo), fragments(fragments), dmg(dmg), radius(radius), nivel_carga(0)
 {
     cargando = false;
     tipo = Armas::GRANADA_ROJA;
@@ -30,11 +30,14 @@ void GranadaRoja::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, u
                                                     GRENADE_BASE_RESTITUTION, seconds));
 }
 
+int GranadaRoja::get_ammo(){
+    return this->ammo;
+}
 
-    int GranadaRoja::get_ammo(){
-        return this->ammo;
-    }
-    int GranadaRoja::get_carga() {
-        return this->nivel_carga;
-    }
+int GranadaRoja::get_carga() {
+    return this->nivel_carga;
+}
 
+void GranadaRoja::reload() {
+    this->ammo = this->max_ammo;
+}

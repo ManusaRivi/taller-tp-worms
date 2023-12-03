@@ -25,6 +25,7 @@ protected:
 public:
     Provision(b2World& world, ProvisionType type, uint32_t id, float x_pos, float y_pos) : Colisionable(bodyType::PROVISION), world(world), type(type), id(id) {
         b2BodyDef provisionDef;
+        provisionDef.type = b2_dynamicBody;
         provisionDef.position.Set(x_pos, y_pos);
         provisionDef.userData.pointer = reinterpret_cast<uintptr_t> (this);
         b2Body* provision = world.CreateBody(&provisionDef);
@@ -41,14 +42,19 @@ public:
 
         this->body->CreateFixture(&fixtureProvision);
     }
+
     ProvisionType getType() {
         return type;
     }
 
-    virtual b2Vec2 getPosition() {
+    b2Vec2 getPosition() {
         return body->GetPosition();
     }
 
+    Provision(const Provision&) = delete;
+
+    Provision& operator=(const Provision&) = delete;
+    
     virtual void usar(Worm*) = 0;
 
     uint32_t get_id() {

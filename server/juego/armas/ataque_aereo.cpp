@@ -1,7 +1,7 @@
 #include "ataque_aereo.h"
 
 AtaqueAereo::AtaqueAereo(b2World& world, int rocket_num, int ammo, int dmg, int radius) :
-        world(world), rocket_num(rocket_num), ammo(ammo), dmg(dmg), radius(radius) 
+        world(world), rocket_num(rocket_num), max_ammo(ammo), ammo(ammo), dmg(dmg), radius(radius) 
 {
     tipo = Armas::ATAQUE_AEREO;
 }
@@ -20,9 +20,13 @@ void AtaqueAereo::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, u
     }
 }
 
-    int AtaqueAereo::get_ammo(){
-        return this->ammo;
-    }
-    int AtaqueAereo::get_carga() {
-        return 0;
-    }
+int AtaqueAereo::get_ammo(){
+    return this->ammo;
+}
+int AtaqueAereo::get_carga() {
+    return 0;
+}
+
+void AtaqueAereo::reload() {
+    this->ammo = this->max_ammo;
+}

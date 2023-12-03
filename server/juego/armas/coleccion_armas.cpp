@@ -36,3 +36,9 @@ std::vector<std::pair<int,int>> ColeccionArmas::obtener_municion_armas(){
     }
     return municiones;
 }
+
+void ColeccionArmas::recargar_armas() {
+    for (auto arma : armas) {
+        arma.second->reload();
+    }
+}

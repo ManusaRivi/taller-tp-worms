@@ -55,6 +55,7 @@ private:
     float angulo_disparo;
     int hitPoints;
     /* info tecnica */
+    int maxHealth;
     int numBeamContacts;
     float initialHeight;
     float finalHeight;
@@ -97,6 +98,10 @@ public:
     void startWaterContact();
 
     void takeDamage(int damage);
+
+    void heal(int hit_points);
+
+    void reload_weapons();
 
     void kill();
 

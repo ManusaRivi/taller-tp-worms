@@ -1,10 +1,9 @@
 #include "threadRecibidor.h"
 
-Recibidor::Recibidor(Socket &peer, Queue<std::shared_ptr<Comando>> &acciones_,Queue<std::shared_ptr<MensajeServer>>* snapshots_,Lobby &lobby_):skt(peer),
-                                                                                                                        acciones_a_realizar(acciones_), 
-                                                                                                                        snapshots(snapshots_),
-                                                                                                                        id_partida(0),
-                                                                                                                        lobby(lobby_){
+Recibidor::Recibidor(Socket &peer, Queue<std::shared_ptr<MensajeServer>>* snapshots_,Lobby &lobby_):skt(peer),                  
+                                                                                                    snapshots(snapshots_),
+                                                                                                    id_partida(0),
+                                                                                                    lobby(lobby_){
 
 }
 

@@ -35,7 +35,9 @@ private:
                     airstrike_rockets(config["num_misiles"].as<int>()),
                     airstrike_ammo(config["ammo_misiles"].as<int>()),
                     airstrike_dmg(config["dmg_misil"].as<int>()),
-                    airstrike_radius(config["radio_misil"].as<int>()) {}
+                    airstrike_radius(config["radio_misil"].as<int>()),
+                    provision_healing(config["provision_healing"].as<int>()),
+                    provision_dmg(config["provision_explosion_dmg"].as<int>()) {}
     GameConfig(const GameConfig&) = delete;
     GameConfig& operator=(const GameConfig&) = delete;
 public:
@@ -77,6 +79,9 @@ public:
     const int airstrike_ammo;
     const int airstrike_dmg;
     const int airstrike_radius;
+
+    const int provision_healing;
+    const int provision_dmg;
 
     static GameConfig& getInstance()
     {

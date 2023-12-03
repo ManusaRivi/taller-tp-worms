@@ -50,3 +50,7 @@ num_misiles: 6
 ammo_misiles: 2
 dmg_misil: 40
 radio_misil: 2
+
+# Provisiones
+provision_healing: 40
+provision_explosion_dmg: 30

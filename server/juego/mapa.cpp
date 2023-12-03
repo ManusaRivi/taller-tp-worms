@@ -206,7 +206,7 @@ void Mapa::cargar_arma(uint32_t id) {
     GameStates status = turnManager.get_state();
     if (status == BONUS_TURN || status == WAITING) return;
     if (id != turnManager.get_player_actual()) return;
-    worms[turnManager.get_player_actual()]->iniciar_carga();
+    worms[turnManager.get_gusano_actual()]->iniciar_carga();
     printf("Se empieza a cargar el arma\n");
 }
 

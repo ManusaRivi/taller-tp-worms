@@ -12,8 +12,10 @@ uint32_t Lobby::crear_partida(std::string& nombre, Queue<std::shared_ptr<Mensaje
     partida->add_queue(snapshots);
     uint32_t id_actuali = this->id_actual;
     this->id_actual++;
+    
     lista_partidas.insert({id_actuali,partida});
     partida->start();
+    this->reap_dead();
     // printf("Se crea una partida nueva\n");
     return id_actuali;
 }
@@ -53,10 +55,6 @@ Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t& id_pedido){
     return lista_partidas.at(id_pedido)->get_queue();
 }
 
-// void Lobby::empezar_partida(uint32_t id){
-//     std::lock_guard<std::mutex> lock(lck);
-//     lista_partidas.at(id)->start();
-// }
 
 bool Lobby::unirse_a_partida(uint32_t& id_partida, Queue<std::shared_ptr<MensajeServer>>* snapshots){
     std::lock_guard<std::mutex> lock(lck);
@@ -94,13 +92,14 @@ void Lobby::kill(){
 }
 
 void Lobby::reap_dead(){
-    std::lock_guard<std::mutex> lock(lck);
     auto it = lista_partidas.begin();
     while (it != lista_partidas.end()){
         if(it->second->terminada()){
             it->second->join();
             delete it->second;
             it = lista_partidas.erase(it);
+        }else{
+            it++;
         }
     }
 }

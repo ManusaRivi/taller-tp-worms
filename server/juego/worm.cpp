@@ -320,7 +320,7 @@ void Worm::cargar_arma(){
         return;
     }
     if(!this->armaActual){
-        printf("no tiene un arma\n");
+        // printf("no tiene un arma\n");
         return;
     }
     this->armaActual->cargar();
@@ -539,8 +539,12 @@ uint16_t Worm::get_carga_actual(){
     return armaActual->get_carga();
 }
 
+void Worm::sumarVida(int vida) {
+    if (hitPoints <= MAX_VIDA) 
+        hitPoints += vida;
+}
 
 Worm::~Worm(){
-    printf("Se destruye el gusano\n");
+    // printf("Se destruye el gusano\n");
 }
 

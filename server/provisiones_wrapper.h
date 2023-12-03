@@ -9,9 +9,10 @@ private:
     float y_pos;
     ProvisionType tipo;
     uint32_t id;
+    uint8_t estado;
 public:
-    ProvisionWrapper(float x_pos, float y_pos, ProvisionType tipo, uint32_t id) :
-        x_pos(x_pos), y_pos(y_pos), tipo(tipo), id(id) {}
+    ProvisionWrapper(float x_pos, float y_pos, ProvisionType tipo, uint32_t id, uint8_t estado) :
+        x_pos(x_pos), y_pos(y_pos), tipo(tipo), id(id), estado(estado) {}
 
     uint32_t get_id() {
         return id;
@@ -27,6 +28,10 @@ public:
 
     uint8_t get_tipo() {
         return this->tipo;
+    }
+
+    uint8_t get_estado() {
+        return this->estado;
     }
 };
 

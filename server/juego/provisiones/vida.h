@@ -5,7 +5,10 @@
 #include "../collision_categories.h"
 #include "../colisionable.h"
 #include "./provision.h"
+#include "../worm.h"
 #include <vector>
+
+#define VIDA_EXTRA 10
 
 class VidaServer : public Provision {
 private:

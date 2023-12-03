@@ -320,11 +320,6 @@ void World::present(int& it_inc,
     }
 
     //present_water(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
-    
-    for (auto& provision : provisiones) {
-        provision.second.present(renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
-    }
-    //provisiones.clear();
 
     // Grafico proyectiles
     proy_it += it_inc;
@@ -332,6 +327,14 @@ void World::present(int& it_inc,
         projectil.second->present(proy_it, renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
     }
     projectiles.clear();
+
+    // Grafico provisiones
+    for (auto& provision : provisiones) {
+        if(provision.second.get_estado() == 0) {
+            provision.second.present(proy_it, renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
+        }
+    }
+    provisiones.clear();
 
     // Grafico Explosiones
     for (auto& explosion : explosions) {

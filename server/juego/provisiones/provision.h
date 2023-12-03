@@ -10,6 +10,9 @@
 #define PROVISION_HEIGHT_SERVER 1
 #define PROVISION_WIDTH_SERVER  1
 
+#define USADA       1
+#define NO_USADA    0
+
 class Provision : public Colisionable 
 {
 protected:
@@ -43,24 +46,28 @@ public:
     ProvisionType getType() {
         return type;
     }
-    
-    bool hasBeenTaken() {
-        return taken;
-    }
 
     b2Vec2 getPosition() {
         return body->GetPosition();
     }
 
-    uint32_t get_id(){
-        return this->id;
-    }
-
-    virtual void usar(Worm* interactor) = 0;
-
     Provision(const Provision&) = delete;
 
     Provision& operator=(const Provision&) = delete;
+    
+    virtual void usar(Worm*) = 0;
+
+    uint32_t get_id() {
+        return this->id;
+    }
+
+    uint8_t get_estado() {
+        return taken == true ? USADA : NO_USADA;
+    }
+
+    bool usada() {
+        return taken;
+    }
 
     virtual ~Provision() {
         body->GetWorld()->DestroyBody(body);

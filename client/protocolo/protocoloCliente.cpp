@@ -258,9 +258,10 @@ void ClienteProtocolo::recibir_provisiones(std::shared_ptr<SnapshotCliente> snap
     for(uint16_t i = 0; i < cantidad; i++){
 
         uint32_t id = recibir_4_bytes();
+        uint8_t estado = recibir_1_byte();
         float x = recibir_4_bytes_float();
         float y = recibir_4_bytes_float();
-        snap->add_provision(ProvisionClient(x, y, id));
+        snap->add_provision(ProvisionClient(x, y, id, estado));
     }
 }
 

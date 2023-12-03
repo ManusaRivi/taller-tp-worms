@@ -14,7 +14,7 @@ struct Cliente{
     Queue<std::shared_ptr<MensajeServer>>* snapshots_a_enviar;
     Lobby &lobby;
 
-    Cliente(Socket &peer, Queue<std::shared_ptr<Comando>> &acciones_a_realizar,Lobby &lobby);
+    Cliente(Socket &peer,Lobby &lobby);
 
     void start();
 

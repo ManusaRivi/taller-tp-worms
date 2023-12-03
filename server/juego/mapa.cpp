@@ -142,6 +142,18 @@ void Mapa::Step(int iteracion) {
             }
         }
     }
+    for (auto provision : provisiones) {
+        if (!provision) {
+            continue;
+        }
+        if (provision->usada()) {
+            std::vector<std::shared_ptr<Provision>>::iterator it = std::find(provisiones.begin(), provisiones.end(), provision);
+            if (it != provisiones.end()) {
+                provisiones.erase(it);
+            }
+        }
+
+    }
     if (terminar_espera) {
         turnManager.terminar_espera(worms);
         crear_provisiones();
@@ -222,7 +234,7 @@ void Mapa::cargar_arma(uint32_t id) {
     if (status == BONUS_TURN || status == WAITING) return;
     if (id != turnManager.get_player_actual()) return;
     worms[turnManager.get_gusano_actual()]->iniciar_carga();
-    printf("Se empieza a cargar el arma\n");
+    // printf("Se empieza a cargar el arma\n");
 }
 
 void Mapa::usar_arma(uint32_t id) {
@@ -333,7 +345,7 @@ void Mapa::get_provisiones(std::vector<ProvisionWrapper>& provision_vector) {
         }
         b2Vec2 position = provision->getPosition();
 
-        provision_vector.push_back(ProvisionWrapper(position.x, position.y, provision->getType(), provision->get_id()));
+        provision_vector.push_back(ProvisionWrapper(position.x, position.y, provision->getType(), provision->get_id(), provision->get_estado()));
     }
 }
 

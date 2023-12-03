@@ -134,8 +134,8 @@ void ContactListener::BeginContact(b2Contact* contact) {
         break;
         case WORM_PROVISION:
         {
-            Worm* worm = static_cast<Worm*>(bodyA);
             Provision* provision = static_cast<Provision*>(bodyB);
+            Worm* worm = static_cast<Worm*>(bodyA);
             provision->usar(worm);
         }
         break;

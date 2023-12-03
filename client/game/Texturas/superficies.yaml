@@ -83,7 +83,7 @@
 
 # Provision
 - nombre: Provision
-  ruta: /client/game/Texturas/data/sprites/wcrate1.png
+  ruta: /client/game/Texturas/data/sprites/Provision.png
 
 # Proyectiles
 - nombre: Missile

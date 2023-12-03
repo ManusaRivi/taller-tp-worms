@@ -4,28 +4,20 @@
 #include "partida.h"
 #include "server.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]){
 
     const char* name = "1626";
-    Queue<std::shared_ptr<Comando>> acciones_a_realizar;
-    MapContainer mapas;
-    Lobby lobby(mapas);
-    Aceptador skt(name,acciones_a_realizar,lobby);
+
+    Aceptador skt(name);
     printf("Se abre un server con puerto : %s\n",name);
     skt.start();
 
     ServerMain srvr;
 
     srvr.empezar_server();
-
-    lobby.kill();
     skt.shutdown();
-    //MapContainer mapContainer;
-    //Partida partida;
-    //partida.run();
-    //Box2dPoC poc;
-    //poc.run();
     skt.join();
+    
     printf("Se cierra el server correctamente\n");
     return 0;
 }

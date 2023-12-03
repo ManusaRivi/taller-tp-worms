@@ -17,6 +17,8 @@ enum directions {
     LEFT = 1,
 };
 
+#define MAX_VIDA 150
+
 #define STATUS_MOVING 1
 #define STATUS_IDLE 0
 
@@ -104,6 +106,8 @@ public:
     void kill();
 
     void detener_acciones();
+
+    void sumarVida(int vida);
 
     /* Queries */
 

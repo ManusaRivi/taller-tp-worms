@@ -294,10 +294,12 @@ void ServerProtocolo::enviar_provisiones(std::vector<ProvisionWrapper>& provisio
     enviar_2_byte(cantidad);
     for(auto c : provisiones){
         uint32_t id = c.get_id();
+        uint8_t estado = c.get_estado();
         float x = c.get_x();
         float y = c.get_y();
 
         enviar_4_bytes(id);
+        enviar_1_byte(estado);
         enviar_4_bytes_float(x);
         enviar_4_bytes_float(y);
     }

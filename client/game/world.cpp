@@ -127,6 +127,7 @@ void World::present_hud(Renderer& renderer,
 			);
     
     present_weapon_power(renderer, texture_manager, x_scale, y_scale);
+    if (has_timer) present_timer(renderer, texture_manager, x_scale, y_scale);
 }
 
 void World::present_weapon_power(Renderer& renderer,
@@ -136,11 +137,11 @@ void World::present_weapon_power(Renderer& renderer,
     SDL_Rect power;
     SDL_Rect border;
 	border.w = renderer.GetOutputWidth()/2 - 1*x_scale;
-	border.h = 1*y_scale;
+	border.h = POWER_HEIGHT * y_scale;
 	border.x = renderer.GetOutputWidth()/2 + x_scale;
 	border.y = 0;
 
-    power.w = (renderer.GetOutputWidth()/2 - 1*x_scale)* weapon_power / 40 ;
+    power.w = (renderer.GetOutputWidth()/2 - 1*x_scale)* weapon_power / MAX_POWER ;
 	power.h = 1*y_scale;
 	power.x = renderer.GetOutputWidth()/2 + x_scale;
 	power.y = 0;
@@ -154,6 +155,28 @@ void World::present_weapon_power(Renderer& renderer,
     // Dibuja el borde
 	SDL_SetRenderDrawColor(renderer.Get(), border_color.r, border_color.g, border_color.b, border_color.a);
 	SDL_RenderDrawRect(renderer.Get(), &border);
+}
+
+void World::present_timer(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale) {
+    TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
+    SDL_Color timerColor = {255, 255, 255, 255};
+    std::string time = std::to_string(timer);
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, time.c_str(), timerColor);
+    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer.Get(), textSurface);
+
+    SDL_Rect textRect;
+    textRect.x = renderer.GetOutputWidth()/2 + x_scale;
+    textRect.y = 2*y_scale;
+    textRect.w = (textSurface->w) * 0.04 * x_scale;
+    textRect.h = (textSurface->h) * 0.04 * y_scale;
+
+    SDL_RenderCopy(renderer.Get(), textTexture, nullptr, &textRect);
+
+    SDL_RenderPresent(renderer.Get());
+
 }
 
 void World::present(int& it_inc,

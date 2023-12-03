@@ -23,6 +23,9 @@
 #define HUD_SPRITE_WIDTH 320
 #define HUD_SPRITE_HEIGHT 64
 
+#define POWER_HEIGHT 1
+#define MAX_POWER 40
+
 class World {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
@@ -73,6 +76,11 @@ class World {
                         float& y_scale);
     
     void present_weapon_power(Renderer& Renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale);
+
+    void present_timer(Renderer& Renderer,
                             TextureManager& texture_manager,
                             float& x_scale,
                             float& y_scale);

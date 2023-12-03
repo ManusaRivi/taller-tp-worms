@@ -123,26 +123,20 @@ void ContactListener::BeginContact(b2Contact* contact) {
             }
         }
         break;
-        case PROVISION_VIGA:
-        {
-            //Provision* provision = static_cast<Provision*>(bodyA);
-            //provision->startGroundContact();
-        }
-        break;
-        case VIGA_PROVISION:
-        {
-            //Provision* provision = static_cast<Provision*>(bodyB);
-            //provision->startGroundContact();
-        }
-        break;
+        case PROVISION_VIGA: break;
+        case VIGA_PROVISION: break;
         case PROVISION_WORM:
         {
-
+            Provision* provision = static_cast<Provision*>(bodyA);
+            Worm* worm = static_cast<Worm*>(bodyB);
+            provision->usar(worm);
         }
         break;
         case WORM_PROVISION:
         {
-
+            Worm* worm = static_cast<Worm*>(bodyA);
+            Provision* provision = static_cast<Provision*>(bodyB);
+            provision->usar(worm);
         }
         break;
         case PROVISION_WATER: break;

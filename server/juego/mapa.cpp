@@ -50,16 +50,54 @@ void Mapa::Load_Map_File(std::string filepath) {
 
 void Mapa::crear_provisiones() {
     GameConfig& config = GameConfig::getInstance();
-    int num_healing = rand() % MAX_PROVISIONS;
-    int num_ammo = rand() % MAX_PROVISIONS;
-    for (auto i = 0; i < num_healing; ++i) {
-        float x_pos = rand() % MAX_PROVISION_X_POS;
-        provisiones.push_back(std::make_shared<VidaServer> (world, this->identificador_entidades++, x_pos, PROVISION_HEIGHT, config.provision_healing));
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(0,MAX_PROVISIONS); // distribution in range [1, 6]
+    int numero_de_provisiones = dist6(rng);
+    // int num_healing = rand() % MAX_PROVISIONS;
+    // int num_ammo = rand() % MAX_PROVISIONS;
+
+    
+    for (auto i = 0; i < numero_de_provisiones; ++i) {
+        std::default_random_engine gen;
+        std::uniform_real_distribution<float> distribution(0.0,
+                                                   1.0);
+        float proba = distribution(gen);
+        if(proba < 0.3){
+            provisiones.push_back(std::make_shared<Municion> (world, this->identificador_entidades++, obtener_posicion_random(), PROVISION_HEIGHT));
+        }
+        else{
+            provisiones.push_back(std::make_shared<VidaServer> (world, this->identificador_entidades++, obtener_posicion_random(), PROVISION_HEIGHT, config.provision_healing));
+        }
+        
     }
-    for (auto i = 0; i < num_ammo; ++i) {
-        float x_pos = rand() % MAX_PROVISION_X_POS;
-        provisiones.push_back(std::make_shared<Municion> (world, this->identificador_entidades++, x_pos, PROVISION_HEIGHT));
-    }
+
+}
+
+float Mapa::obtener_posicion_random(){
+    std::vector<std::shared_ptr<BeamServer>> viga_seleccionada;
+    std::sample(
+        vigas.begin(),
+        vigas.end(),
+        std::back_inserter(viga_seleccionada),
+        1,
+        std::mt19937{std::random_device{}()}
+    );
+    std::shared_ptr<BeamServer> viga = viga_seleccionada[0];
+    std::vector<float> pos = viga->get_pos();
+    float rango_minimo = std::min(pos[0] + pos[3]/2*std::cos(pos[2]),pos[0] - pos[3]/2*std::cos(pos[2]));
+    float rango_maximo = std::max(pos[0] + pos[3]/2*std::cos(pos[2]),pos[0] - pos[3]/2*std::cos(pos[2]));
+    std::random_device rd;
+    std::mt19937 e2(rd());
+    std::uniform_real_distribution<> dist(rango_minimo, rango_maximo);
+    return dist(e2);
+}
+
+bool Mapa::crear_provisiones_en_turno(){
+    std::default_random_engine gen;
+    std::uniform_real_distribution<float> distribution(0.0,
+                                                   1.0);
+    return (distribution(gen) < PROBABILDAD_DE_CREAR_PROVISIONES);                                    
 }
 
 void Mapa::Step(int iteracion) {
@@ -163,7 +201,7 @@ void Mapa::Step(int iteracion) {
     if (terminar_espera) {
         bool paso_de_turno = false;
         turnManager.terminar_espera(worms,paso_de_turno);
-        if(paso_de_turno){
+        if(paso_de_turno && crear_provisiones_en_turno()){
             printf("Se crean provisiones\n");
             crear_provisiones();
         }

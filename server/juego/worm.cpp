@@ -8,7 +8,7 @@ union BodyUserData {
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
             Colisionable(bodyType::WORM), coleccionArmas(std::make_unique<ColeccionArmas>(world)),
             armaActual(nullptr), facingDirection(direction), status(WormStates::IDLE), id(id_),
-            angulo_disparo(0.0f), hitPoints(hitPoints), numBeamContacts(0), initialHeight(0.0f), finalHeight(0.0f),
+            angulo_disparo(0.0f), hitPoints(hitPoints), maxHealth(hitPoints), numBeamContacts(0), initialHeight(0.0f), finalHeight(0.0f),
             airborne(false), moving(false), apuntando(false), x_target(0), y_target(0), jumpSteps(0)
 {
     b2BodyDef gusanoDef;
@@ -186,6 +186,16 @@ void Worm::takeDamage(int damage) {
     if(hitPoints <= 0){
         hitPoints = 0;
     }
+}
+
+void Worm::heal(int hit_points) {
+    hitPoints += hit_points;
+    if (hitPoints > maxHealth)
+        hitPoints = maxHealth;
+}
+
+void Worm::reload_weapons() {
+    coleccionArmas->recargar_armas();
 }
 
 void Worm::kill() {

@@ -45,7 +45,21 @@ void Mapa::Load_Map_File(std::string filepath) {
     }
     turnManager.cargar_cantidad_gusanos(worms.size());
 
-    provisiones.push_back(std::make_shared<VidaServer>(world, 1, 10.0, 20.0));
+    provisiones.push_back(std::make_shared<VidaServer>(world, 1, 10.0, 20.0, config.provision_healing));
+}
+
+void Mapa::crear_provisiones() {
+    GameConfig& config = GameConfig::getInstance();
+    int num_healing = rand() % MAX_PROVISIONS;
+    int num_ammo = rand() % MAX_PROVISIONS;
+    for (auto i = 0; i < num_healing; ++i) {
+        float x_pos = rand() % MAX_PROVISION_X_POS;
+        provisiones.push_back(std::make_shared<VidaServer> (world, this->identificador_entidades++, x_pos, PROVISION_HEIGHT, config.provision_healing));
+    }
+    for (auto i = 0; i < num_ammo; ++i) {
+        float x_pos = rand() % MAX_PROVISION_X_POS;
+        provisiones.push_back(std::make_shared<Municion> (world, this->identificador_entidades++, x_pos, PROVISION_HEIGHT));
+    }
 }
 
 void Mapa::Step(int iteracion) {
@@ -130,6 +144,7 @@ void Mapa::Step(int iteracion) {
     }
     if (terminar_espera) {
         turnManager.terminar_espera(worms);
+        crear_provisiones();
     }
     turnManager.avanzar_tiempo(iteracion, worms);
     world.Step(timeStep, velocityIterations, positionIterations);

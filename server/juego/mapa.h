@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include <queue>
+#include <cstdlib>
 
 #include "./game_config.h"
 #include "../worm_wrapper.h"
@@ -22,9 +23,14 @@
 #include "./proyectiles/grenade.h"
 #include "./provisiones/provision.h"
 #include "./provisiones/vida.h"
+#include "./provisiones/municion.h"
 #include "./water.h"
 #include "./contact_listener.h"
 #include "turn_manager.h"
+
+#define MAX_PROVISIONS 5
+#define PROVISION_HEIGHT 30.0f
+#define MAX_PROVISION_X_POS 40
 
 // Copyright (c) 2019 Erin Catto
 
@@ -49,7 +55,7 @@ private:
     TurnManager turnManager;
     uint32_t identificador_entidades;
 
-
+    void crear_provisiones();
 public:
     explicit Mapa(std::string map_filepath);
     void Load_Map_File(std::string filepath);

@@ -325,6 +325,7 @@ bool Worm::usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint
     if (tipo == TELETRANSPORTACION) {
         sounds.push(SoundTypes::TELEPORT);
         body->SetTransform(b2Vec2 (x_target, y_target), body->GetAngle());
+        body->SetAwake(true);
         return true;
     }
     b2Vec2 position = body->GetPosition();

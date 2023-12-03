@@ -11,6 +11,7 @@
 #include "comunicacion/projectile.h"
 #include "comunicacion/explosion.h"
 #include "Sonidos/sound_manager.h"
+#include "../../common/armas.h"
 
 #define BACKGROUND_WIDTH 576
 #define BACKGROUND_HEIGHT 324
@@ -96,6 +97,11 @@ class World {
                             float& y_scale,
                             float& camera_x,
                             float& camera_y);
+
+    void present_ammo(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale);
 
     public:
     World(float map_width, float map_height);

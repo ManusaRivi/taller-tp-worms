@@ -128,6 +128,7 @@ void World::present_hud(Renderer& renderer,
     
     present_weapon_power(renderer, texture_manager, x_scale, y_scale);
     if (has_timer) present_timer(renderer, texture_manager, x_scale, y_scale);
+    present_ammo(renderer, texture_manager, x_scale, y_scale);
 }
 
 void World::present_weapon_power(Renderer& renderer,
@@ -163,7 +164,7 @@ void World::present_timer(Renderer& renderer,
                             float& y_scale) {
     TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
     SDL_Color timerColor = {255, 255, 255, 255};
-    std::string time = "¡Explosion en " + std::to_string(timer) + " segundos!";
+    std::string time = "Explosion en " + std::to_string(timer) + " segundos";
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, time.c_str(), timerColor);
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer.Get(), textSurface);
 
@@ -176,6 +177,9 @@ void World::present_timer(Renderer& renderer,
     SDL_RenderCopy(renderer.Get(), textTexture, nullptr, &textRect);
 
     SDL_RenderPresent(renderer.Get());
+
+    TTF_CloseFont(font);
+    SDL_DestroyTexture(textTexture);
 
 }
 
@@ -206,6 +210,58 @@ void World::present_sight(Renderer& renderer,
 				SDL_FLIP_NONE        // Flip
 			);
 }
+
+void World::present_ammo(Renderer& renderer,
+                         TextureManager& texture_manager,
+                         float& x_scale,
+                         float& y_scale) {
+    TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
+
+    SDL_Color ammoColor = {255, 255, 255, 255};
+    SDL_Color back_color = {0, 0, 0, 255};
+
+    std::vector<SDL_Texture*> textTextures;
+    std::vector<SDL_Rect> textRects;
+    for (int i = 0; i < 10; i++) {
+        std::string time = std::to_string(ammo[i]);
+        SDL_Surface* textSurface = TTF_RenderText_Solid(font, time.c_str(), ammoColor);
+
+        SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer.Get(), textSurface);
+        SDL_FreeSurface(textSurface);
+
+        textTextures.push_back(textTexture);
+
+        SDL_Rect textRect;
+        textRect.w = static_cast<int>(textSurface->w * 0.02 * x_scale);
+        textRect.h = static_cast<int>(textSurface->h * 0.02 * y_scale);
+        textRect.x = static_cast<int>(i * 1.635 * x_scale + 0.1 * x_scale);
+        textRect.y = static_cast<int>(0.1 * y_scale);
+
+        textRects.push_back(textRect);
+    }
+
+    for (size_t i = 0; i < textTextures.size(); i++) {
+        SDL_Rect back;
+        back.w = textRects[i].w;
+        back.h = textRects[i].h;
+        back.x = textRects[i].x;
+        back.y = textRects[i].y;
+
+        SDL_SetRenderDrawColor(renderer.Get(), back_color.r, back_color.g, back_color.b, back_color.a);
+        SDL_RenderFillRect(renderer.Get(), &back);
+
+        SDL_RenderCopy(renderer.Get(), textTextures[i], nullptr, &textRects[i]);
+    }
+
+    // Liberar recursos
+    TTF_CloseFont(font);
+
+    // Limpiar texturas
+    for (SDL_Texture* texture : textTextures) {
+        SDL_DestroyTexture(texture);
+    }
+}
+
 
 void World::present(int& it_inc,
                         Renderer& renderer,

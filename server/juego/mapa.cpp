@@ -45,7 +45,7 @@ void Mapa::Load_Map_File(std::string filepath) {
     }
     turnManager.cargar_cantidad_gusanos(worms.size());
 
-    provisiones.push_back(std::make_shared<VidaServer>(world, 1, 16.0, 12.0)); // PROVISION HARDCODEADA
+    provisiones.push_back(std::make_shared<VidaServer>(world, 1, 24.0, 33.0)); // PROVISION HARDCODEADA
 }
 
 void Mapa::Step(int iteracion) {

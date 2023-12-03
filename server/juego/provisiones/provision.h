@@ -48,9 +48,8 @@ public:
         return taken;
     }
 
-    std::vector<float> getPosition() {
-        b2Vec2 position = body->GetPosition();
-        return std::vector<float> {position.x, position.y};
+    b2Vec2 getPosition() {
+        return body->GetPosition();
     }
 
     uint32_t get_id(){
@@ -58,6 +57,10 @@ public:
     }
 
     virtual void usar(Worm* interactor) = 0;
+
+    Provision(const Provision&) = delete;
+
+    Provision& operator=(const Provision&) = delete;
 
     virtual ~Provision() {
         body->GetWorld()->DestroyBody(body);

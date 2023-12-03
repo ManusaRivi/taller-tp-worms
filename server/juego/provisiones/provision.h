@@ -21,6 +21,7 @@ protected:
 public:
     Provision(b2World& world, ProvisionType type, uint32_t id, float x_pos, float y_pos) : Colisionable(bodyType::PROVISION), world(world), type(type), id(id) {
         b2BodyDef provisionDef;
+        provisionDef.type = b2_dynamicBody;
         provisionDef.position.Set(x_pos, y_pos);
         provisionDef.userData.pointer = reinterpret_cast<uintptr_t> (this);
         b2Body* provision = world.CreateBody(&provisionDef);

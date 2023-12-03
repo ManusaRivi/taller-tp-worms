@@ -69,6 +69,10 @@
 - nombre: HUDWeapons
   ruta: /client/game/Texturas/data/sprites/HUDWeapons.png
 
+# Mira
+- nombre: Sight
+  ruta: /client/game/Texturas/data/sprites/sight.png
+
 # Fondo
 - nombre: Background
   ruta: /client/game/Texturas/data/sprites/Background.png

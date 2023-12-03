@@ -163,7 +163,7 @@ void World::present_timer(Renderer& renderer,
                             float& y_scale) {
     TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
     SDL_Color timerColor = {255, 255, 255, 255};
-    std::string time = std::to_string(timer);
+    std::string time = "¡Explosion en " + std::to_string(timer) + " segundos!";
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, time.c_str(), timerColor);
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer.Get(), textSurface);
 
@@ -177,6 +177,34 @@ void World::present_timer(Renderer& renderer,
 
     SDL_RenderPresent(renderer.Get());
 
+}
+
+void World::present_sight(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& pos_x,
+                            float& pos_y,
+                            float& x_scale,
+                            float& y_scale,
+                            float& camera_x,
+                            float& camera_y) {
+    // Busco textura
+    std::string texture_name("Sight");
+    Texture& sight_tex = texture_manager.get_texture(texture_name);
+
+    float pos_rel_x = pos_x - camera_x;
+    float pos_rel_y = _map_height - pos_y - camera_y;
+
+    //Grafico
+    sight_tex.SetAlphaMod(255);
+    renderer.Copy(sight_tex,
+				Rect(0, 0, SIGHT_SPRITE_DIAMETER, SIGHT_SPRITE_DIAMETER), // El sprite
+				Rect(static_cast<int>((pos_rel_x - SIGHT_DIAMETER * 0.5) * x_scale),
+                        static_cast<int>((pos_rel_y - SIGHT_DIAMETER * 0.5) * y_scale),
+                        SIGHT_DIAMETER * x_scale, SIGHT_DIAMETER * y_scale), // Donde lo grafico
+				0.0,        // Angulo
+				NullOpt,
+				SDL_FLIP_NONE        // Flip
+			);
 }
 
 void World::present(int& it_inc,
@@ -256,6 +284,10 @@ void World::present(int& it_inc,
 
     // Grafico HUD
     present_hud(renderer, texture_manager, x_scale, y_scale);
+
+    // Grafico mira
+    if (has_tp) present_sight(renderer, texture_manager, tp_x, tp_y, x_scale, y_scale, camera_x, camera_y);
+    else if (has_air_attack) present_sight(renderer, texture_manager, air_attack_x, air_attack_y, x_scale, y_scale, camera_x, camera_y);
 
     // Reproduzco sonidos
     while (!sonidos.empty()) {

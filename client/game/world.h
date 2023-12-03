@@ -26,6 +26,9 @@
 #define POWER_HEIGHT 1
 #define MAX_POWER 40
 
+#define SIGHT_DIAMETER 1
+#define SIGHT_SPRITE_DIAMETER 32
+
 class World {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
@@ -70,20 +73,29 @@ class World {
                         float& camera_x,
                         float& camera_y);   
 
-    void present_hud(Renderer& Renderer,
+    void present_hud(Renderer& renderer,
                         TextureManager& texture_manager,
                         float& x_scale,
                         float& y_scale);
     
-    void present_weapon_power(Renderer& Renderer,
+    void present_weapon_power(Renderer& renderer,
                             TextureManager& texture_manager,
                             float& x_scale,
                             float& y_scale);
 
-    void present_timer(Renderer& Renderer,
+    void present_timer(Renderer& renderer,
                             TextureManager& texture_manager,
                             float& x_scale,
                             float& y_scale);
+
+    void present_sight(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& pos_x,
+                            float& pos_y,
+                            float& x_scale,
+                            float& y_scale,
+                            float& camera_x,
+                            float& camera_y);
 
     public:
     World(float map_width, float map_height);

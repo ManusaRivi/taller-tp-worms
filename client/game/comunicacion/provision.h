@@ -16,9 +16,10 @@ class ProvisionClient {
     float _pos_x;
     float _pos_y;
     uint32_t id;
+    uint8_t estado;
 
     public:
-    ProvisionClient(float& pos_x, float& pos_y, uint32_t id_);
+    ProvisionClient(float& pos_x, float& pos_y, uint32_t id_, uint8_t estado_);
     void present(SDL2pp::Renderer& renderer,
                     TextureManager& texture_manager,
                     float& map_height,
@@ -26,7 +27,7 @@ class ProvisionClient {
                     float& camera_x, float& camera_y);
 
     int get_id();
-
+    uint8_t get_estado();
     float get_x();
     float get_y();
 

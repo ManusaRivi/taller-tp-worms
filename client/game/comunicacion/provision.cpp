@@ -1,7 +1,7 @@
 #include "provision.h"
 
-ProvisionClient::ProvisionClient(float& pos_x, float& pos_y, uint32_t id_):
-                        _pos_x(pos_x), _pos_y(pos_y), id(id_) {}
+ProvisionClient::ProvisionClient(float& pos_x, float& pos_y, uint32_t id_, uint8_t estado_):
+                        _pos_x(pos_x), _pos_y(pos_y), id(id_), estado(estado_) {}
 
 int ProvisionClient::get_id() {
     return id;
@@ -13,6 +13,10 @@ float ProvisionClient::get_x() {
 
 float ProvisionClient::get_y() {
     return _pos_y;
+}
+
+uint8_t ProvisionClient::get_estado() {
+    return estado;
 }
 
 void ProvisionClient::update(ProvisionClient other) {

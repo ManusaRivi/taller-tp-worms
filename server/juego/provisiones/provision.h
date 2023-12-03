@@ -5,9 +5,13 @@
 #include "../../../../common/provision_types.h"
 #include "../collision_categories.h"
 #include "../colisionable.h"
+#include "../worm.h"
 
 #define PROVISION_HEIGHT_SERVER 1
 #define PROVISION_WIDTH_SERVER  1
+
+#define USADA       1
+#define NO_USADA    0
 
 class Provision : public Colisionable 
 {
@@ -40,18 +44,23 @@ public:
     ProvisionType getType() {
         return type;
     }
-    virtual bool hasBeenTaken() {
-        return taken;
-    }
 
     virtual b2Vec2 getPosition() {
         return body->GetPosition();
     }
 
-    virtual void usar() = 0;
+    virtual void usar(Worm*) = 0;
 
-    uint32_t get_id(){
+    uint32_t get_id() {
         return this->id;
+    }
+
+    uint8_t get_estado() {
+        return taken == true ? USADA : NO_USADA;
+    }
+
+    bool usada() {
+        return taken;
     }
 
     virtual ~Provision() {

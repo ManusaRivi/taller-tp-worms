@@ -9,6 +9,7 @@ std::vector<float> VidaServer::get_pos() {
      return vida;
 }
 
-void VidaServer::usar() {
-
+void VidaServer::usar(Worm* worm) {
+     this->taken = true;
+     worm->sumarVida(VIDA_EXTRA);
 }

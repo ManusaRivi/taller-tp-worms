@@ -45,7 +45,7 @@ void Mapa::Load_Map_File(std::string filepath) {
     }
     turnManager.cargar_cantidad_gusanos(worms.size());
 
-    provisiones.push_back(std::make_shared<VidaServer>(world, 1, 10.0, 20.0));
+    provisiones.push_back(std::make_shared<VidaServer>(world, 1, 16.0, 12.0)); // PROVISION HARDCODEADA
 }
 
 void Mapa::Step(int iteracion) {
@@ -127,6 +127,18 @@ void Mapa::Step(int iteracion) {
                 grenade->advance_time();
             }
         }
+    }
+    for (auto provision : provisiones) {
+        if (!provision) {
+            continue;
+        }
+        if (provision->usada()) {
+            std::vector<std::shared_ptr<Provision>>::iterator it = std::find(provisiones.begin(), provisiones.end(), provision);
+            if (it != provisiones.end()) {
+                provisiones.erase(it);
+            }
+        }
+
     }
     if (terminar_espera) {
         turnManager.terminar_espera(worms);
@@ -318,7 +330,7 @@ void Mapa::get_provisiones(std::vector<ProvisionWrapper>& provision_vector) {
         }
         b2Vec2 position = provision->getPosition();
 
-        provision_vector.push_back(ProvisionWrapper(position.x, position.y, provision->getType(), provision->get_id()));
+        provision_vector.push_back(ProvisionWrapper(position.x, position.y, provision->getType(), provision->get_id(), provision->get_estado()));
     }
 }
 

@@ -13,7 +13,7 @@ CollisionType ContactListener::getCollisionType(Colisionable* bodyA, Colisionabl
     if (tipoA == bodyType::WATER && tipoB == bodyType::PROJECTILE) return CollisionType::WATER_PROJECTILE;
     if (tipoA == bodyType::PROJECTILE && tipoB == bodyType::WATER) return CollisionType::PROJECTILE_WATER;
     if (tipoA == bodyType::WORM && tipoB == bodyType::PROVISION) return CollisionType::WORM_PROVISION;
-    if (tipoA == bodyType::PROVISION && tipoB == bodyType::WATER) return CollisionType::PROVISION_WORM;
+    if (tipoA == bodyType::PROVISION && tipoB == bodyType::WORM) return CollisionType::PROVISION_WORM;
     if (tipoA == bodyType::PROVISION && tipoB == bodyType::BEAM) return CollisionType::PROVISION_VIGA;
     if (tipoA == bodyType::BEAM && tipoB == bodyType::PROVISION) return CollisionType::VIGA_PROVISION;
     return CollisionType::VIGA_PROYECTIL;
@@ -135,12 +135,16 @@ void ContactListener::BeginContact(b2Contact* contact) {
         break;
         case PROVISION_WORM:
         {
-
+            Provision* provision = static_cast<Provision*>(bodyA);
+            Worm* worm = static_cast<Worm*>(bodyB);
+            provision->usar(worm);
         }
         break;
         case WORM_PROVISION:
         {
-
+            Provision* provision = static_cast<Provision*>(bodyB);
+            Worm* worm = static_cast<Worm*>(bodyA);
+            provision->usar(worm);
         }
         break;
     }

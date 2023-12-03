@@ -11,6 +11,7 @@
 #include "camara.h"
 #include "comunicacion/projectile.h"
 #include "comunicacion/explosion.h"
+#include "comunicacion/provision.h"
 #include "Sonidos/sound_manager.h"
 
 #define BACKGROUND_WIDTH 576
@@ -83,6 +84,8 @@ class World {
     void add_beam(Beam beam);
 
     void add_projectile(std::unique_ptr<ProjectileClient> projectile);
+
+    void add_provision(ProvisionClient provision);
 
     std::vector<int> get_projectile_ids();
 

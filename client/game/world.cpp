@@ -26,6 +26,10 @@ void World::add_explosion(ExplosionCliente explosion) {
     explosions.emplace(explosion.get_id(), explosion);
 }
 
+void World::add_provision(ProvisionClient provision) {
+    provisiones.emplace(provision.get_id(), provision);
+}
+
 void World::update_camera(int id_camera) {
     _id_camera = id_camera;
 }

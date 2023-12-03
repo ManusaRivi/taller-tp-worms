@@ -42,6 +42,10 @@ void SnapshotCliente::apply_to_world(World& world) {
     for (auto& e: explosiones) {
         world.add_explosion(e);
     }
+    // Actualizo provisiones
+    for (auto& p: provisiones) {
+        world.add_provision(p);
+    }
 
     while (!sonidos.empty()) {
         world.add_sound(sonidos.back());

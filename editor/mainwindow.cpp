@@ -158,7 +158,7 @@ void MainWindow::exportarMapa() {
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
         emitter << YAML::Key << "pos_x" << YAML::Value << (posicion.x() + boundingRect.width()/2) / largo * scale - offset;
         emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y() + boundingRect.height()/2) / 20 - boundingRect.height() / largo * scale * sin(this->angulos[i]);
-        emitter << YAML::Key << "angulo" << YAML::Value << this->angulos[i];
+        emitter << YAML::Key << "angulo" << YAML::Value << 360.0 - this->angulos[i];
         emitter << YAML::EndMap;
         i++;
     }

@@ -1,0 +1,21 @@
+nombre: testingEditor
+vigas:
+  - tipo: larga
+    pos_x: 24.739130434782609
+    pos_y: 24.666160240509299
+    angulo: 360
+  - tipo: larga
+    pos_x: 19.717391304347828
+    pos_y: 28.921524972589989
+    angulo: 315
+  - tipo: larga
+    pos_x: 15.456521739130435
+    pos_y: 33.871524972589988
+    angulo: 315
+gusanos:
+  - pos_x: 26.891304347826086
+    pos_y: 27.199999999999999
+    direccion: 0
+  - pos_x: 22.84782608695652
+    pos_y: 27.050000000000001
+    direccion: 0

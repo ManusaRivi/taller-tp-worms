@@ -49,6 +49,9 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
 
 void Worm::StartMovement(int dir) {
     if (this->isAirborne()) return;
+    if(armaActual){
+        return;
+    }
     facingDirection = dir;
     moving = true;
 }
@@ -380,7 +383,7 @@ void Worm::esta_apuntando_para(bool id){
 }
 
 void Worm::incrementar_angulo_en(float inc){
-    printf("Se incrementa el angulo\n");
+    // printf("Se incrementa el angulo\n");
     if(!esta_apuntando_para_arriba){
         inc = -inc;
     }
@@ -408,7 +411,7 @@ void Worm::set_grenade_timer(int seconds) {
 
 void Worm::parar_angulo(){
     apuntando = false;
-    printf("El ultimo angulo de apuntado es %f\n",this->get_aiming_angle());
+    // printf("El ultimo angulo de apuntado es %f\n",this->get_aiming_angle());
 }
 
 /*

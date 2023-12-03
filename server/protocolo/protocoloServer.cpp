@@ -26,7 +26,7 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id){
         }
         case(CODIGO_CAMBIAR_ANGULO):{
             uint8_t dir = recibir_1_byte();
-            printf("Cambiar Angul con direccion = %u\n",dir);
+            // printf("Cambiar Angul con direccion = %u\n",dir);
             comando = factory.comando_cambiar_angulo(id,dir);
             break;
         }
@@ -47,7 +47,7 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id){
             break;
         }
         case(CODIGO_DETENER_CAMBIO_ANGULO):{
-            printf("Se recibe codigo para detener el cambio de angulo\n");
+            // printf("Se recibe codigo para detener el cambio de angulo\n");
             comando = factory.comando_detener_angulo(id);
             break;
         }

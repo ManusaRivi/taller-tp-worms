@@ -51,7 +51,7 @@ private:
     uint8_t status;
     uint32_t id;
     float angulo_disparo;
-    uint8_t hitPoints;
+    int hitPoints;
     /* info tecnica */
     int numBeamContacts;
     float initialHeight;

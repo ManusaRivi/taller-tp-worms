@@ -54,6 +54,7 @@ void Mapa::Step(int iteracion) {
     auto it = worms.begin();
     while (it != worms.end()) {
         if ((*it)->isDead() && (*it)->get_status() != WormStates::DEAD) {
+            // printf("Se murio un gusano\n");
             (*it)->kill();
             this->turnManager.pasar_turno_si_muerto(idx,worms);
             // it = worms.erase(it);
@@ -195,8 +196,9 @@ void Mapa::apuntar_para(uint32_t id, int dir){
     // printf("el status del worm es : %i\n",status);
     // printf("El id es %u   y el player actual es %u\n",id,turnManager.get_player_actual());
     if (status == BONUS_TURN || status == WAITING) return;
-    
+    // printf("El Player que pide aumentar el angulo es %u   y el ID el player actual es %u\n", id,turnManager.get_player_actual());
     if(id != turnManager.get_player_actual()) return;
+    // printf("Y es permitido cambiar el angulo\n");
     worms[turnManager.get_gusano_actual()]->esta_apuntando_para(dir);
 }
 
@@ -204,7 +206,7 @@ void Mapa::cargar_arma(uint32_t id) {
     GameStates status = turnManager.get_state();
     if (status == BONUS_TURN || status == WAITING) return;
     if (id != turnManager.get_player_actual()) return;
-    worms[id]->iniciar_carga();
+    worms[turnManager.get_player_actual()]->iniciar_carga();
     printf("Se empieza a cargar el arma\n");
 }
 
@@ -215,7 +217,7 @@ void Mapa::usar_arma(uint32_t id) {
     if(worms[turnManager.get_gusano_actual()]->usar_arma(projectiles, this->identificador_entidades)){
         turnManager.activar_bonus_turn();
         worms[turnManager.get_gusano_actual()]->Stop();
-        printf("Se dispara el arma\n");
+        // printf("Se dispara el arma\n");
     }
 
 }
@@ -224,7 +226,7 @@ void Mapa::set_grenade_time(uint32_t id, int seconds) {
     GameStates status = turnManager.get_state();
     if (status == BONUS_TURN || status == WAITING) return;
     if (id != turnManager.get_player_actual()) return;
-    worms[id]->set_grenade_timer(seconds);
+    worms[turnManager.get_gusano_actual()]->set_grenade_timer(seconds);
 }
 
 void Mapa::set_target(uint32_t id, float x, float y) {
@@ -242,7 +244,7 @@ void Mapa::detener_angulo(uint32_t id){
 }
 
 void Mapa::detener_worm(uint32_t id){
-    worms[id]->detener_acciones();
+    worms[turnManager.get_gusano_actual()]->detener_acciones();
 }
 
 /*

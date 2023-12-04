@@ -63,6 +63,7 @@ private:
     bool moving;
     bool esta_apuntando_para_arriba;
     bool apuntando;
+    bool tomoDmgEsteTurno;
     float x_target;
     float y_target;
     float dead_posiiton_x;
@@ -121,7 +122,9 @@ public:
 
     bool esta_quieto();
 
-    /* Combate */
+    bool tomo_dmg_este_turno();
+
+    /* Combate / Setters */
 
     void cambiar_arma(uint8_t tipo_arma);
 
@@ -132,6 +135,8 @@ public:
     bool usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id);
 
     void esta_apuntando_para(bool dir);
+
+    void resetear_dmg();
 
     void incrementar_angulo_en(float inc);
 

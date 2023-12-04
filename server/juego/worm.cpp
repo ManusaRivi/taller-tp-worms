@@ -9,11 +9,10 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
             Colisionable(bodyType::WORM), coleccionArmas(std::make_unique<ColeccionArmas>(world)),
             armaActual(nullptr), facingDirection(direction), status(WormStates::IDLE), id(id_),
             angulo_disparo(0.0f), hitPoints(hitPoints), maxHealth(hitPoints), numBeamContacts(0), initialHeight(0.0f), finalHeight(0.0f),
-            airborne(false), moving(false), apuntando(false), x_target(0), y_target(0), jumpSteps(0)
+            airborne(false), moving(false), apuntando(false), tomoDmgEsteTurno(false), x_target(0), y_target(0), jumpSteps(0)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
-    // printf("La posicion en el constructo es %f  %f\n",x_pos,y_pos);
     gusanoDef.position.Set(x_pos, y_pos);
 
     BodyUserData userData;
@@ -40,7 +39,6 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     this->body->SetFixedRotation(true); // Evita que rote
 
     this->body->CreateFixture(&fixtureGusano);
-    // printf("luego de crearle las fixtures la posicion del gusano es %f   %f\n", body->GetPosition().x, body->GetPosition().y);
 }
 
 /*
@@ -99,7 +97,6 @@ void Worm::JumpForward() {
             break;
     }
     body->SetLinearVelocity(velocity);
-    //state = WormStates::JUMP;
 }
 
 void Worm::JumpBackward() {
@@ -120,7 +117,6 @@ void Worm::JumpBackward() {
             break;
     }
     body->SetLinearVelocity(velocity);
-    //state = WormStates::BACKFLIP;
 }
 
 void Worm::cambiar_direccion(uint8_t dir){
@@ -129,17 +125,15 @@ void Worm::cambiar_direccion(uint8_t dir){
     }
     switch (dir)
     {
-    case (RIGHT):
+        case (RIGHT):
         {
-            // printf("Se recibe comando cambiar_direccion a derecha\n");
             this->facingDirection = RIGHT;
             break;
         }
-    case (LEFT):{
-        // printf("Se recibe comando cambiar direccino a izquerda\n");
-        this->facingDirection = LEFT;
-        break;
-    }
+        case (LEFT):{
+            this->facingDirection = LEFT;
+            break;
+        }
     }
 }
 
@@ -182,6 +176,7 @@ void Worm::startWaterContact() {
 
 void Worm::takeDamage(int damage) {
     sounds.push(SoundTypes::HURT_WORM);
+    tomoDmgEsteTurno = true;
     hitPoints -= damage;
     if(hitPoints <= 0){
         hitPoints = 0;
@@ -252,6 +247,8 @@ bool Worm::esta_quieto() {
     return (velocity.x == 0 && velocity.y == 0);
 }
 
+bool Worm::tomo_dmg_este_turno() { return tomoDmgEsteTurno; }
+
 /*
  * Metodos de combate de gusano.
  * */
@@ -316,21 +313,13 @@ void Worm::iniciar_carga() {
 }
 
 void Worm::cargar_arma(){
-    if(this->isDead()){
-        return;
-    }
-    if(!this->armaActual){
-        // printf("no tiene un arma\n");
-        return;
-    }
+    if(this->isDead()) return;
+    if(!this->armaActual) return;
     this->armaActual->cargar();
 }
 
 bool Worm::usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id) {
-    if(!armaActual || this->isDead()){
-        printf("Not tiene arma\n");
-        return false;
-    }
+    if(!armaActual || this->isDead()) return false;
     Armas tipo = armaActual->obtenerTipo();
     if (tipo == TELETRANSPORTACION) {
         sounds.push(SoundTypes::TELEPORT);
@@ -393,8 +382,11 @@ void Worm::esta_apuntando_para(bool id){
     this->esta_apuntando_para_arriba = id;
 }
 
+void Worm::resetear_dmg() {
+    tomoDmgEsteTurno = false;
+}
+
 void Worm::incrementar_angulo_en(float inc){
-    // printf("Se incrementa el angulo\n");
     if(!esta_apuntando_para_arriba){
         inc = -inc;
     }
@@ -422,7 +414,6 @@ void Worm::set_grenade_timer(int seconds) {
 
 void Worm::parar_angulo(){
     apuntando = false;
-    // printf("El ultimo angulo de apuntado es %f\n",this->get_aiming_angle());
 }
 
 /*
@@ -434,7 +425,6 @@ std::vector<float> Worm::GetPosition() {
         return std::vector<float>({dead_posiiton_x,dead_position_y});
     }
     b2Vec2 position = body->GetPosition();
-    // printf("Al pedire la posicion se devuelve %f   %f\n",position.x,position.y);
     return std::vector<float> ({position.x, position.y});
 }
 

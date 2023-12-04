@@ -86,6 +86,7 @@ bool Mapa::crear_provisiones_en_turno(){
 void Mapa::Step(int iteracion) {
     int idx = 0;
     bool terminar_espera = true;
+    bool pierde_turno = false;
     auto it = worms.begin();
     while (it != worms.end()) {
         if ((*it)->isDead() && (*it)->get_status() != WormStates::DEAD) {
@@ -101,6 +102,12 @@ void Mapa::Step(int iteracion) {
             SoundTypes sound = (*it)->sounds.front();
             sounds.push(sound);
             (*it)->sounds.pop();
+        }
+        if ((*it)->tomo_dmg_este_turno()) {
+            (*it)->resetear_dmg();
+            if (turnManager.es_gusano_actual((*it)->get_id())) {
+                pierde_turno = true;
+            }
         }
         if ((*it)->jumpSteps > 0) {
             if ((*it)->jumpSteps == 1) (*it)->Stop();
@@ -190,7 +197,7 @@ void Mapa::Step(int iteracion) {
             crear_provisiones();
         }
     }
-    turnManager.avanzar_tiempo(iteracion, worms);
+    turnManager.avanzar_tiempo(iteracion, worms, pierde_turno);
     world.Step(timeStep, velocityIterations, positionIterations);
 }
 

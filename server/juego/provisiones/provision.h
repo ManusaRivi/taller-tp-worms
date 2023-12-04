@@ -7,8 +7,8 @@
 #include "../colisionable.h"
 #include "../worm.h"
 
-#define PROVISION_HEIGHT_SERVER 1
-#define PROVISION_WIDTH_SERVER  1
+#define PROVISION_HEIGHT_SERVER 0.3f
+#define PROVISION_WIDTH_SERVER  0.3f
 
 #define PROVISION_DENSITY 0.5f
 

@@ -5,9 +5,8 @@
 #include "../../common/armas.h"
 #include <memory>
 
-#define BASELINE_POWER 0.5f
-#define MAX_POWER 2.0f
-#define POWER_PER_CHARGE 0.0375f
+#define BASELINE_POWER 0.2f
+#define POWER_PER_CHARGE 0.015f
 #define MAX_CHARGE 40
 
 class Arma

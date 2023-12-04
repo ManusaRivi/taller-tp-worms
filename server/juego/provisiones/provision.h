@@ -43,8 +43,8 @@ public:
         b2FixtureDef fixtureProvision;
         fixtureProvision.shape = &provisionBox;
         fixtureProvision.density = PROVISION_DENSITY;
-        fixtureProvision.filter.categoryBits = CollisionCategories::BOUNDARY_COLL;
-        fixtureProvision.filter.maskBits = (CollisionCategories::WORM_COLL | CollisionCategories::PROVISION_COLL);
+        fixtureProvision.filter.categoryBits = CollisionCategories::PROVISION_COLL;
+        fixtureProvision.filter.maskBits = (CollisionCategories::WORM_COLL | CollisionCategories::BOUNDARY_COLL);
 
         this->body->CreateFixture(&fixtureProvision);
     }

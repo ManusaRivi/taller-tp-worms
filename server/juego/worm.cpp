@@ -416,6 +416,11 @@ void Worm::parar_angulo(){
     apuntando = false;
 }
 
+void Worm::aumentar_vida(int vida){
+    hitPoints+= vida;
+    maxHealth+=vida;
+}
+
 /*
  * Funciones GETTER para comunicar informacion del gusano.
  * */

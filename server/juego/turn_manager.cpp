@@ -6,7 +6,7 @@ TurnManager::TurnManager():state(TURN),turn_timer(0),bonus_turn_timer(0),waiting
 
 }
 
-std::map<uint32_t, std::vector<uint32_t>> TurnManager::repartir_turnos(uint32_t cantidad_players){
+std::map<uint32_t, std::vector<uint32_t>> TurnManager::repartir_turnos(uint32_t cantidad_players,std::vector<std::shared_ptr<Worm>>& vectorWorms){
     this->cantidad_players = cantidad_players;
     for(uint32_t i =0; i < this->cantidad_gusanos;i++){
         int idx = i%cantidad_players;
@@ -33,7 +33,29 @@ std::map<uint32_t, std::vector<uint32_t>> TurnManager::repartir_turnos(uint32_t 
 
     this->id_gusano_actual = gusano_actual;
     this->id_player_actual = player_actual;
+    balance_de_fuerza(vectorWorms);
     return this->id_gusanos_por_player;
+}
+
+void TurnManager::balance_de_fuerza(std::vector<std::shared_ptr<Worm>>& vectorWorms){
+
+    std::map<uint32_t,std::vector<uint32_t>>::iterator best = std::max_element(id_gusanos_por_player.begin(),id_gusanos_por_player.end(),[] (const std::pair<uint32_t,std::vector<uint32_t>>& a, const std::pair<uint32_t,std::vector<uint32_t>>& b)->bool{ return a.second.size() < b.second.size(); } );
+
+    uint32_t maximo = best->second.size();
+
+    std::vector<uint32_t> gusanos_a_mejorar;
+    for(auto c : id_gusanos_por_player){
+        if ( c.second.size() < maximo){
+            std::copy(c.second.begin(), c.second.end(), std::back_inserter(gusanos_a_mejorar)); 
+        }
+    }
+    
+    for (auto &c :vectorWorms){
+        uint32_t id = c->get_id();
+        if (std::find(gusanos_a_mejorar.begin(), gusanos_a_mejorar.end(), id) != gusanos_a_mejorar.end()){
+            c->aumentar_vida(25);
+        }
+    }
 }
 
 void TurnManager::deleteWorm(int idx) {

@@ -13,6 +13,8 @@ void AtaqueAereo::cargar() {}
 bool AtaqueAereo::estaCargando() { return false; }
 
 void AtaqueAereo::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id, float x_pos, float y_pos, float angle) {
+    if (this->ammo == 0) return;
+    --this->ammo;
     for (auto i = 0; i < rocket_num; ++i) {
         projectiles.push_back(std::make_shared<Rocket>(world, ProjectileType::AIR_MISSILE, entity_id++,
                                                         x_pos, y_pos + ROCKET_ALTITUDE + (ROCKET_GAP * i),

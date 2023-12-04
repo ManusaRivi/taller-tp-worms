@@ -1,6 +1,8 @@
 #ifndef BATE_H
 #define BATE_H
 
+#include <cmath>
+
 #include "arma.h"
 #include "../worm.h"
 #include "../worm_query.h"

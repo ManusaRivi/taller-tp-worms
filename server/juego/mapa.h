@@ -25,6 +25,7 @@
 #include "./provisiones/provision.h"
 #include "./provisiones/vida.h"
 #include "./provisiones/municion.h"
+#include "./provisiones/trampa.h"
 #include "./water.h"
 #include "./contact_listener.h"
 #include "turn_manager.h"
@@ -35,7 +36,7 @@
 #define MAX_WIND_SPEED 0.1f
 
 #define MAX_PROVISIONS 5
-#define PROVISION_HEIGHT 50.0f
+#define PROVISION_HEIGHT 25.0f
 #define MAX_PROVISION_X_POS 40
 #define PROBABILDAD_DE_CREAR_PROVISIONES 0.60f
 

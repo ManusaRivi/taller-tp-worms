@@ -74,15 +74,17 @@ void Mapa::crear_provisiones() {
         float x_pos = rand() % MAX_PROVISION_X_POS;
         float proba = dist(rng);
         printf("La proba es : %f\n", proba);
-        if(proba < 0.5){
+        if(proba < 0.3){
             provisiones.push_back(std::make_shared<Municion> (world, this->identificador_entidades++, x_pos, PROVISION_HEIGHT));
             printf("Se crea una provision de municion\n");
         }
-        else{
+        else if (proba >= 0.3 && proba < 0.7){
             provisiones.push_back(std::make_shared<VidaServer> (world, this->identificador_entidades++, x_pos, PROVISION_HEIGHT, config.provision_healing));
             printf("Se crea vida\n");
         }
-        
+        else if (proba >= 0.7) {
+            provisiones.push_back(std::make_shared<Trampa> (world, this->identificador_entidades++, x_pos, PROVISION_HEIGHT, config.provision_dmg));
+        }
     }
 
 }
@@ -92,7 +94,7 @@ bool Mapa::crear_provisiones_en_turno(){
     std::random_device rd;
     std::mt19937 e2(rd());
     std::uniform_real_distribution<> dist(0, 1);
-    return (dist(e2) < PROBABILDAD_DE_CREAR_PROVISIONES);                                    
+    return (dist(e2) < PROBABILDAD_DE_CREAR_PROVISIONES);
 }
 
 void Mapa::Step(int iteracion) {
@@ -206,6 +208,7 @@ void Mapa::Step(int iteracion) {
         bool paso_de_turno = false;
         turnManager.terminar_espera(worms, paso_de_turno);
         if (paso_de_turno) {
+            provisiones.clear();
             cambiar_viento();
             if (crear_provisiones_en_turno()) {
                 printf("Se crean provisiones\n");

@@ -60,6 +60,8 @@ class World {
 
     bool has_timer;
     int timer;
+    int last_timer;
+    SDL_Texture* timerTexture;
 
     std::map<int, int> ammo;
 

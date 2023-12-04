@@ -22,6 +22,15 @@ TextureManager::TextureManager(Renderer& renderer) {
         surface.SetColorKey(true, key);
         textures.emplace(name, Texture(renderer, surface));
     }
+
+    // Cargo las texturas de los textos de los timers
+    Font font(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
+    SDL_Color timer_color = {255, 255, 255, 255};
+    for (int i = 1; i <= 5; i++) {
+        std::string text = "Explosion en " + std::to_string(i) + " segundos";
+        std::string name = "Explosion " + std::to_string(i);
+        textures.emplace(name, Texture(renderer, font.RenderText_Blended(text, timer_color)));
+    }
 }
 
 Texture& TextureManager::get_texture(std::string& texture_name) {

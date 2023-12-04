@@ -166,25 +166,14 @@ void World::present_timer(Renderer& renderer,
                             TextureManager& texture_manager,
                             float& x_scale,
                             float& y_scale) {
-    TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
-    SDL_Color timerColor = {255, 255, 255, 255};
-    std::string time = "Explosion en " + std::to_string(timer) + " segundos";
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, time.c_str(), timerColor);
-    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer.Get(), textSurface);
+    std::string texture_name = "Explosion " + std::to_string(timer);
+    Texture& text_texture = texture_manager.get_texture(texture_name);
 
-    SDL_Rect textRect;
-    textRect.x = renderer.GetOutputWidth()/2 + x_scale;
-    textRect.y = 2*y_scale;
-    textRect.w = (textSurface->w) * 0.04 * x_scale;
-    textRect.h = (textSurface->h) * 0.04 * y_scale;
-
-    SDL_RenderCopy(renderer.Get(), textTexture, nullptr, &textRect);
-
-    SDL_RenderPresent(renderer.Get());
-
-    TTF_CloseFont(font);
-    SDL_DestroyTexture(textTexture);
-
+    renderer.Copy(text_texture, NullOpt, 
+                    Rect(renderer.GetOutputWidth()/2 + x_scale,
+                        2*y_scale,
+                        text_texture.GetWidth() * 0.04 * x_scale,
+                        text_texture.GetHeight() * 0.04 * y_scale));
 }
 
 void World::present_sight(Renderer& renderer,
@@ -227,8 +216,8 @@ void World::present_ammo(Renderer& renderer,
     std::vector<SDL_Texture*> textTextures;
     std::vector<SDL_Rect> textRects;
     for (int i = 0; i < 10; i++) {
-        std::string time = std::to_string(ammo[i]);
-        SDL_Surface* textSurface = TTF_RenderText_Solid(font, time.c_str(), ammoColor);
+        std::string am = std::to_string(ammo[i]);
+        SDL_Surface* textSurface = TTF_RenderText_Solid(font, am.c_str(), ammoColor);
 
         SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer.Get(), textSurface);
         SDL_FreeSurface(textSurface);

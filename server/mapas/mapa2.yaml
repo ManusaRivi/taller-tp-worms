@@ -1,0 +1,59 @@
+nombre: mapa2
+vigas:
+  - tipo: larga
+    pos_x: 18.34782608695652
+    pos_y: 30.043478260869566
+    angulo: 180
+  - tipo: larga
+    pos_x: 24.347826086956523
+    pos_y: 30.043478260869566
+    angulo: 180
+  - tipo: larga
+    pos_x: 29.152173913043477
+    pos_y: 27.856469793572987
+    angulo: 135
+  - tipo: larga
+    pos_x: 33.369565217391305
+    pos_y: 23.639078489225163
+    angulo: 135
+  - tipo: larga
+    pos_x: 32.673913043478265
+    pos_y: 31.247774141399073
+    angulo: 135
+  - tipo: larga
+    pos_x: 36.891304347826093
+    pos_y: 27.030382837051249
+    angulo: 135
+  - tipo: larga
+    pos_x: 41.739130434782609
+    pos_y: 25.130434782608695
+    angulo: 180
+  - tipo: larga
+    pos_x: 38.347826086956523
+    pos_y: 21.695652173913043
+    angulo: 180
+  - tipo: corta
+    pos_x: 42.472826086956523
+    pos_y: 21.695652173913043
+    angulo: 180
+  - tipo: corta
+    pos_x: 43.972826086956523
+    pos_y: 22.818010009198325
+    angulo: 90
+  - tipo: larga
+    pos_x: 27.913043478260871
+    pos_y: 33.565217391304351
+    angulo: 180
+gusanos:
+  - pos_x: 25.152173913043477
+    pos_y: 31.434782608695652
+    direccion: 0
+  - pos_x: 42.369565217391305
+    pos_y: 23.217391304347824
+    direccion: 0
+  - pos_x: 42.108695652173914
+    pos_y: 26.652173913043477
+    direccion: 0
+  - pos_x: 26.717391304347828
+    pos_y: 35
+    direccion: 0

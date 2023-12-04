@@ -57,14 +57,14 @@ add_library(client_lib STATIC ${CLIENT})
 add_library(editor_lib STATIC ${EDITOR})
 add_library(common_lib STATIC ${COMMON})
 
-add_executable(server "server/main.cpp")
-add_executable(client "client/main.cpp" ${RESOURCES})
-add_executable(editor "editor/main.cpp" ${RESOURCES_EDITOR})
+add_executable(worms-server "server/main.cpp")
+add_executable(worms-client "client/main.cpp" ${RESOURCES})
+add_executable(worms-editor "editor/main.cpp" ${RESOURCES_EDITOR})
 
 # Va a haber otro ejecutable para el editor.
-target_link_libraries(server server_lib box2d yaml-cpp common_lib Threads::Threads ${SDL2PP_LIBRARIES})
-target_link_libraries(client client_lib ${SDL2PP_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} yaml-cpp common_lib Threads::Threads)
-target_link_libraries(editor editor_lib ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} yaml-cpp)
+target_link_libraries(worms-server server_lib box2d yaml-cpp common_lib Threads::Threads ${SDL2PP_LIBRARIES})
+target_link_libraries(worms-client client_lib ${SDL2PP_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} yaml-cpp common_lib Threads::Threads)
+target_link_libraries(worms-editor editor_lib ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES} yaml-cpp)
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --verbose)
 
@@ -77,3 +77,7 @@ include(GoogleTest)
 enable_testing()
 #gtest_discover_tests(test_g DISCOVERY_MODE PRE_TEST)
 #add_test(NAME TESTING COMMAND $<TARGET_FILE:test_g>)
+
+# Instalacion
+install(TARGETS worms-server worms-client worms-editor DESTINATION /usr/bin)
+install(FILES game_config.yaml DESTINATION /etc/worms)

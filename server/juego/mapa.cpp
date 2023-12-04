@@ -173,6 +173,7 @@ void Mapa::Step(int iteracion) {
                 b2Vec2 provision_pos = provision->getPosition();
                 int explosion_radius = PROVISION_HEIGHT_SERVER;
                 explosions.push(ExplosionWrapper (provision_pos.x, provision_pos.y, explosion_radius, this->identificador_entidades++));
+                sounds.push(SoundTypes::EXPLOSION);
             }
             std::vector<std::shared_ptr<Provision>>::iterator it = std::find(provisiones.begin(), provisiones.end(), provision);
             if (it != provisiones.end()) {

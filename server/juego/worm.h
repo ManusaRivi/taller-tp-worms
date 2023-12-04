@@ -152,6 +152,8 @@ public:
 
     bool using_timer();
 
+    void aumentar_vida(int vida);
+
     float get_timer();
 
     std::vector<float> posicion_marcada();

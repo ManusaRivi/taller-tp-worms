@@ -320,7 +320,7 @@ void Mapa::detener_worm(uint32_t id){
 
 std::map<uint32_t, std::vector<uint32_t>> Mapa::repartir_ids(uint32_t cantidad_jugadores){
     this->identificador_entidades = cantidad_jugadores + 1;
-    return this->turnManager.repartir_turnos(cantidad_jugadores);
+    return this->turnManager.repartir_turnos(cantidad_jugadores,worms);
 }
 
 bool Mapa::checkOnePlayerRemains() {

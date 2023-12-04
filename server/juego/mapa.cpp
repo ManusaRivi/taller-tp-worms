@@ -45,7 +45,7 @@ void Mapa::Load_Map_File(std::string filepath) {
     }
     turnManager.cargar_cantidad_gusanos(worms.size());
 
-    provisiones.push_back(std::make_shared<VidaServer>(world, 1, 10.0, 20.0, config.provision_healing));
+    //provisiones.push_back(std::make_shared<VidaServer>(world, 1, 10.0, 20.0, config.provision_healing));
 }
 
 void Mapa::crear_provisiones() {

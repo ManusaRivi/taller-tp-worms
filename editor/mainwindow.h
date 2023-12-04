@@ -34,6 +34,10 @@ public:
     void limpiarMapa();
     void cambiarFondo();
     void exitApplication();
+    void importarMapa();
+    void agregarVigaImportada(float pos_x, float pos_y, float angulo);
+    void agregarVigaLargaImportada(float pos_x, float pos_y, float angulo);
+    void agregarGusanoImportada(float pos_x, float pos_y, float direccion);
     std::string generarNombreAleatorio();
 
 private:

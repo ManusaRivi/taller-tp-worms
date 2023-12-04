@@ -24,7 +24,11 @@ std::map<uint32_t, std::vector<uint32_t>> TurnManager::repartir_turnos(uint32_t 
 
     randomizar_queue_player();
 
-    uint32_t player_actual = rand() % this->cantidad_players;
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> proba_un_player(0,cantidad_players-1); 
+
+    uint32_t player_actual = proba_un_player(rng);
     uint32_t gusano_actual = queue_siguiente_gusano_por_player[player_actual].pop();
 
     this->id_gusano_actual = gusano_actual;

@@ -32,7 +32,7 @@
 #define MAX_PROVISIONS 5
 #define PROVISION_HEIGHT 30.0f
 #define MAX_PROVISION_X_POS 40
-#define PROBABILDAD_DE_CREAR_PROVISIONES 0.80f
+#define PROBABILDAD_DE_CREAR_PROVISIONES 0.60f
 
 // Copyright (c) 2019 Erin Catto
 
@@ -126,7 +126,6 @@ public:
     uint16_t get_carga_actual();
 
     private:
-    float obtener_posicion_random();
 
     bool crear_provisiones_en_turno();
 

@@ -3,9 +3,15 @@
 #include <iomanip>
 #include <iostream>
 
-Mapa::Mapa(std::string map_filepath) : world(b2Vec2(0.0f, -10.0f)), contactListener(ContactListener()), water(Water(world)), identificador_entidades(0) {
+Mapa::Mapa(std::string map_filepath) : world(b2Vec2(0.0f, -10.0f)),
+                                        contactListener(ContactListener()),
+                                        water(Water(world)),
+                                        viento(0.0f),
+                                        identificador_entidades(0)
+{
     world.SetContactListener(&contactListener);
     Load_Map_File(map_filepath);
+    cambiar_viento();
 }
 
 void Mapa::Load_Map_File(std::string filepath) {
@@ -40,12 +46,18 @@ void Mapa::Load_Map_File(std::string filepath) {
         float x_pos = worm["pos_x"].as<float>();
         float y_pos = worm["pos_y"].as<float>();
         int dir = worm["direccion"].as<int>();
-        // printf("La posicion del gusano es : %f   %f\n",x_pos,y_pos);
         worms.push_back(std::make_shared<Worm> (world, config.puntos_de_vida, dir, x_pos, y_pos, id++));
     }
     turnManager.cargar_cantidad_gusanos(worms.size());
+}
 
-    //provisiones.push_back(std::make_shared<VidaServer>(world, 1, 10.0, 20.0, config.provision_healing));
+void Mapa::cambiar_viento() {
+    float new_speed = RandomFloat(MIN_WIND_SPEED, MAX_WIND_SPEED);
+    int direction = rand() % 2;
+    if (direction == 0)
+        new_speed *= -1;
+    this->viento = new_speed;
+    printf("cambia el viento a: %f\n", viento);
 }
 
 void Mapa::crear_provisiones() {
@@ -161,6 +173,7 @@ void Mapa::Step(int iteracion) {
                 projectiles.erase(it);
         }
         else {
+            projectile->pushByWind(viento);
             if (!projectile->isGrenade()) {
                 projectile->updateAngle();
             }
@@ -191,10 +204,13 @@ void Mapa::Step(int iteracion) {
     }
     if (terminar_espera) {
         bool paso_de_turno = false;
-        turnManager.terminar_espera(worms,paso_de_turno);
-        if(paso_de_turno && crear_provisiones_en_turno()){
-            printf("Se crean provisiones\n");
-            crear_provisiones();
+        turnManager.terminar_espera(worms, paso_de_turno);
+        if (paso_de_turno) {
+            cambiar_viento();
+            if (crear_provisiones_en_turno()) {
+                printf("Se crean provisiones\n");
+                crear_provisiones();
+            }
         }
     }
     turnManager.avanzar_tiempo(iteracion, worms, pierde_turno);

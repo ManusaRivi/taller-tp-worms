@@ -29,6 +29,11 @@
 #include "./contact_listener.h"
 #include "turn_manager.h"
 
+#define	RAND_LIMIT 32767
+
+#define MIN_WIND_SPEED 0.01f
+#define MAX_WIND_SPEED 0.1f
+
 #define MAX_PROVISIONS 5
 #define PROVISION_HEIGHT 50.0f
 #define MAX_PROVISION_X_POS 40
@@ -53,14 +58,23 @@ private:
     std::queue<SoundTypes> sounds;
     Water water;
 
+    float viento;
+
     std::string nombre;
     TurnManager turnManager;
     uint32_t identificador_entidades;
 
     void crear_provisiones();
+    inline float RandomFloat(float lo, float hi) {
+        float r = (float)(rand() & (RAND_LIMIT));
+        r /= RAND_LIMIT;
+        r = (hi - lo) * r + lo;
+        return r;
+    }
 public:
     explicit Mapa(std::string map_filepath);
     void Load_Map_File(std::string filepath);
+    void cambiar_viento();
     void Step(int iteracion);
     /*
     * Setea la velocidad del gusano dado por idx, que es el

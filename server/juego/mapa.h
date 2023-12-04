@@ -42,8 +42,8 @@ private:
     ContactListener contactListener;
 
     const float timeStep = 1.0f / 30.0f;
-    const int32 velocityIterations = 6;
-    const int32 positionIterations = 2;
+    const int32 velocityIterations = 8;
+    const int32 positionIterations = 3;
 
     std::vector<std::shared_ptr<BeamServer>> vigas;
     std::vector<std::shared_ptr<Worm>> worms;

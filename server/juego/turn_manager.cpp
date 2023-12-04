@@ -96,22 +96,16 @@ void TurnManager::cargar_cantidad_gusanos(uint32_t cant_gusanos){
 }
 
 bool TurnManager::checkOnePlayerRemains() {
-    
-    // bool sonTodosIguales = true;
-    // uint32_t primer_valor = id_player_por_gusano.begin()->second;
-
-    // for (const auto& par : id_player_por_gusano) {
-    //     if (par.second != primer_valor) {
-    //         sonTodosIguales = false;
-    //         break;
-    //     }
-    // }
-    // return sonTodosIguales;
     return queue_siguiente_gusano_por_player.size() == 1;
 }
 
-void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr<Worm>>& vectorWorms){
-    /* Nuevo funcionamiento (completar) */
+void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr<Worm>>& vectorWorms, bool perdio_turno){
+    if (perdio_turno && state == TURN) {
+        detener_gusano_actual(vectorWorms);
+        turno_siguiente_player(vectorWorms);
+        turn_timer = 0;
+        return;
+    }
     if (state == WAITING) {
         waiting_timer++;
         return;
@@ -137,6 +131,10 @@ void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr
     } 
     
     return;
+}
+
+bool TurnManager::es_gusano_actual(uint32_t idx) {
+    return idx == id_gusano_actual;
 }
 
 uint32_t TurnManager::get_gusano_actual(){

@@ -1,0 +1,79 @@
+nombre: esfera_de_la_muerte_modificada
+vigas:
+  - tipo: larga
+    pos_x: 21.739130434782609
+    pos_y: 21.739130434782609
+    angulo: 180
+  - tipo: larga
+    pos_x: 16.782608695652172
+    pos_y: 23.826086956521738
+    angulo: 135
+  - tipo: larga
+    pos_x: 14.869565217391305
+    pos_y: 28.608695652173914
+    angulo: 90
+  - tipo: larga
+    pos_x: 16.826085629670516
+    pos_y: 33.695652173913047
+    angulo: 45
+  - tipo: larga
+    pos_x: 21.608695652173914
+    pos_y: 35.695652173913047
+    angulo: 0
+  - tipo: larga
+    pos_x: 26.478260869565215
+    pos_y: 33.652171259341031
+    angulo: 135
+  - tipo: larga
+    pos_x: 28.434782608695649
+    pos_y: 28.782608695652176
+    angulo: 90
+  - tipo: larga
+    pos_x: 26.521739130434781
+    pos_y: 23.695652173913043
+    angulo: 45
+  - tipo: corta
+    pos_x: 21.494565217391305
+    pos_y: 25.086956521739129
+    angulo: 180
+  - tipo: corta
+    pos_x: 19.059782608695652
+    pos_y: 26.086956521739129
+    angulo: 135
+  - tipo: corta
+    pos_x: 18.190217391304348
+    pos_y: 28.304347826086957
+    angulo: 90
+  - tipo: corta
+    pos_x: 18.972826086956523
+    pos_y: 30.826086956521738
+    angulo: 45
+  - tipo: corta
+    pos_x: 21.059782608695652
+    pos_y: 31.739130434782609
+    angulo: 0
+  - tipo: corta
+    pos_x: 23.233695652173914
+    pos_y: 30.956521739130434
+    angulo: 135
+  - tipo: corta
+    pos_x: 24.23369565217391
+    pos_y: 28.521739130434781
+    angulo: 90
+  - tipo: corta
+    pos_x: 23.451086956521738
+    pos_y: 25.956521739130434
+    angulo: 45
+gusanos:
+  - pos_x: 23.5
+    pos_y: 23.130434782608695
+    direccion: 0
+  - pos_x: 20.195652173913043
+    pos_y: 23.173913043478262
+    direccion: 0
+  - pos_x: 21.804347826086957
+    pos_y: 26.347826086956523
+    direccion: 0
+  - pos_x: 21.282608695652172
+    pos_y: 32.869565217391305
+    direccion: 0

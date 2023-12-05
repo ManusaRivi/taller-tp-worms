@@ -97,7 +97,7 @@ bool Mapa::crear_provisiones_en_turno(){
     return (dist(e2) < PROBABILDAD_DE_CREAR_PROVISIONES);
 }
 
-void Mapa::Step(int iteracion) {
+bool Mapa::Step(int iteracion) {
     int idx = 0;
     bool terminar_espera = true;
     bool pierde_turno = false;
@@ -220,6 +220,7 @@ void Mapa::Step(int iteracion) {
     }
     turnManager.avanzar_tiempo(iteracion, worms, pierde_turno);
     world.Step(timeStep, velocityIterations, positionIterations);
+    return terminar_espera;
 }
 
 /*
@@ -392,7 +393,7 @@ void Mapa::get_projectiles(std::vector<ProjectileWrapper>& projectile_vector, ui
         b2Vec2 position = projectile->getPosition();
         float angle = projectile->getAngle();
         if(projectile->getType() != ProjectileType::AIR_MISSILE && projectile->getType() != ProjectileType::FRAGMENT){
-            printf("Se cambia la camara\n");
+            // printf("Se cambia la camara\n");
             apuntar_camara_a = projectile->get_id();
         }
         angle += 1.57;

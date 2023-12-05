@@ -52,6 +52,7 @@ class Partida:public Thread{
     private:
     void enviar_primer_snapshot();
     void comenzar_partida();
+    void enviar_termino_partida();
 
 
 };

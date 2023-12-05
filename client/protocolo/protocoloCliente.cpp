@@ -3,6 +3,7 @@
 #include "../game/comunicacion/snapshot.h"
 #include "../comandos/mensajes/mensaje_handshake.h"
 #include "../comandos/mensajes/mensaje_snapshot.h"
+#include "../comandos/mensajes/mensaje_partida_termino.h"
 
 
 
@@ -35,6 +36,10 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snapshot(){
     uint8_t cmd;
     skt.recvall(&cmd,1,&was_closed);
 
+    if (was_closed){
+        return nullptr;
+    }
+
     if(cmd == CODIGO_PARTIDA_POR_COMENZAR){
         std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(COMANDO::CMD_PARTIDA_EMPEZO);
         return msg;
@@ -44,13 +49,16 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snapshot(){
         return recibir_handshake();
     }
 
-    if (was_closed){
-        return nullptr;
-    }
+
 
     if (cmd == CODIGO_SNAPSHOT){
         return recibir_snap();
     }
+
+    if(cmd == CODIGO_PARTIDA_TERMINO){
+        return std::make_shared<MensajePartidaTermino>();
+    }
+
  
     return nullptr;
 }

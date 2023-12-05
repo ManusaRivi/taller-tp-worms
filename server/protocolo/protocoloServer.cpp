@@ -356,3 +356,8 @@ void ServerProtocolo::enviar_viento(float& viento, bool& es_negativo){
     enviar_1_byte(es_negativo);
     enviar_4_bytes_float(viento);
 }
+
+void ServerProtocolo::enviar_partida_termino(){
+    uint8_t cd = CODIGO_PARTIDA_TERMINO;
+    enviar_1_byte(cd);
+}

@@ -317,6 +317,10 @@ int Game::run() try {
 
         //Saco una SnapshotCliente de la Queue
         std::shared_ptr<MensajeCliente> snap = snapshots.pop();
+		if(snap->get_tipo_comando() == COMANDO::CMD_PARTIDA_TERMINADA){
+			drawGameOverScreen(renderer);
+			return 0;
+		}
 		if (snap->get_tipo_comando() == COMANDO::CMD_ENVIAR_SNAPSHOT){
 			std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(snap);
 			std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
@@ -351,10 +355,10 @@ int Game::run() try {
 		//it_inc += 1;
 
 		//Verifica si la partida termino
-		if(world->checkOnePlayerRemains()) {
-			this->is_active = false;
-			this->drawGameOverScreen(renderer);
-		}
+		// if(world->checkOnePlayerRemains()) {
+		// 	this->is_active = false;
+		// 	this->drawGameOverScreen(renderer);
+		// }
 
     }
 

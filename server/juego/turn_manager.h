@@ -6,6 +6,8 @@
 #include <random>
 #include "worm.h"
 #include "../../common/queue.h"
+#include <queue>
+#include <deque>
 
 
 #define MAX_SEGUNDOS_POR_TURNO 60
@@ -22,7 +24,8 @@ class TurnManager{
 
     std::map<uint32_t,std::vector<uint32_t>> id_gusanos_por_player;
     std::map<uint32_t,uint32_t> id_player_por_gusano;
-    std::map<uint32_t, Queue<uint32_t>> queue_siguiente_gusano_por_player;
+    std::map<uint32_t, std::list<uint32_t>> queue_siguiente_gusano_por_player;
+    std::list<uint32_t> queue_orden_players;
 
     uint32_t cantidad_gusanos;
     uint32_t id_player_actual;
@@ -53,7 +56,7 @@ class TurnManager{
     void deleteWorm(int idx);
     uint32_t getNextWorm(uint32_t id_player) const;
     uint32_t get_equipo(uint32_t id);
-    bool checkOnePlayerRemains();
+    bool checkOnePlayerRemains(std::vector<std::shared_ptr<Worm>>& vectorWorms);
     GameStates get_state();
     void activar_bonus_turn();
     void terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorms, bool& paso_de_turno);
@@ -61,6 +64,7 @@ class TurnManager{
     uint32_t get_tiempo_actual();
     bool fue_empate();
     uint32_t equipo_ganador();
+    void eliminar_gusano(uint32_t id_gusano);
     private:
     void randomizar_queue_player();
     void turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vectorWorms);

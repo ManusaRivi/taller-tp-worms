@@ -54,7 +54,7 @@ void Partida::run()try{{
         bool terminaron_fisicas = mapa.Step(it);
 
         if(mapa.checkOnePlayerRemains()) {
-            
+            printf("solo queda un player. terminando las fisicas\n");
             is_alive = false;
             if(terminaron_fisicas){
                 printf("La partida termino\n");

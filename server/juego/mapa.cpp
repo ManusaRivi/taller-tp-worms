@@ -346,7 +346,7 @@ std::map<uint32_t, std::vector<uint32_t>> Mapa::repartir_ids(uint32_t cantidad_j
 }
 
 bool Mapa::checkOnePlayerRemains() {
-    return this->turnManager.checkOnePlayerRemains();
+    return this->turnManager.checkOnePlayerRemains(worms);
 }
 
 uint32_t Mapa::gusano_actual(){

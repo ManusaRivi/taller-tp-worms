@@ -28,8 +28,10 @@ std::map<uint32_t, std::vector<uint32_t>> TurnManager::repartir_turnos(uint32_t 
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> proba_un_player(0,cantidad_players-1); 
 
-    uint32_t player_actual = proba_un_player(rng);
-    uint32_t gusano_actual = queue_siguiente_gusano_por_player[player_actual].pop();
+    uint32_t player_actual = queue_orden_players.front();
+    queue_orden_players.pop_front();
+    uint32_t gusano_actual = queue_siguiente_gusano_por_player[player_actual].front();
+     queue_siguiente_gusano_por_player[player_actual].pop_front();
 
     this->id_gusano_actual = gusano_actual;
     this->id_player_actual = player_actual;
@@ -117,8 +119,8 @@ void TurnManager::cargar_cantidad_gusanos(uint32_t cant_gusanos){
     this->cantidad_gusanos = cant_gusanos;
 }
 
-bool TurnManager::checkOnePlayerRemains() {
-    return queue_siguiente_gusano_por_player.size() <= 1;
+bool TurnManager::checkOnePlayerRemains(std::vector<std::shared_ptr<Worm>>& vectorWorms) {
+    return queue_orden_players.empty();
 }
 
 void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr<Worm>>& vectorWorms, bool perdio_turno){
@@ -204,9 +206,20 @@ void TurnManager::randomizar_queue_player(){
         std::shuffle(std::begin(copia_vector), std::end(copia_vector), rng);
         for (auto&w : copia_vector){
             printf("Se le entrega al player %u: el gusano %u\n",c.first,w);
-            queue_siguiente_gusano_por_player[c.first].push(w);
+            queue_siguiente_gusano_por_player[c.first].push_back(w);
         }
     }
+    std::vector<uint32_t> player_turns(this->cantidad_players) ; // vector with 100 ints.
+    std::iota (std::begin(player_turns), std::end(player_turns), 0);
+    auto rd = std::random_device {}; 
+    auto rng = std::default_random_engine { rd() };
+    std::shuffle(std::begin(player_turns), std::end(player_turns), rng);
+    auto it = player_turns.begin();
+    while(it != player_turns.end()){
+        queue_orden_players.push_back((*it));
+        it++;
+    }
+
 }
 
 
@@ -214,54 +227,57 @@ void TurnManager::turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vec
     printf("Es el turno de %u  con gusano  %u", this->id_player_actual, id_gusano_actual);
     uint32_t turno_actual = this->id_player_actual;
     if(gusano_esta_vivo(this->id_gusano_actual,vectorWorms)){ // Si el gusano esta vivo lo agrego a la queue (sera el ultimo gusano)
-        queue_siguiente_gusano_por_player[this->id_player_actual].try_push(this->id_gusano_actual);
+        queue_siguiente_gusano_por_player[this->id_player_actual].push_back(this->id_gusano_actual);
     }
     else{
         id_player_por_gusano.erase(this->id_gusano_actual); // Se elimina el gusano de la lista
     }
-    if(turno_actual +1 == static_cast<uint32_t>(this->cantidad_players)){
-        turno_actual = 0;
+    if(queue_siguiente_gusano_por_player[turno_actual].empty()){
+
     }else{
-        turno_actual++;
+        queue_orden_players.push_back(turno_actual);
     }
+
+    uint32_t turno_;
     uint32_t id_gusano_siguiente;
-    // uint32_t cantidad_vueltas;
     bool se_encontro_player = false;
-    for(uint32_t i = 0; i < static_cast<uint32_t>(this->cantidad_players);i++){ // Si todos los gusanos de un player estan muertos busco al siguiente player
-        uint32_t id_jugador = (turno_actual + i) %cantidad_players; // Este es el id del jugador que estoy intentando
-        if(std::find(players_eliminados.begin(), players_eliminados.end(), id_jugador) != players_eliminados.end()){
-           continue; //  (turno_actual+i)%cantidad_players) devuelve un numero entre 0 y cantidad_players, iterando desde el player actual hasta el anterior
-        }
-        else{
-            while(queue_siguiente_gusano_por_player[id_jugador].try_pop(id_gusano_siguiente)){
-                if(gusano_esta_vivo(id_gusano_siguiente,vectorWorms)){
-                    turno_actual = id_jugador;
-                    se_encontro_player = true;
-                    break;
-                }else{
-                    id_player_por_gusano.erase(id_gusano_siguiente);
-                    continue;
-                }
-
-            }
-            if(!se_encontro_player){ // Quiere decir que este player se qudo sin gusano par jugar
-                queue_siguiente_gusano_por_player.erase(id_jugador);
-                continue;
-            }else{
+    bool se_encontro_gusano = false;
+    while(!queue_orden_players.empty()){
+        turno_ = queue_orden_players.front();
+        queue_orden_players.pop_front();
+        while(!queue_siguiente_gusano_por_player[turno_].empty()){
+            id_gusano_siguiente = queue_siguiente_gusano_por_player[turno_].front();
+            queue_siguiente_gusano_por_player[turno_].pop_front();
+            if(gusano_esta_vivo(id_gusano_siguiente,vectorWorms)){
+                se_encontro_player = true;
+                se_encontro_gusano = true;
                 break;
+            }else{
+                id_player_por_gusano.erase(id_gusano_siguiente);
             }
-                
-            }
+        }
+        if(!se_encontro_player){
+            queue_siguiente_gusano_por_player.erase(turno_);
+            continue;
+        }
+        if(se_encontro_player && se_encontro_gusano){
+            break;
+        }
+        
     }
-
     if (!se_encontro_player){ // Buscar la forma de saber si todos los gusanos de un player estan muertos, eliminar ese players
         this->id_gusano_actual = 0;
     }
     else{
         this->id_gusano_actual = id_gusano_siguiente;
     }
-
-    this->id_player_actual = turno_actual;
+    if(!se_encontro_player){
+        this->id_player_actual = 0;
+    }
+    else{
+        this->id_player_actual = turno_;
+    }
+    
     printf("Y es lo entrego a %u con el gusano %u\n",this->id_player_actual,this->id_gusano_actual);
 
 }
@@ -329,4 +345,10 @@ uint32_t TurnManager::equipo_ganador(){
     else{
         return queue_siguiente_gusano_por_player.begin()->first;
     }
+}
+
+void TurnManager::eliminar_gusano(uint32_t id_gusano){
+    uint32_t player = id_player_por_gusano[id_gusano];
+    queue_siguiente_gusano_por_player[player].remove(id_gusano);
+
 }

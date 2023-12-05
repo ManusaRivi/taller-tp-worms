@@ -122,12 +122,6 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
 
     bool pudo_cambiar_de_arma;
     mapa.pudo_cambiar_de_arma(pudo_cambiar_de_arma);
-    if(pudo_cambiar_de_arma){
-        printf("Pudo cambiar de arma\n");
-    }
-    else{
-        printf("no pudo cambiar de arma\n");
-    }
     // Snapshot snap(mapa.get_gusanos());
     // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa.gusano_actual());
     std::shared_ptr<SnapshotPartida> snap = std::make_shared<SnapshotPartida>(vector_gusanos,

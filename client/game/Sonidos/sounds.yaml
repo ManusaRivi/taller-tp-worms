@@ -4,66 +4,66 @@
 
 # Efectos
 - nombre: MusicaAmbiente
-  ruta: /client/game/Sonidos/data/Efectos/MusicaAmbiente.mp3
+  ruta: /Efectos/MusicaAmbiente.mp3
 
 - nombre: AirStrike
-  ruta: /client/game/Sonidos/data/Efectos/AirStrike.wav
+  ruta: /Efectos/AirStrike.wav
 
 - nombre: BananaImpact
-  ruta: /client/game/Sonidos/data/Efectos/BananaImpact.wav
+  ruta: /Efectos/BananaImpact.wav
 
 - nombre: BaseBallBatImpact
-  ruta: /client/game/Sonidos/data/Efectos/BaseBallBatImpact.wav
+  ruta: /Efectos/BaseBallBatImpact.wav
 
 - nombre: BaseBallBatJingle
-  ruta: /client/game/Sonidos/data/Efectos/BaseBallBatJingle.wav
+  ruta: /Efectos/BaseBallBatJingle.wav
 
 - nombre: Cough
-  ruta: /client/game/Sonidos/data/Efectos/Cough.wav
+  ruta: /Efectos/Cough.wav
 
 - nombre: Explosion
-  ruta: /client/game/Sonidos/data/Efectos/Explosion.wav
+  ruta: /Efectos/Explosion.wav
 
 - nombre: Fuse
-  ruta: /client/game/Sonidos/data/Efectos/Fuse.WAV
+  ruta: /Efectos/Fuse.WAV
 
 - nombre: GreenGranadeImpact
-  ruta: /client/game/Sonidos/data/Efectos/GreenGranadeImpact.WAV
+  ruta: /Efectos/GreenGranadeImpact.WAV
 
 - nombre: Splash
-  ruta: /client/game/Sonidos/data/Efectos/Splash.wav
+  ruta: /Efectos/Splash.wav
 
 - nombre: Teleport
-  ruta: /client/game/Sonidos/data/Efectos/Teleport.WAV
+  ruta: /Efectos/Teleport.WAV
 
 - nombre: WalkLoop
-  ruta: /client/game/Sonidos/data/Efectos/WalkLoop.wav
+  ruta: /Efectos/WalkLoop.wav
 
 - nombre: WormLanding
-  ruta: /client/game/Sonidos/data/Efectos/WormLanding.wav
+  ruta: /Efectos/WormLanding.wav
 
 - nombre: HolyGranade
-  ruta: /client/game/Sonidos/data/Efectos/HolyGranade.WAV
+  ruta: /Efectos/HolyGranade.WAV
 
 - nombre: HolyGranadeImpact
-  ruta: /client/game/Sonidos/data/Efectos/HolyGranadeImpact.WAV
+  ruta: /Efectos/HolyGranadeImpact.WAV
 
 - nombre: PickUp
-  ruta: /client/game/Sonidos/data/Efectos/PickUp.mp3
+  ruta: /Efectos/PickUp.mp3
 
 # Gusanos
 - nombre: AdiosMundoCruel
-  ruta: /client/game/Sonidos/data/Gusanos/AdiosMundoCruel.wav
+  ruta: /Gusanos/AdiosMundoCruel.wav
 
 - nombre: ComoTePilleVeras
-  ruta: /client/game/Sonidos/data/Gusanos/ComoTePilleVeras.wav
+  ruta: /Gusanos/ComoTePilleVeras.wav
 
 - nombre: Fuego
-  ruta: /client/game/Sonidos/data/Gusanos/Fuego.wav
+  ruta: /Gusanos/Fuego.wav
 
 - nombre: Granada
-  ruta: /client/game/Sonidos/data/Gusanos/Granada.wav
+  ruta: /Gusanos/Granada.wav
 
 - nombre: SomosLosMejores
-  ruta: /client/game/Sonidos/data/Gusanos/SomosLosMejores.wav
+  ruta: /Gusanos/SomosLosMejores.wav
 

@@ -398,7 +398,7 @@ void Game::drawGameOverScreen(Renderer& renderer, uint32_t equipo_ganador, bool 
 	else{
 		text = "Ganador: Equipo " + std::to_string(equipo_ganador);
 	}
-	TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
+	TTF_Font* font = TTF_OpenFont("/var/worms/resources/Vera.ttf", 24);
 
 	renderer.Clear();
 

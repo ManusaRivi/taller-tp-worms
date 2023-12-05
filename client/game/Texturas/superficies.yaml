@@ -4,131 +4,131 @@
 
 #Gusano
 - nombre: WBlink
-  ruta: /client/game/Texturas/data/sprites/WBlink.png
+  ruta: /WBlink.png
 
 - nombre: wwalk
-  ruta: /client/game/Texturas/data/sprites/WWalk.png
+  ruta: /WWalk.png
 
 - nombre: WAimBaz
-  ruta: /client/game/Texturas/data/sprites/WAimBaz.png
+  ruta: /WAimBaz.png
 
 - nombre: WAimGr
-  ruta: /client/game/Texturas/data/sprites/WAimGr.png
+  ruta: /WAimGr.png
 
 - nombre: WAimHGr
-  ruta: /client/game/Texturas/data/sprites/WAimHGr.png
+  ruta: /WAimHGr.png
 
 - nombre: WAimRGr
-  ruta: /client/game/Texturas/data/sprites/WAimRGr.png
+  ruta: /WAimRGr.png
 
 - nombre: WAimBan
-  ruta: /client/game/Texturas/data/sprites/WAimBan.png
+  ruta: /WAimBan.png
 
 - nombre: Grave
-  ruta: /client/game/Texturas/data/sprites/grave2.png
+  ruta: /grave2.png
 
 - nombre: WAimAir
-  ruta: /client/game/Texturas/data/sprites/WAimAir.png
+  ruta: /WAimAir.png
 
 - nombre: WAimBate
-  ruta: /client/game/Texturas/data/sprites/WAimBate.png
+  ruta: /WAimBate.png
 
 - nombre: WAimDyn
-  ruta: /client/game/Texturas/data/sprites/WAimDyn.png
+  ruta: /WAimDyn.png
 
 - nombre: WAimTel
-  ruta: /client/game/Texturas/data/sprites/WAimTel.png
+  ruta: /WAimTel.png
 
 - nombre: WBackflip
-  ruta: /client/game/Texturas/data/sprites/WBackflip.png
+  ruta: /WBackflip.png
 
 - nombre: WFall
-  ruta: /client/game/Texturas/data/sprites/WFall.png
+  ruta: /WFall.png
 
 - nombre: WJump
-  ruta: /client/game/Texturas/data/sprites/WJump.png
+  ruta: /WJump.png
 
 - nombre: WShootAir
-  ruta: /client/game/Texturas/data/sprites/WShootAir.png
+  ruta: /WShootAir.png
 
 - nombre: WShootBate
-  ruta: /client/game/Texturas/data/sprites/WShootBate.png
+  ruta: /WShootBate.png
 
 - nombre: WShootTel
-  ruta: /client/game/Texturas/data/sprites/WShootTel.png
+  ruta: /WShootTel.png
 
 - nombre: WWinner
-  ruta: /client/game/Texturas/data/sprites/WWinner.png
+  ruta: /WWinner.png
 
 
 # Viga
 - nombre: Beam
-  ruta: /client/game/Texturas/data/sprites/Beam.png
+  ruta: /Beam.png
 
 # HUD
 - nombre: HUDWeapons
-  ruta: /client/game/Texturas/data/sprites/HUDWeapons.png
+  ruta: /HUDWeapons.png
 
 # Mira
 - nombre: Sight
-  ruta: /client/game/Texturas/data/sprites/sight.png
+  ruta: /sight.png
 
 # Viento
 - nombre: WindL
-  ruta: /client/game/Texturas/data/sprites/WindL.png
+  ruta: /WindL.png
 
 - nombre: WindR
-  ruta: /client/game/Texturas/data/sprites/WindR.png
+  ruta: /WindR.png
 
 # Flecha
 - nombre: Arrow
-  ruta: /client/game/Texturas/data/sprites/Arrow.png
+  ruta: /Arrow.png
 
 # Fondo
 - nombre: Background
-  ruta: /client/game/Texturas/data/sprites/Background.png
+  ruta: /Background.png
 
 # Agua
 - nombre: Agua
-  ruta: /client/game/Texturas/data/sprites/agua2.png
+  ruta: /agua2.png
 
 # Provision
 - nombre: Provision
-  ruta: /client/game/Texturas/data/sprites/Provision.png
+  ruta: /Provision.png
 
 # Proyectiles
 - nombre: Missile
-  ruta: /client/game/Texturas/data/sprites/Missile.png
+  ruta: /Missile.png
 
 - nombre: AirMissile
-  ruta: /client/game/Texturas/data/sprites/AirMissile.png
+  ruta: /AirMissile.png
 
 - nombre: Banana
-  ruta: /client/game/Texturas/data/sprites/Banana.png
+  ruta: /Banana.png
 
 - nombre: DynamiteExploding
-  ruta: /client/game/Texturas/data/sprites/DynamiteExploding.png
+  ruta: /DynamiteExploding.png
 
 - nombre: GreenGranade
-  ruta: /client/game/Texturas/data/sprites/GreenGranade.png
+  ruta: /GreenGranade.png
 
 - nombre: HolyGranade
-  ruta: /client/game/Texturas/data/sprites/HolyGranade.png
+  ruta: /HolyGranade.png
 
 - nombre: Mortar
-  ruta: /client/game/Texturas/data/sprites/Mortar.png
+  ruta: /Mortar.png
 
 - nombre: RedGranade
-  ruta: /client/game/Texturas/data/sprites/RedGranade.png
+  ruta: /RedGranade.png
 
 - nombre: Drop
-  ruta: /client/game/Texturas/data/sprites/Drop.png
+  ruta: /Drop.png
 
 - nombre: Dynamite
-  ruta: /client/game/Texturas/data/sprites/DynamiteExploding.png
+  ruta: /DynamiteExploding.png
 
 
 # Exploson
 - nombre: Explosion
-  ruta: /client/game/Texturas/data/sprites/Explosion.png
+  ruta: /Explosion.png
 

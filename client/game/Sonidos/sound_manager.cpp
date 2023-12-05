@@ -12,7 +12,7 @@ SoundManager::SoundManager() {
 
     for (const auto& nodo : sounds_font) {
         std::string name = nodo["nombre"].as<std::string>();
-        std::string rute = PROJECT_SOURCE_DIR + nodo["ruta"].as<std::string>();
+        std::string rute = "/var/worms/resources/sonidos" + nodo["ruta"].as<std::string>();
 
         std::shared_ptr<SDL2pp::Chunk> chunk = std::make_shared<Chunk>(rute);
         sounds.emplace(name, chunk);

@@ -216,7 +216,7 @@ void World::present_ammo(Renderer& renderer,
                          TextureManager& texture_manager,
                          float& x_scale,
                          float& y_scale) {
-    TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
+    TTF_Font* font = TTF_OpenFont("/var/worms/resources/Vera.ttf", 24);
 
     SDL_Color ammoColor = {255, 255, 255, 255};
     SDL_Color back_color = {0, 0, 0, 255};

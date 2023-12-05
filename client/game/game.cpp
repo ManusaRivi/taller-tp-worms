@@ -385,27 +385,42 @@ void Game::get_mouse_position(int& mouse_rel_x, int& mouse_rel_y, float& scale_x
 
 
 void Game::drawGameOverScreen(Renderer& renderer, uint32_t equipo_ganador, bool fue_empate) {
+	std::string text;
 	if(fue_empate){
-		printf("fue un empate\n");
+		text = "Empate";
 	}
 	else{
-		printf("No fue un empate\n y gano el equipo %u\n",equipo_ganador);
+		text = "Ganador: Equipo " + std::to_string(equipo_ganador);
 	}
 	TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
 
+	renderer.Clear();
+
+	SDL_Rect back;
+
+    back.w = renderer.GetOutputWidth();
+	back.h = renderer.GetOutputHeight();
+	back.x = 0;
+	back.y = 0;
+
+	SDL_Color back_color = {0, 0, 0, 255};
+
+    SDL_SetRenderDrawColor(renderer.Get(), back_color.r, back_color.g, back_color.b, back_color.a);
+	SDL_RenderFillRect(renderer.Get(), &back);
+
     SDL_Color textColor = {255, 255, 255, 255};
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, "Game Over", textColor);
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer.Get(), textSurface);
 
     SDL_Rect textRect;
-    textRect.x = 300;
-    textRect.y = 250;
+    textRect.x = (renderer.GetOutputWidth() - textSurface->w) / 2;
+    textRect.y = (renderer.GetOutputHeight() - textSurface->h) / 2;
     textRect.w = textSurface->w;
     textRect.h = textSurface->h;
 
     SDL_RenderCopy(renderer.Get(), textTexture, nullptr, &textRect);
 
-    SDL_RenderPresent(renderer.Get());
+    renderer.Present();
 
     SDL_Delay(3000);
 }

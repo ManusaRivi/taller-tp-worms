@@ -488,8 +488,12 @@ void Mapa::reducir_vida() {
 }
 
 uint32_t Mapa::get_equipo_ganador(bool& fue_empate){
-    if(turnManager.fue_empate()){
+    if(turnManager.fue_empate(worms)){
         fue_empate = true;
     }
     return turnManager.equipo_ganador();
+}
+
+void Mapa::pudo_cambiar_de_arma(bool& pudo_cambiar){
+    pudo_cambiar = worms[this->turnManager.get_gusano_actual()]->get_pudo_cambiar_de_arma();
 }

@@ -5,8 +5,8 @@
 #include "juego/game_config.h"
 
 ServerMain::ServerMain(int argc, char* argv[]) {
-    if (argc == 2) {
-        GameConfig& config = GameConfig::getInstance(argv[1]);
+    if (argc == 3) {
+        GameConfig& config = GameConfig::getInstance(argv[2]);
         (void)config;
     }
 }

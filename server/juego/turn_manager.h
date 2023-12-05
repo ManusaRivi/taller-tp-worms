@@ -62,7 +62,7 @@ class TurnManager{
     void terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorms, bool& paso_de_turno);
     void pasar_turno_si_muerto(int idx,std::vector<std::shared_ptr<Worm>>& vectorWorms);
     uint32_t get_tiempo_actual();
-    bool fue_empate();
+    bool fue_empate(std::vector<std::shared_ptr<Worm>>& vectorWorms);
     uint32_t equipo_ganador();
     void eliminar_gusano(uint32_t id_gusano);
     private:

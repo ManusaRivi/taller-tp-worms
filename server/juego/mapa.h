@@ -148,6 +148,8 @@ public:
 
     uint32_t get_equipo_ganador(bool& fue_empate);
 
+    void pudo_cambiar_de_arma(bool& pudo_cambiar);
+
     private:
 
     bool crear_provisiones_en_turno();

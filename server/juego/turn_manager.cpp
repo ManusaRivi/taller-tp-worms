@@ -329,8 +329,25 @@ uint32_t TurnManager::get_tiempo_actual(){
     }
 }
 
-bool TurnManager::fue_empate(){
-    if(queue_siguiente_gusano_por_player.size() == 0){
+bool TurnManager::fue_empate(std::vector<std::shared_ptr<Worm>>& vectorWorms){
+    if(gusano_esta_vivo(this->id_gusano_actual,vectorWorms)){
+        return false;
+    }
+    bool hay_gusano_vivo = false;
+    for (auto c: queue_siguiente_gusano_por_player){
+        while(!c.second.empty()){
+            uint32_t id_worm = c.second.front();
+            c.second.pop_front();
+            if(gusano_esta_vivo(id_worm,vectorWorms)){
+                hay_gusano_vivo = true;
+            }
+        }
+        if(hay_gusano_vivo){
+            break;
+        }
+        
+    }
+    if(!hay_gusano_vivo){
         return true;
     }
     else{

@@ -69,6 +69,7 @@ private:
     float dead_posiiton_x;
     float dead_position_y;
     float dead_position_angle;
+    bool pudo_cambiar_de_arma;
 
 public:
     int jumpSteps;
@@ -179,6 +180,7 @@ public:
     uint16_t get_carga_actual();
 
     void reducir_vida();
+    bool get_pudo_cambiar_de_arma();
 
     ~Worm();
 };

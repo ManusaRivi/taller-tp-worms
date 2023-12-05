@@ -105,7 +105,7 @@ void WormState::setBarraVida(SDL2pp::Renderer& renderer, float& pos_x, float& po
 
 	barraDeVida.x = static_cast<int>((pos_x - WORM_WIDTH/2) * x_scale);
 
-	barraDeVida.y = static_cast<int>((pos_y - 1 - (WORM_HEIGHT/2)) * y_scale);
+	barraDeVida.y = static_cast<int>((pos_y - 0.25 - (WORM_HEIGHT*0.5)) * y_scale);
 
 	SDL_Color colorBarraVida;
 	SDL_Color colorBorde;

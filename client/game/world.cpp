@@ -3,8 +3,9 @@
 
 using namespace SDL2pp;
 
-World::World(float map_width, float map_height): camera_x(0), camera_y(0),
-            proy_it(0), _map_width(map_width), _map_height(map_height) {
+World::World(float map_width, float map_height): _id_actual_turn(0),
+            camera_x(0), camera_y(0), proy_it(0), _map_width(map_width),
+            _map_height(map_height), it_arrow(0) {
     
     for (int i= 0; i < 10; i++) {
         ammo[i] = 0;
@@ -313,6 +314,38 @@ void World::present_wind(Renderer& renderer,
 	SDL_RenderDrawRect(renderer.Get(), &border);
 }
 
+void World::present_turn_arrow(int& it_inc,
+                            Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale,
+                            float& camera_x,
+                            float& camera_y) {
+    
+    // Busco al gusano del turno y le pido su posicion
+    float pos_x = worms[_id_actual_turn]->get_x() - camera_x;
+    float pos_y = _map_height - worms[_id_actual_turn]->get_y() - camera_y - 3;
+
+    it_arrow += it_inc;
+
+    int src_x = 0;
+    int src_y = ARROW_SPRITE_SIDE * (it_arrow % ARROW_FRAMES);
+
+    std::string texture_name = "Arrow";
+    Texture& texture = texture_manager.get_texture(texture_name);
+    texture.SetAlphaMod(255);
+
+    renderer.Copy( texture,
+                    Rect(src_x, src_y, ARROW_SPRITE_SIDE, ARROW_SPRITE_SIDE),
+                    Rect(static_cast<int>((pos_x - ARROW_SIDE*0.5) * x_scale),
+                        static_cast<int>((pos_y - ARROW_SIDE*0.5) * y_scale),
+                        ARROW_SIDE * x_scale, ARROW_SIDE * y_scale),
+                    0.0,
+                    NullOpt,
+                    SDL_FLIP_NONE
+    );
+}
+
 void World::present(int& it_inc,
                         Renderer& renderer,
                         TextureManager& texture_manager,
@@ -365,7 +398,7 @@ void World::present(int& it_inc,
         worm.second->present(it_inc, renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
     }
 
-    //present_water(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
+    present_water(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
 
     // Grafico proyectiles
     proy_it += it_inc;
@@ -402,6 +435,9 @@ void World::present(int& it_inc,
     // Grafico mira
     if (has_tp) present_sight(renderer, texture_manager, tp_x, tp_y, x_scale, y_scale, camera_x, camera_y);
     else if (has_air_attack) present_sight(renderer, texture_manager, air_attack_x, air_attack_y, x_scale, y_scale, camera_x, camera_y);
+
+    // Grafico flecha del turno
+    present_turn_arrow(it_inc, renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
 
     // Reproduzco sonidos
     while (!sonidos.empty()) {

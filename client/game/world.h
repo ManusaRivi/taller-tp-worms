@@ -36,6 +36,10 @@
 #define WIND_SPRITE_WIDTH 96
 #define WIND_SPRITE_HEIGHT 13
 
+#define ARROW_SPRITE_SIDE 60
+#define ARROW_SIDE 3
+#define ARROW_FRAMES 30
+
 class World {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
@@ -69,6 +73,8 @@ class World {
 
     bool _wind_left;
     float _wind;
+
+    int it_arrow;
 
     void present_background(Renderer& Renderer,
                         TextureManager& texture_manager,
@@ -117,6 +123,14 @@ class World {
                             TextureManager& texture_manager,
                             float& x_scale,
                             float& y_scale);
+    
+    void present_turn_arrow(int& it_inc,
+                            Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale,
+                            float& camera_x,
+                            float& camera_y);
 
     public:
     World(float map_width, float map_height);

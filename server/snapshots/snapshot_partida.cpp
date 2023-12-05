@@ -12,7 +12,8 @@ SnapshotPartida::SnapshotPartida(std::vector<WormWrapper> worms_,
                                 std::vector<std::pair<int,int>> municion_armas_,
                                 uint16_t carga_actual_,
                                 float viento_,
-                                bool es_negativo_):
+                                bool es_negativo_,
+                                bool pudo_cambiar_de_arma_):
                 Snapshot(tipo_snapshot::TIPO_PARTIDA, worms_, gusano_actual_),
                 proyectiles(proyectiles_),
                 explosiones(explosiones_),
@@ -25,7 +26,8 @@ SnapshotPartida::SnapshotPartida(std::vector<WormWrapper> worms_,
                 carga_actual(carga_actual_),
                 viento(viento_),
                 es_negativo(es_negativo_),
-                id_a_seguir(id_a_seguir_) {}
+                id_a_seguir(id_a_seguir_),
+                pudo_cambiar_de_arma(pudo_cambiar_de_arma_) {}
 
 float SnapshotPartida::get_tiempo_actual(){
     return this->tiempo_actual;
@@ -72,4 +74,8 @@ bool& SnapshotPartida::viento_es_negativo(){
 
 uint32_t& SnapshotPartida::get_id_a_seguir(){
     return this->id_a_seguir;
+}
+
+bool& SnapshotPartida::get_pudo_cambair_de_arma(){
+    return this->pudo_cambiar_de_arma;
 }

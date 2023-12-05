@@ -119,7 +119,15 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
 
     std::vector<ProvisionWrapper> vector_provisiones;
     mapa.get_provisiones(vector_provisiones);
-    
+
+    bool pudo_cambiar_de_arma;
+    mapa.pudo_cambiar_de_arma(pudo_cambiar_de_arma);
+    if(pudo_cambiar_de_arma){
+        printf("Pudo cambiar de arma\n");
+    }
+    else{
+        printf("no pudo cambiar de arma\n");
+    }
     // Snapshot snap(mapa.get_gusanos());
     // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa.gusano_actual());
     std::shared_ptr<SnapshotPartida> snap = std::make_shared<SnapshotPartida>(vector_gusanos,
@@ -134,7 +142,8 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
                                                                             municion_armas,
                                                                             carga_actual,
                                                                             viento_actual,
-                                                                            es_negativo);
+                                                                            es_negativo,
+                                                                            pudo_cambiar_de_arma);
     return snap;
 }
 

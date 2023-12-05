@@ -19,6 +19,7 @@ class SnapshotPartida:public Snapshot{
     float viento;
     bool es_negativo;
     uint32_t id_a_seguir;
+    bool pudo_cambiar_de_arma;
 
     public:
     SnapshotPartida(std::vector<WormWrapper> worms_, 
@@ -32,7 +33,8 @@ class SnapshotPartida:public Snapshot{
                     std::vector<std::pair<int,int>> municion_armas,
                     uint16_t carga_actual,
                     float viento,
-                    bool es_negativo
+                    bool es_negativo,
+                    bool pudo_cambiar_de_arma
                     );
 
     float get_tiempo_actual(); 
@@ -47,5 +49,6 @@ class SnapshotPartida:public Snapshot{
     float& get_viento();
     bool& viento_es_negativo();
     uint32_t& get_id_a_seguir();
+    bool& get_pudo_cambair_de_arma();
 };
 #endif

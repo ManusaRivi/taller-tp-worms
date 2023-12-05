@@ -9,7 +9,7 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
             Colisionable(bodyType::WORM), coleccionArmas(std::make_unique<ColeccionArmas>(world)),
             armaActual(nullptr), facingDirection(direction), status(WormStates::IDLE), id(id_),
             angulo_disparo(0.0f), hitPoints(hitPoints), maxHealth(hitPoints), numBeamContacts(0), initialHeight(0.0f), finalHeight(0.0f),
-            airborne(false), moving(false), apuntando(false), tomoDmgEsteTurno(false), x_target(0), y_target(0), jumpSteps(0)
+            airborne(false), moving(false), apuntando(false), tomoDmgEsteTurno(false), x_target(0), y_target(0),pudo_cambiar_de_arma(true), jumpSteps(0)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -211,6 +211,7 @@ void Worm::detener_acciones(){
         status = WormStates::IDLE;
         this->Stop();
         armaActual = nullptr;
+        pudo_cambiar_de_arma = true;
     }
 }
 
@@ -306,6 +307,10 @@ void Worm::cambiar_arma(uint8_t id_arma){
     if(armaActual->get_ammo() == 0){
         armaActual = nullptr;
         status = WormStates::IDLE;
+        pudo_cambiar_de_arma = false;
+    }
+    else{
+        pudo_cambiar_de_arma = true;
     }
 
 }
@@ -330,6 +335,7 @@ bool Worm::usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint
         sounds.push(SoundTypes::TELEPORT);
         body->SetTransform(b2Vec2 (x_target, y_target), body->GetAngle());
         body->SetAwake(true);
+        pudo_cambiar_de_arma = true;
         return true;
     }
     b2Vec2 position = body->GetPosition();
@@ -379,6 +385,7 @@ bool Worm::usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint
     armaActual->Shoot(projectiles, entity_id, position.x, position.y, angle);
     status = WormStates::IDLE;
     armaActual = nullptr;
+    pudo_cambiar_de_arma = true;
     return true;
 }
 
@@ -537,6 +544,12 @@ uint16_t Worm::get_carga_actual(){
     if(!armaActual) return 0;
     if(armaActual->obtenerTipo()== Armas::TELETRANSPORTACION) return 0;
     return armaActual->get_carga();
+}
+
+bool Worm::get_pudo_cambiar_de_arma(){
+    bool bis = this->pudo_cambiar_de_arma;
+    this->pudo_cambiar_de_arma = true;
+    return bis;
 }
 
 Worm::~Worm(){

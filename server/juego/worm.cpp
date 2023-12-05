@@ -303,6 +303,11 @@ void Worm::cambiar_arma(uint8_t id_arma){
         break;
     }
     armaActual = coleccionArmas->SeleccionarArma(id_arma);
+    if(armaActual->get_ammo() == 0){
+        armaActual = nullptr;
+        status = WormStates::IDLE;
+    }
+
 }
 
 void Worm::iniciar_carga() {

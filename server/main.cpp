@@ -6,10 +6,12 @@
 
 int main(int argc, char* argv[]){
 
-    const char* name = "1626";
+    if (argc < 2 || argc > 3) {
+        throw std::runtime_error("Los parametros ingresados son incorrectos.\n");
+    }
 
-    Aceptador skt(name);
-    printf("Se abre un server con puerto : %s\n",name);
+    Aceptador skt(argv[1]);
+    printf("Se abre un server con puerto : %s\n", argv[1]);
     skt.start();
 
     ServerMain srvr (argc, argv);

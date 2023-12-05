@@ -9,7 +9,9 @@ SnapshotPartida::SnapshotPartida(std::vector<WormWrapper> worms_,
                                 std::vector<SoundTypes> sonidos,
                                 std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales_,
                                 std::vector<std::pair<int,int>> municion_armas_,
-                                uint16_t carga_actual_):
+                                uint16_t carga_actual_,
+                                float viento_,
+                                bool es_negativo_):
                 Snapshot(tipo_snapshot::TIPO_PARTIDA, worms_, gusano_actual_),
                 proyectiles(proyectiles_),
                 explosiones(explosiones_),
@@ -18,7 +20,9 @@ SnapshotPartida::SnapshotPartida(std::vector<WormWrapper> worms_,
                 sonidos(sonidos),
                 armas_especiales(armas_especiales_),
                 municion_armas(municion_armas_),
-                carga_actual(carga_actual_) {}
+                carga_actual(carga_actual_),
+                viento(viento_),
+                es_negativo(es_negativo_) {}
 
 float SnapshotPartida::get_tiempo_actual(){
     return this->tiempo_actual;
@@ -53,4 +57,12 @@ std::vector<std::pair<int,int>>& SnapshotPartida::get_municion_armas(){
 }
 uint16_t& SnapshotPartida::get_carga_actual(){
     return this->carga_actual;
+}
+
+float& SnapshotPartida::get_viento(){
+    return this->viento;
+}
+
+bool& SnapshotPartida::viento_es_negativo(){
+    return this->es_negativo;
 }

@@ -126,7 +126,7 @@ public:
 
     void get_gusanos(std::vector<WormWrapper>& worm_vector);
 
-    void get_projectiles(std::vector<ProjectileWrapper>& projectile_vector);
+    void get_projectiles(std::vector<ProjectileWrapper>& projectile_vector, uint32_t& apuntar_camara);
 
     void get_explosions(std::vector<ExplosionWrapper>& explosion_vector);
 
@@ -139,6 +139,8 @@ public:
     uint32_t get_tiempo_turno_actual();
 
     uint16_t get_carga_actual();
+
+    float get_viento_actual(bool& es_negativo);
 
     private:
 

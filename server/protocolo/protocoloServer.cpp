@@ -134,6 +134,7 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap){
     enviar_explosiones(snapshot->get_explosiones());
     enviar_provisiones(snapshot->get_provisiones());
     enviar_sonidos(snapshot->get_sonidos());
+    enviar_viento(snapshot->get_viento(), snapshot->viento_es_negativo());
 
 }
 
@@ -348,4 +349,9 @@ void ServerProtocolo::enviar_municiones(std::vector<std::pair<int,int>>& municio
 
 void ServerProtocolo::enviar_carga_actual(uint16_t& carga){
     enviar_2_byte(carga);
+}
+
+void ServerProtocolo::enviar_viento(float& viento, bool& es_negativo){
+    enviar_1_byte(es_negativo);
+    enviar_4_bytes_float(viento);
 }

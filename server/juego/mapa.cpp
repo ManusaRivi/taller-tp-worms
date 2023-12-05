@@ -382,14 +382,16 @@ void Mapa::get_gusanos(std::vector<WormWrapper>& worm_vector){
     }
 }
 
-void Mapa::get_projectiles(std::vector<ProjectileWrapper>& projectile_vector) {
+void Mapa::get_projectiles(std::vector<ProjectileWrapper>& projectile_vector, uint32_t& apuntar_camara_a) {
     for (auto projectile : projectiles) {
         if(!projectile){
             continue;
         }
         b2Vec2 position = projectile->getPosition();
         float angle = projectile->getAngle();
-        
+        if(projectile->getType() != ProjectileType::AIR_MISSILE && projectile->getType() != ProjectileType::FRAGMENT){
+            apuntar_camara_a = projectile->get_id();
+        }
         angle += 1.57;
         // printf("los angulos que se devuelven son %f\n",angle);
         projectile_vector.push_back(ProjectileWrapper(position.x, position.y, angle, projectile->getType(),projectile->get_id()));
@@ -456,4 +458,17 @@ uint32_t Mapa::get_tiempo_turno_actual(){
 
 uint16_t Mapa::get_carga_actual(){
     return worms[this->turnManager.get_gusano_actual()]->get_carga_actual();
+}
+
+
+float Mapa::get_viento_actual(bool& es_negativo){
+    // printf("El viento es : %f\n",this->viento);
+    if(this->viento< 0){
+        es_negativo = true;
+        return abs(this->viento);
+    }
+    else{
+        return this->viento;
+    }
+    
 }

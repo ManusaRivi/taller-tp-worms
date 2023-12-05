@@ -87,14 +87,17 @@ void Partida::run()try{{
 }
 
 std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
+
+    uint32_t tiempo_del_turno = mapa.get_tiempo_turno_actual(); // ESTO SERA EL TURN_TIMER!!!
+    uint32_t gusano_jugando_actualmente = mapa.gusano_actual();
+
     std::vector<WormWrapper> vector_gusanos;
     mapa.get_gusanos(vector_gusanos);
     std::vector<ProjectileWrapper> vector_proyectiles;
-    mapa.get_projectiles(vector_proyectiles);
+    mapa.get_projectiles(vector_proyectiles,gusano_jugando_actualmente);
     std::vector<ExplosionWrapper> vector_explosiones;
     mapa.get_explosions(vector_explosiones);
-    uint32_t tiempo_del_turno = mapa.get_tiempo_turno_actual(); // ESTO SERA EL TURN_TIMER!!!
-    uint32_t gusano_jugando_actualmente = mapa.gusano_actual();
+
     std::vector<SoundTypes> sonidos;
     mapa.get_sounds(sonidos);
     std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales;
@@ -102,6 +105,8 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
     std::vector<std::pair<int,int>> municion_armas;
     mapa.get_municiones_worm(municion_armas);
     uint16_t carga_actual = mapa.get_carga_actual();
+    bool es_negativo = false;
+    float viento_actual = mapa.get_viento_actual(es_negativo);
 
     std::vector<ProvisionWrapper> vector_provisiones;
     mapa.get_provisiones(vector_provisiones);
@@ -117,7 +122,9 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
                                                                             sonidos,
                                                                             armas_especiales,
                                                                             municion_armas,
-                                                                            carga_actual);
+                                                                            carga_actual,
+                                                                            viento_actual,
+                                                                            es_negativo);
     return snap;
 }
 

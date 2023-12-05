@@ -3,8 +3,8 @@
 
 #include "../comunicacion/projectile.h"
 
-#define FRAGMENT_HEIGHT 0.4
-#define FRAGMENT_WIDTH 0.4
+#define FRAGMENT_HEIGHT 1.7
+#define FRAGMENT_WIDTH 1.7
 
 class Fragment: public ProjectileClient {
     public:

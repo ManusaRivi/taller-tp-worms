@@ -9,7 +9,7 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
             Colisionable(bodyType::WORM), coleccionArmas(std::make_unique<ColeccionArmas>(world)),
             armaActual(nullptr), facingDirection(direction), status(WormStates::IDLE), id(id_),
             angulo_disparo(0.0f), hitPoints(hitPoints), maxHealth(hitPoints), numBeamContacts(0), initialHeight(0.0f), finalHeight(0.0f),
-            airborne(false), moving(false), apuntando(false), tomoDmgEsteTurno(false), x_target(0), y_target(0),pudo_cambiar_de_arma(true), super_velocidad(false), jumpSteps(0)
+            airborne(false), moving(false), apuntando(false), tomoDmgEsteTurno(false), x_target(0), y_target(0),pudo_cambiar_de_arma(true), super_velocidad(false), super_salto(false), jumpSteps(0)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -91,17 +91,30 @@ void Worm::JumpForward() {
     if (this->isAirborne()) return;
     if (this->isMoving()) Stop();
     status = WormStates::JUMP;
-    jumpSteps = FORWARD_JUMP_STEPS;
-    float impulse = body->GetMass() * FORWARD_JUMP_IMPULSE_MULTIPLIER;
+
+    float multiplier = 0;
+    float velocity_ = 0;
+
+    if(super_salto == false) {
+        jumpSteps = FORWARD_JUMP_STEPS;
+        multiplier = FORWARD_JUMP_IMPULSE_MULTIPLIER;
+        velocity_ = FORWARD_JUMP_X_VELOCITY;
+    } else {
+        jumpSteps = SUPER_FORWARD_JUMP_STEPS;
+        multiplier = SUPER_FORWARD_JUMP_IMPULSE_MULTIPLIER;
+        velocity_ = SUPER_FORWARD_JUMP_X_VELOCITY;
+    }
+
+    float impulse = body->GetMass() * multiplier;
     body->ApplyLinearImpulse(b2Vec2(0, impulse), body->GetWorldCenter(), true);
 
     b2Vec2 velocity = body->GetLinearVelocity();
     switch(facingDirection) {
         case RIGHT:
-            velocity.x = FORWARD_JUMP_X_VELOCITY;
+            velocity.x = velocity_;
             break;
         case LEFT:
-            velocity.x = -1 * FORWARD_JUMP_X_VELOCITY;
+            velocity.x = -1 * velocity_;
             break;
     }
     body->SetLinearVelocity(velocity);
@@ -111,17 +124,30 @@ void Worm::JumpBackward() {
     if (this->isAirborne()) return;
     if (this->isMoving()) Stop();
     status = WormStates::BACKFLIP;
-    jumpSteps = BACKWARD_JUMP_STEPS;
-    float impulse = body->GetMass() * BACKWARD_JUMP_IMPULSE_MULTIPLIER;
+
+    float multiplier = 0;
+    float velocity_ = 0;
+
+    if(super_salto == false) {
+        jumpSteps = BACKWARD_JUMP_STEPS;
+        multiplier = BACKWARD_JUMP_IMPULSE_MULTIPLIER;
+        velocity_ = BACKWARD_JUMP_X_VELOCITY;
+    } else {
+        jumpSteps = SUPER_BACKWARD_JUMP_STEPS;
+        multiplier = SUPER_BACKWARD_JUMP_IMPULSE_MULTIPLIER;
+        velocity_ = SUPER_BACKWARD_JUMP_X_VELOCITY;
+    }
+
+    float impulse = body->GetMass() * multiplier;
     body->ApplyLinearImpulse(b2Vec2(0, impulse), body->GetWorldCenter(), true);
 
     b2Vec2 velocity = body->GetLinearVelocity();
     switch(facingDirection) {
         case RIGHT:
-            velocity.x = -1 * BACKWARD_JUMP_X_VELOCITY;
+            velocity.x = -1 * velocity_;
             break;
         case LEFT:
-            velocity.x = BACKWARD_JUMP_X_VELOCITY;
+            velocity.x = velocity_;
             break;
     }
     body->SetLinearVelocity(velocity);
@@ -562,6 +588,10 @@ void Worm::reducir_vida() {
 
 void Worm::super_velocidad_gusano() {
     super_velocidad = !super_velocidad;
+}
+
+void Worm::super_salto_gusano() {
+    super_salto = !super_salto;
 }
 
 bool Worm::get_pudo_cambiar_de_arma(){

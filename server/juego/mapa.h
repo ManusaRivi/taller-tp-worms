@@ -148,6 +148,8 @@ public:
 
     void super_velocidad();
 
+    void super_salto();
+
     uint32_t get_equipo_ganador(bool& fue_empate);
 
     void pudo_cambiar_de_arma(bool& pudo_cambiar);

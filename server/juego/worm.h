@@ -36,11 +36,20 @@ enum directions {
 #define FORWARD_JUMP_STEPS 38
 #define BACKWARD_JUMP_STEPS 58
 
+#define SUPER_FORWARD_JUMP_STEPS 58
+#define SUPER_BACKWARD_JUMP_STEPS 78
+
 #define FORWARD_JUMP_IMPULSE_MULTIPLIER 3.25
 #define BACKWARD_JUMP_IMPULSE_MULTIPLIER 5
 
+#define SUPER_FORWARD_JUMP_IMPULSE_MULTIPLIER 5
+#define SUPER_BACKWARD_JUMP_IMPULSE_MULTIPLIER 7
+
 #define FORWARD_JUMP_X_VELOCITY 1.62
 #define BACKWARD_JUMP_X_VELOCITY 0.2
+
+#define SUPER_FORWARD_JUMP_X_VELOCITY 4
+#define SUPER_BACKWARD_JUMP_X_VELOCITY 1
 
 class ColeccionArmas;
 
@@ -72,6 +81,7 @@ private:
     float dead_position_angle;
     bool pudo_cambiar_de_arma;
     bool super_velocidad;
+    bool super_salto;
 
 public:
     int jumpSteps;
@@ -183,6 +193,7 @@ public:
 
     void reducir_vida();
     void super_velocidad_gusano();
+    void super_salto_gusano();
 
     bool get_pudo_cambiar_de_arma();
 

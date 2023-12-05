@@ -8,10 +8,11 @@ ActivarCheat::ActivarCheat(uint8_t tipo_de_cheat_, uint32_t id_responsable):Coma
 
 
 void ActivarCheat::realizar_accion(Mapa& mapa){
-    if(tipo_de_cheat == Cheats::SETEAR_VIDA_A_1){
+    if(tipo_de_cheat == Cheats::SETEAR_VIDA_A_1) {
         mapa.reducir_vida();
-    }
-    if(tipo_de_cheat == Cheats::SUPER_VELOCIDAD){
+    } else if (tipo_de_cheat == Cheats::SUPER_VELOCIDAD) {
         mapa.super_velocidad();
+    } else if (tipo_de_cheat == Cheats::SUPER_SALTO) {
+        mapa.super_salto();
     }
 }

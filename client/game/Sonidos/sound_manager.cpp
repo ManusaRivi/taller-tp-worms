@@ -98,6 +98,10 @@ std::shared_ptr<SDL2pp::Chunk> SoundManager::get_sound(int sound_type) {
     case SoundTypes::WIN:
         sound_name = "SomosLosMejores";
         return sounds.at(sound_name);
+    
+    case SoundTypes::PICK_UP_PROV:
+        sound_name = "PickUp";
+        return sounds.at(sound_name);
 
     default:
         throw std::runtime_error("El sonido que se pidio no existe");

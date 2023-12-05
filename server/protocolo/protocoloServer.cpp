@@ -340,6 +340,7 @@ void ServerProtocolo::enviar_datos_especiales(std::vector<std::pair<uint8_t,std:
 void ServerProtocolo::enviar_municiones(std::vector<std::pair<int,int>>& municion_armas){
     enviar_2_byte(municion_armas.size());
     for (auto c: municion_armas){
+        // printf("Se envia una municion\n");
         enviar_1_byte(c.first);
         enviar_2_byte(c.second);
     }

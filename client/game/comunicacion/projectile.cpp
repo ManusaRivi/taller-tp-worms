@@ -61,3 +61,12 @@ void ProjectileClient::present(int& it, Renderer& renderer, TextureManager& text
 				SDL_FLIP_NONE        // Flip
 			);
 }
+
+
+
+    float& ProjectileClient::get_x_test(){
+        return this->_pos_x;
+    }
+    float& ProjectileClient::get_y_test(){
+        return this->_pos_y;
+    }

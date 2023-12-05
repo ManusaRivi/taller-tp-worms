@@ -20,7 +20,8 @@ enum SoundTypes {
     WORM_HURT_SHOUT,
     WORM_GRENADE_SHOUT,
     WORM_BAZOOKA_SHOUT,
-    WIN
+    WIN,
+    PICK_UP_PROV
 };
 
 #endif

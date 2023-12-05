@@ -48,6 +48,9 @@
 - nombre: HolyGranadeImpact
   ruta: /client/game/Sonidos/data/Efectos/HolyGranadeImpact.WAV
 
+- nombre: PickUp
+  ruta: /client/game/Sonidos/data/Efectos/PickUp.mp3
+
 # Gusanos
 - nombre: AdiosMundoCruel
   ruta: /client/game/Sonidos/data/Gusanos/AdiosMundoCruel.wav

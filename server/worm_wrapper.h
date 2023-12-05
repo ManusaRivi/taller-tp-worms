@@ -63,6 +63,8 @@ public:
         return equipo;
     }
 
+    ~WormWrapper() = default;
+
 };
 
 #endif

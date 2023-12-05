@@ -93,6 +93,10 @@ class SnapshotCliente {
 
     void actulizar_camara(uint32_t id);
 
+    //FUNCION PARA TESTEAR
+    std::map<int,int> get_municiones();
+    std::vector<std::pair<uint8_t,std::vector<float>>> get_datos_especiales();
+    std::vector<std::unique_ptr<ProjectileClient>>& get_proyectiles();
 
     
 };

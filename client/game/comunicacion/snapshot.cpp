@@ -140,3 +140,19 @@ std::map<int, std::shared_ptr<Worm>> SnapshotCliente::get_worms(){
 void SnapshotCliente::actulizar_camara(uint32_t id){
     this->_id_camera = id;
 }
+
+std::map<int,int> SnapshotCliente::get_municiones(){
+    return this->ammo;
+}
+
+std::vector<std::pair<uint8_t,std::vector<float>>> SnapshotCliente::get_datos_especiales(){
+    std::vector<std::pair<uint8_t,std::vector<float>>> dat;
+    dat.push_back(std::pair<uint8_t,std::vector<float>>({has_tp,{tp_x,tp_y}}));
+    dat.push_back(std::pair<uint8_t,std::vector<float>>({has_air_attack,{air_attack_x,air_attack_y}}));
+    dat.push_back(std::pair<uint8_t,std::vector<float>>({has_timer,{static_cast<float>(timer)}}));
+    return dat;
+}
+
+std::vector<std::unique_ptr<ProjectileClient>>& SnapshotCliente::get_proyectiles(){
+    return this->projectiles;
+}

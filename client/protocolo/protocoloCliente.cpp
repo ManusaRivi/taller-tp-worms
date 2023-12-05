@@ -215,6 +215,7 @@ void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
         std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(estado, direccion == 0, angulo, angulo_disparo);
         std::shared_ptr<Worm> worm = std::make_shared<Worm>(pos_x, pos_y, vida, equipo, std::move(state));
         snap->add_worm(worm, id_gusano);
+        // printf("Se llega hasta aca\n");
     }
     
 }
@@ -379,6 +380,7 @@ void ClienteProtocolo::recibir_datos_especiales(std::shared_ptr<SnapshotCliente>
 void ClienteProtocolo::recibir_municiones(std::shared_ptr<SnapshotCliente> snap){
     uint16_t cantidad = recibir_2_bytes();
     for(uint16_t i = 0; i < cantidad; i++){
+        // printf("Se recibe una municion\n");
         int tipo_arma = recibir_1_byte();
         int municion = recibir_2_bytes();
         snap->set_ammo(tipo_arma, municion);

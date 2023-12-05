@@ -1,6 +1,8 @@
 #ifndef GRAVE_H
 #define GRAVE_H
 
+#define GRAVE_SIDE 2.3
+
 #include "worm_state.h"
 
 class Grave: public WormState {

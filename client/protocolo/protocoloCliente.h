@@ -45,6 +45,7 @@ class ClienteProtocolo:public Protocolo{
     std::shared_ptr<MensajeCliente> recibir_snap();
     void enviar_timer(uint32_t time);
     void enviar_target(float x, float y);
+    void enviar_cheat(uint8_t tipo_de_cheat);
 
     uint8_t recibir_confirmacion_union();
 

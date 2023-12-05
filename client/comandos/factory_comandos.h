@@ -11,6 +11,7 @@
 #include "comando_cambiar_direccion_arma.h"
 #include "comando_setear_timer.h"
 #include "comando_setear_target.h"
+#include "comando_activar_cheat.h"
 
 class FactoryComandos{
 
@@ -38,6 +39,8 @@ class FactoryComandos{
     std::shared_ptr<SetearTimerCliente> accion_setear_timer(uint32_t time);
 
     std::shared_ptr<SetearTargetCliente> accion_setear_target(float x, float y);
+
+    std::shared_ptr<ActivarCheatCliente> accion_cheat(uint8_t tipo_de_cheat);
 
 
 

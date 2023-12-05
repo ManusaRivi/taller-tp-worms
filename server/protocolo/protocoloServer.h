@@ -32,7 +32,7 @@ class ServerProtocolo:public Protocolo{
     std::shared_ptr<MensajeServer> recibir_id_gusanos();
     void enviar_gusanos(std::vector<WormWrapper>& worms);
     void enviar_estado_unirse(uint8_t estado);
-    void enviar_partida_termino();
+    void enviar_partida_termino(uint32_t equipo_ganador, bool fue_empate);
 
 
     // METODOS PUBLICOS PARA TESTEAR

@@ -68,6 +68,11 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id){
             comando = factory.comando_setear_timer(id,time);
             break;
         }
+        case(CODIGO_CHEATS):{
+            uint8_t tipo_de_cheat = recibir_1_byte();
+            comando = factory.comando_activar_cheat(tipo_de_cheat,id);
+            break;
+        }
     }
     return comando;
 
@@ -357,7 +362,9 @@ void ServerProtocolo::enviar_viento(float& viento, bool& es_negativo){
     enviar_4_bytes_float(viento);
 }
 
-void ServerProtocolo::enviar_partida_termino(){
+void ServerProtocolo::enviar_partida_termino(uint32_t equipo_ganador, bool fue_empate){
     uint8_t cd = CODIGO_PARTIDA_TERMINO;
     enviar_1_byte(cd);
+    enviar_1_byte(fue_empate);
+    enviar_4_bytes(equipo_ganador);
 }

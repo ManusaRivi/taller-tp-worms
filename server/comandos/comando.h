@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "../juego/mapa.h"
+#include "../../common/cheats.h"
 
 
 enum ESTADO{

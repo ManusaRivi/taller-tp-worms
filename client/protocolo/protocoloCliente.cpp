@@ -56,7 +56,9 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snapshot(){
     }
 
     if(cmd == CODIGO_PARTIDA_TERMINO){
-        return std::make_shared<MensajePartidaTermino>();
+        bool fue_empate = recibir_1_byte();
+        uint32_t equipo_ganador = recibir_4_bytes();
+        return std::make_shared<MensajePartidaTermino>(equipo_ganador,fue_empate);
     }
 
  
@@ -392,4 +394,11 @@ void ClienteProtocolo::recibir_municiones(std::shared_ptr<SnapshotCliente> snap)
         int municion = recibir_2_bytes();
         snap->set_ammo(tipo_arma, municion);
     }
+}
+
+
+void ClienteProtocolo::enviar_cheat(uint8_t tipo_de_cheat){
+    uint8_t cd = CODIGO_CHEATS;
+    enviar_1_byte(cd);
+    enviar_1_byte(tipo_de_cheat);
 }

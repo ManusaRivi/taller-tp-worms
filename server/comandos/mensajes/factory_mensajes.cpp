@@ -37,6 +37,6 @@ std::shared_ptr<MensajeEstadoUnirse> FactoryMensajesServer::estado_unirse_partid
     return make_shared<MensajeEstadoUnirse>(estado);
 }
 
-std::shared_ptr<MensajePartidaTermino> FactoryMensajesServer::partida_termino(){
-    return make_shared<MensajePartidaTermino>();
+std::shared_ptr<MensajePartidaTermino> FactoryMensajesServer::partida_termino(uint32_t equipo_ganador, bool fue_emapte){
+    return make_shared<MensajePartidaTermino>(equipo_ganador,fue_emapte);
 }

@@ -199,6 +199,8 @@ void Partida::comenzar_partida(){
 }
 
 void Partida::enviar_termino_partida(){
-    std::shared_ptr<MensajeServer> msg = mensajes.partida_termino();
+    bool fue_empate = false;
+    uint32_t equipo_ganador = mapa.get_equipo_ganador(fue_empate);
+    std::shared_ptr<MensajeServer> msg = mensajes.partida_termino(equipo_ganador,fue_empate);
     broadcaster.broadcastSnap(msg);
 }

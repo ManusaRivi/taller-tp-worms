@@ -71,5 +71,12 @@ std::shared_ptr<MensajeAccionJugador> FactoryMensaje::setear_target(float x, flo
     return msg;
 }
 
+std::shared_ptr<MensajeAccionJugador> FactoryMensaje::activar_cheat(uint8_t tipo_de_cheat){
+    std::shared_ptr<ComandoCliente> cmd = factory.accion_cheat(tipo_de_cheat);
+    std::shared_ptr<MensajeAccionJugador> msg = make_shared<MensajeAccionJugador>(cmd);
+    return msg;
+}
+
+
 
 

@@ -3,6 +3,7 @@
 #include "../comandos/mensajes/mensaje_handshake.h"
 #include "../comandos/mensajes/mensaje_snapshot.h"
 #include "../comandos/mensajes/mensaje_handshake_enviar.h"
+#include "../comandos/mensajes/mensaje_partida_termino.h"
 using namespace SDL2pp;
 
 #define GAME_MOVE_RIGHT 0x01
@@ -318,7 +319,8 @@ int Game::run() try {
         //Saco una SnapshotCliente de la Queue
         std::shared_ptr<MensajeCliente> snap = snapshots.pop();
 		if(snap->get_tipo_comando() == COMANDO::CMD_PARTIDA_TERMINADA){
-			drawGameOverScreen(renderer);
+			std::shared_ptr<MensajePartidaTermino> msg = std::dynamic_pointer_cast<MensajePartidaTermino>(snap);
+			drawGameOverScreen(renderer, msg->get_equipo_ganador(),msg->fue_empate_());
 			return 0;
 		}
 		if (snap->get_tipo_comando() == COMANDO::CMD_ENVIAR_SNAPSHOT){
@@ -379,8 +381,13 @@ void Game::get_mouse_position(int& mouse_rel_x, int& mouse_rel_y, float& scale_x
 }
 
 
-void Game::drawGameOverScreen(Renderer& renderer) {
-
+void Game::drawGameOverScreen(Renderer& renderer, uint32_t equipo_ganador, bool fue_empate) {
+	if(fue_empate){
+		printf("fue un empate\n");
+	}
+	else{
+		printf("No fue un empate\n y gano el equipo %u\n",equipo_ganador);
+	}
 	TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
 
     SDL_Color textColor = {255, 255, 255, 255};

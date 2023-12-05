@@ -48,7 +48,8 @@ void Enviador::run()try{{
             ptcl.enviar_estado_unirse(estado->get_state());
         }
         if(msg->get_tipo() == COMANDO::CMD_PARTIDA_TERMINO){
-            ptcl.enviar_partida_termino();
+            std::shared_ptr<MensajePartidaTermino> estado = std::dynamic_pointer_cast<MensajePartidaTermino>(msg);
+            ptcl.enviar_partida_termino(estado->get_equipo_ganador(),estado->fue_empate_());
         }
         
     }

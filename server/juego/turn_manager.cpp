@@ -312,3 +312,21 @@ uint32_t TurnManager::get_tiempo_actual(){
         return turn_timer/30;
     }
 }
+
+bool TurnManager::fue_empate(){
+    if(queue_siguiente_gusano_por_player.size() == 0){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+uint32_t TurnManager::equipo_ganador(){
+    if(queue_siguiente_gusano_por_player.size() == 0){
+        return 0;
+    }
+    else{
+        return queue_siguiente_gusano_por_player.begin()->first;
+    }
+}

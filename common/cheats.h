@@ -1,0 +1,16 @@
+#ifndef CHEATS_H
+#define CHEATS_H
+
+
+enum Cheats{
+    VIDA_INFINITA,
+    MUNICION_INFINITA,
+    SUPER_SALTO,
+    SUPER_VELOCIDAD,
+    SETEAR_VIDA_A_1,
+    MATAR_TODOS_LOS_GUSANOS_ENEMIGOS
+
+};
+
+
+#endif

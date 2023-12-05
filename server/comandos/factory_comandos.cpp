@@ -59,6 +59,9 @@ std::shared_ptr<SetearTimer> FactoryComandos::comando_setear_timer(uint32_t id, 
         return std::make_shared<SetearTimer>(time,id);
 }
 
+std::shared_ptr<ActivarCheat> FactoryComandos::comando_activar_cheat(uint32_t id,uint8_t tipo){
+        return std::make_shared<ActivarCheat>(tipo,id);
+}
 
 
 

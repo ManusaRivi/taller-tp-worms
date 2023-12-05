@@ -59,6 +59,8 @@ class TurnManager{
     void terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorms, bool& paso_de_turno);
     void pasar_turno_si_muerto(int idx,std::vector<std::shared_ptr<Worm>>& vectorWorms);
     uint32_t get_tiempo_actual();
+    bool fue_empate();
+    uint32_t equipo_ganador();
     private:
     void randomizar_queue_player();
     void turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vectorWorms);

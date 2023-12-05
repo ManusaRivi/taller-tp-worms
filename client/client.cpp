@@ -19,6 +19,10 @@ int Client::iniciar() {
 
         this->skt = this->login.getSocket();
 
+        if (this->skt == nullptr) {
+            return 0;
+        }
+
         //crear_partida();
         containerThreads container(*this->skt, queue_snapshots, queue_comandos);
 

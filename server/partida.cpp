@@ -89,12 +89,13 @@ void Partida::run()try{{
 std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
 
     uint32_t tiempo_del_turno = mapa.get_tiempo_turno_actual(); // ESTO SERA EL TURN_TIMER!!!
-    uint32_t gusano_jugando_actualmente = mapa.gusano_actual();
+    uint32_t gusano_actual = mapa.gusano_actual();
+    uint32_t donde_apuntar_camara = mapa.gusano_actual();
 
     std::vector<WormWrapper> vector_gusanos;
     mapa.get_gusanos(vector_gusanos);
     std::vector<ProjectileWrapper> vector_proyectiles;
-    mapa.get_projectiles(vector_proyectiles,gusano_jugando_actualmente);
+    mapa.get_projectiles(vector_proyectiles,donde_apuntar_camara);
     std::vector<ExplosionWrapper> vector_explosiones;
     mapa.get_explosions(vector_explosiones);
 
@@ -118,7 +119,8 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
                                                                             vector_explosiones,
                                                                             vector_provisiones,
                                                                             tiempo_del_turno,
-                                                                            gusano_jugando_actualmente,
+                                                                            gusano_actual,
+                                                                            donde_apuntar_camara,
                                                                             sonidos,
                                                                             armas_especiales,
                                                                             municion_armas,

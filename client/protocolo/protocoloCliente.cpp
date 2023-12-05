@@ -148,7 +148,8 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     // printf("Se llega hasta aca\n");
     std::shared_ptr<SnapshotCliente> snap = std::make_shared<SnapshotCliente>(0);
     uint32_t turno_player_actual = recibir_4_bytes();
-    snap->actulizar_camara(turno_player_actual);
+    uint32_t camara_a_seguir = recibir_4_bytes();
+    snap->actulizar_camara(camara_a_seguir);
     snap->agregar_turno_actual(turno_player_actual);
     int carga_actual_del_arma = recibir_2_bytes();
     snap->set_weapon_power(carga_actual_del_arma);
@@ -161,7 +162,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     recibir_sonidos(snap);
     bool es_negativo = recibir_1_byte();
     if(es_negativo){
-        
+
     }
     float viento = recibir_4_bytes_float();
     printf("Se recibio el viento %f\n", viento);

@@ -338,7 +338,7 @@ void Mapa::detener_worm(uint32_t id){
  * */
 
 std::map<uint32_t, std::vector<uint32_t>> Mapa::repartir_ids(uint32_t cantidad_jugadores){
-    this->identificador_entidades = cantidad_jugadores + 1;
+    this->identificador_entidades = worms.size();
     return this->turnManager.repartir_turnos(cantidad_jugadores,worms);
 }
 
@@ -390,6 +390,7 @@ void Mapa::get_projectiles(std::vector<ProjectileWrapper>& projectile_vector, ui
         b2Vec2 position = projectile->getPosition();
         float angle = projectile->getAngle();
         if(projectile->getType() != ProjectileType::AIR_MISSILE && projectile->getType() != ProjectileType::FRAGMENT){
+            printf("Se cambia la camara\n");
             apuntar_camara_a = projectile->get_id();
         }
         angle += 1.57;

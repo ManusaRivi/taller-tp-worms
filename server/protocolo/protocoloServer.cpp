@@ -126,6 +126,7 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap){
     uint8_t cmd = CODIGO_SNAPSHOT;
     enviar_1_byte(cmd);
     enviar_4_bytes(snapshot->get_gusano_actual());
+    enviar_4_bytes(snapshot->get_id_a_seguir());
     enviar_carga_actual(snapshot->get_carga_actual());
     enviar_datos_especiales(snapshot->get_armas_especiales());
     enviar_municiones(snapshot->get_municion_armas());

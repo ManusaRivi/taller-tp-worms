@@ -1,4 +1,3 @@
-//#include "poc.h"
 #include "threads/threadAceptador.h"
 #include "monitorBroadcaster.h"
 #include "partida.h"
@@ -11,7 +10,6 @@ int main(int argc, char* argv[]){
     }
 
     Aceptador skt(argv[1]);
-    printf("Se abre un server con puerto : %s\n", argv[1]);
     skt.start();
 
     ServerMain srvr (argc, argv);
@@ -20,6 +18,5 @@ int main(int argc, char* argv[]){
     skt.shutdown();
     skt.join();
     
-    printf("Se cierra el server correctamente\n");
     return 0;
 }

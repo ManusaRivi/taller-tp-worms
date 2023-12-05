@@ -242,7 +242,7 @@ void MainWindow::agregarVigaImportada(float pos_x, float pos_y, float angulo) {
 
     mitadViga->setPos((pos_x + 0.375) * 69 / 3 - boundingRect.width()/2, -(23 * pos_y - 2 * OFFSET_CAMARA + boundingRect.height()/2));
 
-    this->angulos.push_back(angulo);
+    this->angulos.push_back(180 - angulo);
     this->vigas.push_back(mitadViga);
     this->scene->addItem(mitadViga);
 }
@@ -257,7 +257,7 @@ void MainWindow::agregarVigaLargaImportada(float pos_x, float pos_y, float angul
 
     viga->setPos(pos_x * 69 / 3 - boundingRect.width()/2, -(23 * pos_y - 2 * OFFSET_CAMARA + boundingRect.height()/2));
 
-    this->angulos.push_back(angulo);
+    this->angulos.push_back(180 - angulo);
     this->vigas.push_back(viga);
     this->scene->addItem(viga);
 }

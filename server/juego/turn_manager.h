@@ -47,7 +47,7 @@ class TurnManager{
     TurnManager();
     void cargar_cantidad_gusanos(uint32_t cantidad_gusanos);
     std::map<uint32_t, std::vector<uint32_t>> repartir_turnos(uint32_t cantidad_players,std::vector<std::shared_ptr<Worm>>& vectorWorms);
-    void avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr<Worm>>& vectorWorms, bool perdio_turno);
+    void avanzar_tiempo(std::vector<std::shared_ptr<Worm>>& vectorWorms, bool perdio_turno);
 
     bool es_gusano_actual(uint32_t idx);
     uint32_t get_player_actual();

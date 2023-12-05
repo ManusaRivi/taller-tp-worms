@@ -196,8 +196,6 @@ public:
     void super_salto_gusano();
 
     bool get_pudo_cambiar_de_arma();
-
-    ~Worm();
 };
 
 #endif

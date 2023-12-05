@@ -35,7 +35,6 @@ void Partida::run()try{{
     while (is_alive){
 
         auto t1 = std::chrono::high_resolution_clock::now();
-        //float elapsed = currentTime - startTime;
         std::vector<std::shared_ptr<Comando>> comandos_a_ejecutar;
         std::shared_ptr<Comando> comando;
         while(acciones_a_realizar.try_pop(comando)){
@@ -51,13 +50,11 @@ void Partida::run()try{{
             c->realizar_accion(mapa);
         }
 
-        bool terminaron_fisicas = mapa.Step(it);
+        bool terminaron_fisicas = mapa.Step();
 
         if(mapa.checkOnePlayerRemains()) {
-            //printf("solo queda un player. terminando las fisicas\n");
             is_alive = false;
             if(terminaron_fisicas){
-                //printf("La partida termino\n");
                 partida_terminada = true;
                 enviar_termino_partida();
                 return;
@@ -122,8 +119,6 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
 
     bool pudo_cambiar_de_arma;
     mapa.pudo_cambiar_de_arma(pudo_cambiar_de_arma);
-    // Snapshot snap(mapa.get_gusanos());
-    // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa.gusano_actual());
     std::shared_ptr<SnapshotPartida> snap = std::make_shared<SnapshotPartida>(vector_gusanos,
                                                                             vector_proyectiles,
                                                                             vector_explosiones,

@@ -76,7 +76,7 @@ public:
     explicit Mapa(std::string map_filepath);
     void Load_Map_File(std::string filepath);
     void cambiar_viento();
-    bool Step(int iteracion);
+    bool Step();
     /*
     * Setea la velocidad del gusano dado por idx, que es el
     * indice en el vector gusanos del gusano a mover.

@@ -235,7 +235,6 @@ void Worm::kill() {
     body->GetWorld()->DestroyBody(body);
     status = WormStates::DEAD;
     this->hitPoints = 0;
-    //delete this->coleccionArmas;
 }
 
 void Worm::detener_acciones(){
@@ -599,8 +598,3 @@ bool Worm::get_pudo_cambiar_de_arma(){
     this->pudo_cambiar_de_arma = true;
     return bis;
 }
-
-Worm::~Worm(){
-    // printf("Se destruye el gusano\n");
-}
-

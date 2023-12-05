@@ -123,7 +123,7 @@ bool TurnManager::checkOnePlayerRemains(std::vector<std::shared_ptr<Worm>>& vect
     return queue_orden_players.empty();
 }
 
-void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr<Worm>>& vectorWorms, bool perdio_turno){
+void TurnManager::avanzar_tiempo(std::vector<std::shared_ptr<Worm>>& vectorWorms, bool perdio_turno){
     if (perdio_turno && state == TURN) {
         detener_gusano_actual(vectorWorms);
         turno_siguiente_player(vectorWorms);
@@ -136,7 +136,6 @@ void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr
     }
     if (state == BONUS_TURN) {
         if (bonus_turn_timer == FRAME_RATE * BONUS_SECONDS) {
-            //printf("El tiempo bonus termina\n");
             detener_gusano_actual(vectorWorms);
             state = WAITING;
         }
@@ -181,7 +180,6 @@ GameStates TurnManager::get_state() { return state; }
 
 void TurnManager::activar_bonus_turn() {
     if (state == TURN) {
-        //printf("Se activa el bonus turn\n");
         state = BONUS_TURN;
         bonus_turn_timer = 0;
     }
@@ -189,7 +187,6 @@ void TurnManager::activar_bonus_turn() {
 
 void TurnManager::terminar_espera(std::vector<std::shared_ptr<Worm>>& vectorWorms, bool& paso_de_turno) {
     if (state == WAITING) {
-        //printf("El tiempo de espera termina\n");
         state = TURN;
         turn_timer = 0;
         waiting_timer = 0;
@@ -205,7 +202,6 @@ void TurnManager::randomizar_queue_player(){
         auto rng = std::default_random_engine { rd() };
         std::shuffle(std::begin(copia_vector), std::end(copia_vector), rng);
         for (auto&w : copia_vector){
-            //printf("Se le entrega al player %u: el gusano %u\n",c.first,w);
             queue_siguiente_gusano_por_player[c.first].push_back(w);
         }
     }
@@ -224,7 +220,6 @@ void TurnManager::randomizar_queue_player(){
 
 
 void TurnManager::turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vectorWorms){
-    //printf("Es el turno de %u  con gusano  %u", this->id_player_actual, id_gusano_actual);
     uint32_t turno_actual = this->id_player_actual;
     if(gusano_esta_vivo(this->id_gusano_actual,vectorWorms)){ // Si el gusano esta vivo lo agrego a la queue (sera el ultimo gusano)
         queue_siguiente_gusano_por_player[this->id_player_actual].push_back(this->id_gusano_actual);
@@ -277,9 +272,6 @@ void TurnManager::turno_siguiente_player(std::vector<std::shared_ptr<Worm>>& vec
     else{
         this->id_player_actual = turno_;
     }
-    
-    //printf("Y es lo entrego a %u con el gusano %u\n",this->id_player_actual,this->id_gusano_actual);
-
 }
 
 bool TurnManager::gusano_esta_vivo(uint32_t id,std::vector<std::shared_ptr<Worm>>& vectorWorms){

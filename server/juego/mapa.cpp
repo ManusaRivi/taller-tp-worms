@@ -72,14 +72,11 @@ void Mapa::crear_provisiones() {
         
         float x_pos = rand() % MAX_PROVISION_X_POS;
         float proba = dist(rng);
-        //printf("La proba es : %f\n", proba);
         if(proba < 0.3){
             provisiones.push_back(std::make_shared<Municion> (world, this->identificador_entidades++, x_pos, PROVISION_HEIGHT));
-            //printf("Se crea una provision de municion\n");
         }
         else if (proba >= 0.3 && proba < 0.7){
             provisiones.push_back(std::make_shared<VidaServer> (world, this->identificador_entidades++, x_pos, PROVISION_HEIGHT, config.provision_healing));
-            //printf("Se crea vida\n");
         }
         else if (proba >= 0.7) {
             provisiones.push_back(std::make_shared<Trampa> (world, this->identificador_entidades++, x_pos, PROVISION_HEIGHT, config.provision_dmg));
@@ -96,17 +93,15 @@ bool Mapa::crear_provisiones_en_turno(){
     return (dist(e2) < PROBABILDAD_DE_CREAR_PROVISIONES);
 }
 
-bool Mapa::Step(int iteracion) {
+bool Mapa::Step() {
     int idx = 0;
     bool terminar_espera = true;
     bool pierde_turno = false;
     auto it = worms.begin();
     while (it != worms.end()) {
         if ((*it)->isDead() && (*it)->get_status() != WormStates::DEAD) {
-            // printf("Se murio un gusano\n");
             (*it)->kill();
             this->turnManager.pasar_turno_si_muerto(idx,worms);
-            // it = worms.erase(it);
             idx++;
             it++;
             continue;
@@ -156,7 +151,6 @@ bool Mapa::Step(int iteracion) {
         if (projectile->hasExploded()) {
             projectile->explotar();
             b2Vec2 position = projectile->getPosition();
-            // Se añade el proyectil que exploto a la lista de proyectiles pasados
             explosions.push(ExplosionWrapper (position.x, position.y, projectile->getRadius(), this->identificador_entidades++));
             sounds.push(SoundTypes::EXPLOSION);
 
@@ -212,12 +206,11 @@ bool Mapa::Step(int iteracion) {
             provisiones.clear();
             cambiar_viento();
             if (crear_provisiones_en_turno()) {
-                //printf("Se crean provisiones\n");
                 crear_provisiones();
             }
         }
     }
-    turnManager.avanzar_tiempo(iteracion, worms, pierde_turno);
+    turnManager.avanzar_tiempo(worms, pierde_turno);
     world.Step(timeStep, velocityIterations, positionIterations);
     return terminar_espera;
 }
@@ -280,12 +273,8 @@ void Mapa::cambiar_arma(uint32_t id, uint8_t tipo_arma){
 
 void Mapa::apuntar_para(uint32_t id, int dir){
     GameStates status = turnManager.get_state();
-    // printf("el status del worm es : %i\n",status);
-    // printf("El id es %u   y el player actual es %u\n",id,turnManager.get_player_actual());
     if (status == BONUS_TURN || status == WAITING) return;
-    // printf("El Player que pide aumentar el angulo es %u   y el ID el player actual es %u\n", id,turnManager.get_player_actual());
     if(id != turnManager.get_player_actual()) return;
-    // printf("Y es permitido cambiar el angulo\n");
     worms[turnManager.get_gusano_actual()]->esta_apuntando_para(dir);
 }
 
@@ -304,7 +293,6 @@ void Mapa::usar_arma(uint32_t id) {
     if(worms[turnManager.get_gusano_actual()]->usar_arma(projectiles, this->identificador_entidades)){
         turnManager.activar_bonus_turn();
         worms[turnManager.get_gusano_actual()]->Stop();
-        // printf("Se dispara el arma\n");
     }
 
 }
@@ -376,7 +364,6 @@ uint16_t Mapa::gusanos_totales(){
 void Mapa::get_gusanos(std::vector<WormWrapper>& worm_vector){
     for(auto worm: this->worms){
         std::vector<float> posicion = worm->GetPosition();
-        // printf("la posicion del gusano que se envia es %f   %f\n",posicion[0],posicion[1]);
         worm_vector.push_back(WormWrapper(posicion, worm->get_facing_direction(),
                                             worm->get_status(), worm->get_id(),
                                             worm->get_angulo(), worm->get_aiming_angle(),
@@ -392,11 +379,9 @@ void Mapa::get_projectiles(std::vector<ProjectileWrapper>& projectile_vector, ui
         b2Vec2 position = projectile->getPosition();
         float angle = projectile->getAngle();
         if(projectile->getType() != ProjectileType::AIR_MISSILE && projectile->getType() != ProjectileType::FRAGMENT){
-            // printf("Se cambia la camara\n");
             apuntar_camara_a = projectile->get_id();
         }
         angle += 1.57;
-        // printf("los angulos que se devuelven son %f\n",angle);
         projectile_vector.push_back(ProjectileWrapper(position.x, position.y, angle, projectile->getType(),projectile->get_id()));
     }
 }
@@ -465,7 +450,6 @@ uint16_t Mapa::get_carga_actual(){
 
 
 float Mapa::get_viento_actual(bool& es_negativo){
-    // printf("El viento es : %f\n",this->viento);
     if(this->viento< 0){
         es_negativo = true;
         return abs(this->viento);

@@ -12,11 +12,7 @@
 #define PROJECTILE_WIDTH 2.3
 #define PROJECTILE_HEIGHT 2.3
 
-/*
- * Representa el proyectil
- * ToDo:    Cambiar a clase abstracta con descendientes
- *          cuando haya mas que un unico tipo de proyectil.
- */
+
 class ProjectileClient {
     protected:
     std::string texture_name;

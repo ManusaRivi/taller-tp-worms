@@ -175,15 +175,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     bool viento_es_negativo = recibir_1_byte();
     float viento = recibir_4_bytes_float();
     snap->set_wind(viento_es_negativo, viento);
-    
-    /*
-    int tamano = 6;
-    float posx = 1.5;
-    float posy = 0.8;
-    Beam beam(tamano, posx, posy);
-    snap->add_beam(beam);
-    */
-    //std::cout << "Es el turno del gusano con ID = " << unsigned(turno_player_actual) << std::endl;
+
     
     std::shared_ptr<MensajeSnapshot> msg = std::make_shared<MensajeSnapshot>(snap);
     return msg;

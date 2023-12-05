@@ -341,7 +341,6 @@ int Game::run() try {
 			}
 			snapshot->apply_to_world((*world));
 			(*world).present(it_inc, renderer, texture_manager, sound_manager, mixer, x_scale, y_scale, camara);
-			//snapshot->present(it_inc, renderer, texture_manager, window_width, window_height, x_scale, y_scale);
 		}
 		// Timing: calcula la diferencia entre este frame y el anterior
 		// en milisegundos
@@ -355,7 +354,6 @@ int Game::run() try {
 			int lost = behind + rest;
 			t1 += lost;
 			it_inc = int(lost / FRAME_RATE);
-			//it_inc += int(lost / FRAME_RATE);
 		}
 
         // Limitador de frames: Duermo el programa durante un tiempo para no consumir
@@ -363,14 +361,6 @@ int Game::run() try {
 		SDL_Delay(rest);
 		t1 += FRAME_RATE;
 		it_inc = 1;
-		//it_inc += 1;
-
-		//Verifica si la partida termino
-		// if(world->checkOnePlayerRemains()) {
-		// 	this->is_active = false;
-		// 	this->drawGameOverScreen(renderer);
-		// }
-
     }
 
 

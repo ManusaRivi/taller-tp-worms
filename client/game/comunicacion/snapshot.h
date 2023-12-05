@@ -84,16 +84,6 @@ class SnapshotCliente {
 
     void set_wind(bool& wind_left, float& wind);
 
-/*
-    void present(int& it_inc,
-                        Renderer& renderer,
-                        TextureManager& texture_manager,
-                        int& window_width,
-                        int& window_height,
-                        float& x_scale,
-                        float& y_scale);
-*/
-
     void apply_to_world(World& world);
 
     bool turn_change(World& world);

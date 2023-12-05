@@ -9,6 +9,7 @@
 #include "mensaje_snapshot.h"
 #include "mensaje_unirse_partida.h"
 #include "mensaje_estado_unirse_partida.h"
+#include "mensaje_termino_partida.h"
 
 
 class FactoryMensajesServer{
@@ -27,6 +28,7 @@ class FactoryMensajesServer{
     std::shared_ptr<MensajeListarMapas> listar_mapas_recibidor();
     std::shared_ptr<MensajeListarPartidas> listar_partidas_recibidor();
     std::shared_ptr<MensajeEstadoUnirse> estado_unirse_partida(uint8_t estado);
+    std::shared_ptr<MensajePartidaTermino> partida_termino(uint32_t equipo_ganador, bool fue_emapte);
 
 };
 

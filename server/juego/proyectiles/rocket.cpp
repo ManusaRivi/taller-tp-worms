@@ -36,6 +36,10 @@ bool Rocket::isGrenade() {
     return false;
 }
 
+void Rocket::pushByWind(float wind_force) {
+    body->ApplyForce(b2Vec2 (wind_force, 0.0f), body->GetWorldCenter(), true);
+}
+
 void Rocket::explotar()
 {
     WormQuery wormQuery;

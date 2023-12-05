@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>693</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,19 +26,19 @@ QLineEdit {
 
 /* Estilo para QComboBox */
 QComboBox {
-    border: 2px solid #c0392b; /* Borde rojo más oscuro */
-    background-color: #f9d9d9; /* Fondo rojo claro (ajusta el color según tus preferencias) */
-    padding: 8px; /* Espaciado interno */
-    border-radius: 5px; /* Bordes menos redondeados */
-    font-size: 14px; /* Tamaño de fuente */
-    font-family: &quot;YourDesiredFont&quot;, sans-serif; /* Cambia &quot;YourDesiredFont&quot; a la tipografía que desees */
+    border: 2px solid #c0392b;
+    background-color: #f9d9d9;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: &quot;Arial&quot;, sans-serif; /* Cambia &quot;Arial&quot; a la tipografía que desees */
 }
 
 /* Estilo para el menú desplegable del QComboBox */
 QComboBox QAbstractItemView {
-    border: 2px solid #c0392b; /* Borde rojo más oscuro */
-    background-color: #f9d9d9; /* Fondo rojo claro (ajusta el color según tus preferencias) */
-    selection-background-color: #c0392b; /* Color de fondo al seleccionar */
+    border: 2px solid #c0392b;
+    background-color: #f9d9d9;
+    selection-background-color: #c0392b;
 }
 
 /* Estilo para QPushButton (Botones) */
@@ -125,47 +125,28 @@ QGroupBox:title {
            <string>Menu</string>
           </property>
           <layout class="QGridLayout" name="gridLayout">
-           <item row="1" column="0">
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <item>
-              <widget class="QPushButton" name="exportar">
-               <property name="text">
-                <string>Exportar</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="nombreMapa">
-               <property name="placeholderText">
-                <string>Nombre Mapa</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="cambiarFondo">
-               <property name="text">
-                <string>Cambiar Fondo</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="limpiar">
-               <property name="text">
-                <string>Limpiar</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="exitApplication">
-               <property name="text">
-                <string>Salir</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
            <item row="0" column="0">
             <layout class="QFormLayout" name="formLayout">
+             <item row="0" column="0">
+              <widget class="QPushButton" name="worm">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="imagenes.qrc">
+                 <normaloff>:/imagenes/worm-removebg-preview.png</normaloff>:/imagenes/worm-removebg-preview.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>64</width>
+                 <height>64</height>
+                </size>
+               </property>
+               <property name="checkable">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
              <item row="1" column="0">
               <layout class="QHBoxLayout" name="horizontalLayout">
                <item>
@@ -215,23 +196,59 @@ QGroupBox:title {
                </item>
               </layout>
              </item>
-             <item row="0" column="0">
-              <widget class="QPushButton" name="worm">
+            </layout>
+           </item>
+           <item row="1" column="0">
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <widget class="QPushButton" name="exportar">
                <property name="text">
+                <string>Exportar</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="nombreMapa">
+               <property name="placeholderText">
+                <string>Nombre Mapa</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="cambiarFondo">
+               <property name="text">
+                <string>Cambiar Fondo</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="importar">
+               <property name="text">
+                <string>Importar</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboBox">
+               <property name="editable">
+                <bool>false</bool>
+               </property>
+               <property name="currentText">
                 <string/>
                </property>
-               <property name="icon">
-                <iconset resource="imagenes.qrc">
-                 <normaloff>:/imagenes/worm-removebg-preview.png</normaloff>:/imagenes/worm-removebg-preview.png</iconset>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="limpiar">
+               <property name="text">
+                <string>Limpiar</string>
                </property>
-               <property name="iconSize">
-                <size>
-                 <width>64</width>
-                 <height>64</height>
-                </size>
-               </property>
-               <property name="checkable">
-                <bool>false</bool>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="exitApplication">
+               <property name="text">
+                <string>Salir</string>
                </property>
               </widget>
              </item>

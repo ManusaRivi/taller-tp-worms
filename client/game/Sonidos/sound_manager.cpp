@@ -12,7 +12,7 @@ SoundManager::SoundManager() {
 
     for (const auto& nodo : sounds_font) {
         std::string name = nodo["nombre"].as<std::string>();
-        std::string rute = PROJECT_SOURCE_DIR + nodo["ruta"].as<std::string>();
+        std::string rute = "/var/worms/resources/sonidos" + nodo["ruta"].as<std::string>();
 
         std::shared_ptr<SDL2pp::Chunk> chunk = std::make_shared<Chunk>(rute);
         sounds.emplace(name, chunk);
@@ -97,6 +97,10 @@ std::shared_ptr<SDL2pp::Chunk> SoundManager::get_sound(int sound_type) {
     
     case SoundTypes::WIN:
         sound_name = "SomosLosMejores";
+        return sounds.at(sound_name);
+    
+    case SoundTypes::PICK_UP_PROV:
+        sound_name = "PickUp";
         return sounds.at(sound_name);
 
     default:

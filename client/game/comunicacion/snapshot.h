@@ -44,6 +44,11 @@ class SnapshotCliente {
 
     std::map<int, int> ammo;
 
+    float _wind;
+    bool _wind_left;
+
+    bool not_ammo_weapon;
+
     public:
     //Constructor
     SnapshotCliente(int id_camera);
@@ -67,11 +72,17 @@ class SnapshotCliente {
 
     void set_tp(bool& has_tp, float& pos_x, float& pos_y);
 
+    void set_not_ammo_weapon(bool& could_change_weapon);
+
+    bool not_ammo();
+
     void set_air_attack(bool& _has_air_attack, float& pos_x, float& pos_y);
 
     void set_timer(bool& _has_timer, int& _timer);
 
     void set_ammo(int& weapon, int& _ammo);
+
+    void set_wind(bool& wind_left, float& wind);
 
 /*
     void present(int& it_inc,
@@ -93,6 +104,10 @@ class SnapshotCliente {
 
     void actulizar_camara(uint32_t id);
 
+    //FUNCION PARA TESTEAR
+    std::map<int,int> get_municiones();
+    std::vector<std::pair<uint8_t,std::vector<float>>> get_datos_especiales();
+    std::vector<std::unique_ptr<ProjectileClient>>& get_proyectiles();
 
     
 };

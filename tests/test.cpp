@@ -16,6 +16,9 @@
 class SnapshotCliente;
 bool compare_gusanos(std::vector<WormWrapper> srv , std::map<int, std::shared_ptr<Worm>> cl);
 bool compare_beams(std::vector<std::vector<float>> vigas_server,std::vector<Beam> vigas);
+bool compare_municiones(std::vector<std::pair<int,int>> server, std::map<int,int> cliente);
+bool comapre_datos_especiales(std::vector<std::pair<uint8_t,std::vector<float>>> server, std::vector<std::pair<uint8_t,std::vector<float>>> cliente);
+bool compare_projectiles(std::vector<ProjectileWrapper> server,std::vector<std::unique_ptr<ProjectileClient>>& cliente);
 float round_up(float value, int decimal_places);
 
 TEST(Test_se_envian_snapshot,TEST_SE_ENVIA_POR_SNAPSHOT_UN_GUSANO )
@@ -38,62 +41,63 @@ TEST(Test_se_envian_snapshot,TEST_SE_ENVIA_POR_SNAPSHOT_UN_GUSANO )
     EXPECT_TRUE(compare_gusanos(worms,cl));
 }
 
-TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_POR_SNAPSHOT_DOS_GUSANOS){
+TEST(Test_unitario, TEST_SE_ENVIAN_MULTIPLES_MUNICIONES)
+{
+
     Socket skt;
     ClienteProtocolo clte_protocolo(skt);
     ServerProtocolo svr_protocolo(skt);
+    std::pair<int,int> bazzoka({Armas::BAZOOKA,1});
+    std::pair<int,int> dinamita({Armas::DINAMITA,30});
+    std::pair<int,int> ataque_aereo({Armas::ATAQUE_AEREO,14});
+    std::pair<int,int> g_verde({Armas::GRANADA_VERDE,20});
+    std::pair<int,int> g_santa({Armas::GRANADA_SANTA,3});
+    std::pair<int,int> g_roja({Armas::GRANADA_ROJA,40});
+
+    std::vector<std::pair<int,int>> municiones({bazzoka,dinamita,ataque_aereo,g_verde,g_santa,g_roja});
+    svr_protocolo.enviar_municiones(municiones);
+    std::shared_ptr<SnapshotCliente> snap = std::make_shared<SnapshotCliente>(0);
+    clte_protocolo.recibir_municiones(snap);
+    std::map<int,int> municiones_cliente = snap->get_municiones();
+    EXPECT_TRUE(compare_municiones(municiones,municiones_cliente));
+}
+
+TEST(Test_unitario, TEST_SE_ENVIA_ARMAS_ESPECIALES){
+    Socket skt;
+    ClienteProtocolo clte_protocolo(skt);
+    ServerProtocolo svr_protocolo(skt);
+    std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales;
+    armas_especiales.push_back(std::pair<uint8_t,std::vector<float>>({1,{12.8,17.2}})); //TELEPORTER
+    armas_especiales.push_back(std::pair<uint8_t,std::vector<float>>({0,{0.8,1.5}})); // AtaqueArereo
+    armas_especiales.push_back(std::pair<uint8_t,std::vector<float>>({0,{0}})); //TELEPORTER
+    svr_protocolo.enviar_datos_especiales(armas_especiales);
+
+    std::shared_ptr<SnapshotCliente> snap = std::make_shared<SnapshotCliente>(0);
+    clte_protocolo.recibir_datos_especiales(snap);
+    EXPECT_TRUE(comapre_datos_especiales(armas_especiales,snap->get_datos_especiales()));
+}
+
+TEST(Test_unitario, TEST_SE_ENVIAR_PROYECTILES){
+    Socket skt;
+    ClienteProtocolo clte_protocolo(skt);
+    ServerProtocolo svr_protocolo(skt);
+    std::vector<ProjectileWrapper> vectProyectiles;
+    ProjectileWrapper proy(1.157,21,0.178,ProjectileType::RED_GRENADE,1);
+    ProjectileWrapper proy1(21.58,12.54,0.347,ProjectileType::MORTAR,3);
+    vectProyectiles.push_back(proy);
+    vectProyectiles.push_back(proy1);
+    svr_protocolo.enviar_proyectiles(vectProyectiles);
+
+    std::shared_ptr<SnapshotCliente> snap = std::make_shared<SnapshotCliente>(0);
+    clte_protocolo.recibir_projectiles(snap);
+
+    EXPECT_TRUE(compare_projectiles(vectProyectiles,snap->get_proyectiles()));
+
     //(posicion, worm->get_facing_direction(), worm->get_status(), worm->get_id(), worm->get_angulo(), worm->aiming_angle())
-    WormWrapper worm_1({{0.5,1.2}, //posicion
-                        0, //dir
-                        0, //status
-                        0, //id
-                        1.2, //angulo
-                        0, // angulo_disparo
-                        100, // vida
-                        0}); //equipo
-    WormWrapper worm_2({{13.15,18.6}, 
-                        0, 
-                        12, 
-                        1, 
-                        1, 
-                        0, 
-                        100, 
-                        1});
-    ProjectileWrapper proyectlile_1(10,12.5,1.2,ProjectileType::ROCKET,15);
-    ExplosionWrapper explosion_1(20,10,20.5,7);
-    ProvisionWrapper provision_1(10,10,ProvisionType::VIDA,1,0);
-    std::vector<WormWrapper> worms({worm_1,worm_2});
-    std::vector<ProjectileWrapper> projectiles({proyectlile_1});
-    std::vector<ExplosionWrapper> explosiones({explosion_1});
-    std::vector<ProvisionWrapper> provisiones({provision_1});
-    std::shared_ptr<Snapshot> snap = std::make_shared<SnapshotPartida>(worms,projectiles,explosiones,provisiones,0,0,std::vector<SoundTypes>(),std::vector<std::pair<uint8_t,std::vector<float>>>(),std::vector<std::pair<int,int>>(),0);
-    svr_protocolo.enviar_gusanos(worms);
-    svr_protocolo.enviar_proyectiles(projectiles);
-    svr_protocolo.enviar_explosiones(explosiones);
-    svr_protocolo.enviar_provisiones(provisiones);
-    // uint8_t cd;
-    // bool was_closed = false;
-    // skt.recvall(&cd,1,&was_closed);
-    // printf("El cd que se recibio es %u\n",cd);
-    std::shared_ptr<SnapshotCliente> snapshot_cliente= std::make_shared<SnapshotCliente>(0);
-    clte_protocolo.recibir_gusanos(snapshot_cliente);
-    clte_protocolo.recibir_projectiles(snapshot_cliente);
-    clte_protocolo.recibir_explosiones(snapshot_cliente);
-    clte_protocolo.recibir_provisiones(snapshot_cliente);
 
-    // std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(std::move(mensaje));
-    // std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
-    // printf("asdasdasd\n");
-    // char asd = 'a';
-    // bool was_closed = false;
-    // skt.sendall(&asd,1,&was_closed);
-    // printf("asdasdasd\n");
-
-    std::map<int, std::shared_ptr<Worm>> cl = snapshot_cliente->get_worms();
-
-    EXPECT_TRUE(compare_gusanos(worms,cl));
 
 }
+
 
 TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_UN_HANDSHAKE){
     
@@ -108,16 +112,6 @@ TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_UN_HANDSHAKE){
     
     std::pair<uint32_t,std::vector<uint32_t>> id_gusanos_por_player({0,{0,1,2,3}});
 
-    // std::vector<float> position, uint8_t dir, uint8_t status, uint32_t id_, float angulo_, float angulo_disparo_
-
-    //std::vector<float> position, 
-    //uint8_t dir, 
-    //uint8_t status,
-    //uint32_t id, 
-    //float angulo, 
-    //float angulo_disparo, 
-    //uint8_t vida, 
-    //uint32_t equipo
     
     WormWrapper worm_1({{0.5,1.2}, //posicion
                         1, //dir
@@ -175,7 +169,7 @@ TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_UN_HANDSHAKE){
 TEST(sample_test_case, Simple){
     EXPECT_EQ(2,2);
 }
-// 
+
 bool compare_gusanos(std::vector<WormWrapper> srv , std::map<int, std::shared_ptr<Worm>> cl){
 
     for(uint8_t i = 0; i < cl.size();i++){
@@ -207,8 +201,52 @@ bool compare_beams(std::vector<std::vector<float>> vigas_server,std::vector<Beam
     return true;
 }
 
+bool compare_municiones(std::vector<std::pair<int,int>> server, std::map<int,int> cliente){
+    for(int i = 0; i < static_cast<int>(server.size()); i++){
+        int municion_server = server[i].second;
+        int municion_cliente = cliente[server[i].first];
+        EXPECT_EQ(municion_server,municion_cliente);
+    }
+    return true;
+}
+
+bool comapre_datos_especiales(std::vector<std::pair<uint8_t,std::vector<float>>> server, std::vector<std::pair<uint8_t,std::vector<float>>> cliente){
+    std::pair<uint8_t,std::vector<float>> tp = server[0];
+    std::pair<uint8_t,std::vector<float>> ataque = server[1];
+    std::pair<uint8_t,std::vector<float>> bomb = server[2];
+
+    std::pair<uint8_t,std::vector<float>> tp_cliente = cliente[0];
+    std::pair<uint8_t,std::vector<float>> ataque_cliente = cliente[1];
+    std::pair<uint8_t,std::vector<float>> bomb_cliente = cliente[2];
+
+    EXPECT_EQ(tp.first,tp_cliente.first);
+    EXPECT_EQ(ataque.first,ataque_cliente.first);
+    EXPECT_EQ(bomb.first,bomb_cliente.first);
+
+    EXPECT_FLOAT_EQ(tp.second[0],tp_cliente.second[0]);
+    EXPECT_FLOAT_EQ(tp.second[1],tp_cliente.second[1]);
+    EXPECT_FLOAT_EQ(ataque.second[0],ataque_cliente.second[0]);
+    EXPECT_FLOAT_EQ(ataque.second[1],ataque_cliente.second[1]);
+
+    EXPECT_FLOAT_EQ(bomb.second[0],bomb_cliente.second[0]);
+    return true;
+}
+
+
+bool compare_projectiles(std::vector<ProjectileWrapper> server,std::vector<std::unique_ptr<ProjectileClient>>& cliente){
+    for(uint16_t i = 0; i < server.size(); i++){
+        ProjectileWrapper proy = server[i];
+
+        EXPECT_FLOAT_EQ(round_up(proy.get_x(),1),round_up(cliente[i]->get_x_test(),1));
+        EXPECT_FLOAT_EQ(round_up(proy.get_y(),1),round_up(cliente[i]->get_y_test(),1));
+    }
+    return true;
+}
 
 float round_up(float value, int decimal_places) {
     const float multiplier = std::pow(10.0, decimal_places);
     return std::ceil(value * multiplier) / multiplier;
 }
+
+
+

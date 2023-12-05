@@ -8,14 +8,12 @@
 #include "../worm.h"
 #include <vector>
 
-#define VIDA_EXTRA 10
-
 class VidaServer : public Provision {
 private:
     int healing;
 public:
     VidaServer(b2World& world, uint32_t id, float x_pos, float y_pos, int healing);
-    virtual void usar(Worm* interactor) override;
+    virtual void usar() override;
 };
     
 #endif

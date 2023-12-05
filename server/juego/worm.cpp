@@ -9,11 +9,10 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
             Colisionable(bodyType::WORM), coleccionArmas(std::make_unique<ColeccionArmas>(world)),
             armaActual(nullptr), facingDirection(direction), status(WormStates::IDLE), id(id_),
             angulo_disparo(0.0f), hitPoints(hitPoints), maxHealth(hitPoints), numBeamContacts(0), initialHeight(0.0f), finalHeight(0.0f),
-            airborne(false), moving(false), apuntando(false), x_target(0), y_target(0), jumpSteps(0)
+            airborne(false), moving(false), apuntando(false), tomoDmgEsteTurno(false), x_target(0), y_target(0),pudo_cambiar_de_arma(true), super_velocidad(false), super_salto(false), jumpSteps(0)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
-    // printf("La posicion en el constructo es %f  %f\n",x_pos,y_pos);
     gusanoDef.position.Set(x_pos, y_pos);
 
     BodyUserData userData;
@@ -40,7 +39,6 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
     this->body->SetFixedRotation(true); // Evita que rote
 
     this->body->CreateFixture(&fixtureGusano);
-    // printf("luego de crearle las fixtures la posicion del gusano es %f   %f\n", body->GetPosition().x, body->GetPosition().y);
 }
 
 /*
@@ -59,12 +57,20 @@ void Worm::StartMovement(int dir) {
 void Worm::Move() {
     b2Vec2 velocity = body->GetLinearVelocity();
     float desiredVel = 0;
+    float sp = 0;
+
+    if(super_velocidad == false) {
+        sp = MOVING_SPEED;
+    } else {
+        sp = SUPER_SPEED;
+    }
+
     switch(facingDirection) {
         case RIGHT:
-            desiredVel = MOVING_SPEED;
+            desiredVel = sp;
             break;
         case LEFT:
-            desiredVel = -1 * MOVING_SPEED;
+            desiredVel = -1 * sp;
             break;
     }
     float velChange = desiredVel - velocity.x;
@@ -85,42 +91,66 @@ void Worm::JumpForward() {
     if (this->isAirborne()) return;
     if (this->isMoving()) Stop();
     status = WormStates::JUMP;
-    jumpSteps = FORWARD_JUMP_STEPS;
-    float impulse = body->GetMass() * FORWARD_JUMP_IMPULSE_MULTIPLIER;
+
+    float multiplier = 0;
+    float velocity_ = 0;
+
+    if(super_salto == false) {
+        jumpSteps = FORWARD_JUMP_STEPS;
+        multiplier = FORWARD_JUMP_IMPULSE_MULTIPLIER;
+        velocity_ = FORWARD_JUMP_X_VELOCITY;
+    } else {
+        jumpSteps = SUPER_FORWARD_JUMP_STEPS;
+        multiplier = SUPER_FORWARD_JUMP_IMPULSE_MULTIPLIER;
+        velocity_ = SUPER_FORWARD_JUMP_X_VELOCITY;
+    }
+
+    float impulse = body->GetMass() * multiplier;
     body->ApplyLinearImpulse(b2Vec2(0, impulse), body->GetWorldCenter(), true);
 
     b2Vec2 velocity = body->GetLinearVelocity();
     switch(facingDirection) {
         case RIGHT:
-            velocity.x = FORWARD_JUMP_X_VELOCITY;
+            velocity.x = velocity_;
             break;
         case LEFT:
-            velocity.x = -1 * FORWARD_JUMP_X_VELOCITY;
+            velocity.x = -1 * velocity_;
             break;
     }
     body->SetLinearVelocity(velocity);
-    //state = WormStates::JUMP;
 }
 
 void Worm::JumpBackward() {
     if (this->isAirborne()) return;
     if (this->isMoving()) Stop();
     status = WormStates::BACKFLIP;
-    jumpSteps = BACKWARD_JUMP_STEPS;
-    float impulse = body->GetMass() * BACKWARD_JUMP_IMPULSE_MULTIPLIER;
+
+    float multiplier = 0;
+    float velocity_ = 0;
+
+    if(super_salto == false) {
+        jumpSteps = BACKWARD_JUMP_STEPS;
+        multiplier = BACKWARD_JUMP_IMPULSE_MULTIPLIER;
+        velocity_ = BACKWARD_JUMP_X_VELOCITY;
+    } else {
+        jumpSteps = SUPER_BACKWARD_JUMP_STEPS;
+        multiplier = SUPER_BACKWARD_JUMP_IMPULSE_MULTIPLIER;
+        velocity_ = SUPER_BACKWARD_JUMP_X_VELOCITY;
+    }
+
+    float impulse = body->GetMass() * multiplier;
     body->ApplyLinearImpulse(b2Vec2(0, impulse), body->GetWorldCenter(), true);
 
     b2Vec2 velocity = body->GetLinearVelocity();
     switch(facingDirection) {
         case RIGHT:
-            velocity.x = -1 * BACKWARD_JUMP_X_VELOCITY;
+            velocity.x = -1 * velocity_;
             break;
         case LEFT:
-            velocity.x = BACKWARD_JUMP_X_VELOCITY;
+            velocity.x = velocity_;
             break;
     }
     body->SetLinearVelocity(velocity);
-    //state = WormStates::BACKFLIP;
 }
 
 void Worm::cambiar_direccion(uint8_t dir){
@@ -129,17 +159,15 @@ void Worm::cambiar_direccion(uint8_t dir){
     }
     switch (dir)
     {
-    case (RIGHT):
+        case (RIGHT):
         {
-            // printf("Se recibe comando cambiar_direccion a derecha\n");
             this->facingDirection = RIGHT;
             break;
         }
-    case (LEFT):{
-        // printf("Se recibe comando cambiar direccino a izquerda\n");
-        this->facingDirection = LEFT;
-        break;
-    }
+        case (LEFT):{
+            this->facingDirection = LEFT;
+            break;
+        }
     }
 }
 
@@ -182,6 +210,7 @@ void Worm::startWaterContact() {
 
 void Worm::takeDamage(int damage) {
     sounds.push(SoundTypes::HURT_WORM);
+    tomoDmgEsteTurno = true;
     hitPoints -= damage;
     if(hitPoints <= 0){
         hitPoints = 0;
@@ -216,6 +245,7 @@ void Worm::detener_acciones(){
         status = WormStates::IDLE;
         this->Stop();
         armaActual = nullptr;
+        pudo_cambiar_de_arma = true;
     }
 }
 
@@ -251,6 +281,8 @@ bool Worm::esta_quieto() {
     b2Vec2 velocity = body->GetLinearVelocity();
     return (velocity.x == 0 && velocity.y == 0);
 }
+
+bool Worm::tomo_dmg_este_turno() { return tomoDmgEsteTurno; }
 
 /*
  * Metodos de combate de gusano.
@@ -306,6 +338,15 @@ void Worm::cambiar_arma(uint8_t id_arma){
         break;
     }
     armaActual = coleccionArmas->SeleccionarArma(id_arma);
+    if(armaActual->get_ammo() == 0){
+        armaActual = nullptr;
+        status = WormStates::IDLE;
+        pudo_cambiar_de_arma = false;
+    }
+    else{
+        pudo_cambiar_de_arma = true;
+    }
+
 }
 
 void Worm::iniciar_carga() {
@@ -316,26 +357,19 @@ void Worm::iniciar_carga() {
 }
 
 void Worm::cargar_arma(){
-    if(this->isDead()){
-        return;
-    }
-    if(!this->armaActual){
-        // printf("no tiene un arma\n");
-        return;
-    }
+    if(this->isDead()) return;
+    if(!this->armaActual) return;
     this->armaActual->cargar();
 }
 
 bool Worm::usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t& entity_id) {
-    if(!armaActual || this->isDead()){
-        printf("Not tiene arma\n");
-        return false;
-    }
+    if(!armaActual || this->isDead()) return false;
     Armas tipo = armaActual->obtenerTipo();
     if (tipo == TELETRANSPORTACION) {
         sounds.push(SoundTypes::TELEPORT);
         body->SetTransform(b2Vec2 (x_target, y_target), body->GetAngle());
         body->SetAwake(true);
+        pudo_cambiar_de_arma = true;
         return true;
     }
     b2Vec2 position = body->GetPosition();
@@ -385,6 +419,7 @@ bool Worm::usar_arma(std::vector<std::shared_ptr<Projectile>>& projectiles, uint
     armaActual->Shoot(projectiles, entity_id, position.x, position.y, angle);
     status = WormStates::IDLE;
     armaActual = nullptr;
+    pudo_cambiar_de_arma = true;
     return true;
 }
 
@@ -393,8 +428,11 @@ void Worm::esta_apuntando_para(bool id){
     this->esta_apuntando_para_arriba = id;
 }
 
+void Worm::resetear_dmg() {
+    tomoDmgEsteTurno = false;
+}
+
 void Worm::incrementar_angulo_en(float inc){
-    // printf("Se incrementa el angulo\n");
     if(!esta_apuntando_para_arriba){
         inc = -inc;
     }
@@ -422,7 +460,11 @@ void Worm::set_grenade_timer(int seconds) {
 
 void Worm::parar_angulo(){
     apuntando = false;
-    // printf("El ultimo angulo de apuntado es %f\n",this->get_aiming_angle());
+}
+
+void Worm::aumentar_vida(int vida){
+    hitPoints+= vida;
+    maxHealth+=vida;
 }
 
 /*
@@ -434,7 +476,6 @@ std::vector<float> Worm::GetPosition() {
         return std::vector<float>({dead_posiiton_x,dead_position_y});
     }
     b2Vec2 position = body->GetPosition();
-    // printf("Al pedire la posicion se devuelve %f   %f\n",position.x,position.y);
     return std::vector<float> ({position.x, position.y});
 }
 
@@ -539,9 +580,24 @@ uint16_t Worm::get_carga_actual(){
     return armaActual->get_carga();
 }
 
-void Worm::sumarVida(int vida) {
-    if (hitPoints <= MAX_VIDA) 
-        hitPoints += vida;
+void Worm::reducir_vida() {
+    if(this->status != WormStates::DEAD) {
+        this->hitPoints = 1;
+    }
+}
+
+void Worm::super_velocidad_gusano() {
+    super_velocidad = !super_velocidad;
+}
+
+void Worm::super_salto_gusano() {
+    super_salto = !super_salto;
+}
+
+bool Worm::get_pudo_cambiar_de_arma(){
+    bool bis = this->pudo_cambiar_de_arma;
+    this->pudo_cambiar_de_arma = true;
+    return bis;
 }
 
 Worm::~Worm(){

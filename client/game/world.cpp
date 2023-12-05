@@ -3,8 +3,9 @@
 
 using namespace SDL2pp;
 
-World::World(float map_width, float map_height): camera_x(0), camera_y(0),
-            proy_it(0), _map_width(map_width), _map_height(map_height) {
+World::World(float map_width, float map_height): _id_actual_turn(0),
+            camera_x(0), camera_y(0), proy_it(0), _map_width(map_width),
+            _map_height(map_height), it_arrow(0) {
     
     for (int i= 0; i < 10; i++) {
         ammo[i] = 0;
@@ -50,6 +51,11 @@ uint32_t World::get_turn() {
 
 void World::update_worm(const int& id, std::shared_ptr<Worm> worm) {
     worms.at(id)->update(std::move(worm));
+}
+
+void World::update_wind(bool& wind_left, float& wind) {
+    _wind_left = wind_left;
+    _wind = wind;
 }
 
 void World::present_background(Renderer& renderer,
@@ -133,6 +139,8 @@ void World::present_hud(Renderer& renderer,
     present_weapon_power(renderer, texture_manager, x_scale, y_scale);
     if (has_timer) present_timer(renderer, texture_manager, x_scale, y_scale);
     present_ammo(renderer, texture_manager, x_scale, y_scale);
+    present_wind(renderer, texture_manager, x_scale, y_scale);
+    present_teams_health(renderer, texture_manager, x_scale, y_scale);
 }
 
 void World::present_weapon_power(Renderer& renderer,
@@ -166,25 +174,14 @@ void World::present_timer(Renderer& renderer,
                             TextureManager& texture_manager,
                             float& x_scale,
                             float& y_scale) {
-    TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
-    SDL_Color timerColor = {255, 255, 255, 255};
-    std::string time = "Explosion en " + std::to_string(timer) + " segundos";
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, time.c_str(), timerColor);
-    SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer.Get(), textSurface);
+    std::string texture_name = "Explosion " + std::to_string(timer);
+    Texture& text_texture = texture_manager.get_texture(texture_name);
 
-    SDL_Rect textRect;
-    textRect.x = renderer.GetOutputWidth()/2 + x_scale;
-    textRect.y = 2*y_scale;
-    textRect.w = (textSurface->w) * 0.04 * x_scale;
-    textRect.h = (textSurface->h) * 0.04 * y_scale;
-
-    SDL_RenderCopy(renderer.Get(), textTexture, nullptr, &textRect);
-
-    SDL_RenderPresent(renderer.Get());
-
-    TTF_CloseFont(font);
-    SDL_DestroyTexture(textTexture);
-
+    renderer.Copy(text_texture, NullOpt, 
+                    Rect(renderer.GetOutputWidth()/2 + x_scale,
+                        2*y_scale,
+                        text_texture.GetWidth() * 0.04 * x_scale,
+                        text_texture.GetHeight() * 0.04 * y_scale));
 }
 
 void World::present_sight(Renderer& renderer,
@@ -219,7 +216,7 @@ void World::present_ammo(Renderer& renderer,
                          TextureManager& texture_manager,
                          float& x_scale,
                          float& y_scale) {
-    TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
+    TTF_Font* font = TTF_OpenFont("/var/worms/resources/Vera.ttf", 24);
 
     SDL_Color ammoColor = {255, 255, 255, 255};
     SDL_Color back_color = {0, 0, 0, 255};
@@ -227,8 +224,8 @@ void World::present_ammo(Renderer& renderer,
     std::vector<SDL_Texture*> textTextures;
     std::vector<SDL_Rect> textRects;
     for (int i = 0; i < 10; i++) {
-        std::string time = std::to_string(ammo[i]);
-        SDL_Surface* textSurface = TTF_RenderText_Solid(font, time.c_str(), ammoColor);
+        std::string am = std::to_string(ammo[i]);
+        SDL_Surface* textSurface = TTF_RenderText_Solid(font, am.c_str(), ammoColor);
 
         SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer.Get(), textSurface);
         SDL_FreeSurface(textSurface);
@@ -266,6 +263,151 @@ void World::present_ammo(Renderer& renderer,
     }
 }
 
+void World::present_wind(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale) {
+    
+    SDL_Rect border;
+	border.w = renderer.GetOutputWidth()/2 - 1*x_scale;
+	border.h = WIND_HEIGHT * y_scale;
+	border.x = renderer.GetOutputWidth()/2 + x_scale;
+	border.y = renderer.GetOutputHeight() - WIND_HEIGHT*y_scale;
+
+    SDL_Color border_color = {255, 255, 255, 255};
+
+    if (_wind_left) {
+        std::string texture_name = "WindL";
+        Texture& texture = texture_manager.get_texture(texture_name);
+        texture.SetAlphaMod(255);
+        int pos_x = static_cast<int>(border.x + border.w/2 - ((border.w/2) * 10 * _wind));
+        int pos_y = static_cast<int>(border.y);
+
+        renderer.Copy(
+                    texture,
+                    Rect(0, 0, WIND_SPRITE_WIDTH, WIND_SPRITE_HEIGHT),
+                    Rect(pos_x, pos_y,
+                        static_cast<int>((border.w/2)*10*_wind), border.h),
+                    0.0,
+                    NullOpt,
+                    SDL_FLIP_NONE
+        );
+    } else {
+        std::string texture_name = "WindR";
+        Texture& texture = texture_manager.get_texture(texture_name);
+        texture.SetAlphaMod(255);
+        int pos_x = static_cast<int>(border.x + (border.w/2));
+        int pos_y = static_cast<int>(border.y);
+
+        renderer.Copy(
+                    texture,
+                    Rect(0, 0, WIND_SPRITE_WIDTH, WIND_SPRITE_HEIGHT),
+                    Rect(pos_x, pos_y,
+                        static_cast<int>((border.w/2)*10*_wind), border.h),
+                    0.0,
+                    NullOpt,
+                    SDL_FLIP_NONE
+        );
+    }
+    
+    // Dibuja el borde
+	SDL_SetRenderDrawColor(renderer.Get(), border_color.r, border_color.g, border_color.b, border_color.a);
+	SDL_RenderDrawRect(renderer.Get(), &border);
+}
+
+void World::present_turn_arrow(int& it_inc,
+                            Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale,
+                            float& camera_x,
+                            float& camera_y) {
+    
+    // Busco al gusano del turno y le pido su posicion
+    float pos_x = worms[_id_actual_turn]->get_x() - camera_x;
+    float pos_y = _map_height - worms[_id_actual_turn]->get_y() - camera_y - 3;
+
+    it_arrow += it_inc;
+
+    int src_x = 0;
+    int src_y = ARROW_SPRITE_SIDE * (it_arrow % ARROW_FRAMES);
+
+    std::string texture_name = "Arrow";
+    Texture& texture = texture_manager.get_texture(texture_name);
+    texture.SetAlphaMod(255);
+
+    renderer.Copy( texture,
+                    Rect(src_x, src_y, ARROW_SPRITE_SIDE, ARROW_SPRITE_SIDE),
+                    Rect(static_cast<int>((pos_x - ARROW_SIDE*0.5) * x_scale),
+                        static_cast<int>((pos_y - ARROW_SIDE*0.5) * y_scale),
+                        ARROW_SIDE * x_scale, ARROW_SIDE * y_scale),
+                    0.0,
+                    NullOpt,
+                    SDL_FLIP_NONE
+    );
+}
+
+SDL_Color World::hashEquipo(uint32_t& indice) {
+
+    SDL_Color colores[NUM_COLORES] = {
+        {0, 0, 255, 255},   // Azul
+        {255, 255, 0, 255}, // Amarillo
+        {0, 255, 255, 255},  // Cian
+        {255, 0, 255, 255}, // Magenta
+        {255, 165, 0, 255}  // Naranja
+    };
+
+    uint32_t indiceCircular = indice % NUM_COLORES;
+
+    return colores[indiceCircular];
+}
+
+void World::present_teams_health(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale) {
+    // Consigo las vidas de los equipos
+    std::map<int, int> team_health;
+    for (auto& worm : worms) {
+        int team = worm.second->getEquipo();
+        int health = worm.second->getVida();
+        if (team_health.find(team) == team_health.end()) {
+            team_health[team] = 0;
+        }
+        team_health[team] += health;
+    }
+
+    // Las grafico
+    int pos_y = renderer.GetOutputHeight() - TEAM_HEALTH_HEIGHT * y_scale;
+    for (auto& team : team_health) {
+        SDL_Rect health;
+        SDL_Rect border;
+
+	    border.w = static_cast<int>(((renderer.GetOutputWidth()/4 - 1*x_scale)* team.second) / 300);
+	    border.h = TEAM_HEALTH_HEIGHT * y_scale;
+	    border.x = 0;
+	    border.y = pos_y;
+
+        health.w = static_cast<int>(((renderer.GetOutputWidth()/4 - 1*x_scale)* team.second) / 300);
+	    health.h = TEAM_HEALTH_HEIGHT * y_scale;
+	    health.x = 0;
+	    health.y = pos_y;
+
+        uint32_t team_number = static_cast<uint32_t>(team.first);
+	    SDL_Color health_color = hashEquipo(team_number);
+        SDL_Color border_color = {255, 255, 255, 255};
+
+        SDL_SetRenderDrawColor(renderer.Get(), health_color.r, health_color.g, health_color.b, health_color.a);
+	    SDL_RenderFillRect(renderer.Get(), &health);
+
+        // Dibuja el borde
+	    SDL_SetRenderDrawColor(renderer.Get(), border_color.r, border_color.g, border_color.b, border_color.a);
+	    SDL_RenderDrawRect(renderer.Get(), &border);
+        
+        pos_y -= TEAM_HEALTH_HEIGHT * y_scale;
+    }
+
+}
 
 void World::present(int& it_inc,
                         Renderer& renderer,
@@ -319,8 +461,6 @@ void World::present(int& it_inc,
         worm.second->present(it_inc, renderer, texture_manager, _map_height, x_scale, y_scale, camera_x, camera_y);
     }
 
-    //present_water(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
-
     // Grafico proyectiles
     proy_it += it_inc;
     for (auto& projectil : projectiles) {
@@ -350,12 +490,17 @@ void World::present(int& it_inc,
         }
     }
 
+    present_water(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
+
     // Grafico HUD
     present_hud(renderer, texture_manager, x_scale, y_scale);
 
     // Grafico mira
     if (has_tp) present_sight(renderer, texture_manager, tp_x, tp_y, x_scale, y_scale, camera_x, camera_y);
     else if (has_air_attack) present_sight(renderer, texture_manager, air_attack_x, air_attack_y, x_scale, y_scale, camera_x, camera_y);
+
+    // Grafico flecha del turno
+    present_turn_arrow(it_inc, renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
 
     // Reproduzco sonidos
     while (!sonidos.empty()) {

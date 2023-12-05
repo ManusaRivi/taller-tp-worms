@@ -4,7 +4,7 @@ using namespace SDL2pp;
 
 Grave::Grave(bool& facing_right, float& worm_angle){
     this->texture_name = "Grave";
-    this->frames = 16;
+    this->frames = 20;
     this->shot_angle = 0.0;
     this->facing_right = facing_right;
     this->worm_angle = worm_angle;
@@ -39,9 +39,9 @@ void Grave::present(int& it_inc,
 	renderer.Copy(
 				texture,
 				Rect(src_x, src_y, 60, 60), // El sprite
-				Rect(static_cast<int>((pos_x - WORM_WIDTH / 2) * x_scale),
-					static_cast<int>((pos_y - WORM_HEIGHT / 2) * y_scale),
-					WORM_WIDTH * x_scale, WORM_HEIGHT * y_scale), // Donde lo grafico
+				Rect(static_cast<int>((pos_x - GRAVE_SIDE * 0.5) * x_scale),
+					static_cast<int>((pos_y - GRAVE_SIDE * 0.25) * y_scale),
+					GRAVE_SIDE * x_scale, GRAVE_SIDE * y_scale), // Donde lo grafico
 				worm_angle,        // Angulo
 				NullOpt,
 				flip        // Flip

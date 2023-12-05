@@ -3,6 +3,7 @@
 #include "yaml-cpp/yaml.h"
 
 #include <fstream>
+#include <QDir>
 
 #define OFFSET_CAMARA 500
 
@@ -23,12 +24,17 @@ MainWindow::MainWindow(QWidget *parent)
     vigaMitad = vigaMitad.scaled(64, 64, Qt::KeepAspectRatio);
     this->ui->viga->setIcon(QIcon(vigaMitad));
 
+    QDir directory(PROJECT_SOURCE_DIR "/server/mapas/");
+    QStringList fileList = directory.entryList(QDir::Files);
+    this->ui->comboBox->addItems(fileList);
+
     connect(this->ui->worm, &QPushButton::clicked, this, &MainWindow::agregarGusano);
     connect(this->ui->viga, &QPushButton::clicked, this, &MainWindow::agregarViga);
     connect(this->ui->vigaLarga, &QPushButton::clicked, this, &MainWindow::agregarVigaLarga);
     connect(this->ui->exportar, &QPushButton::clicked, this, &MainWindow::exportarMapa);
     connect(this->ui->limpiar, &QPushButton::clicked, this, &MainWindow::limpiarMapa);
     connect(this->ui->cambiarFondo, &QPushButton::clicked, this, &MainWindow::cambiarFondo);
+    connect(this->ui->importar, &QPushButton::clicked, this, &MainWindow::importarMapa);
     connect(this->ui->exitApplication, &QPushButton::clicked, this, &MainWindow::exitApplication);
     connect(this, &MainWindow::destroyed, this, &MainWindow::exitApplication);
 }
@@ -75,7 +81,9 @@ void MainWindow::agregarViga() {
     vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
 
     QGraphicsPixmapItem* mitadViga = new QGraphicsPixmapItem(vigaPixmap);
-    mitadViga->setPos(OFFSET_CAMARA, OFFSET_CAMARA);
+    
+    QRectF boundingRect = mitadViga->boundingRect();
+    mitadViga->setPos(OFFSET_CAMARA - boundingRect.width()/2, OFFSET_CAMARA - boundingRect.height()/2);
 
     this->vigas.push_back(mitadViga);
     this->scene->addItem(mitadViga);
@@ -93,7 +101,9 @@ void MainWindow::agregarVigaLarga() {
     vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
 
     QGraphicsPixmapItem* viga = new QGraphicsPixmapItem(vigaPixmap);
-    viga->setPos(OFFSET_CAMARA, OFFSET_CAMARA);
+
+    QRectF boundingRect = viga->boundingRect();
+    viga->setPos(OFFSET_CAMARA - boundingRect.width()/2, OFFSET_CAMARA - boundingRect.height()/2);
 
     this->vigas.push_back(viga);
     this->scene->addItem(viga);
@@ -157,8 +167,17 @@ void MainWindow::exportarMapa() {
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
         emitter << YAML::Key << "pos_x" << YAML::Value << (posicion.x() + boundingRect.width()/2) / largo * scale - offset;
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y() + boundingRect.height()/2) / 23 - boundingRect.height() / largo * scale * sin(this->angulos[i]);
-        emitter << YAML::Key << "angulo" << YAML::Value << 180 - this->angulos[i];
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y() - boundingRect.height()/2) / 23;
+        
+        float ang;
+
+        if(180 - this->angulos[i] < 0) {
+            ang = 360 - this->angulos[i];
+        } else {
+            ang = 180 - this->angulos[i];
+        }
+
+        emitter << YAML::Key << "angulo" << YAML::Value << ang;
         emitter << YAML::EndMap;
         i++;
     }
@@ -175,7 +194,7 @@ void MainWindow::exportarMapa() {
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "pos_x" << YAML::Value << abs((posicion.x() + boundingRect.width()/2)/138*6);
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y())/23;
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y() - boundingRect.height()/2)/23;
         emitter << YAML::Key << "direccion" << YAML::Value << 0;
         emitter << YAML::EndMap;
     }
@@ -187,6 +206,78 @@ void MainWindow::exportarMapa() {
     file << emitter.c_str();
 }
 
+void MainWindow::importarMapa() {
+
+    QString nombreArchivo = this->ui->comboBox->currentText();
+    YAML::Node nodo = YAML::LoadFile(PROJECT_SOURCE_DIR "/server/mapas/" + nombreArchivo.toStdString());
+    this->limpiarMapa();
+
+    std::string nombreMapa = nodo["nombre"].as<std::string>();
+
+    const YAML::Node& vigasNode = nodo["vigas"];
+    for (const auto& vigaNode : vigasNode) {
+        std::string tipo = vigaNode["tipo"].as<std::string>();
+        float pos_x = vigaNode["pos_x"].as<float>();
+        float pos_y = vigaNode["pos_y"].as<float>();
+        float angulo = vigaNode["angulo"].as<float>();
+
+        if (tipo == "larga") {
+            this->agregarVigaLargaImportada(pos_x, pos_y, angulo);
+        } else {
+            this->agregarVigaImportada(pos_x, pos_y, angulo);
+        }
+    }
+    const YAML::Node& gusanosNode = nodo["gusanos"];
+    for (const auto& gusanoNode : gusanosNode) {
+        float pos_x = gusanoNode["pos_x"].as<float>();
+        float pos_y = gusanoNode["pos_y"].as<float>();
+        float direccion = gusanoNode["direccion"].as<float>();
+        this->agregarGusanoImportada(pos_x, pos_y, direccion);
+    }
+    this->ui->nombreMapa->setText(QString::fromStdString(nombreMapa));
+}
+
+void MainWindow::agregarVigaImportada(float pos_x, float pos_y, float angulo) {
+    QPixmap vigaPixmap(":/imagenes/Beam.png");
+
+    qreal anchoMitad = vigaPixmap.width() / 2;
+
+    vigaPixmap = vigaPixmap.copy(0, 0, anchoMitad, vigaPixmap.height());
+    vigaPixmap = vigaPixmap.transformed(QTransform().rotate(-angulo + 180));
+
+    QGraphicsPixmapItem* mitadViga = new QGraphicsPixmapItem(vigaPixmap);
+
+    QRectF boundingRect = mitadViga->boundingRect();
+
+    mitadViga->setPos((pos_x + 0.375) * 69 / 3 - boundingRect.width()/2, -(23 * pos_y - 2 * OFFSET_CAMARA + boundingRect.height()/2));
+
+    this->angulos.push_back(180 - angulo);
+    this->vigas.push_back(mitadViga);
+    this->scene->addItem(mitadViga);
+}
+
+void MainWindow::agregarVigaLargaImportada(float pos_x, float pos_y, float angulo) {
+    QPixmap vigaPixmap(":/imagenes/Beam.png");
+    vigaPixmap = vigaPixmap.transformed(QTransform().rotate(-angulo + 180));
+
+    QGraphicsPixmapItem* viga = new QGraphicsPixmapItem(vigaPixmap);
+
+    QRectF boundingRect = viga->boundingRect();
+
+    viga->setPos(pos_x * 69 / 3 - boundingRect.width()/2, -(23 * pos_y - 2 * OFFSET_CAMARA + boundingRect.height()/2));
+
+    this->angulos.push_back(180 - angulo);
+    this->vigas.push_back(viga);
+    this->scene->addItem(viga);
+}
+
+void MainWindow::agregarGusanoImportada(float pos_x, float pos_y, float direccion) {
+    QGraphicsPixmapItem* worm = new QGraphicsPixmapItem(QPixmap(":/imagenes/worm-removebg-preview.png"));
+    this->worms.push_back(worm);
+    this->scene->addItem(worm);
+    QRectF boundingRect = worm->boundingRect();
+    worm->setPos(pos_x * 138 / 6 - boundingRect.width()/2, -(23 * pos_y - 2 * OFFSET_CAMARA + boundingRect.height()/2));
+}
 
 void MainWindow::limpiarMapa() {
     for (QGraphicsPixmapItem* worm : this->worms) {

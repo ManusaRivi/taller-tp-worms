@@ -44,6 +44,8 @@ class Worm {
     float get_y();
     uint8_t getVida();
     uint32_t getEquipo();
+
+    ~Worm() = default;
 };
 
 #endif

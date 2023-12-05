@@ -40,7 +40,12 @@ class ProjectileClient {
     float get_x();
     float get_y();
 
+
+
     void update(ProjectileClient other);
+
+    float& get_x_test();
+    float& get_y_test();
     
     //Destructor virtual
     virtual ~ProjectileClient() {}

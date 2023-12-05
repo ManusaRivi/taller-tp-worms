@@ -15,12 +15,21 @@ TextureManager::TextureManager(Renderer& renderer) {
 
     for (const auto& nodo : surfaces) {
         std::string name = nodo["nombre"].as<std::string>();
-        std::string rute = PROJECT_SOURCE_DIR + nodo["ruta"].as<std::string>();
+        std::string rute = "/var/worms/resources/sprites" + nodo["ruta"].as<std::string>();
 
         Surface surface(rute);
         Uint32 key = SDL_MapRGB(surface.Get()->format, colorKey.r, colorKey.g, colorKey.b);
         surface.SetColorKey(true, key);
         textures.emplace(name, Texture(renderer, surface));
+    }
+
+    // Cargo las texturas de los textos de los timers
+    Font font("/var/worms/resources/Vera.ttf", 24);
+    SDL_Color timer_color = {255, 255, 255, 255};
+    for (int i = 1; i <= 5; i++) {
+        std::string text = "Explosion en " + std::to_string(i) + " segundos";
+        std::string name = "Explosion " + std::to_string(i);
+        textures.emplace(name, Texture(renderer, font.RenderText_Blended(text, timer_color)));
     }
 }
 

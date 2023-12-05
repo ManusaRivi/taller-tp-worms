@@ -68,6 +68,11 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id){
             comando = factory.comando_setear_timer(id,time);
             break;
         }
+        case(CODIGO_CHEATS):{
+            uint8_t tipo_de_cheat = recibir_1_byte();
+            comando = factory.comando_activar_cheat(id, tipo_de_cheat);
+            break;
+        }
     }
     return comando;
 
@@ -126,7 +131,9 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap){
     uint8_t cmd = CODIGO_SNAPSHOT;
     enviar_1_byte(cmd);
     enviar_4_bytes(snapshot->get_gusano_actual());
+    enviar_4_bytes(snapshot->get_id_a_seguir());
     enviar_carga_actual(snapshot->get_carga_actual());
+    enviar_1_byte(snapshot->get_pudo_cambair_de_arma());
     enviar_datos_especiales(snapshot->get_armas_especiales());
     enviar_municiones(snapshot->get_municion_armas());
     enviar_gusanos(snapshot->get_worms());
@@ -134,6 +141,7 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap){
     enviar_explosiones(snapshot->get_explosiones());
     enviar_provisiones(snapshot->get_provisiones());
     enviar_sonidos(snapshot->get_sonidos());
+    enviar_viento(snapshot->get_viento(), snapshot->viento_es_negativo());
 
 }
 
@@ -340,6 +348,7 @@ void ServerProtocolo::enviar_datos_especiales(std::vector<std::pair<uint8_t,std:
 void ServerProtocolo::enviar_municiones(std::vector<std::pair<int,int>>& municion_armas){
     enviar_2_byte(municion_armas.size());
     for (auto c: municion_armas){
+        // printf("Se envia una municion\n");
         enviar_1_byte(c.first);
         enviar_2_byte(c.second);
     }
@@ -347,4 +356,16 @@ void ServerProtocolo::enviar_municiones(std::vector<std::pair<int,int>>& municio
 
 void ServerProtocolo::enviar_carga_actual(uint16_t& carga){
     enviar_2_byte(carga);
+}
+
+void ServerProtocolo::enviar_viento(float& viento, bool& es_negativo){
+    enviar_1_byte(es_negativo);
+    enviar_4_bytes_float(viento);
+}
+
+void ServerProtocolo::enviar_partida_termino(uint32_t equipo_ganador, bool fue_empate){
+    uint8_t cd = CODIGO_PARTIDA_TERMINO;
+    enviar_1_byte(cd);
+    enviar_1_byte(fue_empate);
+    enviar_4_bytes(equipo_ganador);
 }

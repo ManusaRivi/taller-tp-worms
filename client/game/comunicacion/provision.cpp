@@ -47,9 +47,9 @@ void ProvisionClient::present(int& it, Renderer& renderer,
     renderer.Copy(
 				texture,
 				Rect(src_x, src_y, 60, 60), // El sprite
-				Rect(static_cast<int>((pos_rel_x - PROVISION_WIDTH/2) * x_scale),
-					static_cast<int>((pos_rel_y - PROVISION_HEIGHT/2) * y_scale),
-                    PROVISION_HEIGHT * x_scale, PROVISION_WIDTH * y_scale), // Donde lo grafico
+				Rect(static_cast<int>((pos_rel_x - CLIENT_PROVISION_WIDTH/2) * x_scale),
+					static_cast<int>((pos_rel_y - CLIENT_PROVISION_HEIGHT/2) * y_scale),
+                    CLIENT_PROVISION_HEIGHT * x_scale, CLIENT_PROVISION_WIDTH * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,
 				SDL_FLIP_NONE        // Flip

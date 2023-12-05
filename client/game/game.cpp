@@ -3,6 +3,7 @@
 #include "../comandos/mensajes/mensaje_handshake.h"
 #include "../comandos/mensajes/mensaje_snapshot.h"
 #include "../comandos/mensajes/mensaje_handshake_enviar.h"
+#include "../comandos/mensajes/mensaje_partida_termino.h"
 using namespace SDL2pp;
 
 #define GAME_MOVE_RIGHT 0x01
@@ -107,6 +108,15 @@ int Game::run() try {
 				SDL_Keycode tecla = event.key.keysym.sym;
 				if (tecla == SDLK_ESCAPE){
 					return 0;
+				} else if(tecla == SDLK_c) {
+					std::shared_ptr<MensajeCliente> msg = mensajes.activar_cheat(Cheats::SETEAR_VIDA_A_1);
+					acciones.push(msg);
+				} else if(tecla == SDLK_v) {
+					std::shared_ptr<MensajeCliente> msg = mensajes.activar_cheat(Cheats::SUPER_VELOCIDAD);
+					acciones.push(msg);
+				} else if(tecla == SDLK_b) {
+					std::shared_ptr<MensajeCliente> msg = mensajes.activar_cheat(Cheats::SUPER_SALTO);
+					acciones.push(msg);
 				} else if (tecla == SDLK_RIGHT && !right_press) {
 					if (has_selected_weapon) {
 						// Quiere mirar a la derecha mientras apunta
@@ -143,7 +153,7 @@ int Game::run() try {
 					std::shared_ptr<MensajeCliente> msg = mensajes.saltar(GAME_JUMP_BACKWARDS);
 					acciones.push(msg);
 					// Enviar por protocolo comando "saltar atras"
-				} else if (tecla == SDLK_1) {
+				} else if (tecla == SDLK_1 && !left_press && !right_press) {
 					if (has_selected_weapon) {
 						std::shared_ptr<MensajeCliente> msg = mensajes.setear_timer(1);
 						acciones.push(msg);
@@ -155,7 +165,7 @@ int Game::run() try {
 						acciones.push(msg);
 					// Enviar comando "saco bazooka" por protocolo
 					}
-				} else if (tecla == SDLK_2) {
+				} else if (tecla == SDLK_2 && !left_press && !right_press) {
 					if (has_selected_weapon) {
 						std::shared_ptr<MensajeCliente> msg = mensajes.setear_timer(2);
 						acciones.push(msg);
@@ -167,7 +177,7 @@ int Game::run() try {
 						acciones.push(msg);
 						// Enviar comando "saco bate" por protocolo
 					}
-				} else if (tecla == SDLK_3) {
+				} else if (tecla == SDLK_3 && !left_press && !right_press) {
 					if (has_selected_weapon) {
 						std::shared_ptr<MensajeCliente> msg = mensajes.setear_timer(3);
 						acciones.push(msg);
@@ -180,7 +190,7 @@ int Game::run() try {
 						acciones.push(msg);
 						// Enviar comando "saco teletransportador" por protocolo
 					}
-				} else if (tecla == SDLK_4) {
+				} else if (tecla == SDLK_4 && !left_press && !right_press) {
 					if (has_selected_weapon) {
 						std::shared_ptr<MensajeCliente> msg = mensajes.setear_timer(4);
 						acciones.push(msg);
@@ -192,7 +202,7 @@ int Game::run() try {
 						acciones.push(msg);
 						// Enviar comando "saco dinamita" por protocolo
 					}
-				} else if (tecla == SDLK_5) {
+				} else if (tecla == SDLK_5 && !left_press && !right_press) {
 					if (has_selected_weapon) {
 						std::shared_ptr<MensajeCliente> msg = mensajes.setear_timer(5);
 						acciones.push(msg);
@@ -205,32 +215,32 @@ int Game::run() try {
 						acciones.push(msg);
 						// Enviar comando "saco ataque aereo" por protocolo
 					}
-				} else if (tecla == SDLK_6 && !has_selected_weapon) {
+				} else if (tecla == SDLK_6 && !has_selected_weapon && !left_press && !right_press) {
 					// Selecciono la Granada santa
 					has_selected_weapon = true;
 					// printf("Se manda una granada santa\n");
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::GRANADA_SANTA);
 					acciones.push(msg);
 					// Enviar comando "saco granada santa" por protocolo
-				} else if (tecla == SDLK_7 && !has_selected_weapon) {
+				} else if (tecla == SDLK_7 && !has_selected_weapon && !left_press && !right_press) {
 					// Selecciono la Granada verde
 					has_selected_weapon = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::GRANADA_VERDE);
 					acciones.push(msg);
 					// Enviar comando "saco granada verde" por protocolo
-				} else if (tecla == SDLK_8 && !has_selected_weapon) {
+				} else if (tecla == SDLK_8 && !has_selected_weapon && !left_press && !right_press) {
 					// Selecciono la Banana
 					has_selected_weapon = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::BANANA);
 					acciones.push(msg);
 					// Enviar comando "saco banana" por protocolo
-				} else if (tecla == SDLK_9 && !has_selected_weapon) {
+				} else if (tecla == SDLK_9 && !has_selected_weapon && !left_press && !right_press) {
 					// Selecciono la Granada roja
 					has_selected_weapon = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::GRANADA_ROJA);
 					acciones.push(msg);
 					// Enviar comando "saco granada roja" por protocolo
-				} else if (tecla == SDLK_0 && !has_selected_weapon) {
+				} else if (tecla == SDLK_0 && !has_selected_weapon && !left_press && !right_press) {
 					// Selecciono el mortero
 					has_selected_weapon = true;
 					std::shared_ptr<MensajeCliente> msg = mensajes.cambiar_arma(Armas::MORTERO);
@@ -317,12 +327,17 @@ int Game::run() try {
 
         //Saco una SnapshotCliente de la Queue
         std::shared_ptr<MensajeCliente> snap = snapshots.pop();
+		if(snap->get_tipo_comando() == COMANDO::CMD_PARTIDA_TERMINADA){
+			std::shared_ptr<MensajePartidaTermino> msg = std::dynamic_pointer_cast<MensajePartidaTermino>(snap);
+			drawGameOverScreen(renderer, msg->get_equipo_ganador(),msg->fue_empate_());
+			return 0;
+		}
 		if (snap->get_tipo_comando() == COMANDO::CMD_ENVIAR_SNAPSHOT){
 			std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(snap);
 			std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
-			if (snapshot->turn_change((*world))) {
-				//has_selected_weapon = false;
-				//mouse_weapon = false;
+			if (snapshot->turn_change((*world)) || snapshot->not_ammo()) {
+				has_selected_weapon = false;
+				mouse_weapon = false;
 			}
 			snapshot->apply_to_world((*world));
 			(*world).present(it_inc, renderer, texture_manager, sound_manager, mixer, x_scale, y_scale, camara);
@@ -351,10 +366,10 @@ int Game::run() try {
 		//it_inc += 1;
 
 		//Verifica si la partida termino
-		if(world->checkOnePlayerRemains()) {
-			this->is_active = false;
-			this->drawGameOverScreen(renderer);
-		}
+		// if(world->checkOnePlayerRemains()) {
+		// 	this->is_active = false;
+		// 	this->drawGameOverScreen(renderer);
+		// }
 
     }
 
@@ -375,23 +390,43 @@ void Game::get_mouse_position(int& mouse_rel_x, int& mouse_rel_y, float& scale_x
 }
 
 
-void Game::drawGameOverScreen(Renderer& renderer) {
+void Game::drawGameOverScreen(Renderer& renderer, uint32_t equipo_ganador, bool fue_empate) {
+	std::string text;
+	if(fue_empate){
+		text = "Empate";
+	}
+	else{
+		text = "Ganador: Equipo " + std::to_string(equipo_ganador);
+	}
+	TTF_Font* font = TTF_OpenFont("/var/worms/resources/Vera.ttf", 24);
 
-	TTF_Font* font = TTF_OpenFont(PROJECT_SOURCE_DIR "/client/game/Texturas/data/Vera.ttf", 24);
+	renderer.Clear();
+
+	SDL_Rect back;
+
+    back.w = renderer.GetOutputWidth();
+	back.h = renderer.GetOutputHeight();
+	back.x = 0;
+	back.y = 0;
+
+	SDL_Color back_color = {0, 0, 0, 255};
+
+    SDL_SetRenderDrawColor(renderer.Get(), back_color.r, back_color.g, back_color.b, back_color.a);
+	SDL_RenderFillRect(renderer.Get(), &back);
 
     SDL_Color textColor = {255, 255, 255, 255};
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, "Game Over", textColor);
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
     SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer.Get(), textSurface);
 
     SDL_Rect textRect;
-    textRect.x = 300;
-    textRect.y = 250;
+    textRect.x = (renderer.GetOutputWidth() - textSurface->w) / 2;
+    textRect.y = (renderer.GetOutputHeight() - textSurface->h) / 2;
     textRect.w = textSurface->w;
     textRect.h = textSurface->h;
 
     SDL_RenderCopy(renderer.Get(), textTexture, nullptr, &textRect);
 
-    SDL_RenderPresent(renderer.Get());
+    renderer.Present();
 
     SDL_Delay(3000);
 }

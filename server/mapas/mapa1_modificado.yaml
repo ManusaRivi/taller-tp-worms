@@ -1,0 +1,61 @@
+nombre: mapa1_modificado
+vigas:
+  - tipo: larga
+    pos_x: 10.043478260869566
+    pos_y: 22.391304347826086
+    angulo: 0
+  - tipo: larga
+    pos_x: 16.043478260869563
+    pos_y: 22.391304347826086
+    angulo: 0
+  - tipo: larga
+    pos_x: 37
+    pos_y: 28.565217391304348
+    angulo: 0
+  - tipo: larga
+    pos_x: 31.043478260869563
+    pos_y: 28.565217391304348
+    angulo: 0
+  - tipo: larga
+    pos_x: 23.260869565217391
+    pos_y: 30.722977347995926
+    angulo: 90
+  - tipo: larga
+    pos_x: 23.304347826086957
+    pos_y: 24.722977347995926
+    angulo: 90
+  - tipo: larga
+    pos_x: 23.173915697180707
+    pos_y: 34.304347826086953
+    angulo: 0
+  - tipo: larga
+    pos_x: 42.739130434782609
+    pos_y: 19.173913043478262
+    angulo: 0
+  - tipo: larga
+    pos_x: 20.434782608695652
+    pos_y: 37
+    angulo: 90
+  - tipo: larga
+    pos_x: 25.826086956521735
+    pos_y: 36.869565217391305
+    angulo: 90
+gusanos:
+  - pos_x: 43.804347826086953
+    pos_y: 20.739130434782609
+    direccion: 0
+  - pos_x: 17.152173913043477
+    pos_y: 23.913043478260871
+    direccion: 0
+  - pos_x: 9.6739130434782616
+    pos_y: 23.869565217391305
+    direccion: 0
+  - pos_x: 21.717391304347824
+    pos_y: 35.826086956521742
+    direccion: 0
+  - pos_x: 31.543478260869563
+    pos_y: 30.173913043478262
+    direccion: 0
+  - pos_x: 36.586956521739125
+    pos_y: 30
+    direccion: 0

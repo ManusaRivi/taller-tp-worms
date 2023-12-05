@@ -37,6 +37,14 @@ void SnapshotCliente::set_tp(bool& _has_tp, float& pos_x, float& pos_y) {
     tp_y = pos_y;
 }
 
+void SnapshotCliente::set_not_ammo_weapon(bool& could_change_weapon) {
+    not_ammo_weapon = !could_change_weapon;
+}
+
+bool SnapshotCliente::not_ammo() {
+    return not_ammo_weapon;
+}
+
 void SnapshotCliente::set_air_attack(bool& _has_air_attack, float& pos_x, float& pos_y) {
     has_air_attack = _has_air_attack;
     air_attack_x = pos_x;
@@ -49,6 +57,11 @@ void SnapshotCliente::set_timer(bool& _has_timer, int& _timer) {
 
 void SnapshotCliente::set_ammo(int& weapon, int& _ammo) {
     ammo[weapon] = _ammo;
+}
+
+void SnapshotCliente::set_wind(bool& wind_left, float& wind) {
+    _wind_left = wind_left;
+    _wind = wind;
 }
 
 void SnapshotCliente::apply_to_world(World& world) {
@@ -87,10 +100,13 @@ void SnapshotCliente::apply_to_world(World& world) {
     for (auto& pair: ammo) {
         world.set_ammo(pair.first, pair.second);
     }
+
+    // Actualizo viento
+    world.update_wind(_wind_left, _wind);
 }
 
 bool SnapshotCliente::turn_change(World& world) {
-    return id_turno_actual == world.get_turn();
+    return id_turno_actual != world.get_turn();
 }
 
 
@@ -139,4 +155,20 @@ std::map<int, std::shared_ptr<Worm>> SnapshotCliente::get_worms(){
 
 void SnapshotCliente::actulizar_camara(uint32_t id){
     this->_id_camera = id;
+}
+
+std::map<int,int> SnapshotCliente::get_municiones(){
+    return this->ammo;
+}
+
+std::vector<std::pair<uint8_t,std::vector<float>>> SnapshotCliente::get_datos_especiales(){
+    std::vector<std::pair<uint8_t,std::vector<float>>> dat;
+    dat.push_back(std::pair<uint8_t,std::vector<float>>({has_tp,{tp_x,tp_y}}));
+    dat.push_back(std::pair<uint8_t,std::vector<float>>({has_air_attack,{air_attack_x,air_attack_y}}));
+    dat.push_back(std::pair<uint8_t,std::vector<float>>({has_timer,{static_cast<float>(timer)}}));
+    return dat;
+}
+
+std::vector<std::unique_ptr<ProjectileClient>>& SnapshotCliente::get_proyectiles(){
+    return this->projectiles;
 }

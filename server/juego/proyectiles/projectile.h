@@ -67,6 +67,7 @@ public:
         exploded = true;
         sounds.push(SoundTypes::EXPLOSION);
     }
+    virtual void pushByWind(float wind_force) {}
     virtual void explotar() = 0;
     uint32_t get_id(){
         return this->id;

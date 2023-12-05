@@ -7,8 +7,10 @@
 #include "../colisionable.h"
 #include "../worm.h"
 
-#define PROVISION_HEIGHT_SERVER 1
-#define PROVISION_WIDTH_SERVER  1
+#define PROVISION_HEIGHT_SERVER 1.1f
+#define PROVISION_WIDTH_SERVER  1.1f
+
+#define PROVISION_DENSITY 0.5f
 
 #define USADA       1
 #define NO_USADA    0
@@ -20,10 +22,13 @@ protected:
     b2Body* body;
     ProvisionType type;
     uint32_t id;
+    Worm* interactor;
     bool taken = false;
 
 public:
-    Provision(b2World& world, ProvisionType type, uint32_t id, float x_pos, float y_pos) : Colisionable(bodyType::PROVISION), world(world), type(type), id(id) {
+    Provision(b2World& world, ProvisionType type, uint32_t id, float x_pos, float y_pos) :
+                Colisionable(bodyType::PROVISION), world(world), type(type), id(id), interactor(nullptr)
+    {
         b2BodyDef provisionDef;
         provisionDef.type = b2_dynamicBody;
         provisionDef.position.Set(x_pos, y_pos);
@@ -37,11 +42,19 @@ public:
 
         b2FixtureDef fixtureProvision;
         fixtureProvision.shape = &provisionBox;
-        fixtureProvision.filter.categoryBits = CollisionCategories::BOUNDARY_COLL;
-        fixtureProvision.filter.maskBits = (CollisionCategories::WORM_COLL | CollisionCategories::PROVISION_COLL);
+        fixtureProvision.density = PROVISION_DENSITY;
+        fixtureProvision.filter.categoryBits = CollisionCategories::PROVISION_COLL;
+        fixtureProvision.filter.maskBits = (CollisionCategories::WORM_COLL | CollisionCategories::BOUNDARY_COLL);
 
         this->body->CreateFixture(&fixtureProvision);
     }
+
+    void activar_provision(Worm* interactor) {
+        this->taken = true;
+        this->interactor = interactor;
+    }
+    
+    virtual void usar() = 0;
 
     ProvisionType getType() {
         return type;
@@ -51,12 +64,6 @@ public:
         return body->GetPosition();
     }
 
-    Provision(const Provision&) = delete;
-
-    Provision& operator=(const Provision&) = delete;
-    
-    virtual void usar(Worm*) = 0;
-
     uint32_t get_id() {
         return this->id;
     }
@@ -65,9 +72,13 @@ public:
         return taken == true ? USADA : NO_USADA;
     }
 
-    bool usada() {
+    bool fue_activada() {
         return taken;
     }
+
+    Provision(const Provision&) = delete;
+
+    Provision& operator=(const Provision&) = delete;
 
     virtual ~Provision() {
         body->GetWorld()->DestroyBody(body);

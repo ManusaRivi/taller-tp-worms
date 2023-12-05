@@ -6,7 +6,7 @@
 class Municion : public Provision {
 public:
     Municion(b2World& world, uint32_t id, float x_pos, float y_pos);
-    virtual void usar(Worm* interactor) override;
+    virtual void usar() override;
 };
 
 #endif

@@ -3,6 +3,7 @@
 #include "../game/comunicacion/snapshot.h"
 #include "../comandos/mensajes/mensaje_handshake.h"
 #include "../comandos/mensajes/mensaje_snapshot.h"
+#include "../comandos/mensajes/mensaje_partida_termino.h"
 
 
 
@@ -35,6 +36,10 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snapshot(){
     uint8_t cmd;
     skt.recvall(&cmd,1,&was_closed);
 
+    if (was_closed){
+        return nullptr;
+    }
+
     if(cmd == CODIGO_PARTIDA_POR_COMENZAR){
         std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(COMANDO::CMD_PARTIDA_EMPEZO);
         return msg;
@@ -44,13 +49,18 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snapshot(){
         return recibir_handshake();
     }
 
-    if (was_closed){
-        return nullptr;
-    }
+
 
     if (cmd == CODIGO_SNAPSHOT){
         return recibir_snap();
     }
+
+    if(cmd == CODIGO_PARTIDA_TERMINO){
+        bool fue_empate = recibir_1_byte();
+        uint32_t equipo_ganador = recibir_4_bytes();
+        return std::make_shared<MensajePartidaTermino>(equipo_ganador,fue_empate);
+    }
+
  
     return nullptr;
 }
@@ -148,9 +158,12 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     // printf("Se llega hasta aca\n");
     std::shared_ptr<SnapshotCliente> snap = std::make_shared<SnapshotCliente>(0);
     uint32_t turno_player_actual = recibir_4_bytes();
-    snap->actulizar_camara(turno_player_actual);
+    uint32_t camara_a_seguir = recibir_4_bytes();
+    snap->actulizar_camara(camara_a_seguir);
     snap->agregar_turno_actual(turno_player_actual);
     int carga_actual_del_arma = recibir_2_bytes();
+    bool pudo_cambiar_de_arma = recibir_1_byte();
+    snap->set_not_ammo_weapon(pudo_cambiar_de_arma);
     snap->set_weapon_power(carga_actual_del_arma);
     recibir_datos_especiales(snap);
     recibir_municiones(snap);
@@ -159,6 +172,9 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     recibir_explosiones(snap);
     recibir_provisiones(snap);
     recibir_sonidos(snap);
+    bool viento_es_negativo = recibir_1_byte();
+    float viento = recibir_4_bytes_float();
+    snap->set_wind(viento_es_negativo, viento);
     
     /*
     int tamano = 6;
@@ -215,6 +231,7 @@ void ClienteProtocolo::recibir_gusanos(std::shared_ptr<SnapshotCliente> snap){
         std::unique_ptr<WormState> state = WormStateGenerator::get_state_with_code(estado, direccion == 0, angulo, angulo_disparo);
         std::shared_ptr<Worm> worm = std::make_shared<Worm>(pos_x, pos_y, vida, equipo, std::move(state));
         snap->add_worm(worm, id_gusano);
+        // printf("Se llega hasta aca\n");
     }
     
 }
@@ -336,18 +353,13 @@ void ClienteProtocolo::enviar_target(float x, float y){
     enviar_4_bytes_float(y);
 }
 
-bool ClienteProtocolo::recibir_confirmacion_union(){
+uint8_t ClienteProtocolo::recibir_confirmacion_union(){
     uint8_t cd = recibir_1_byte();
     if(cd != CODIGO_ESTADO_UNIRSE_PARTIDA){
-        return false;
+        return PARTIDA_EMPEZADA;
     }
     uint8_t estado = recibir_1_byte();
-    if(estado){
-        return true;
-    }
-    else{
-        return false;
-    }
+    return estado;
 }
 
 void ClienteProtocolo::recibir_datos_especiales(std::shared_ptr<SnapshotCliente> snap){
@@ -379,8 +391,16 @@ void ClienteProtocolo::recibir_datos_especiales(std::shared_ptr<SnapshotCliente>
 void ClienteProtocolo::recibir_municiones(std::shared_ptr<SnapshotCliente> snap){
     uint16_t cantidad = recibir_2_bytes();
     for(uint16_t i = 0; i < cantidad; i++){
+        // printf("Se recibe una municion\n");
         int tipo_arma = recibir_1_byte();
         int municion = recibir_2_bytes();
         snap->set_ammo(tipo_arma, municion);
     }
+}
+
+
+void ClienteProtocolo::enviar_cheat(uint8_t tipo_de_cheat){
+    uint8_t cd = CODIGO_CHEATS;
+    enviar_1_byte(cd);
+    enviar_1_byte(tipo_de_cheat);
 }

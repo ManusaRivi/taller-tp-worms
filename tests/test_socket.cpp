@@ -13,10 +13,10 @@ int Socket::recvall(void *data, unsigned int sz, bool *was_closed){
         }
 
         // Use a char variable to hold the byte
-        char byte = *it;
+        uint8_t byte = *it;
 
         // Copy the byte to the destination
-        memcpy(static_cast<char*>(data) + contador, &byte, 1);
+        memcpy(static_cast<uint8_t*>(data) + contador, &byte, 1);
 
         // Erase the byte from the buffer
         it = vector.erase(it);
@@ -29,8 +29,8 @@ int Socket::recvall(void *data, unsigned int sz, bool *was_closed){
 
 int Socket::sendall(const void *data, unsigned int sz, bool *was_closed){
     for (unsigned int i = 0; i < sz; i++){
-        char buf;
-        memcpy(&buf,static_cast<const char*>(data) + i,1);
+        uint8_t buf;
+        memcpy(&buf,static_cast<const uint8_t*>(data) + i,1);
         vector.push_back(buf);
     }
     return 1;   

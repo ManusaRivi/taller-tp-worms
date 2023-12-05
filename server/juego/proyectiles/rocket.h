@@ -19,6 +19,7 @@ class Rocket : public Projectile
 public:
     Rocket(b2World& world, ProjectileType type, uint32_t id, float x_pos, float y_pos, int dmg, int radius, int fragments, float angle, float power);
     virtual bool isGrenade() override;
+    virtual void pushByWind(float wind_force) override;
     virtual void explotar() override;
 };
 

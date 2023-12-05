@@ -8,6 +8,7 @@
 #include <string>
 #include <queue>
 #include <cstdlib>
+#include <random>
 
 #include "./game_config.h"
 #include "../worm_wrapper.h"
@@ -24,13 +25,20 @@
 #include "./provisiones/provision.h"
 #include "./provisiones/vida.h"
 #include "./provisiones/municion.h"
+#include "./provisiones/trampa.h"
 #include "./water.h"
 #include "./contact_listener.h"
 #include "turn_manager.h"
 
-#define MAX_PROVISIONS 5
-#define PROVISION_HEIGHT 30.0f
+#define	RAND_LIMIT 32767
+
+#define MIN_WIND_SPEED 0.01f
+#define MAX_WIND_SPEED 0.1f
+
+#define MAX_PROVISIONS 2
+#define PROVISION_HEIGHT 50.0f
 #define MAX_PROVISION_X_POS 40
+#define PROBABILDAD_DE_CREAR_PROVISIONES 0.20f
 
 // Copyright (c) 2019 Erin Catto
 
@@ -40,8 +48,8 @@ private:
     ContactListener contactListener;
 
     const float timeStep = 1.0f / 30.0f;
-    const int32 velocityIterations = 6;
-    const int32 positionIterations = 2;
+    const int32 velocityIterations = 8;
+    const int32 positionIterations = 3;
 
     std::vector<std::shared_ptr<BeamServer>> vigas;
     std::vector<std::shared_ptr<Worm>> worms;
@@ -51,15 +59,24 @@ private:
     std::queue<SoundTypes> sounds;
     Water water;
 
+    float viento;
+
     std::string nombre;
     TurnManager turnManager;
     uint32_t identificador_entidades;
 
     void crear_provisiones();
+    inline float RandomFloat(float lo, float hi) {
+        float r = (float)(rand() & (RAND_LIMIT));
+        r /= RAND_LIMIT;
+        r = (hi - lo) * r + lo;
+        return r;
+    }
 public:
     explicit Mapa(std::string map_filepath);
     void Load_Map_File(std::string filepath);
-    void Step(int iteracion);
+    void cambiar_viento();
+    bool Step(int iteracion);
     /*
     * Setea la velocidad del gusano dado por idx, que es el
     * indice en el vector gusanos del gusano a mover.
@@ -109,7 +126,7 @@ public:
 
     void get_gusanos(std::vector<WormWrapper>& worm_vector);
 
-    void get_projectiles(std::vector<ProjectileWrapper>& projectile_vector);
+    void get_projectiles(std::vector<ProjectileWrapper>& projectile_vector, uint32_t& apuntar_camara);
 
     void get_explosions(std::vector<ExplosionWrapper>& explosion_vector);
 
@@ -122,6 +139,24 @@ public:
     uint32_t get_tiempo_turno_actual();
 
     uint16_t get_carga_actual();
+
+    float get_viento_actual(bool& es_negativo);
+
+    uint32_t cantidad_worms();
+
+    void reducir_vida();
+
+    void super_velocidad();
+
+    void super_salto();
+
+    uint32_t get_equipo_ganador(bool& fue_empate);
+
+    void pudo_cambiar_de_arma(bool& pudo_cambiar);
+
+    private:
+
+    bool crear_provisiones_en_turno();
 
     
 };

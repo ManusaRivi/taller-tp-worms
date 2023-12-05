@@ -11,7 +11,7 @@ void ActivarCheat::realizar_accion(Mapa& mapa){
     if(tipo_de_cheat == Cheats::SETEAR_VIDA_A_1){
         mapa.reducir_vida();
     }
-    if(tipo_de_cheat == Cheats::VIDA_INFINITA){
-        
+    if(tipo_de_cheat == Cheats::SUPER_VELOCIDAD){
+        mapa.super_velocidad();
     }
 }

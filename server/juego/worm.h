@@ -31,6 +31,7 @@ enum directions {
 #define WORM_RESTITUTION_THRESHOLD 3.5f
 
 #define MOVING_SPEED 0.7f
+#define SUPER_SPEED 3.0f
 
 #define FORWARD_JUMP_STEPS 38
 #define BACKWARD_JUMP_STEPS 58
@@ -70,6 +71,7 @@ private:
     float dead_position_y;
     float dead_position_angle;
     bool pudo_cambiar_de_arma;
+    bool super_velocidad;
 
 public:
     int jumpSteps;
@@ -180,6 +182,8 @@ public:
     uint16_t get_carga_actual();
 
     void reducir_vida();
+    void super_velocidad_gusano();
+
     bool get_pudo_cambiar_de_arma();
 
     ~Worm();

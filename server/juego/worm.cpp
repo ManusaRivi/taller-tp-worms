@@ -9,7 +9,7 @@ Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_po
             Colisionable(bodyType::WORM), coleccionArmas(std::make_unique<ColeccionArmas>(world)),
             armaActual(nullptr), facingDirection(direction), status(WormStates::IDLE), id(id_),
             angulo_disparo(0.0f), hitPoints(hitPoints), maxHealth(hitPoints), numBeamContacts(0), initialHeight(0.0f), finalHeight(0.0f),
-            airborne(false), moving(false), apuntando(false), tomoDmgEsteTurno(false), x_target(0), y_target(0),pudo_cambiar_de_arma(true), jumpSteps(0)
+            airborne(false), moving(false), apuntando(false), tomoDmgEsteTurno(false), x_target(0), y_target(0),pudo_cambiar_de_arma(true), super_velocidad(false), jumpSteps(0)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -57,12 +57,20 @@ void Worm::StartMovement(int dir) {
 void Worm::Move() {
     b2Vec2 velocity = body->GetLinearVelocity();
     float desiredVel = 0;
+    float sp = 0;
+
+    if(super_velocidad == false) {
+        sp = MOVING_SPEED;
+    } else {
+        sp = SUPER_SPEED;
+    }
+
     switch(facingDirection) {
         case RIGHT:
-            desiredVel = MOVING_SPEED;
+            desiredVel = sp;
             break;
         case LEFT:
-            desiredVel = -1 * MOVING_SPEED;
+            desiredVel = -1 * sp;
             break;
     }
     float velChange = desiredVel - velocity.x;
@@ -550,6 +558,10 @@ void Worm::reducir_vida() {
     if(this->status != WormStates::DEAD) {
         this->hitPoints = 1;
     }
+}
+
+void Worm::super_velocidad_gusano() {
+    super_velocidad = !super_velocidad;
 }
 
 bool Worm::get_pudo_cambiar_de_arma(){

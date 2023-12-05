@@ -9,7 +9,6 @@ enum Cheats{
     SUPER_VELOCIDAD = 3,
     SETEAR_VIDA_A_1 = 4,
     MATAR_TODOS_LOS_GUSANOS_ENEMIGOS = 5
-
 };
 
 

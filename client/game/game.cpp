@@ -108,10 +108,13 @@ int Game::run() try {
 				SDL_Keycode tecla = event.key.keysym.sym;
 				if (tecla == SDLK_ESCAPE){
 					return 0;
-				} else if(tecla ==SDLK_c) {
+				} else if(tecla == SDLK_c) {
 					std::shared_ptr<MensajeCliente> msg = mensajes.activar_cheat(Cheats::SETEAR_VIDA_A_1);
 					acciones.push(msg);
-				} else if (tecla == SDLK_RIGHT && !right_press) {
+				} else if(tecla == SDLK_v) {
+					std::shared_ptr<MensajeCliente> msg = mensajes.activar_cheat(Cheats::SUPER_VELOCIDAD);
+					acciones.push(msg);
+				}else if (tecla == SDLK_RIGHT && !right_press) {
 					if (has_selected_weapon) {
 						// Quiere mirar a la derecha mientras apunta
 						// Enviar por protocolo "mirar a la derecha apuntando" (es cambiar el 

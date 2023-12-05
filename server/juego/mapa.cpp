@@ -487,6 +487,10 @@ void Mapa::reducir_vida() {
     }
 }
 
+void Mapa::super_velocidad() {
+    this->worms[this->turnManager.get_gusano_actual()]->super_velocidad_gusano();
+}
+
 uint32_t Mapa::get_equipo_ganador(bool& fue_empate){
     if(turnManager.fue_empate(worms)){
         fue_empate = true;

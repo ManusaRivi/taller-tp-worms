@@ -146,6 +146,8 @@ public:
 
     void reducir_vida();
 
+    void super_velocidad();
+
     uint32_t get_equipo_ganador(bool& fue_empate);
 
     void pudo_cambiar_de_arma(bool& pudo_cambiar);

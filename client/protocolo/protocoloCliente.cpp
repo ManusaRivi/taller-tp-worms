@@ -162,6 +162,13 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     snap->actulizar_camara(camara_a_seguir);
     snap->agregar_turno_actual(turno_player_actual);
     int carga_actual_del_arma = recibir_2_bytes();
+    bool pudo_cambiar_de_arma = recibir_1_byte();
+    if(pudo_cambiar_de_arma){
+        printf("pudo cambiar de arma\n");
+    }
+    else{
+        printf("no pudo cambiar de arma\n");
+    }
     snap->set_weapon_power(carga_actual_del_arma);
     recibir_datos_especiales(snap);
     recibir_municiones(snap);

@@ -69,6 +69,7 @@ private:
     float dead_posiiton_x;
     float dead_position_y;
     float dead_position_angle;
+    bool pudo_cambiar_de_arma;
 
 public:
     int jumpSteps;
@@ -177,6 +178,8 @@ public:
     std::vector<std::pair<int,int>> get_municiones();
 
     uint16_t get_carga_actual();
+
+    bool get_pudo_cambiar_de_arma();
 
     ~Worm();
 };

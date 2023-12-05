@@ -83,7 +83,7 @@ public:
     const int provision_healing;
     const int provision_dmg;
 
-    static GameConfig& getInstance(const std::string& path = PROJECT_SOURCE_DIR "/game_config.yaml")
+    static GameConfig& getInstance(const std::string& path = "/etc/worms/game_config.yaml")
     {
         static GameConfig instance (path);
         return instance;

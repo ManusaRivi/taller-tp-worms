@@ -1,6 +1,13 @@
 # Worms Remake
 Trabajo Práctico Final Grupal - Grupo 6 - Taller I (75.42) Fiuba
 
+| Integrantes               | Padron |
+| ------------------------- | ------ |
+| Ignacio Ezequiel Vetrano  | 106129 |
+| Ramiro Recchia            | 102614 |
+| Juan Estanislao Hoszowski | 104557 |
+| Manuel Rivera Villatte    | 106041 |
+
 ## Dependencias
 Estas son las dependencias que deben ser instaladas para correr el juego
 

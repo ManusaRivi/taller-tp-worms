@@ -16,7 +16,7 @@ Sala_Espera::~Sala_Espera() {
 
 void Sala_Espera::onComenzarButtonClicked() {
 
-    printf("Se unio a la partida, esperando comenzar");
+    //printf("Se unio a la partida, esperando comenzar");
     this->ui->label->setText("Esperando jugadores...");
     ClienteProtocolo protocol(*this->ui1->skt);
     // protocol.unirse_partida("1");

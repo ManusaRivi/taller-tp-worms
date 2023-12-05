@@ -57,7 +57,6 @@ void Mapa::cambiar_viento() {
     if (direction == 0)
         new_speed *= -1;
     this->viento = new_speed;
-    printf("cambia el viento a: %f\n", viento);
 }
 
 void Mapa::crear_provisiones() {
@@ -73,14 +72,14 @@ void Mapa::crear_provisiones() {
         
         float x_pos = rand() % MAX_PROVISION_X_POS;
         float proba = dist(rng);
-        printf("La proba es : %f\n", proba);
+        //printf("La proba es : %f\n", proba);
         if(proba < 0.3){
             provisiones.push_back(std::make_shared<Municion> (world, this->identificador_entidades++, x_pos, PROVISION_HEIGHT));
-            printf("Se crea una provision de municion\n");
+            //printf("Se crea una provision de municion\n");
         }
         else if (proba >= 0.3 && proba < 0.7){
             provisiones.push_back(std::make_shared<VidaServer> (world, this->identificador_entidades++, x_pos, PROVISION_HEIGHT, config.provision_healing));
-            printf("Se crea vida\n");
+            //printf("Se crea vida\n");
         }
         else if (proba >= 0.7) {
             provisiones.push_back(std::make_shared<Trampa> (world, this->identificador_entidades++, x_pos, PROVISION_HEIGHT, config.provision_dmg));
@@ -213,7 +212,7 @@ bool Mapa::Step(int iteracion) {
             provisiones.clear();
             cambiar_viento();
             if (crear_provisiones_en_turno()) {
-                printf("Se crean provisiones\n");
+                //printf("Se crean provisiones\n");
                 crear_provisiones();
             }
         }

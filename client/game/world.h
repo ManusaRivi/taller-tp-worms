@@ -40,6 +40,8 @@
 #define ARROW_SIDE 3
 #define ARROW_FRAMES 30
 
+#define TEAM_HEALTH_HEIGHT 1
+
 class World {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
@@ -131,6 +133,13 @@ class World {
                             float& y_scale,
                             float& camera_x,
                             float& camera_y);
+
+    SDL_Color hashEquipo(uint32_t& indice);
+
+    void present_teams_health(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale);
 
     public:
     World(float map_width, float map_height);

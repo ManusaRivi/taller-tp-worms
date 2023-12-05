@@ -140,6 +140,7 @@ void World::present_hud(Renderer& renderer,
     if (has_timer) present_timer(renderer, texture_manager, x_scale, y_scale);
     present_ammo(renderer, texture_manager, x_scale, y_scale);
     present_wind(renderer, texture_manager, x_scale, y_scale);
+    present_teams_health(renderer, texture_manager, x_scale, y_scale);
 }
 
 void World::present_weapon_power(Renderer& renderer,
@@ -344,6 +345,68 @@ void World::present_turn_arrow(int& it_inc,
                     NullOpt,
                     SDL_FLIP_NONE
     );
+}
+
+SDL_Color World::hashEquipo(uint32_t& indice) {
+
+    SDL_Color colores[NUM_COLORES] = {
+        {0, 0, 255, 255},   // Azul
+        {255, 255, 0, 255}, // Amarillo
+        {0, 255, 255, 255},  // Cian
+        {255, 0, 255, 255}, // Magenta
+        {255, 165, 0, 255}  // Naranja
+    };
+
+    uint32_t indiceCircular = indice % NUM_COLORES;
+
+    return colores[indiceCircular];
+}
+
+void World::present_teams_health(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale) {
+    // Consigo las vidas de los equipos
+    std::map<int, int> team_health;
+    for (auto& worm : worms) {
+        int team = worm.second->getEquipo();
+        int health = worm.second->getVida();
+        if (team_health.find(team) == team_health.end()) {
+            team_health[team] = 0;
+        }
+        team_health[team] += health;
+    }
+
+    // Las grafico
+    int pos_y = renderer.GetOutputHeight() - TEAM_HEALTH_HEIGHT * y_scale;
+    for (auto& team : team_health) {
+        SDL_Rect health;
+        SDL_Rect border;
+
+	    border.w = static_cast<int>(((renderer.GetOutputWidth()/4 - 1*x_scale)* team.second) / 300);
+	    border.h = TEAM_HEALTH_HEIGHT * y_scale;
+	    border.x = 0;
+	    border.y = pos_y;
+
+        health.w = static_cast<int>(((renderer.GetOutputWidth()/4 - 1*x_scale)* team.second) / 300);
+	    health.h = TEAM_HEALTH_HEIGHT * y_scale;
+	    health.x = 0;
+	    health.y = pos_y;
+
+        uint32_t team_number = static_cast<uint32_t>(team.first);
+	    SDL_Color health_color = hashEquipo(team_number);
+        SDL_Color border_color = {255, 255, 255, 255};
+
+        SDL_SetRenderDrawColor(renderer.Get(), health_color.r, health_color.g, health_color.b, health_color.a);
+	    SDL_RenderFillRect(renderer.Get(), &health);
+
+        // Dibuja el borde
+	    SDL_SetRenderDrawColor(renderer.Get(), border_color.r, border_color.g, border_color.b, border_color.a);
+	    SDL_RenderDrawRect(renderer.Get(), &border);
+        
+        pos_y -= TEAM_HEALTH_HEIGHT * y_scale;
+    }
+
 }
 
 void World::present(int& it_inc,

@@ -80,4 +80,5 @@ enable_testing()
 
 # Instalacion
 install(TARGETS worms-server worms-client worms-editor DESTINATION /usr/bin)
+install(DIRECTORY resources DESTINATION /var/worms)
 install(FILES game_config.yaml DESTINATION /etc/worms)

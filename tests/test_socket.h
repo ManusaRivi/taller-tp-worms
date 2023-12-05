@@ -9,7 +9,7 @@
 class Socket{
 
     public:
-    std::vector<char> vector;
+    std::vector<uint8_t> vector;
 
     public:
     Socket();

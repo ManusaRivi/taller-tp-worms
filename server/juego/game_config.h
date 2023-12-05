@@ -7,13 +7,13 @@ class GameConfig
 {
 private:
     YAML::Node config;
-    GameConfig() :  config(YAML::LoadFile(PROJECT_SOURCE_DIR "/game_config.yaml")),
+    GameConfig(const std::string& path) :  config(YAML::LoadFile(path)),
                     puntos_de_vida(config["puntos_de_vida"].as<int>()),
                     frag_amount(config["cantidad_frags"].as<int>()),
                     frag_dmg(config["danio_frags"].as<int>()),
                     frag_radius(config["radio_frags"].as<int>()),
                     bazooka_dmg(config["dmg_bazooka"].as<int>()),
-                    bazooka_radius(config["cantidad_de_vidas"].as<int>()),
+                    bazooka_radius(config["radio_bazooka"].as<int>()),
                     mortar_ammo(config["ammo_mortero"].as<int>()),
                     mortar_dmg(config["dmg_mortero"].as<int>()),
                     mortar_radius(config["radio_mortero"].as<int>()),
@@ -83,9 +83,9 @@ public:
     const int provision_healing;
     const int provision_dmg;
 
-    static GameConfig& getInstance()
+    static GameConfig& getInstance(const std::string& path = PROJECT_SOURCE_DIR "/game_config.yaml")
     {
-        static GameConfig instance;
+        static GameConfig instance (path);
         return instance;
     }
 };

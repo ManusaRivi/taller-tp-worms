@@ -70,7 +70,7 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id){
         }
         case(CODIGO_CHEATS):{
             uint8_t tipo_de_cheat = recibir_1_byte();
-            comando = factory.comando_activar_cheat(tipo_de_cheat,id);
+            comando = factory.comando_activar_cheat(id, tipo_de_cheat);
             break;
         }
     }

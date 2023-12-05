@@ -534,6 +534,12 @@ uint16_t Worm::get_carga_actual(){
     return armaActual->get_carga();
 }
 
+void Worm::reducir_vida() {
+    if(this->status != WormStates::DEAD) {
+        this->hitPoints = 1;
+    }
+}
+
 Worm::~Worm(){
     // printf("Se destruye el gusano\n");
 }

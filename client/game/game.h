@@ -29,7 +29,7 @@
 #include "../comandos/factory_mensajes.h"
 #include <chrono>
 #include "camara.h"
-
+#include "../../common/cheats.h"
 #include "Proyectiles/projectile_generator.h"
 
 class Game {

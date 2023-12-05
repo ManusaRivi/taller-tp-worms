@@ -144,6 +144,8 @@ public:
 
     uint32_t cantidad_worms();
 
+    void reducir_vida();
+
     uint32_t get_equipo_ganador(bool& fue_empate);
 
     private:

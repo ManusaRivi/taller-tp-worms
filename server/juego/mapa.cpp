@@ -481,6 +481,12 @@ uint32_t Mapa::cantidad_worms(){
     return this->worms.size();
 }
 
+void Mapa::reducir_vida() {
+    for(auto& worm: this->worms) {
+        worm->reducir_vida();
+    }
+}
+
 uint32_t Mapa::get_equipo_ganador(bool& fue_empate){
     if(turnManager.fue_empate()){
         fue_empate = true;

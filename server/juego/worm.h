@@ -178,6 +178,8 @@ public:
 
     uint16_t get_carga_actual();
 
+    void reducir_vida();
+
     ~Worm();
 };
 

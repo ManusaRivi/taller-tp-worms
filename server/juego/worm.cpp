@@ -8,8 +8,10 @@ union BodyUserData {
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
             Colisionable(bodyType::WORM), coleccionArmas(std::make_unique<ColeccionArmas>(world)),
             armaActual(nullptr), facingDirection(direction), status(WormStates::IDLE), id(id_),
-            angulo_disparo(0.0f), hitPoints(hitPoints), maxHealth(hitPoints), numBeamContacts(0), initialHeight(0.0f), finalHeight(0.0f),
-            airborne(false), moving(false), apuntando(false), tomoDmgEsteTurno(false), x_target(0), y_target(0),pudo_cambiar_de_arma(true), super_velocidad(false), super_salto(false), jumpSteps(0)
+            angulo_disparo(0.0f), hitPoints(hitPoints), maxHealth(hitPoints), numBeamContacts(0),
+            initialHeight(0.0f), finalHeight(0.0f), jumping(false), airborne(false), moving(false),
+            apuntando(false), tomoDmgEsteTurno(false), x_target(0), y_target(0), pudo_cambiar_de_arma(true),
+            super_velocidad(false), super_salto(false)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -96,19 +98,22 @@ void Worm::JumpForward() {
     float velocity_ = 0;
 
     if(super_salto == false) {
-        jumpSteps = FORWARD_JUMP_STEPS;
+        // jumpSteps = FORWARD_JUMP_STEPS;
         multiplier = FORWARD_JUMP_IMPULSE_MULTIPLIER;
         velocity_ = FORWARD_JUMP_X_VELOCITY;
     } else {
-        jumpSteps = SUPER_FORWARD_JUMP_STEPS;
+        // jumpSteps = SUPER_FORWARD_JUMP_STEPS;
         multiplier = SUPER_FORWARD_JUMP_IMPULSE_MULTIPLIER;
         velocity_ = SUPER_FORWARD_JUMP_X_VELOCITY;
     }
 
-    float impulse = body->GetMass() * multiplier;
-    body->ApplyLinearImpulse(b2Vec2(0, impulse), body->GetWorldCenter(), true);
+    if (facingDirection == LEFT)
+        velocity_ *= -1;
 
-    b2Vec2 velocity = body->GetLinearVelocity();
+    float impulse_y = body->GetMass() * multiplier;
+    body->ApplyLinearImpulse(b2Vec2(0, impulse_y), body->GetWorldCenter(), true);
+
+    /* b2Vec2 velocity = body->GetLinearVelocity();
     switch(facingDirection) {
         case RIGHT:
             velocity.x = velocity_;
@@ -117,7 +122,7 @@ void Worm::JumpForward() {
             velocity.x = -1 * velocity_;
             break;
     }
-    body->SetLinearVelocity(velocity);
+    body->SetLinearVelocity(velocity); */
 }
 
 void Worm::JumpBackward() {
@@ -129,19 +134,22 @@ void Worm::JumpBackward() {
     float velocity_ = 0;
 
     if(super_salto == false) {
-        jumpSteps = BACKWARD_JUMP_STEPS;
+        // jumpSteps = BACKWARD_JUMP_STEPS;
         multiplier = BACKWARD_JUMP_IMPULSE_MULTIPLIER;
         velocity_ = BACKWARD_JUMP_X_VELOCITY;
     } else {
-        jumpSteps = SUPER_BACKWARD_JUMP_STEPS;
+        // jumpSteps = SUPER_BACKWARD_JUMP_STEPS;
         multiplier = SUPER_BACKWARD_JUMP_IMPULSE_MULTIPLIER;
         velocity_ = SUPER_BACKWARD_JUMP_X_VELOCITY;
     }
 
-    float impulse = body->GetMass() * multiplier;
-    body->ApplyLinearImpulse(b2Vec2(0, impulse), body->GetWorldCenter(), true);
+    if (facingDirection == RIGHT)
+        velocity_ *= -1;
 
-    b2Vec2 velocity = body->GetLinearVelocity();
+    float impulse_y = body->GetMass() * multiplier;
+    body->ApplyLinearImpulse(b2Vec2(velocity_, impulse_y), body->GetWorldCenter(), true);
+
+    /* b2Vec2 velocity = body->GetLinearVelocity();
     switch(facingDirection) {
         case RIGHT:
             velocity.x = -1 * velocity_;
@@ -150,7 +158,7 @@ void Worm::JumpBackward() {
             velocity.x = velocity_;
             break;
     }
-    body->SetLinearVelocity(velocity);
+    body->SetLinearVelocity(velocity); */
 }
 
 void Worm::cambiar_direccion(uint8_t dir){
@@ -175,6 +183,10 @@ void Worm::cambiar_direccion(uint8_t dir){
 
 void Worm::startGroundContact() {
     ++numBeamContacts;
+    if (jumping) {
+        jumping = false;
+        Stop();
+    }
     status = WormStates::IDLE;
     sounds.push(SoundTypes::GROUND_CONTACT);
     airborne = false;
@@ -193,7 +205,7 @@ void Worm::startGroundContact() {
 
 void Worm::endGroundContact() {
     --numBeamContacts;
-    if (jumpSteps == 0) {
+    if (!jumping) {
         status = WormStates::FALL;
     }
     if (numBeamContacts == 0) {

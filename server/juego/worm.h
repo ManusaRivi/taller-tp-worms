@@ -69,6 +69,7 @@ private:
     int numBeamContacts;
     float initialHeight;
     float finalHeight;
+    bool jumping;
     bool airborne;
     bool moving;
     bool esta_apuntando_para_arriba;
@@ -84,7 +85,6 @@ private:
     bool super_salto;
 
 public:
-    int jumpSteps;
     std::queue<SoundTypes> sounds;
 
     Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id);

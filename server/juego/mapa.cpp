@@ -123,10 +123,10 @@ bool Mapa::Step(int iteracion) {
                 pierde_turno = true;
             }
         }
-        if ((*it)->jumpSteps > 0) {
+        /* if ((*it)->jumpSteps > 0) {
             if ((*it)->jumpSteps == 1) (*it)->Stop();
             (*it)->jumpSteps--;
-        }
+        } */
         if ((*it)->isMoving()) {
             (*it)->Move();
         }

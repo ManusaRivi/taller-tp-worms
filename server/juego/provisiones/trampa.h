@@ -3,6 +3,8 @@
 
 #include "provision.h"
 
+#define PROV_EXPLOSION_RADIUS 1.0f
+
 class Trampa : public Provision {
 private:
     int dmg;

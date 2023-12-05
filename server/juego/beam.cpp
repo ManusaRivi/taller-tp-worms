@@ -8,7 +8,6 @@ BeamServer::BeamServer(b2World& world, int type, float x_pos, float y_pos, float
     vigaDef.userData.pointer = reinterpret_cast<uintptr_t> (this);
     b2Body *viga = world.CreateBody(&vigaDef);
     this->body = viga;
-    // printf("El angulo con el que se crea es %f\n",viga->GetAngle());
     b2PolygonShape vigaBox;
     float length = (type == SMALL) ? SMALL_LENGTH : LARGE_LENGTH;
     this->len = length;
@@ -26,12 +25,7 @@ BeamServer::BeamServer(b2World& world, int type, float x_pos, float y_pos, float
     this->body->CreateFixture(&fixtureViga);
 }
 
-// bodyType BeamServer::identificar() {
-//     return bodyType::BEAM;
-// }
-
 std::vector<float> BeamServer::get_pos(){
-    // printf("el angulo que se devuelve es %f\n",body->GetAngle());
      std::vector<float> viga({body->GetPosition().x,body->GetPosition().y,body->GetAngle(),2 * this->len});
      return viga;
 }

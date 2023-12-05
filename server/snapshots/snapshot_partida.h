@@ -1,7 +1,7 @@
 #ifndef SNAPSHOT_PARTIDA_H
 #define SNAPSHOT_PARTIDA_H
-#include "snapshot.h"
 
+#include "snapshot.h"
 
 class SnapshotPartida:public Snapshot{
 

@@ -44,7 +44,6 @@ void Partida::run()try{{
             comandos_a_ejecutar.push_back(comando);
         }
 
-
         std::shared_ptr<Comando> comando_ejecutable;
         for( auto &c: comandos_a_ejecutar){
             c->realizar_accion(mapa);
@@ -159,9 +158,6 @@ void Partida::enviar_primer_snapshot(){
     std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(worms, beams, mapa.gusano_actual());
     broadcaster.informar_primer_snapshot(id_gusanos_por_player, snap);
 }
-
-
-
 
 void Partida::remover_player(Queue<std::shared_ptr<MensajeServer>>* snapshots){
     broadcaster.remover_player(snapshots);

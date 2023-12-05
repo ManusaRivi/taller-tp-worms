@@ -42,7 +42,6 @@ void ContactListener::BeginContact(b2Contact* contact) {
         case PROYECTIL_WORM:
         {
             Projectile* projectile = static_cast<Projectile*>(bodyA);
-            // if (projectile->getType() != ProjectileType::GRENADE)
             if (!projectile->isGrenade()){
                 projectile->SetExplosion();
             }

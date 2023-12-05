@@ -1,6 +1,5 @@
 #include "snapshot_partida.h"
 
-
 SnapshotPartida::SnapshotPartida(std::vector<WormWrapper> worms_,
                                 std::vector<ProjectileWrapper> proyectiles_,
                                 std::vector<ExplosionWrapper> explosiones_,

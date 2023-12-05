@@ -22,7 +22,5 @@ void ServerMain::empezar_server(){
             comando_cerrar = true;
             return;
         }
-
     }
-
 }

@@ -25,7 +25,6 @@ void MapContainer::getMaps() {
 
                 try {
                     // Crea una instancia de la clase Mapa
-                    // Mapa* mapa = new Mapa(archivoYAML); // ACA HAY QUE INICIALIZAR EL MAPA CON TODOS LOS DATOS
 
                     // Agrega el mapa al MapContainer utilizando el nombre del archivo como ID
                     YAML::Node map = YAML::LoadFile(archivoYAML);
@@ -33,7 +32,6 @@ void MapContainer::getMaps() {
                     std::string nombre = map["nombre"].as<std::string>();
                     mapas[id] = std::pair<std::string,std::string>(nombre,archivoYAML);
                     id++;
-                    // std::cout << "Ya me cargue un mapa\n";
 
                 } catch (const std::exception& e) {
                     std::cerr << "Error al leer el archivo YAML: " << e.what() << std::endl;

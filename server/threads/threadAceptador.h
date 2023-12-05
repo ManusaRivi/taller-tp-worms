@@ -24,10 +24,7 @@ class Aceptador:public Thread{
     void run() override;
     void shutdown();
 
-
     private:
     void kill();
     void reap_dead();
-
-
 };

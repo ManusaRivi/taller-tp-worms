@@ -7,14 +7,12 @@ Cliente::Cliente(Socket &peer,Lobby &lobby_):skt(std::move(peer)),
 
     this->recibidor = new Recibidor(skt,snapshots_a_enviar,lobby);
     this->enviador = new Enviador(skt, snapshots_a_enviar );
-
 }
 
 void Cliente::start(){
     enviador->start();
     recibidor->start();
 }
-
 
 bool Cliente::is_dead(){
     return this->recibidor->is_dead();

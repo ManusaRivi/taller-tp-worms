@@ -15,7 +15,6 @@ class Lobby {
     FactoryMensajesServer mensajes;
     uint32_t id_actual;
     std::mutex lck;
-    //MonitorClientes &clientes;
 
     public:
     Lobby(MapContainer& mapas);

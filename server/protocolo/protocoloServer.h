@@ -13,7 +13,6 @@
 class FactoryComandos;
 class ServerProtocolo:public Protocolo{
 
-    //Socket& skt;
     private:
     FactoryComandos factory;
     FactoryMensajesServer mensajes;
@@ -34,8 +33,6 @@ class ServerProtocolo:public Protocolo{
     void enviar_estado_unirse(uint8_t estado);
     void enviar_partida_termino(uint32_t equipo_ganador, bool fue_empate);
 
-
-    // METODOS PUBLICOS PARA TESTEAR
     void enviar_vigas(std::vector<std::vector<float>>& vigas);
     void enviar_lista(std::map<uint32_t,std::string>& lista);
     void enviar_proyectiles(std::vector<ProjectileWrapper>& lista);

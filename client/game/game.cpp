@@ -335,7 +335,7 @@ int Game::run() try {
 		if (snap->get_tipo_comando() == COMANDO::CMD_ENVIAR_SNAPSHOT){
 			std::shared_ptr<MensajeSnapshot> msg = std::dynamic_pointer_cast<MensajeSnapshot>(snap);
 			std::shared_ptr<SnapshotCliente> snapshot = msg->get_snap();
-			if (snapshot->turn_change((*world))) {
+			if (snapshot->turn_change((*world)) || snapshot->not_ammo()) {
 				has_selected_weapon = false;
 				mouse_weapon = false;
 			}

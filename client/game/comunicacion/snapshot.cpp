@@ -37,6 +37,14 @@ void SnapshotCliente::set_tp(bool& _has_tp, float& pos_x, float& pos_y) {
     tp_y = pos_y;
 }
 
+void SnapshotCliente::set_not_ammo_weapon(bool& could_change_weapon) {
+    not_ammo_weapon = !could_change_weapon;
+}
+
+bool SnapshotCliente::not_ammo() {
+    return not_ammo_weapon;
+}
+
 void SnapshotCliente::set_air_attack(bool& _has_air_attack, float& pos_x, float& pos_y) {
     has_air_attack = _has_air_attack;
     air_attack_x = pos_x;

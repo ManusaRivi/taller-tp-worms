@@ -47,6 +47,8 @@ class SnapshotCliente {
     float _wind;
     bool _wind_left;
 
+    bool not_ammo_weapon;
+
     public:
     //Constructor
     SnapshotCliente(int id_camera);
@@ -69,6 +71,10 @@ class SnapshotCliente {
     void set_weapon_power(int& power);
 
     void set_tp(bool& has_tp, float& pos_x, float& pos_y);
+
+    void set_not_ammo_weapon(bool& could_change_weapon);
+
+    bool not_ammo();
 
     void set_air_attack(bool& _has_air_attack, float& pos_x, float& pos_y);
 

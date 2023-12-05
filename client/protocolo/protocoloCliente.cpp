@@ -3,6 +3,7 @@
 #include "../game/comunicacion/snapshot.h"
 #include "../comandos/mensajes/mensaje_handshake.h"
 #include "../comandos/mensajes/mensaje_snapshot.h"
+#include "../comandos/mensajes/mensaje_partida_termino.h"
 
 
 
@@ -35,6 +36,10 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snapshot(){
     uint8_t cmd;
     skt.recvall(&cmd,1,&was_closed);
 
+    if (was_closed){
+        return nullptr;
+    }
+
     if(cmd == CODIGO_PARTIDA_POR_COMENZAR){
         std::shared_ptr<MensajeCliente> msg = std::make_shared<MensajeCliente>(COMANDO::CMD_PARTIDA_EMPEZO);
         return msg;
@@ -44,13 +49,16 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snapshot(){
         return recibir_handshake();
     }
 
-    if (was_closed){
-        return nullptr;
-    }
+
 
     if (cmd == CODIGO_SNAPSHOT){
         return recibir_snap();
     }
+
+    if(cmd == CODIGO_PARTIDA_TERMINO){
+        return std::make_shared<MensajePartidaTermino>();
+    }
+
  
     return nullptr;
 }
@@ -160,12 +168,9 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     recibir_explosiones(snap);
     recibir_provisiones(snap);
     recibir_sonidos(snap);
-    bool es_negativo = recibir_1_byte();
-    if(es_negativo){
-
-    }
+    bool viento_es_negativo = recibir_1_byte();
     float viento = recibir_4_bytes_float();
-    printf("Se recibio el viento %f\n", viento);
+    snap->set_wind(viento_es_negativo, viento);
     
     /*
     int tamano = 6;
@@ -344,18 +349,13 @@ void ClienteProtocolo::enviar_target(float x, float y){
     enviar_4_bytes_float(y);
 }
 
-bool ClienteProtocolo::recibir_confirmacion_union(){
+uint8_t ClienteProtocolo::recibir_confirmacion_union(){
     uint8_t cd = recibir_1_byte();
     if(cd != CODIGO_ESTADO_UNIRSE_PARTIDA){
-        return false;
+        return PARTIDA_EMPEZADA;
     }
     uint8_t estado = recibir_1_byte();
-    if(estado){
-        return true;
-    }
-    else{
-        return false;
-    }
+    return estado;
 }
 
 void ClienteProtocolo::recibir_datos_especiales(std::shared_ptr<SnapshotCliente> snap){

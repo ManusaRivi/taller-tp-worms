@@ -44,6 +44,9 @@ class SnapshotCliente {
 
     std::map<int, int> ammo;
 
+    float _wind;
+    bool _wind_left;
+
     public:
     //Constructor
     SnapshotCliente(int id_camera);
@@ -72,6 +75,8 @@ class SnapshotCliente {
     void set_timer(bool& _has_timer, int& _timer);
 
     void set_ammo(int& weapon, int& _ammo);
+
+    void set_wind(bool& wind_left, float& wind);
 
 /*
     void present(int& it_inc,

@@ -52,6 +52,11 @@ void World::update_worm(const int& id, std::shared_ptr<Worm> worm) {
     worms.at(id)->update(std::move(worm));
 }
 
+void World::update_wind(bool& wind_left, float& wind) {
+    _wind_left = wind_left;
+    _wind = wind;
+}
+
 void World::present_background(Renderer& renderer,
                         TextureManager& texture_manager,
                         float& x_scale,
@@ -133,6 +138,7 @@ void World::present_hud(Renderer& renderer,
     present_weapon_power(renderer, texture_manager, x_scale, y_scale);
     if (has_timer) present_timer(renderer, texture_manager, x_scale, y_scale);
     present_ammo(renderer, texture_manager, x_scale, y_scale);
+    present_wind(renderer, texture_manager, x_scale, y_scale);
 }
 
 void World::present_weapon_power(Renderer& renderer,
@@ -255,6 +261,57 @@ void World::present_ammo(Renderer& renderer,
     }
 }
 
+void World::present_wind(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale) {
+    
+    SDL_Rect border;
+	border.w = renderer.GetOutputWidth()/2 - 1*x_scale;
+	border.h = WIND_HEIGHT * y_scale;
+	border.x = renderer.GetOutputWidth()/2 + x_scale;
+	border.y = renderer.GetOutputHeight() - WIND_HEIGHT*y_scale;
+
+    SDL_Color border_color = {255, 255, 255, 255};
+
+    if (_wind_left) {
+        std::string texture_name = "WindL";
+        Texture& texture = texture_manager.get_texture(texture_name);
+        texture.SetAlphaMod(255);
+        int pos_x = static_cast<int>(border.x + border.w/2 - ((border.w/2) * 10 * _wind));
+        int pos_y = static_cast<int>(border.y);
+
+        renderer.Copy(
+                    texture,
+                    Rect(0, 0, WIND_SPRITE_WIDTH, WIND_SPRITE_HEIGHT),
+                    Rect(pos_x, pos_y,
+                        static_cast<int>((border.w/2)*10*_wind), border.h),
+                    0.0,
+                    NullOpt,
+                    SDL_FLIP_NONE
+        );
+    } else {
+        std::string texture_name = "WindR";
+        Texture& texture = texture_manager.get_texture(texture_name);
+        texture.SetAlphaMod(255);
+        int pos_x = static_cast<int>(border.x + (border.w/2));
+        int pos_y = static_cast<int>(border.y);
+
+        renderer.Copy(
+                    texture,
+                    Rect(0, 0, WIND_SPRITE_WIDTH, WIND_SPRITE_HEIGHT),
+                    Rect(pos_x, pos_y,
+                        static_cast<int>((border.w/2)*10*_wind), border.h),
+                    0.0,
+                    NullOpt,
+                    SDL_FLIP_NONE
+        );
+    }
+    
+    // Dibuja el borde
+	SDL_SetRenderDrawColor(renderer.Get(), border_color.r, border_color.g, border_color.b, border_color.a);
+	SDL_RenderDrawRect(renderer.Get(), &border);
+}
 
 void World::present(int& it_inc,
                         Renderer& renderer,

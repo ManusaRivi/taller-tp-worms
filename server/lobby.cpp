@@ -26,9 +26,13 @@ std::map<uint32_t,std::string> Lobby::listar_partidas(Queue<std::shared_ptr<Mens
     std::lock_guard<std::mutex> lock(lck);
     std::map<uint32_t,std::string> lista;
     for (auto i = lista_partidas.begin(); i != lista_partidas.end(); i++){
-        std::string nombre = i->second->get_nombre();
-        // std::cout << "El nombre de la partida es : " << nombre << std::endl;
-        lista.insert({i->first,nombre});
+        uint8_t accesibilidad = i->second->partida_accesible();
+        if(accesibilidad == PARTIDA_ACCESIBLE){
+            std::string nombre = i->second->get_nombre();
+            // std::cout << "El nombre de la partida es : " << nombre << std::endl;
+            lista.insert({i->first,nombre});
+        }
+
     }
     // std::shared_ptr<MensajeServer> msg = mensajes.listar_partidas(lista);
     return lista;
@@ -55,16 +59,16 @@ Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t& id_pedido){
     return lista_partidas.at(id_pedido)->get_queue();
 }
 
-
-bool Lobby::unirse_a_partida(uint32_t& id_partida, Queue<std::shared_ptr<MensajeServer>>* snapshots){
+uint8_t Lobby::unirse_a_partida(uint32_t& id_partida, Queue<std::shared_ptr<MensajeServer>>* snapshots){
     std::lock_guard<std::mutex> lock(lck);
     // printf("Se pide unirse un player\n");
-    if(lista_partidas.at(id_partida)->partida_accesible()){
+    uint8_t estado = lista_partidas.at(id_partida)->partida_accesible();
+    if(estado == PARTIDA_ACCESIBLE){
         lista_partidas.at(id_partida)->add_queue(snapshots);
-        return true;
+        return estado;
     }
     else{
-        return false;
+        return estado;
     }
     
 

@@ -2,11 +2,14 @@
 #include <string>
 #include <iostream>
 
+#include "juego/game_config.h"
 
-ServerMain::ServerMain(){
-
+ServerMain::ServerMain(int argc, char* argv[]) {
+    if (argc == 2) {
+        GameConfig& config = GameConfig::getInstance(argv[1]);
+        (void)config;
+    }
 }
-
 
 void ServerMain::empezar_server(){
 

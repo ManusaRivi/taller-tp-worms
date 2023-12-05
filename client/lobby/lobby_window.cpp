@@ -59,12 +59,15 @@ void Lobby_Window::onUnirButtonClicked() {
             // qDebug() << "Selected ID: " << selectedId;
             ClienteProtocolo protocol(*this->ui1->skt);
             protocol.unirse_partida(selectedId);
-            bool estado = protocol.recibir_confirmacion_union();
-            if(estado){
+            uint8_t estado = protocol.recibir_confirmacion_union();
+            if(estado == PARTIDA_ACCESIBLE){
                 this->stackedWidget->setCurrentWidget(this->stackedWidget->widget(PANTALLA_ESPERA_SIN_OPCION_A_COMENZAR));
             }
-            else{
-                QMessageBox::warning(this, "Advertencia", "La partida seleccionada ya empezó.", QMessageBox::Ok);
+            else if (estado == PARTIDA_LLENA){
+                QMessageBox::warning(this, "Advertencia", "La partida esta llena.", QMessageBox::Ok);
+            }
+            else if (estado == PARTIDA_EMPEZADA){
+                QMessageBox::warning(this, "Advertencia", "La partida ya empezó.", QMessageBox::Ok);
             }
             
         } else {

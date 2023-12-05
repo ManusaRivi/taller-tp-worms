@@ -73,6 +73,17 @@
 - nombre: Sight
   ruta: /client/game/Texturas/data/sprites/sight.png
 
+# Viento
+- nombre: WindL
+  ruta: /client/game/Texturas/data/sprites/WindL.png
+
+- nombre: WindR
+  ruta: /client/game/Texturas/data/sprites/WindR.png
+
+# Flecha
+- nombre: Arrow
+  ruta: /client/game/Texturas/data/sprites/Arrow.png
+
 # Fondo
 - nombre: Background
   ruta: /client/game/Texturas/data/sprites/Background.png

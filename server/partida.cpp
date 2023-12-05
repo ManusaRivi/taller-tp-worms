@@ -50,12 +50,20 @@ void Partida::run()try{{
         for( auto &c: comandos_a_ejecutar){
             c->realizar_accion(mapa);
         }
-        mapa.Step(it);
+
+        bool terminaron_fisicas = mapa.Step(it);
 
         if(mapa.checkOnePlayerRemains()) {
-            printf("La partida termino\n");
+            
             is_alive = false;
-            partida_terminada = true;
+            if(terminaron_fisicas){
+                printf("La partida termino\n");
+                partida_terminada = true;
+                enviar_termino_partida();
+                return;
+
+            }
+            
         }
         std::shared_ptr<Snapshot> snap = generar_snapshot(it);
         std::shared_ptr<MensajeServer> broadcast = mensajes.snapshot(snap);
@@ -166,8 +174,16 @@ void Partida::kill(){
     is_alive = false;
 }
 
-bool Partida::partida_accesible(){
-    return !partida_empezada;
+uint8_t Partida::partida_accesible(){
+    if(partida_empezada){
+        return PARTIDA_EMPEZADA;
+    }
+    if(broadcaster.cantidad_jugadores() == mapa.cantidad_worms()){
+        return PARTIDA_LLENA;
+    }
+    else{
+        return PARTIDA_ACCESIBLE;
+    }
 }
 
 bool Partida::terminada(){
@@ -180,4 +196,9 @@ void Partida::comenzar_partida(){
     broadcaster.broadcastSnap(msg);
     enviar_primer_snapshot();
     partida_empezada = true;
+}
+
+void Partida::enviar_termino_partida(){
+    std::shared_ptr<MensajeServer> msg = mensajes.partida_termino();
+    broadcaster.broadcastSnap(msg);
 }

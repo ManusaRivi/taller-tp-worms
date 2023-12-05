@@ -47,6 +47,9 @@ void Enviador::run()try{{
             std::shared_ptr<MensajeEstadoUnirse> estado = std::dynamic_pointer_cast<MensajeEstadoUnirse>(msg);
             ptcl.enviar_estado_unirse(estado->get_state());
         }
+        if(msg->get_tipo() == COMANDO::CMD_PARTIDA_TERMINO){
+            ptcl.enviar_partida_termino();
+        }
         
     }
 }}catch(const ClosedSocket& e){

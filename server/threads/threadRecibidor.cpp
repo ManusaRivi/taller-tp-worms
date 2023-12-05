@@ -49,17 +49,12 @@ void Recibidor::run()try{{
         }
         else if(msg->get_tipo() == COMANDO::CMD_UNIRSE_PARTIDA){
             std::shared_ptr<MensajeUnirsePartida> unirse = std::dynamic_pointer_cast<MensajeUnirsePartida>(msg);
-            bool estado = lobby.unirse_a_partida(unirse->get_id_partida(),snapshots);
-            uint8_t se_unio;
-            if(estado == false){
-                se_unio = 0;
-            }
-            else{
-                se_unio = 1;
+            uint8_t estado = lobby.unirse_a_partida(unirse->get_id_partida(),snapshots);
+            if (estado == PARTIDA_ACCESIBLE){
                 this->id_partida = unirse->get_id_partida();
                 id++;
             }
-            std::shared_ptr<MensajeServer> mensaje = mensajes.estado_unirse_partida(se_unio);
+            std::shared_ptr<MensajeServer> mensaje = mensajes.estado_unirse_partida(estado);
             snapshots->push(mensaje);
 
         }

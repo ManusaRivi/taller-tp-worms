@@ -32,6 +32,10 @@
 #define SIGHT_DIAMETER 1
 #define SIGHT_SPRITE_DIAMETER 32
 
+#define WIND_HEIGHT 1
+#define WIND_SPRITE_WIDTH 96
+#define WIND_SPRITE_HEIGHT 13
+
 class World {
     private:
     std::map<int, std::shared_ptr<Worm>> worms;
@@ -62,6 +66,9 @@ class World {
     int timer;
 
     std::map<int, int> ammo;
+
+    bool _wind_left;
+    float _wind;
 
     void present_background(Renderer& Renderer,
                         TextureManager& texture_manager,
@@ -106,6 +113,11 @@ class World {
                             float& x_scale,
                             float& y_scale);
 
+    void present_wind(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale);
+
     public:
     World(float map_width, float map_height);
 
@@ -133,6 +145,8 @@ class World {
     std::vector<int> get_projectile_ids();
 
     void add_explosion(ExplosionCliente explosion);
+
+    void update_wind(bool& wind_left, float& wind);
 
     bool checkOnePlayerRemains();
 

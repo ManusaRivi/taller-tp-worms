@@ -12,7 +12,7 @@ int main(int argc, char* argv[]){
     printf("Se abre un server con puerto : %s\n",name);
     skt.start();
 
-    ServerMain srvr;
+    ServerMain srvr (argc, argv);
 
     srvr.empezar_server();
     skt.shutdown();

@@ -118,7 +118,7 @@ void TurnManager::cargar_cantidad_gusanos(uint32_t cant_gusanos){
 }
 
 bool TurnManager::checkOnePlayerRemains() {
-    return queue_siguiente_gusano_por_player.size() == 1;
+    return queue_siguiente_gusano_por_player.size() <= 1;
 }
 
 void TurnManager::avanzar_tiempo(uint32_t iteracion, std::vector<std::shared_ptr<Worm>>& vectorWorms, bool perdio_turno){

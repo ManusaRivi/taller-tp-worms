@@ -174,8 +174,16 @@ void Partida::kill(){
     is_alive = false;
 }
 
-bool Partida::partida_accesible(){
-    return !partida_empezada;
+uint8_t Partida::partida_accesible(){
+    if(partida_empezada){
+        return PARTIDA_EMPEZADA;
+    }
+    if(broadcaster.cantidad_jugadores() == mapa.cantidad_worms()){
+        return PARTIDA_LLENA;
+    }
+    else{
+        return PARTIDA_ACCESIBLE;
+    }
 }
 
 bool Partida::terminada(){

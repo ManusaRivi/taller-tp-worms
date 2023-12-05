@@ -352,18 +352,13 @@ void ClienteProtocolo::enviar_target(float x, float y){
     enviar_4_bytes_float(y);
 }
 
-bool ClienteProtocolo::recibir_confirmacion_union(){
+uint8_t ClienteProtocolo::recibir_confirmacion_union(){
     uint8_t cd = recibir_1_byte();
     if(cd != CODIGO_ESTADO_UNIRSE_PARTIDA){
-        return false;
+        return PARTIDA_EMPEZADA;
     }
     uint8_t estado = recibir_1_byte();
-    if(estado){
-        return true;
-    }
-    else{
-        return false;
-    }
+    return estado;
 }
 
 void ClienteProtocolo::recibir_datos_especiales(std::shared_ptr<SnapshotCliente> snap){

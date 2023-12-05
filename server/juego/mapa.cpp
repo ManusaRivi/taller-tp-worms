@@ -476,3 +476,7 @@ float Mapa::get_viento_actual(bool& es_negativo){
     }
     
 }
+
+uint32_t Mapa::cantidad_worms(){
+    return this->worms.size();
+}

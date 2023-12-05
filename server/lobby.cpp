@@ -55,16 +55,16 @@ Queue<std::shared_ptr<Comando>>& Lobby::get_queue(uint32_t& id_pedido){
     return lista_partidas.at(id_pedido)->get_queue();
 }
 
-
-bool Lobby::unirse_a_partida(uint32_t& id_partida, Queue<std::shared_ptr<MensajeServer>>* snapshots){
+uint8_t Lobby::unirse_a_partida(uint32_t& id_partida, Queue<std::shared_ptr<MensajeServer>>* snapshots){
     std::lock_guard<std::mutex> lock(lck);
     // printf("Se pide unirse un player\n");
-    if(lista_partidas.at(id_partida)->partida_accesible()){
+    uint8_t estado = lista_partidas.at(id_partida)->partida_accesible();
+    if(estado == PARTIDA_ACCESIBLE){
         lista_partidas.at(id_partida)->add_queue(snapshots);
-        return true;
+        return estado;
     }
     else{
-        return false;
+        return estado;
     }
     
 

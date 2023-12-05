@@ -142,6 +142,8 @@ public:
 
     float get_viento_actual(bool& es_negativo);
 
+    uint32_t cantidad_worms();
+
     private:
 
     bool crear_provisiones_en_turno();

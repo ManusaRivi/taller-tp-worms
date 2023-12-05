@@ -168,12 +168,9 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_snap(){
     recibir_explosiones(snap);
     recibir_provisiones(snap);
     recibir_sonidos(snap);
-    bool es_negativo = recibir_1_byte();
-    if(es_negativo){
-
-    }
+    bool viento_es_negativo = recibir_1_byte();
     float viento = recibir_4_bytes_float();
-    printf("Se recibio el viento %f\n", viento);
+    snap->set_wind(viento_es_negativo, viento);
     
     /*
     int tamano = 6;

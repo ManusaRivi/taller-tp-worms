@@ -51,6 +51,11 @@ void SnapshotCliente::set_ammo(int& weapon, int& _ammo) {
     ammo[weapon] = _ammo;
 }
 
+void SnapshotCliente::set_wind(bool& wind_left, float& wind) {
+    _wind_left = wind_left;
+    _wind = wind;
+}
+
 void SnapshotCliente::apply_to_world(World& world) {
     // Actualizo camara
     world.update_camera(_id_camera);
@@ -87,6 +92,9 @@ void SnapshotCliente::apply_to_world(World& world) {
     for (auto& pair: ammo) {
         world.set_ammo(pair.first, pair.second);
     }
+
+    // Actualizo viento
+    world.update_wind(_wind_left, _wind);
 }
 
 bool SnapshotCliente::turn_change(World& world) {

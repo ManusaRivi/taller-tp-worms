@@ -490,3 +490,7 @@ uint32_t Mapa::get_equipo_ganador(bool& fue_empate){
 void Mapa::pudo_cambiar_de_arma(bool& pudo_cambiar){
     pudo_cambiar = worms[this->turnManager.get_gusano_actual()]->get_pudo_cambiar_de_arma();
 }
+
+uint8_t Mapa::get_background_type(){
+    return this->background;
+}

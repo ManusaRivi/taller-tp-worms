@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    this->backgrounds << ":/imagenes/Background.png" <<":/imagenes/Background2.png" << ":/imagenes/Background3.png" << ":/imagenes/Background4.png";
+    this->backgrounds << ":/imagenes/Background0.png" <<":/imagenes/Background1.png" << ":/imagenes/Background2.png" << ":/imagenes/Background3.png";
     this->currentBackgroundIndex = 0;
 
     this->scene = new GraphicsScene(this);

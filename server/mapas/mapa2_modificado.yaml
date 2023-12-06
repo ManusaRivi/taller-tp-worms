@@ -1,4 +1,5 @@
 nombre: mapa2_modificado
+background: 1
 vigas:
   - tipo: larga
     pos_x: 18.34782608695652

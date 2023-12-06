@@ -156,6 +156,8 @@ public:
 
     void pudo_cambiar_de_arma(bool& pudo_cambiar);
 
+    uint8_t get_background_type();
+
     private:
 
     bool crear_provisiones_en_turno();

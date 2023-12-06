@@ -155,6 +155,7 @@ void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>>
     uint16_t cantidad_gusanos = gusanos_por_player.second.size();
     enviar_1_byte(cmd);
     enviar_4_bytes(gusanos_por_player.first);
+    enviar_1_byte(snapshot->get_background());
     enviar_2_byte(cantidad_gusanos);
     for(uint16_t i = 0; i < cantidad_gusanos;i++){ // Se envia el id de los gusanos que le pertenecen al player
         enviar_4_bytes(gusanos_por_player.second[i]);

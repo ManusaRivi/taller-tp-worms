@@ -113,6 +113,8 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_handshake(){
     std::shared_ptr<SnapshotCliente> snap= std::make_shared<SnapshotCliente>(0);
     std::vector<uint32_t> id_gusanos;
     uint32_t id_propio = recibir_4_bytes();
+    uint8_t background = recibir_1_byte();
+    printf("el background que llega es %u\n",background);
     uint16_t cantidad_gusanos = recibir_2_bytes();
     //std::cout << "El id de player que se recibe es " << id_propio << std::endl;
     for(uint16_t i = 0; i < cantidad_gusanos; i++){
@@ -125,7 +127,7 @@ std::shared_ptr<MensajeCliente> ClienteProtocolo::recibir_handshake(){
     snap->agregar_turno_actual(turno_player_actual);
     recibir_gusanos(snap);
     std::map<int, std::shared_ptr<Worm>> worms = snap->get_worms();
-    std::shared_ptr<World> world = std::make_shared<World>(100,100);
+    std::shared_ptr<World> world = std::make_shared<World>(100,100,static_cast<int>(background));
     std::vector<std::vector<float>> vigas = recibir_vigas();
     for (auto &viga : vigas){
         int tamanio = viga[3];

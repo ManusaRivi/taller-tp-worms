@@ -144,7 +144,7 @@ class World {
                             float& y_scale);
 
     public:
-    World(float map_width, float map_height, int& background_type);
+    World(float map_width, float map_height, int background_type);
 
     std::vector<Beam> get_beams();
     std::map<int, std::shared_ptr<Worm>> get_worms();

@@ -1,4 +1,5 @@
 nombre: mapa2
+background: 2
 vigas:
   - tipo: larga
     pos_x: 18.34782608695652

@@ -1,4 +1,5 @@
 nombre: jaula
+background: 2
 vigas:
   - tipo: larga
     pos_x: 24.739130434782609

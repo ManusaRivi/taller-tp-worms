@@ -1,4 +1,5 @@
 nombre: testingEditor
+background: 2
 vigas:
   - tipo: larga
     pos_x: 21.739130434782609

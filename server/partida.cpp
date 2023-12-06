@@ -155,7 +155,8 @@ void Partida::enviar_primer_snapshot(){
     mapa.get_gusanos(worms);
     std::vector<std::vector<float>> beams;
     mapa.get_vigas(beams);
-    std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(worms, beams, mapa.gusano_actual());
+    uint8_t background = mapa.get_background_type();
+    std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(worms, beams, mapa.gusano_actual(),background);
     broadcaster.informar_primer_snapshot(id_gusanos_por_player, snap);
 }
 

@@ -1,4 +1,5 @@
 nombre: jaula_a_mano
+background: 2
 vigas:
   - tipo: larga
     pos_x: 24.0

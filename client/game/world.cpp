@@ -3,7 +3,7 @@
 
 using namespace SDL2pp;
 
-World::World(float map_width, float map_height, int& background_type): _id_actual_turn(0),
+World::World(float map_width, float map_height, int background_type): _id_actual_turn(0),
             camera_x(0), camera_y(0), proy_it(0), _map_width(map_width),
             _map_height(map_height), it_arrow(0), back_name(""), back_width(0), back_height(0) {
     

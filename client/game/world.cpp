@@ -3,12 +3,42 @@
 
 using namespace SDL2pp;
 
-World::World(float map_width, float map_height): _id_actual_turn(0),
+World::World(float map_width, float map_height, int& background_type): _id_actual_turn(0),
             camera_x(0), camera_y(0), proy_it(0), _map_width(map_width),
-            _map_height(map_height), it_arrow(0) {
+            _map_height(map_height), it_arrow(0), back_name(""), back_width(0), back_height(0) {
     
     for (int i= 0; i < 10; i++) {
         ammo[i] = 0;
+    }
+
+    switch (background_type)
+    {
+        case Fondos::BACK0:
+            back_name = "Background0";
+            back_width = 576;
+            back_height = 324;
+            break;
+
+        case Fondos::BACK1:
+            back_name = "Background1";
+            back_width = 4000;
+            back_height = 2250;
+            break;
+
+        case Fondos::BACK2:
+            back_name = "Background2";
+            back_width = 1380;
+            back_height = 820;
+            break;
+
+        case Fondos::BACK3:
+            back_name = "Background3";
+            back_width = 1070;
+            back_height = 491;
+            break;
+    
+        default:
+            throw std::runtime_error("No existe ese fondo");
     }
 
 }
@@ -66,8 +96,7 @@ void World::present_background(Renderer& renderer,
                         float& camera_y) {
     
     // Busco textura
-    std::string texture_name("Background");
-    Texture& background_tex = texture_manager.get_texture(texture_name);
+    Texture& background_tex = texture_manager.get_texture(back_name);
     
     // Encuentro posicion relativa (esta en el (0, alto_mapa))
     float pos_rel_x = 0 - camera_x;
@@ -77,7 +106,7 @@ void World::present_background(Renderer& renderer,
     background_tex.SetAlphaMod(255); // El fondo es totalmente opaco
     renderer.Copy(
 				background_tex,
-				Rect(0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT), // El sprite
+				Rect(0, 0, back_width, back_height), // El sprite
 				Rect(static_cast<int>(pos_rel_x * x_scale),
 					static_cast<int>(pos_rel_y * y_scale),
 					_map_width * x_scale, _map_height * y_scale), // Donde lo grafico

@@ -14,9 +14,7 @@
 #include "comunicacion/provision.h"
 #include "Sonidos/sound_manager.h"
 #include "../../common/armas.h"
-
-#define BACKGROUND_WIDTH 576
-#define BACKGROUND_HEIGHT 324
+#include "../../common/fondos.h"
 
 #define WATER_SPRITE_WIDTH 1920
 #define WATER_SPRITE_HEIGHT 64
@@ -77,6 +75,10 @@ class World {
     float _wind;
 
     int it_arrow;
+
+    std::string back_name;
+    int back_width;
+    int back_height;
 
     void present_background(Renderer& Renderer,
                         TextureManager& texture_manager,
@@ -142,7 +144,7 @@ class World {
                             float& y_scale);
 
     public:
-    World(float map_width, float map_height);
+    World(float map_width, float map_height, int& background_type);
 
     std::vector<Beam> get_beams();
     std::map<int, std::shared_ptr<Worm>> get_worms();

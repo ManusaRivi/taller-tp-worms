@@ -8,8 +8,10 @@ union BodyUserData {
 Worm::Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id_) : 
             Colisionable(bodyType::WORM), coleccionArmas(std::make_unique<ColeccionArmas>(world)),
             armaActual(nullptr), facingDirection(direction), status(WormStates::IDLE), id(id_),
-            angulo_disparo(0.0f), hitPoints(hitPoints), maxHealth(hitPoints), numBeamContacts(0), initialHeight(0.0f), finalHeight(0.0f),
-            airborne(false), moving(false), apuntando(false), tomoDmgEsteTurno(false), x_target(0), y_target(0),pudo_cambiar_de_arma(true), super_velocidad(false), super_salto(false), jumpSteps(0)
+            angulo_disparo(0.0f), hitPoints(hitPoints), maxHealth(hitPoints), numBeamContacts(0),
+            initialHeight(0.0f), finalHeight(0.0f), jumping(false), airborne(false), moving(false),
+            apuntando(false), tomoDmgEsteTurno(false), x_target(0), y_target(0),pudo_cambiar_de_arma(true),
+            super_velocidad(false), super_salto(false)
 {
     b2BodyDef gusanoDef;
     gusanoDef.type = b2_dynamicBody;
@@ -91,16 +93,15 @@ void Worm::JumpForward() {
     if (this->isAirborne()) return;
     if (this->isMoving()) Stop();
     status = WormStates::JUMP;
+    jumping = true;
 
     float multiplier = 0;
     float velocity_ = 0;
 
     if(super_salto == false) {
-        jumpSteps = FORWARD_JUMP_STEPS;
         multiplier = FORWARD_JUMP_IMPULSE_MULTIPLIER;
         velocity_ = FORWARD_JUMP_X_VELOCITY;
     } else {
-        jumpSteps = SUPER_FORWARD_JUMP_STEPS;
         multiplier = SUPER_FORWARD_JUMP_IMPULSE_MULTIPLIER;
         velocity_ = SUPER_FORWARD_JUMP_X_VELOCITY;
     }
@@ -124,16 +125,15 @@ void Worm::JumpBackward() {
     if (this->isAirborne()) return;
     if (this->isMoving()) Stop();
     status = WormStates::BACKFLIP;
+    jumping = true;
 
     float multiplier = 0;
     float velocity_ = 0;
 
     if(super_salto == false) {
-        jumpSteps = BACKWARD_JUMP_STEPS;
         multiplier = BACKWARD_JUMP_IMPULSE_MULTIPLIER;
         velocity_ = BACKWARD_JUMP_X_VELOCITY;
     } else {
-        jumpSteps = SUPER_BACKWARD_JUMP_STEPS;
         multiplier = SUPER_BACKWARD_JUMP_IMPULSE_MULTIPLIER;
         velocity_ = SUPER_BACKWARD_JUMP_X_VELOCITY;
     }
@@ -177,6 +177,7 @@ void Worm::startGroundContact() {
     ++numBeamContacts;
     status = WormStates::IDLE;
     sounds.push(SoundTypes::GROUND_CONTACT);
+    jumping = false;
     airborne = false;
     b2Vec2 position = body->GetPosition();
     finalHeight = position.y;
@@ -188,12 +189,11 @@ void Worm::startGroundContact() {
     else if (heightDiff >= 25){
         takeDamage(25);
     }
-        
 }
 
 void Worm::endGroundContact() {
     --numBeamContacts;
-    if (jumpSteps == 0) {
+    if (!jumping) {
         status = WormStates::FALL;
     }
     if (numBeamContacts == 0) {

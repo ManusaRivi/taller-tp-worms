@@ -33,12 +33,6 @@ enum directions {
 #define MOVING_SPEED 0.7f
 #define SUPER_SPEED 3.0f
 
-#define FORWARD_JUMP_STEPS 38
-#define BACKWARD_JUMP_STEPS 58
-
-#define SUPER_FORWARD_JUMP_STEPS 58
-#define SUPER_BACKWARD_JUMP_STEPS 78
-
 #define FORWARD_JUMP_IMPULSE_MULTIPLIER 3.25
 #define BACKWARD_JUMP_IMPULSE_MULTIPLIER 5
 
@@ -69,6 +63,7 @@ private:
     int numBeamContacts;
     float initialHeight;
     float finalHeight;
+    bool jumping;
     bool airborne;
     bool moving;
     bool esta_apuntando_para_arriba;
@@ -84,7 +79,6 @@ private:
     bool super_salto;
 
 public:
-    int jumpSteps;
     std::queue<SoundTypes> sounds;
 
     Worm(b2World& world, int hitPoints, int direction, float x_pos, float y_pos, uint32_t id);

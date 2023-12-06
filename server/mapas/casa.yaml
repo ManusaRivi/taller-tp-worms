@@ -1,0 +1,113 @@
+nombre: casa
+background: 2
+vigas:
+  - tipo: larga
+    pos_x: 21.739130434782609
+    pos_y: 21.739130434782609
+    angulo: 180
+  - tipo: larga
+    pos_x: 27.695652173913039
+    pos_y: 21.739130434782609
+    angulo: 180
+  - tipo: larga
+    pos_x: 15.739130434782609
+    pos_y: 21.739130434782609
+    angulo: 180
+  - tipo: larga
+    pos_x: 12.391304347826086
+    pos_y: 24.434782608695652
+    angulo: 90
+  - tipo: larga
+    pos_x: 31.043478260869563
+    pos_y: 24.260869565217391
+    angulo: 90
+  - tipo: larga
+    pos_x: 12.391304347826086
+    pos_y: 30.347826086956523
+    angulo: 90
+  - tipo: larga
+    pos_x: 31.043478260869563
+    pos_y: 30.217391304347824
+    angulo: 90
+  - tipo: larga
+    pos_x: 14.956521739130434
+    pos_y: 33.565217391304351
+    angulo: 180
+  - tipo: larga
+    pos_x: 23.282608695652176
+    pos_y: 33.565217391304351
+    angulo: 180
+  - tipo: larga
+    pos_x: 28.391304347826086
+    pos_y: 33.608695652173914
+    angulo: 180
+  - tipo: larga
+    pos_x: 20.413043478260867
+    pos_y: 33.565217391304351
+    angulo: 180
+  - tipo: larga
+    pos_x: 29.260869565217391
+    pos_y: 36.391304347826086
+    angulo: 120
+  - tipo: larga
+    pos_x: 26.260869565217391
+    pos_y: 40.347826086956523
+    angulo: 135
+  - tipo: larga
+    pos_x: 13.739130434782609
+    pos_y: 35.913043478260867
+    angulo: 240
+  - tipo: larga
+    pos_x: 17.173913043478258
+    pos_y: 40.478260869565219
+    angulo: 225
+  - tipo: corta
+    pos_x: 20.059782608695652
+    pos_y: 42.434782608695649
+    angulo: 180
+  - tipo: corta
+    pos_x: 22.755434782608695
+    pos_y: 42.434782608695649
+    angulo: 180
+  - tipo: corta
+    pos_x: 13.885869565217391
+    pos_y: 27.652173913043477
+    angulo: 180
+  - tipo: corta
+    pos_x: 28.668478260869566
+    pos_y: 30.043478260869566
+    angulo: 180
+  - tipo: corta
+    pos_x: 32.277173913043477
+    pos_y: 25.347826086956523
+    angulo: 180
+  - tipo: corta
+    pos_x: 21.320652173913043
+    pos_y: 31.826086956521738
+    angulo: 90
+  - tipo: corta
+    pos_x: 22.972826086956523
+    pos_y: 23.086956521739129
+    angulo: 90
+gusanos:
+  - pos_x: 26.152173913043477
+    pos_y: 23.478260869565219
+    direccion: 0
+  - pos_x: 14.5
+    pos_y: 29.260869565217391
+    direccion: 0
+  - pos_x: 23.413043478260867
+    pos_y: 35.043478260869563
+    direccion: 0
+  - pos_x: 28.673913043478262
+    pos_y: 31.565217391304348
+    direccion: 0
+  - pos_x: 32.847826086956516
+    pos_y: 26.565217391304348
+    direccion: 0
+  - pos_x: 18.152173913043477
+    pos_y: 23.217391304347824
+    direccion: 0
+  - pos_x: 21.282608695652172
+    pos_y: 44.043478260869563
+    direccion: 0

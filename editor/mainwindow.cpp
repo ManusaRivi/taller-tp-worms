@@ -142,6 +142,22 @@ void MainWindow::exportarMapa() {
     emitter << YAML::Key << "nombre";
     emitter << YAML::Value << nombre_mapa;
 
+    std::string bg = (this->backgrounds[this->currentBackgroundIndex]).toStdString();
+    int numero = 0;
+    size_t inicioNumero = bg.find_first_of("0123456789");
+
+    if (inicioNumero != std::string::npos) {
+
+        size_t finNumero = bg.find_first_not_of("0123456789", inicioNumero);
+
+        std::string numeroString = bg.substr(inicioNumero, finNumero - inicioNumero);
+
+        numero = std::stoi(numeroString);
+    }
+
+    emitter << YAML::Key << "background";
+    emitter << YAML::Value << numero;
+
     emitter << YAML::Key << "vigas";
     emitter << YAML::Value;
     emitter << YAML::BeginSeq;

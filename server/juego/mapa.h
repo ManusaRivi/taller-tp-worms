@@ -61,6 +61,8 @@ private:
 
     float viento;
 
+    int background;
+
     std::string nombre;
     TurnManager turnManager;
     uint32_t identificador_entidades;

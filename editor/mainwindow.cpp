@@ -230,6 +230,9 @@ void MainWindow::importarMapa() {
 
     std::string nombreMapa = nodo["nombre"].as<std::string>();
 
+    this->currentBackgroundIndex = nodo["background"].as<int>();
+    this->scene->setBackgroundBrush(QBrush(QPixmap(this->backgrounds[this->currentBackgroundIndex])));
+
     const YAML::Node& vigasNode = nodo["vigas"];
     for (const auto& vigaNode : vigasNode) {
         std::string tipo = vigaNode["tipo"].as<std::string>();

@@ -19,6 +19,8 @@ void Mapa::Load_Map_File(std::string filepath) {
 
     nombre = map["nombre"].as<std::string>();
 
+    background = map["background"].as<int>();
+
     const YAML::Node& viga_list = map["vigas"];
     for (YAML::const_iterator it = viga_list.begin(); it != viga_list.end(); ++it) {
         const YAML::Node& beam = *it;

@@ -84,9 +84,18 @@
 - nombre: Arrow
   ruta: /Arrow.png
 
-# Fondo
-- nombre: Background
-  ruta: /Background.png
+# Fondos
+- nombre: Background0
+  ruta: /Background0.png
+
+- nombre: Background1
+  ruta: /Background1.png
+
+- nombre: Background2
+  ruta: /Background2.png
+
+- nombre: Backgroun3
+  ruta: /Background3.png
 
 # Agua
 - nombre: Agua

@@ -1,5 +1,5 @@
 ---
-tile: Worms Remake
+title: Worms Remake
 description: Juego multijugador en el que los jugadores controlan un pequeño ejército de gusanos fuertemente armados que se enfrentarán a muerte.
 ---
 
@@ -23,8 +23,8 @@ Ingresar trailer aca
 
 # Documentación
 
-<a href="https://github.com/ManusaRivi/taller-tp-worms/blob/main/docs/Manual%20De%20Usuario.pdf" target="_blank">Manual De Usuario</a>
+<a href="https://github.com/ManusaRivi/taller-tp-worms/raw/main/docs/Manual%20De%20Usuario.pdf" target="_blank">Manual De Usuario</a>
 
-<a href="https://github.com/ManusaRivi/taller-tp-worms/blob/main/docs/Documentacion%20Tecnica.pdf" target="_blank">Documentación técnica</a>
+<a href="https://github.com/ManusaRivi/taller-tp-worms/raw/main/docs/Documentacion%20Tecnica.pdf" target="_blank">Documentación técnica</a>
 
-<a href="https://github.com/ManusaRivi/taller-tp-worms/blob/main/docs/Manual%20de%20Proyecto.pdf" target="_blank">Manual de Proyecto</a>
+<a href="https://github.com/ManusaRivi/taller-tp-worms/raw/main/docs/Manual%20de%20Proyecto.pdf" target="_blank">Manual de Proyecto</a>

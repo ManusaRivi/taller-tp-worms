@@ -1,8 +1,3 @@
----
-title: Worms Remake
-description: Juego multijugador en el que los jugadores controlan un pequeño ejército de gusanos fuertemente armados que se enfrentarán a muerte.
----
-
 # Descripción
 
 **Worms Remake** es un juego multijugador, donde controlas un poderoso grupo de **gusanos** armados hasta los dientes, cuyo unico objetivo es la destruccion!

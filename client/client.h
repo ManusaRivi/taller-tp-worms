@@ -23,8 +23,6 @@ class Client {
 
     int iniciar();
 
-    void crear_partida();
-
     void imprimir_partidas_disponibles(std::map<uint32_t,std::string> partidas);
 };
 

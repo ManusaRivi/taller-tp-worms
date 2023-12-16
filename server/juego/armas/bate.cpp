@@ -33,7 +33,7 @@ void Bate::Shoot(std::vector<std::shared_ptr<Projectile>>& projectiles, uint32_t
 }
 
 int Bate::get_ammo(){
-    return 1;
+    return 999;
 }
 int Bate::get_carga() {
     return 0;

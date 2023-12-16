@@ -35,8 +35,8 @@
 #define MIN_WIND_SPEED 0.01f
 #define MAX_WIND_SPEED 0.1f
 
-#define MAX_PROVISIONS 5
-#define PROVISION_HEIGHT 25.0f
+#define MAX_PROVISIONS 2
+#define PROVISION_HEIGHT 50.0f
 #define MAX_PROVISION_X_POS 40
 #define PROBABILDAD_DE_CREAR_PROVISIONES 0.20f
 
@@ -61,6 +61,8 @@ private:
 
     float viento;
 
+    int background;
+
     std::string nombre;
     TurnManager turnManager;
     uint32_t identificador_entidades;
@@ -76,7 +78,7 @@ public:
     explicit Mapa(std::string map_filepath);
     void Load_Map_File(std::string filepath);
     void cambiar_viento();
-    void Step(int iteracion);
+    bool Step();
     /*
     * Setea la velocidad del gusano dado por idx, que es el
     * indice en el vector gusanos del gusano a mover.
@@ -126,7 +128,7 @@ public:
 
     void get_gusanos(std::vector<WormWrapper>& worm_vector);
 
-    void get_projectiles(std::vector<ProjectileWrapper>& projectile_vector);
+    void get_projectiles(std::vector<ProjectileWrapper>& projectile_vector, uint32_t& apuntar_camara);
 
     void get_explosions(std::vector<ExplosionWrapper>& explosion_vector);
 
@@ -139,6 +141,22 @@ public:
     uint32_t get_tiempo_turno_actual();
 
     uint16_t get_carga_actual();
+
+    float get_viento_actual(bool& es_negativo);
+
+    uint32_t cantidad_worms();
+
+    void reducir_vida();
+
+    void super_velocidad();
+
+    void super_salto();
+
+    uint32_t get_equipo_ganador(bool& fue_empate);
+
+    void pudo_cambiar_de_arma(bool& pudo_cambiar);
+
+    uint8_t get_background_type();
 
     private:
 

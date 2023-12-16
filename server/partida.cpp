@@ -35,7 +35,6 @@ void Partida::run()try{{
     while (is_alive){
 
         auto t1 = std::chrono::high_resolution_clock::now();
-        //float elapsed = currentTime - startTime;
         std::vector<std::shared_ptr<Comando>> comandos_a_ejecutar;
         std::shared_ptr<Comando> comando;
         while(acciones_a_realizar.try_pop(comando)){
@@ -45,17 +44,22 @@ void Partida::run()try{{
             comandos_a_ejecutar.push_back(comando);
         }
 
-
         std::shared_ptr<Comando> comando_ejecutable;
         for( auto &c: comandos_a_ejecutar){
             c->realizar_accion(mapa);
         }
-        mapa.Step(it);
+
+        bool terminaron_fisicas = mapa.Step();
 
         if(mapa.checkOnePlayerRemains()) {
-            printf("La partida termino\n");
             is_alive = false;
-            partida_terminada = true;
+            if(terminaron_fisicas){
+                partida_terminada = true;
+                enviar_termino_partida();
+                return;
+
+            }
+            
         }
         std::shared_ptr<Snapshot> snap = generar_snapshot(it);
         std::shared_ptr<MensajeServer> broadcast = mensajes.snapshot(snap);
@@ -87,14 +91,18 @@ void Partida::run()try{{
 }
 
 std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
+
+    uint32_t tiempo_del_turno = mapa.get_tiempo_turno_actual(); // ESTO SERA EL TURN_TIMER!!!
+    uint32_t gusano_actual = mapa.gusano_actual();
+    uint32_t donde_apuntar_camara = mapa.gusano_actual();
+
     std::vector<WormWrapper> vector_gusanos;
     mapa.get_gusanos(vector_gusanos);
     std::vector<ProjectileWrapper> vector_proyectiles;
-    mapa.get_projectiles(vector_proyectiles);
+    mapa.get_projectiles(vector_proyectiles,donde_apuntar_camara);
     std::vector<ExplosionWrapper> vector_explosiones;
     mapa.get_explosions(vector_explosiones);
-    uint32_t tiempo_del_turno = mapa.get_tiempo_turno_actual(); // ESTO SERA EL TURN_TIMER!!!
-    uint32_t gusano_jugando_actualmente = mapa.gusano_actual();
+
     std::vector<SoundTypes> sonidos;
     mapa.get_sounds(sonidos);
     std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales;
@@ -102,22 +110,28 @@ std::shared_ptr<Snapshot> Partida::generar_snapshot(int iteraccion){
     std::vector<std::pair<int,int>> municion_armas;
     mapa.get_municiones_worm(municion_armas);
     uint16_t carga_actual = mapa.get_carga_actual();
+    bool es_negativo = false;
+    float viento_actual = mapa.get_viento_actual(es_negativo);
 
     std::vector<ProvisionWrapper> vector_provisiones;
     mapa.get_provisiones(vector_provisiones);
-    
-    // Snapshot snap(mapa.get_gusanos());
-    // snap.add_condiciones_partida(iteraccion % (30 * 10),mapa.gusano_actual());
+
+    bool pudo_cambiar_de_arma;
+    mapa.pudo_cambiar_de_arma(pudo_cambiar_de_arma);
     std::shared_ptr<SnapshotPartida> snap = std::make_shared<SnapshotPartida>(vector_gusanos,
                                                                             vector_proyectiles,
                                                                             vector_explosiones,
                                                                             vector_provisiones,
                                                                             tiempo_del_turno,
-                                                                            gusano_jugando_actualmente,
+                                                                            gusano_actual,
+                                                                            donde_apuntar_camara,
                                                                             sonidos,
                                                                             armas_especiales,
                                                                             municion_armas,
-                                                                            carga_actual);
+                                                                            carga_actual,
+                                                                            viento_actual,
+                                                                            es_negativo,
+                                                                            pudo_cambiar_de_arma);
     return snap;
 }
 
@@ -141,12 +155,10 @@ void Partida::enviar_primer_snapshot(){
     mapa.get_gusanos(worms);
     std::vector<std::vector<float>> beams;
     mapa.get_vigas(beams);
-    std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(worms, beams, mapa.gusano_actual());
+    uint8_t background = mapa.get_background_type();
+    std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(worms, beams, mapa.gusano_actual(),background);
     broadcaster.informar_primer_snapshot(id_gusanos_por_player, snap);
 }
-
-
-
 
 void Partida::remover_player(Queue<std::shared_ptr<MensajeServer>>* snapshots){
     broadcaster.remover_player(snapshots);
@@ -157,8 +169,16 @@ void Partida::kill(){
     is_alive = false;
 }
 
-bool Partida::partida_accesible(){
-    return !partida_empezada;
+uint8_t Partida::partida_accesible(){
+    if(partida_empezada){
+        return PARTIDA_EMPEZADA;
+    }
+    if(broadcaster.cantidad_jugadores() == mapa.cantidad_worms()){
+        return PARTIDA_LLENA;
+    }
+    else{
+        return PARTIDA_ACCESIBLE;
+    }
 }
 
 bool Partida::terminada(){
@@ -171,4 +191,11 @@ void Partida::comenzar_partida(){
     broadcaster.broadcastSnap(msg);
     enviar_primer_snapshot();
     partida_empezada = true;
+}
+
+void Partida::enviar_termino_partida(){
+    bool fue_empate = false;
+    uint32_t equipo_ganador = mapa.get_equipo_ganador(fue_empate);
+    std::shared_ptr<MensajeServer> msg = mensajes.partida_termino(equipo_ganador,fue_empate);
+    broadcaster.broadcastSnap(msg);
 }

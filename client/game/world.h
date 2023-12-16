@@ -14,9 +14,7 @@
 #include "comunicacion/provision.h"
 #include "Sonidos/sound_manager.h"
 #include "../../common/armas.h"
-
-#define BACKGROUND_WIDTH 576
-#define BACKGROUND_HEIGHT 324
+#include "../../common/fondos.h"
 
 #define WATER_SPRITE_WIDTH 1920
 #define WATER_SPRITE_HEIGHT 64
@@ -31,6 +29,16 @@
 
 #define SIGHT_DIAMETER 1
 #define SIGHT_SPRITE_DIAMETER 32
+
+#define WIND_HEIGHT 1
+#define WIND_SPRITE_WIDTH 96
+#define WIND_SPRITE_HEIGHT 13
+
+#define ARROW_SPRITE_SIDE 60
+#define ARROW_SIDE 3
+#define ARROW_FRAMES 30
+
+#define TEAM_HEALTH_HEIGHT 1
 
 class World {
     private:
@@ -62,6 +70,15 @@ class World {
     int timer;
 
     std::map<int, int> ammo;
+
+    bool _wind_left;
+    float _wind;
+
+    int it_arrow;
+
+    std::string back_name;
+    int back_width;
+    int back_height;
 
     void present_background(Renderer& Renderer,
                         TextureManager& texture_manager,
@@ -106,8 +123,28 @@ class World {
                             float& x_scale,
                             float& y_scale);
 
+    void present_wind(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale);
+    
+    void present_turn_arrow(int& it_inc,
+                            Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale,
+                            float& camera_x,
+                            float& camera_y);
+
+    SDL_Color hashEquipo(uint32_t& indice);
+
+    void present_teams_health(Renderer& renderer,
+                            TextureManager& texture_manager,
+                            float& x_scale,
+                            float& y_scale);
+
     public:
-    World(float map_width, float map_height);
+    World(float map_width, float map_height, int background_type);
 
     std::vector<Beam> get_beams();
     std::map<int, std::shared_ptr<Worm>> get_worms();
@@ -133,6 +170,8 @@ class World {
     std::vector<int> get_projectile_ids();
 
     void add_explosion(ExplosionCliente explosion);
+
+    void update_wind(bool& wind_left, float& wind);
 
     bool checkOnePlayerRemains();
 

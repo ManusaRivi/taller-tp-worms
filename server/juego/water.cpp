@@ -18,8 +18,4 @@ Water::Water(b2World& world):Colisionable(bodyType::WATER) {
     this->body->CreateFixture(&fixtureWater);
 }
 
-// bodyType Water::identificar() {
-//     return bodyType::WATER;
-// }
-
 Water::~Water() {}

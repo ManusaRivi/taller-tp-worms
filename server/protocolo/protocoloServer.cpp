@@ -14,45 +14,37 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id){
             break;
         }
         case(CODIGO_DETENER_MOVIMIENTO):{
-            // printf("se recibe un codigo de detener el gusano\n");
             comando = factory.comando_detener(id);
             break;
         }
         case(CODIGO_CAMBIAR_ARMA):{
             uint8_t tipo = recibir_1_byte();
-            // printf("Se recibe un cambio de arma con tipo = %u\n",tipo);
             comando = factory.comando_cambiar_arma(id,tipo);
             break;
         }
         case(CODIGO_CAMBIAR_ANGULO):{
             uint8_t dir = recibir_1_byte();
-            // printf("Cambiar Angul con direccion = %u\n",dir);
             comando = factory.comando_cambiar_angulo(id,dir);
             break;
         }
         case(CODIGO_SALTAR):{
             uint8_t dir = recibir_1_byte();
-            // printf("Saltar con dir = %u\n",dir);
             comando = factory.comando_saltar(id,dir);
             break;
         }
         case(CODIGO_DISPARAR):{
-            // printf("Se recibe un comando para disparar\n");
             comando = factory.comando_disparar(id);
             break;
         }
         case(CODIGO_CARGAR_ARMA):{
-            // printf("Se recibe codigo para cargar arma\n");
             comando = factory.comando_cargar_arma(id);
             break;
         }
         case(CODIGO_DETENER_CAMBIO_ANGULO):{
-            // printf("Se recibe codigo para detener el cambio de angulo\n");
             comando = factory.comando_detener_angulo(id);
             break;
         }
         case (CODIGO_CAMBIAR_DIRECCION_APUNTADO):{
-            // printf("Se recibe codigo par acambiar direccion de apuntado\n");
             uint8_t dir = recibir_1_byte();
             comando = factory.comando_cambia_direccion_arma(id,dir);
             break;
@@ -68,10 +60,13 @@ std::shared_ptr<Comando> ServerProtocolo::recibir_accion(uint32_t id){
             comando = factory.comando_setear_timer(id,time);
             break;
         }
+        case(CODIGO_CHEATS):{
+            uint8_t tipo_de_cheat = recibir_1_byte();
+            comando = factory.comando_activar_cheat(id, tipo_de_cheat);
+            break;
+        }
     }
     return comando;
-
-
 }
 
 std::shared_ptr<MensajeServer> ServerProtocolo::recibir_comando(bool &was_closed, uint32_t id){
@@ -85,31 +80,22 @@ std::shared_ptr<MensajeServer> ServerProtocolo::recibir_comando(bool &was_closed
     if (buf == CODIGO_CREAR_PARTIDA){
         std::string nombre = recibir_string();
         uint16_t id_mapa = recibir_2_bytes();
-        // Mensaje msg(nombre,id_mapa);
         return mensajes.crear_partida(nombre,id_mapa);
     }
     if (buf == CODIGO_EMPEZAR_PARTIDA){
-        // printf("Se recibe un codigo de empezar partida\n");
-        // Mensaje msg;
         return mensajes.empezar_partida();
     }
 
     if (buf == CODIGO_LISTAR_PARTIDA){
-        // printf("Se recibe pedido de listar partidas\n");
-        // Mensaje msg(COMANDO::CMD_LISTAR_PARTIDAS);
         return mensajes.listar_partidas_recibidor();
     }
 
     if (buf == CODIGO_LISTAR_MAPAS) {
-        // printf("Se recibe pedido de listar mapas\n");
-        // Mensaje msg(COMANDO::CMD_LISTAR_MAPAS);
         return mensajes.listar_mapas_recibidor();
     }
 
     if (buf == CODIGO_UNIRSE_PARTIDA){
-        // printf("Se recibe un pedido de unirse a partida");
         uint32_t id_partida = recibir_4_bytes();
-        // Mensaje msg(COMANDO::CMD_UNIRSE_PARTIDA,id_partida);
         return mensajes.unirse_partida(id_partida);
     }
 
@@ -117,8 +103,6 @@ std::shared_ptr<MensajeServer> ServerProtocolo::recibir_comando(bool &was_closed
         return recibir_id_gusanos();
     }
     return nullptr;
-    
-
 }
 
 void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap){
@@ -126,7 +110,9 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap){
     uint8_t cmd = CODIGO_SNAPSHOT;
     enviar_1_byte(cmd);
     enviar_4_bytes(snapshot->get_gusano_actual());
+    enviar_4_bytes(snapshot->get_id_a_seguir());
     enviar_carga_actual(snapshot->get_carga_actual());
+    enviar_1_byte(snapshot->get_pudo_cambair_de_arma());
     enviar_datos_especiales(snapshot->get_armas_especiales());
     enviar_municiones(snapshot->get_municion_armas());
     enviar_gusanos(snapshot->get_worms());
@@ -134,13 +120,11 @@ void ServerProtocolo::enviar_snapshot(std::shared_ptr<Snapshot> snap){
     enviar_explosiones(snapshot->get_explosiones());
     enviar_provisiones(snapshot->get_provisiones());
     enviar_sonidos(snapshot->get_sonidos());
+    enviar_viento(snapshot->get_viento(), snapshot->viento_es_negativo());
 
 }
 
-void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string>& partidas/*std::string map*/){
-    // printf("Se estan por enviar las partidas\n");
-    //uint8_t cmd = CODIGO_LISTAR_PARTIDA;
-    //enviar_1_byte(cmd);
+void ServerProtocolo::enviar_partidas(std::map<uint32_t,std::string>& partidas){
     enviar_lista(partidas);
 }
 
@@ -151,10 +135,8 @@ void ServerProtocolo::enviar_lista(std::map<uint32_t,std::string>& lista){
         uint32_t id = i->first;
 
         std::string nombre = i->second;
-        // std::cout << "Se envia un nombre " << nombre << std::endl;
         enviar_4_bytes(id);
         enviar_string(nombre);
-        
     }
 }
 
@@ -162,14 +144,10 @@ void ServerProtocolo::enviar_mapas(std::map<uint32_t,std::string>& mapas){
     enviar_lista(mapas);
 }
 
-
 void ServerProtocolo::check_partida_empezada(){
     uint8_t cmd = CODIGO_PARTIDA_POR_COMENZAR;
     enviar_1_byte(cmd);
 }
-
-
-
 
 void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>>& gusanos_por_player, std::shared_ptr<Snapshot> snap){
     std::shared_ptr<SnapshotHandshake> snapshot = std::dynamic_pointer_cast<SnapshotHandshake>(snap);
@@ -177,6 +155,7 @@ void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>>
     uint16_t cantidad_gusanos = gusanos_por_player.second.size();
     enviar_1_byte(cmd);
     enviar_4_bytes(gusanos_por_player.first);
+    enviar_1_byte(snapshot->get_background());
     enviar_2_byte(cantidad_gusanos);
     for(uint16_t i = 0; i < cantidad_gusanos;i++){ // Se envia el id de los gusanos que le pertenecen al player
         enviar_4_bytes(gusanos_por_player.second[i]);
@@ -184,11 +163,7 @@ void ServerProtocolo::enviar_handshake(std::pair<uint32_t,std::vector<uint32_t>>
     enviar_4_bytes(snapshot->get_gusano_actual());
     enviar_gusanos(snapshot->get_worms());
     enviar_vigas(snapshot->get_vigas());
-    // printf("Se termina de enviar handshake\n");
 }
-
-
-
 
 std::shared_ptr<MensajeServer> ServerProtocolo::recibir_id_gusanos(){
     uint32_t id_player = recibir_4_bytes();
@@ -198,7 +173,6 @@ std::shared_ptr<MensajeServer> ServerProtocolo::recibir_id_gusanos(){
         ids_gusanos.push_back(recibir_4_bytes());
     }
     std::pair<uint32_t,std::vector<uint32_t>> par(id_player,ids_gusanos);
-    // Mensaje msg(par);
     return mensajes.handshake_recibir(par);
 }
 
@@ -207,7 +181,6 @@ std::shared_ptr<MensajeServer> ServerProtocolo::recibir_id_gusanos(){
 void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper>& worms){
     uint8_t cant_players = worms.size();  
     enviar_2_byte(cant_players);
-    // printf("La cantidad de gusanops que se envian es %u\n",cant_players);
     for (auto &c: worms){
         uint32_t id = c.get_id();
         std::vector<float> posicion = c.get_position();
@@ -228,10 +201,8 @@ void ServerProtocolo::enviar_gusanos(std::vector<WormWrapper>& worms){
         enviar_4_bytes_float(angulo_disparo);
         enviar_1_byte(vida);
         enviar_4_bytes(equipo);
-
     }
 }
-
 
 void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>>& vigas){
 
@@ -246,12 +217,9 @@ void ServerProtocolo::enviar_vigas(std::vector<std::vector<float>>& vigas){
     }
 }
 
-
-
 void ServerProtocolo::enviar_proyectiles(std::vector<ProjectileWrapper>& proyectiles){
     uint16_t cantidad = proyectiles.size();
     enviar_2_byte(cantidad);
-    // printf("La cantidad de proyectiles que se envian es %u\n",cantidad);
     for(auto c : proyectiles){
         uint32_t id = c.get_id();
         float x = c.get_x();
@@ -264,17 +232,12 @@ void ServerProtocolo::enviar_proyectiles(std::vector<ProjectileWrapper>& proyect
         enviar_4_bytes_float(y);
         enviar_4_bytes_float(angle);
         enviar_1_byte(tipo);
-
-        // printf("El proyectil que se manda es de %f    %f    %f    tipo = %u",x,y,angle,tipo);
-
     }
 }
-
 
 void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper>& explosiones){
     uint16_t cantidad = explosiones.size();
     enviar_2_byte(cantidad);
-    // printf("La cantidad de explosiones que se envian es %u\n",cantidad);
     for(auto c : explosiones){
         uint32_t id = c.get_id();
         float x = c.get_x();
@@ -285,7 +248,6 @@ void ServerProtocolo::enviar_explosiones(std::vector<ExplosionWrapper>& explosio
         enviar_4_bytes_float(x);
         enviar_4_bytes_float(y);
         enviar_4_bytes_float(radio);
-
     }
 }
 
@@ -324,7 +286,6 @@ void ServerProtocolo::enviar_datos_especiales(std::vector<std::pair<uint8_t,std:
     auto& [has_ataque_aereo, pos_ataque] = datos[1];
     auto& [has_timer, timer] = datos[2];
 
-
     enviar_1_byte(has_tp); 
     enviar_4_bytes_float(pos_tp[0]); 
     enviar_4_bytes_float(pos_tp[1]); // { 0 Si no tiene/1 si, x pos, y pos}
@@ -333,14 +294,12 @@ void ServerProtocolo::enviar_datos_especiales(std::vector<std::pair<uint8_t,std:
     enviar_4_bytes_float(pos_ataque[1]);
     enviar_1_byte(has_timer);
     enviar_4_bytes(timer[0]);
-
 }
 
 
 void ServerProtocolo::enviar_municiones(std::vector<std::pair<int,int>>& municion_armas){
     enviar_2_byte(municion_armas.size());
     for (auto c: municion_armas){
-        // printf("Se envia una municion\n");
         enviar_1_byte(c.first);
         enviar_2_byte(c.second);
     }
@@ -348,4 +307,16 @@ void ServerProtocolo::enviar_municiones(std::vector<std::pair<int,int>>& municio
 
 void ServerProtocolo::enviar_carga_actual(uint16_t& carga){
     enviar_2_byte(carga);
+}
+
+void ServerProtocolo::enviar_viento(float& viento, bool& es_negativo){
+    enviar_1_byte(es_negativo);
+    enviar_4_bytes_float(viento);
+}
+
+void ServerProtocolo::enviar_partida_termino(uint32_t equipo_ganador, bool fue_empate){
+    uint8_t cd = CODIGO_PARTIDA_TERMINO;
+    enviar_1_byte(cd);
+    enviar_1_byte(fue_empate);
+    enviar_4_bytes(equipo_ganador);
 }

@@ -1,0 +1,42 @@
+nombre: esfera_de_la_muerte
+background: 3
+vigas:
+  - tipo: larga
+    pos_x: 21.739130434782609
+    pos_y: 21.739130434782609
+    angulo: 180
+  - tipo: larga
+    pos_x: 16.782608695652172
+    pos_y: 23.826086956521738
+    angulo: 135
+  - tipo: larga
+    pos_x: 14.869565217391305
+    pos_y: 28.608695652173914
+    angulo: 90
+  - tipo: larga
+    pos_x: 16.826086956521738
+    pos_y: 33.695652173913047
+    angulo: 45
+  - tipo: larga
+    pos_x: 21.608695652173914
+    pos_y: 35.695652173913047
+    angulo: 0
+  - tipo: larga
+    pos_x: 26.478260869565215
+    pos_y: 33.652173913043477
+    angulo: 135
+  - tipo: larga
+    pos_x: 28.434782608695649
+    pos_y: 28.782608695652176
+    angulo: 90
+  - tipo: larga
+    pos_x: 26.521739130434781
+    pos_y: 23.695652173913043
+    angulo: 45
+gusanos:
+  - pos_x: 23.5
+    pos_y: 23.130434782608695
+    direccion: 0
+  - pos_x: 20.195652173913043
+    pos_y: 23.173913043478262
+    direccion: 0

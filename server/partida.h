@@ -10,6 +10,12 @@
 #include "snapshots/snapshot_partida.h"
 #include "snapshots/snapshot_handshake.h"
 
+
+
+#define PARTIDA_LLENA 0x00
+#define PARTIDA_EMPEZADA 0x01
+#define PARTIDA_ACCESIBLE 0x02
+
 class Partida:public Thread{
 
     private:
@@ -41,19 +47,14 @@ class Partida:public Thread{
     
     void kill();
 
-    bool partida_accesible();
+    uint8_t partida_accesible();
 
     bool terminada();
-
-
-    
-
     
     private:
     void enviar_primer_snapshot();
     void comenzar_partida();
-
-
+    void enviar_termino_partida();
 };
 
 #endif

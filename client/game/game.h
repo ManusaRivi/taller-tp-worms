@@ -24,12 +24,11 @@
 #include "comunicacion/snapshot.h"
 #include "../comandos/comando.h"
 #include "../comandos/factory_comandos.h"
-#include "../comandos/mensaje.h"
 #include "world.h"
 #include "../comandos/factory_mensajes.h"
 #include <chrono>
 #include "camara.h"
-
+#include "../../common/cheats.h"
 #include "Proyectiles/projectile_generator.h"
 
 class Game {
@@ -44,7 +43,7 @@ class Game {
     Game(Queue<std::shared_ptr<MensajeCliente>> &snapshots, Queue<std::shared_ptr<MensajeCliente>> &acciones);
 
     int run();
-    void drawGameOverScreen(Renderer& renderer);
+    void drawGameOverScreen(Renderer& renderer, uint32_t equipo_ganador, bool fue_empate);
     void get_mouse_position(int& mouse_rel_x, int& mouse_rel_y, float& scale_x,
                             float& scale_y, World& world, float& mouse_x, float& mouse_y);
 

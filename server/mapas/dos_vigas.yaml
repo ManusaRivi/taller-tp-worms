@@ -1,5 +1,5 @@
 nombre: dos_vigas
-
+background: 2
 vigas:
   - tipo: larga
     pos_x: 10

@@ -139,7 +139,7 @@ TEST(Test_se_envian_snapshot, TEST_SE_ENVIA_UN_HANDSHAKE){
     std::vector<float> viga_4({10, 15.7, 3, 6});
     std::vector<std::vector<float>> vigas({viga_1,viga_2,viga_3,viga_4});
     
-    std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(worms,vigas,1);
+    std::shared_ptr<SnapshotHandshake> snap = std::make_shared<SnapshotHandshake>(worms,vigas,1,0);
     svr_protocolo.enviar_handshake(id_gusanos_por_player,snap);
 
 

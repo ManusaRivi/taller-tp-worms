@@ -1,5 +1,5 @@
 nombre: testingTurns
-
+background: 2
 vigas:
   - tipo: larga
     pos_x: 0

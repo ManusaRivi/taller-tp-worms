@@ -5,8 +5,8 @@
 #include <string>
 #include "../Texturas/texture_manager.h"
 
-#define CLIENT_PROVISION_WIDTH 1.2
-#define CLIENT_PROVISION_HEIGHT 1.2
+#define CLIENT_PROVISION_WIDTH 3
+#define CLIENT_PROVISION_HEIGHT 3
 
 #define PROVISION_SPRITE_WIDTH 60
 #define PROVISION_SPRITE_HEIGHT 60

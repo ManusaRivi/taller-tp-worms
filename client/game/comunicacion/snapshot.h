@@ -44,6 +44,11 @@ class SnapshotCliente {
 
     std::map<int, int> ammo;
 
+    float _wind;
+    bool _wind_left;
+
+    bool not_ammo_weapon;
+
     public:
     //Constructor
     SnapshotCliente(int id_camera);
@@ -67,21 +72,17 @@ class SnapshotCliente {
 
     void set_tp(bool& has_tp, float& pos_x, float& pos_y);
 
+    void set_not_ammo_weapon(bool& could_change_weapon);
+
+    bool not_ammo();
+
     void set_air_attack(bool& _has_air_attack, float& pos_x, float& pos_y);
 
     void set_timer(bool& _has_timer, int& _timer);
 
     void set_ammo(int& weapon, int& _ammo);
 
-/*
-    void present(int& it_inc,
-                        Renderer& renderer,
-                        TextureManager& texture_manager,
-                        int& window_width,
-                        int& window_height,
-                        float& x_scale,
-                        float& y_scale);
-*/
+    void set_wind(bool& wind_left, float& wind);
 
     void apply_to_world(World& world);
 

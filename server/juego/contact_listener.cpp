@@ -5,6 +5,7 @@ CollisionType ContactListener::getCollisionType(Colisionable* bodyA, Colisionabl
     bodyType tipoB = bodyB->identificar();
     if (tipoA == bodyType::WORM && tipoB == bodyType::BEAM) return CollisionType::WORM_VIGA;
     if (tipoA == bodyType::BEAM && tipoB == bodyType::WORM) return CollisionType::VIGA_WORM;
+    if (tipoA == bodyType::PROJECTILE && tipoB == bodyType::PROJECTILE) return CollisionType::PROYECTIL_PROYECTIL;
     if (tipoA == bodyType::PROJECTILE && tipoB == bodyType::WORM) return CollisionType::PROYECTIL_WORM;
     if (tipoA == bodyType::WORM && tipoB == bodyType::PROJECTILE) return CollisionType::WORM_PROYECTIL;
     if (tipoA == bodyType::PROJECTILE && tipoB == bodyType::BEAM) return CollisionType::PROYECTIL_VIGA;
@@ -19,6 +20,8 @@ CollisionType ContactListener::getCollisionType(Colisionable* bodyA, Colisionabl
     if (tipoA == bodyType::PROVISION && tipoB == bodyType::WATER) return CollisionType::PROVISION_WATER;
     if (tipoA == bodyType::WATER && tipoB == bodyType::PROVISION) return CollisionType::WATER_PROVISION;
     if (tipoA == bodyType::PROVISION && tipoB == bodyType::PROVISION) return CollisionType::PROVISION_PROVISION;
+    if (tipoA == bodyType::PROVISION && tipoB == bodyType::PROJECTILE) return CollisionType::PROVISION_PROYECTIL;
+    if (tipoA == bodyType::PROJECTILE && tipoB == bodyType::PROVISION) return CollisionType::PROYECTIL_PROVISION;
     return CollisionType::VIGA_PROYECTIL;
 }
 
@@ -39,10 +42,29 @@ void ContactListener::BeginContact(b2Contact* contact) {
             worm->startGroundContact();
         }
         break;
+        case PROYECTIL_PROYECTIL:
+        {
+            Projectile* projectileA = static_cast<Projectile*>(bodyA);
+            if (!projectileA->isGrenade()){
+                projectileA->SetExplosion();
+            }
+            else {
+                Grenade* grenadeA = static_cast<Grenade*>(projectileA);
+                grenadeA->bounce();
+            }
+            Projectile* projectileB = static_cast<Projectile*>(bodyB);
+            if (!projectileB->isGrenade()) {
+                projectileB->SetExplosion();
+            }
+            else {
+                Grenade* grenadeB = static_cast<Grenade*>(projectileB);
+                grenadeB->bounce();
+            }
+        }
+        break;
         case PROYECTIL_WORM:
         {
             Projectile* projectile = static_cast<Projectile*>(bodyA);
-            // if (projectile->getType() != ProjectileType::GRENADE)
             if (!projectile->isGrenade()){
                 projectile->SetExplosion();
             }
@@ -143,6 +165,30 @@ void ContactListener::BeginContact(b2Contact* contact) {
         case PROVISION_WATER: break;
         case WATER_PROVISION: break;
         case PROVISION_PROVISION: break;
+        case PROVISION_PROYECTIL:
+        {
+            Projectile* projectile = static_cast<Projectile*>(bodyB);
+            if (!projectile->isGrenade()) {
+                projectile->SetExplosion();
+            }
+            else {
+                Grenade* grenade = static_cast<Grenade*>(projectile);
+                grenade->bounce();
+            }
+        }
+        break;
+        case PROYECTIL_PROVISION:
+        {
+            Projectile* projectile = static_cast<Projectile*>(bodyA);
+            if (!projectile->isGrenade()) {
+                projectile->SetExplosion();
+            }
+            else {
+                Grenade* grenade = static_cast<Grenade*>(projectile);
+                grenade->bounce();
+            }
+        }
+        break;
     }
 }
 
@@ -165,6 +211,7 @@ void ContactListener::EndContact(b2Contact* contact) {
             worm->endGroundContact();
         }
         break;
+        case PROYECTIL_PROYECTIL: break;
         case PROYECTIL_WORM: break;
         case WORM_PROYECTIL: break;
         case PROYECTIL_VIGA: break;
@@ -180,5 +227,7 @@ void ContactListener::EndContact(b2Contact* contact) {
         case PROVISION_WATER: break;
         case WATER_PROVISION: break;
         case PROVISION_PROVISION: break;
+        case PROVISION_PROYECTIL: break;
+        case PROYECTIL_PROVISION: break;
     }
 }

@@ -28,8 +28,8 @@ void Fragment::present(int& it, SDL2pp::Renderer& renderer,
     renderer.Copy(
 				texture,
 				Rect(src_x, src_y, 60, 60), // El sprite
-				Rect(static_cast<int>((pos_rel_x - FRAGMENT_WIDTH/2) * x_scale),
-					static_cast<int>((pos_rel_y - FRAGMENT_HEIGHT /2) * y_scale),
+				Rect(static_cast<int>((pos_rel_x - FRAGMENT_WIDTH*0.5) * x_scale),
+					static_cast<int>((pos_rel_y - FRAGMENT_HEIGHT*0.5) * y_scale),
 					FRAGMENT_WIDTH * x_scale, FRAGMENT_HEIGHT * y_scale), // Donde lo grafico
 				0.0,        // Angulo
 				NullOpt,

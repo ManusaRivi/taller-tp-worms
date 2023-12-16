@@ -22,8 +22,6 @@ class MapContainer {
     MapContainer();
     ~MapContainer();
     void getMaps();
-    void addMap(uint32_t id, Mapa*);
-        
 
     std::pair<std::string,std::string> getMap(uint32_t id);
 

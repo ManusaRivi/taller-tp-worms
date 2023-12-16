@@ -27,7 +27,6 @@ private:
     float len;
 public:
     BeamServer(b2World& world, int type, float x_pos, float y_pos, float angle);
-    // virtual bodyType identificar() override;
     std::vector<float> get_pos();
 };
     

@@ -3,10 +3,7 @@
 
 Aceptador::Aceptador(const char* hostname):aceptador(hostname),
                                             lobby(mapas)
-                                            {
-    // std::cout << "Se crea el aceptador" << std::endl;
-}
-
+                                            {}
 
 void Aceptador::run() try{{
 
@@ -16,17 +13,14 @@ void Aceptador::run() try{{
     is_alive = keep_talking = true;
     while(keep_talking){
         Socket client_skt = this->aceptador.accept();
-        // std::cout << "Se acepto un socket" << std::endl;
-
         
         Cliente *clte = new Cliente(client_skt,lobby);
         clte->start();
         reap_dead();
         clientes.push_back(clte);
-        }
-
-
+    }
 }}
+
 catch(const std::exception &error){
     kill();
     return;

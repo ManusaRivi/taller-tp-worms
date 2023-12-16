@@ -15,7 +15,7 @@
 #include "mensajes/mensaje.h"
 #include "setear_target.h"
 #include "setear_timer.h"
-
+#include "activar_cheat.h"
 
 class EmpezarPartida;
 class FactoryComandos{
@@ -41,6 +41,7 @@ class FactoryComandos{
     std::shared_ptr<CambiarDireccionArma> comando_cambia_direccion_arma(uint32_t id, uint8_t dir);
     std::shared_ptr<SetearTarget> comando_setear_target(uint32_t id, float x, float y);
     std::shared_ptr<SetearTimer> comando_setear_timer(uint32_t id, uint32_t time);
+    std::shared_ptr<ActivarCheat> comando_activar_cheat(uint32_t id,uint8_t tipo_de_cheat);
 
     ~FactoryComandos();
 

@@ -1,7 +1,7 @@
 #ifndef SNAPSHOT_PARTIDA_H
 #define SNAPSHOT_PARTIDA_H
-#include "snapshot.h"
 
+#include "snapshot.h"
 
 class SnapshotPartida:public Snapshot{
 
@@ -16,6 +16,10 @@ class SnapshotPartida:public Snapshot{
     std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales;
     std::vector<std::pair<int,int>> municion_armas;
     uint16_t carga_actual;
+    float viento;
+    bool es_negativo;
+    uint32_t id_a_seguir;
+    bool pudo_cambiar_de_arma;
 
     public:
     SnapshotPartida(std::vector<WormWrapper> worms_, 
@@ -23,10 +27,14 @@ class SnapshotPartida:public Snapshot{
                     std::vector<ExplosionWrapper> explosiones_,
                     std::vector<ProvisionWrapper> provisiones_, 
                     float tiempo_actual_, uint32_t gusano_actual_,
+                    uint32_t id_a_seguir,
                     std::vector<SoundTypes> sonidos,
                     std::vector<std::pair<uint8_t,std::vector<float>>> armas_especiales_,
                     std::vector<std::pair<int,int>> municion_armas,
-                    uint16_t carga_actual
+                    uint16_t carga_actual,
+                    float viento,
+                    bool es_negativo,
+                    bool pudo_cambiar_de_arma
                     );
 
     float get_tiempo_actual(); 
@@ -38,6 +46,9 @@ class SnapshotPartida:public Snapshot{
     std::vector<std::pair<uint8_t,std::vector<float>>>& get_armas_especiales();
     std::vector<std::pair<int,int>>& get_municion_armas();
     uint16_t& get_carga_actual();
+    float& get_viento();
+    bool& viento_es_negativo();
+    uint32_t& get_id_a_seguir();
+    bool& get_pudo_cambair_de_arma();
 };
-
 #endif

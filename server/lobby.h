@@ -15,11 +15,10 @@ class Lobby {
     FactoryMensajesServer mensajes;
     uint32_t id_actual;
     std::mutex lck;
-    //MonitorClientes &clientes;
 
     public:
     Lobby(MapContainer& mapas);
-    bool unirse_a_partida(uint32& id, Queue<std::shared_ptr<MensajeServer>>* snapshots);
+    uint8_t unirse_a_partida(uint32& id, Queue<std::shared_ptr<MensajeServer>>* snapshots);
     uint32_t crear_partida(std::string& nombre_partida, Queue<std::shared_ptr<MensajeServer>>* snapshots, uint16_t& id_mapa);
     std::map<uint32_t,std::string> listar_partidas(Queue<std::shared_ptr<MensajeServer>>* cliente);
     Queue<std::shared_ptr<Comando>> &get_queue(uint32_t& id);

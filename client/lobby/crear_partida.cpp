@@ -26,7 +26,7 @@ Crear_Partida::~Crear_Partida() {
 void Crear_Partida::listarMapas() {
     ClienteProtocolo protocol(*this->ui1->skt);
     //protocol.listar_partidas();
-    qDebug() << "Se pide la lista de mapas\n";
+    //qDebug() << "Se pide la lista de mapas\n";
     std::map<uint32_t, std::string> maps = protocol.pedir_mapas();
     
     ui->comboBox->clear();

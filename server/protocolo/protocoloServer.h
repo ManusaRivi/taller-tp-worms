@@ -13,7 +13,6 @@
 class FactoryComandos;
 class ServerProtocolo:public Protocolo{
 
-    //Socket& skt;
     private:
     FactoryComandos factory;
     FactoryMensajesServer mensajes;
@@ -32,9 +31,8 @@ class ServerProtocolo:public Protocolo{
     std::shared_ptr<MensajeServer> recibir_id_gusanos();
     void enviar_gusanos(std::vector<WormWrapper>& worms);
     void enviar_estado_unirse(uint8_t estado);
+    void enviar_partida_termino(uint32_t equipo_ganador, bool fue_empate);
 
-
-    // METODOS PUBLICOS PARA TESTEAR
     void enviar_vigas(std::vector<std::vector<float>>& vigas);
     void enviar_lista(std::map<uint32_t,std::string>& lista);
     void enviar_proyectiles(std::vector<ProjectileWrapper>& lista);
@@ -44,6 +42,7 @@ class ServerProtocolo:public Protocolo{
     void enviar_datos_especiales(std::vector<std::pair<uint8_t,std::vector<float>>>& especiales);
     void enviar_municiones(std::vector<std::pair<int,int>>& municion_armas);                                
     void enviar_carga_actual(uint16_t& carga_actual);
+    void enviar_viento(float& viento, bool& es_negativo);
     private:
 
 };

@@ -1,25 +1,64 @@
 nombre: testingEditor
+background: 2
 vigas:
   - tipo: larga
-    pos_x: 24.739130434782609
-    pos_y: 22.173913043478262
-    angulo: 180
-  - tipo: corta
-    pos_x: 28.907608695652172
-    pos_y: 22.608695652173914
+    pos_x: 21.739130434782609
+    pos_y: 21.739130434782609
     angulo: 180
   - tipo: larga
-    pos_x: 19.326086956521738
-    pos_y: 24.037929290292936
-    angulo: 135
+    pos_x: 19.217391304347828
+    pos_y: 24.304347826086957
+    angulo: 90
+  - tipo: larga
+    pos_x: 24.304347826086953
+    pos_y: 24.434782608695652
+    angulo: 90
+  - tipo: larga
+    pos_x: 21.782608695652176
+    pos_y: 27
+    angulo: 180
   - tipo: corta
-    pos_x: 15.755434782608695
-    pos_y: 27.007748269268035
+    pos_x: 16.798913043478258
+    pos_y: 21.695652173913043
+    angulo: 180
+  - tipo: larga
+    pos_x: 12.695652173913043
+    pos_y: 21.347826086956523
+    angulo: 180
+  - tipo: larga
+    pos_x: 7.695652173913043
+    pos_y: 23.304347826086957
     angulo: 135
+  - tipo: larga
+    pos_x: 4
+    pos_y: 23.304347826086957
+    angulo: 225
+  - tipo: corta
+    pos_x: 12.233695652173914
+    pos_y: 23.347826086956523
+    angulo: 90
+  - tipo: larga
+    pos_x: 0.2608695652173913
+    pos_y: 34.173913043478258
+    angulo: 165
+  - tipo: larga
+    pos_x: 4.8695652173913047
+    pos_y: 31.521739130434781
+    angulo: 135
+  - tipo: larga
+    pos_x: 8.391304347826086
+    pos_y: 26.956521739130434
+    angulo: 120
 gusanos:
-  - pos_x: 23.021739130434781
-    pos_y: 23.565217391304348
+  - pos_x: 20.804347826086957
+    pos_y: 22.869565217391305
     direccion: 0
-  - pos_x: 25.195652173913047
-    pos_y: 23.521739130434781
+  - pos_x: 22.891304347826086
+    pos_y: 22.826086956521738
+    direccion: 0
+  - pos_x: 14.717391304347826
+    pos_y: 22.434782608695652
+    direccion: 0
+  - pos_x: 20.152173913043477
+    pos_y: 28.347826086956523
     direccion: 0

@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    this->backgrounds << ":/imagenes/Background.png" <<":/imagenes/Background2.png" << ":/imagenes/Background3.png" << ":/imagenes/Background4.png";
+    this->backgrounds << ":/imagenes/Background0.png" <<":/imagenes/Background1.png" << ":/imagenes/Background2.png" << ":/imagenes/Background3.png";
     this->currentBackgroundIndex = 0;
 
     this->scene = new GraphicsScene(this);
@@ -81,7 +81,9 @@ void MainWindow::agregarViga() {
     vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
 
     QGraphicsPixmapItem* mitadViga = new QGraphicsPixmapItem(vigaPixmap);
-    mitadViga->setPos(OFFSET_CAMARA, OFFSET_CAMARA);
+    
+    QRectF boundingRect = mitadViga->boundingRect();
+    mitadViga->setPos(OFFSET_CAMARA - boundingRect.width()/2, OFFSET_CAMARA - boundingRect.height()/2);
 
     this->vigas.push_back(mitadViga);
     this->scene->addItem(mitadViga);
@@ -99,7 +101,9 @@ void MainWindow::agregarVigaLarga() {
     vigaPixmap = vigaPixmap.transformed(QTransform().rotate(angulo));
 
     QGraphicsPixmapItem* viga = new QGraphicsPixmapItem(vigaPixmap);
-    viga->setPos(OFFSET_CAMARA, OFFSET_CAMARA);
+
+    QRectF boundingRect = viga->boundingRect();
+    viga->setPos(OFFSET_CAMARA - boundingRect.width()/2, OFFSET_CAMARA - boundingRect.height()/2);
 
     this->vigas.push_back(viga);
     this->scene->addItem(viga);
@@ -138,6 +142,22 @@ void MainWindow::exportarMapa() {
     emitter << YAML::Key << "nombre";
     emitter << YAML::Value << nombre_mapa;
 
+    std::string bg = (this->backgrounds[this->currentBackgroundIndex]).toStdString();
+    int numero = 0;
+    size_t inicioNumero = bg.find_first_of("0123456789");
+
+    if (inicioNumero != std::string::npos) {
+
+        size_t finNumero = bg.find_first_not_of("0123456789", inicioNumero);
+
+        std::string numeroString = bg.substr(inicioNumero, finNumero - inicioNumero);
+
+        numero = std::stoi(numeroString);
+    }
+
+    emitter << YAML::Key << "background";
+    emitter << YAML::Value << numero;
+
     emitter << YAML::Key << "vigas";
     emitter << YAML::Value;
     emitter << YAML::BeginSeq;
@@ -163,8 +183,17 @@ void MainWindow::exportarMapa() {
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "tipo" << YAML::Value << tipo;
         emitter << YAML::Key << "pos_x" << YAML::Value << (posicion.x() + boundingRect.width()/2) / largo * scale - offset;
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y() + boundingRect.height()/2) / 23 - boundingRect.height() / largo * scale * sin(this->angulos[i]);
-        emitter << YAML::Key << "angulo" << YAML::Value << 180 - this->angulos[i];
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y() - boundingRect.height()/2) / 23;
+        
+        float ang;
+
+        if(180 - this->angulos[i] < 0) {
+            ang = 360 - this->angulos[i];
+        } else {
+            ang = 180 - this->angulos[i];
+        }
+
+        emitter << YAML::Key << "angulo" << YAML::Value << ang;
         emitter << YAML::EndMap;
         i++;
     }
@@ -181,7 +210,7 @@ void MainWindow::exportarMapa() {
 
         emitter << YAML::BeginMap;
         emitter << YAML::Key << "pos_x" << YAML::Value << abs((posicion.x() + boundingRect.width()/2)/138*6);
-        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y())/23;
+        emitter << YAML::Key << "pos_y" << YAML::Value << abs(2 * OFFSET_CAMARA - posicion.y() - boundingRect.height()/2)/23;
         emitter << YAML::Key << "direccion" << YAML::Value << 0;
         emitter << YAML::EndMap;
     }
@@ -200,6 +229,9 @@ void MainWindow::importarMapa() {
     this->limpiarMapa();
 
     std::string nombreMapa = nodo["nombre"].as<std::string>();
+
+    this->currentBackgroundIndex = nodo["background"].as<int>();
+    this->scene->setBackgroundBrush(QBrush(QPixmap(this->backgrounds[this->currentBackgroundIndex])));
 
     const YAML::Node& vigasNode = nodo["vigas"];
     for (const auto& vigaNode : vigasNode) {
@@ -230,14 +262,15 @@ void MainWindow::agregarVigaImportada(float pos_x, float pos_y, float angulo) {
     qreal anchoMitad = vigaPixmap.width() / 2;
 
     vigaPixmap = vigaPixmap.copy(0, 0, anchoMitad, vigaPixmap.height());
-    vigaPixmap = vigaPixmap.transformed(QTransform().rotate(180 - angulo));
+    vigaPixmap = vigaPixmap.transformed(QTransform().rotate(-angulo + 180));
 
     QGraphicsPixmapItem* mitadViga = new QGraphicsPixmapItem(vigaPixmap);
 
     QRectF boundingRect = mitadViga->boundingRect();
 
-    mitadViga->setPos((pos_x + 0.375) * 69 / 3 - boundingRect.width()/2, -(23*(pos_y + boundingRect.height() * 3/69 * sin(angulo)) - boundingRect.height()/2 - 2*OFFSET_CAMARA));
+    mitadViga->setPos((pos_x + 0.375) * 69 / 3 - boundingRect.width()/2, -(23 * pos_y - 2 * OFFSET_CAMARA + boundingRect.height()/2));
 
+    this->angulos.push_back(180 - angulo);
     this->vigas.push_back(mitadViga);
     this->scene->addItem(mitadViga);
 }
@@ -250,8 +283,9 @@ void MainWindow::agregarVigaLargaImportada(float pos_x, float pos_y, float angul
 
     QRectF boundingRect = viga->boundingRect();
 
-    viga->setPos(pos_x * 138 / 6 - boundingRect.width()/2, -(23*(pos_y + boundingRect.height() * 6/138 * sin(angulo)) - boundingRect.height()/2 - 2*OFFSET_CAMARA));
+    viga->setPos(pos_x * 69 / 3 - boundingRect.width()/2, -(23 * pos_y - 2 * OFFSET_CAMARA + boundingRect.height()/2));
 
+    this->angulos.push_back(180 - angulo);
     this->vigas.push_back(viga);
     this->scene->addItem(viga);
 }
@@ -261,7 +295,7 @@ void MainWindow::agregarGusanoImportada(float pos_x, float pos_y, float direccio
     this->worms.push_back(worm);
     this->scene->addItem(worm);
     QRectF boundingRect = worm->boundingRect();
-    worm->setPos(pos_x * 138 / 6 - boundingRect.width()/2, -23 * pos_y + 2 * OFFSET_CAMARA);
+    worm->setPos(pos_x * 138 / 6 - boundingRect.width()/2, -(23 * pos_y - 2 * OFFSET_CAMARA + boundingRect.height()/2));
 }
 
 void MainWindow::limpiarMapa() {

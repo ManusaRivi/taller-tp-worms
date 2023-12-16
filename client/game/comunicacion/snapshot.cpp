@@ -37,6 +37,14 @@ void SnapshotCliente::set_tp(bool& _has_tp, float& pos_x, float& pos_y) {
     tp_y = pos_y;
 }
 
+void SnapshotCliente::set_not_ammo_weapon(bool& could_change_weapon) {
+    not_ammo_weapon = !could_change_weapon;
+}
+
+bool SnapshotCliente::not_ammo() {
+    return not_ammo_weapon;
+}
+
 void SnapshotCliente::set_air_attack(bool& _has_air_attack, float& pos_x, float& pos_y) {
     has_air_attack = _has_air_attack;
     air_attack_x = pos_x;
@@ -49,6 +57,11 @@ void SnapshotCliente::set_timer(bool& _has_timer, int& _timer) {
 
 void SnapshotCliente::set_ammo(int& weapon, int& _ammo) {
     ammo[weapon] = _ammo;
+}
+
+void SnapshotCliente::set_wind(bool& wind_left, float& wind) {
+    _wind_left = wind_left;
+    _wind = wind;
 }
 
 void SnapshotCliente::apply_to_world(World& world) {
@@ -87,42 +100,15 @@ void SnapshotCliente::apply_to_world(World& world) {
     for (auto& pair: ammo) {
         world.set_ammo(pair.first, pair.second);
     }
+
+    // Actualizo viento
+    world.update_wind(_wind_left, _wind);
 }
 
 bool SnapshotCliente::turn_change(World& world) {
     return id_turno_actual != world.get_turn();
 }
 
-
-/*
-void SnapshotCliente::present(int& it_inc,
-                        Renderer& renderer,
-                        TextureManager& texture_manager,
-                        int& window_width,
-                        int& window_height,
-                        float& x_scale,
-                        float& y_scale){
-    // Obtengo la posicion de la camara:
-    float pos_foco_x = worms.at(_id_camera)->get_x();    //Por ahora solo enfoca gusanos
-    float pos_foco_y = worms.at(_id_camera)->get_y();
-
-    float camera_x = pos_foco_x - (window_width / (2 * x_scale));
-    float camera_y = pos_foco_y - (window_height / (2 * y_scale));
-
-    if (camera_x < 0) camera_x = 0;
-    if (camera_y < 0) camera_y = 0;
-
-    for (auto& worm : worms) {
-        worm.second->present(it_inc, renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
-    }
-
-    for (auto& beam : beams) {
-        beam.present(renderer, texture_manager, x_scale, y_scale, camera_x, camera_y);
-    }
-
-    renderer.Present();
-}
-*/
 void SnapshotCliente::agregar_turno_actual(uint32_t turno){
     this->id_turno_actual = turno;
 }

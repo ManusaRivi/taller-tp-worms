@@ -50,3 +50,7 @@ shared_ptr<SetearTimerCliente> FactoryComandos::accion_setear_timer(uint32_t tim
 std::shared_ptr<SetearTargetCliente> FactoryComandos::accion_setear_target(float x, float y){
     return make_shared<SetearTargetCliente>(x,y);
 }
+
+std::shared_ptr<ActivarCheatCliente> FactoryComandos::accion_cheat(uint8_t tipo){
+    return make_shared<ActivarCheatCliente>(tipo);
+}

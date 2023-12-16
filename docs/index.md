@@ -14,7 +14,12 @@ Este proyecto fue realizado por alumnos de la materia Taller de Programación I 
 
 # Trailer
 
-Ingresar trailer aca
+<iframe src="https://youtu.be/g9llPTpacLc" 
+    width="560"
+    height="315"
+    frameborder="0"
+    allowfullscreen>
+</iframe>
 
 # Documentación
 

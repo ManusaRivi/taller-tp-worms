@@ -1,4 +1,6 @@
-## Descripción
+# Worms Remake
+
+# Descripción
 
 **Worms Remake** es un juego multijugador, donde controlas un poderoso grupo de **gusanos** armados hasta los dientes, cuyo unico objetivo es la destruccion!
 
@@ -8,11 +10,11 @@ Aprovecha las **provisiones** que iran apareciendo de vez en cuando. Pero cuidad
 
 Conviertete en el ultimo equipo de gusanos en pie, y seras coronado vencedor!
 
-### Acerca del Proyecto
+# Acerca del Proyecto
 
 Este proyecto fue realizado por alumnos de la materia Taller de Programación I (75.42) de la Facultad de Ingeniería de la Universidad de Buenos Aires. Se trató de un esfuerzo en equipo, siguiendo las directivas de la materia. Para lograr el resultado esperado, requirió mucha coordinación y comunicación entre los integrantes del equipo y el aprendizaje de las herramientas pedidas para la realización del trabajo, dentro de un marco temporal muy estrecho.
 
-### Trailer
+# Trailer
 
 <iframe 
     width="560"

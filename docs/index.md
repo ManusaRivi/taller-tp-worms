@@ -14,10 +14,13 @@ Este proyecto fue realizado por alumnos de la materia Taller de Programación I 
 
 # Trailer
 
-<iframe src="https://youtu.be/g9llPTpacLc" 
+<iframe 
     width="560"
     height="315"
+    src="https://www.youtube.com/embed/g9llPTpacLc?si=wd8-gUnIPQ-l1H-0"
+    title="YouTube video player"
     frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
     allowfullscreen>
 </iframe>
 

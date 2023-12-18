@@ -17,12 +17,38 @@ Conviértete en el ultimo equipo de gusanos en pie, y serás coronado vencedor!
 
 Este proyecto fue realizado por alumnos de la materia Taller de Programación I (75.42) de la Facultad de Ingeniería de la Universidad de Buenos Aires. Se trató de un esfuerzo en equipo, siguiendo las directivas de la materia. Para lograr el resultado esperado, requirió mucha coordinación y comunicación entre los integrantes del equipo y el aprendizaje de las herramientas pedidas para la realización del trabajo, dentro de un marco temporal muy estrecho.
 
-# Trailer
+# Videos
+
+## Trailer
 
 <iframe 
     width="560"
     height="315"
     src="https://www.youtube.com/embed/g9llPTpacLc?si=wd8-gUnIPQ-l1H-0"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+</iframe>
+
+## Trailer 2 (Version Alternativa)
+
+<iframe
+    width="560"
+    height="315"
+    src="https://www.youtube.com/embed/CadxlKSE6is?si=u85YJ8YCSbqqJej2"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+</iframe>
+
+## Tutorial para Utilizar el Editor de Mapas
+
+<iframe
+    width="560"
+    height="315"
+    src="https://www.youtube.com/embed/hTBcTNcmc6g?si=F2i1gxK_spSkiQDE"
     title="YouTube video player"
     frameborder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
